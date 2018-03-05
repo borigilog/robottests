@@ -1,0 +1,2022 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<style type="text/css">
+html {
+  font-family: Arial,Helvetica,sans-serif;
+  background-color: white;
+  color: black;
+}
+table {
+  border-collapse: collapse;
+  empty-cells: show;
+  margin: 1em 0em;
+  border: 1px solid black;
+}
+th, td {
+  border: 1px solid black;
+  padding: 0.1em 0.2em;
+  height: 1.5em;
+  width: 12em;
+}
+td.colspan4, th.colspan4 {
+    width: 48em;
+}
+td.colspan3, th.colspan3 {
+    width: 36em;
+}
+td.colspan2, th.colspan2 {
+    width: 24em;
+}
+th {
+  background-color: rgb(192, 192, 192);
+  color: black;
+  height: 1.7em;
+  font-weight: bold;
+  text-align: center;
+  letter-spacing: 0.1em;
+}
+td.name {
+  background-color: rgb(240, 240, 240);
+  letter-spacing: 0.1em;
+}
+td.name, th.name {
+  width: 10em;
+}
+</style>
+<title>Resources-1</title>
+</head>
+<body>
+<h1>Resources-1</h1>
+<table border="1" id="setting">
+<tr>
+<th class="name" colspan="5">Settings</th>
+</tr>
+<tr>
+<td class="name">Library</td>
+<td>Selenium2Library</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name">Library</td>
+<td>robot.libraries.String</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</table>
+<table border="1" id="variable">
+<tr>
+<th class="name" colspan="5">Variables</th>
+</tr>
+<tr>
+<td class="name">${OPTIKA_HOST_INT}</td>
+<td>sbbo-int.rigilog.com/shop</td>
+<td># Integrationssystem Optika Shop</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name">${LOGIN_URL}</td>
+<td><a href="https://${OPTIKA_HOST_INT}">https://${OPTIKA_HOST_INT}</a></td>
+<td># Login URL zum Optika INT \ Shop</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name">${LOGIN_NAME}</td>
+<td>Administrator</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name">${PWD}</td>
+<td>zs_70!</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name">${BROWSER}</td>
+<td>firefox</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name">${OAC_REDESIGN_HOST}</td>
+<td>redesign.rigilog.com/newoac</td>
+<td># lokales Testsystem für OAC Redesign</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name">${LOGIN_REDESIGN_URL}</td>
+<td><a href="http://${OAC_REDESIGN_HOST}">http://${OAC_REDESIGN_HOST}</a></td>
+<td># Login URL zum Testsystem Redesign</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name">${BROWSER_REDESIGN}</td>
+<td>firefox</td>
+<td># Test Browser</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name">${PWD_REDESIGN_MIB}</td>
+<td>rL_20_15%7%</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name">${RLX_LOGIN_URL}</td>
+<td><a href="http://manualguide.rigilog.com/new/rlx/?enablepid=1">http://manualguide.rigilog.com/new/rlx/?enablepid=1</a></td>
+<td># Login zur Redesing Plattform</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name">${RLX_PWD}</td>
+<td>rL_20_15%7%</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name">${RLX_USER}</td>
+<td>Administrator</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name">${RLX_LOGIN_BUTTON_TEXT}</td>
+<td>Anmelden</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name">${WHITESPACE}</td>
+<td>${EMPTY}</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name">${NAME_REICHWEITEN_CONFIG}</td>
+<td>Einstellungen</td>
+<td># Enthält den Header Text der Reichweiten Config Page</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name">${RE_WARNING_MESSAGE}</td>
+<td>Die Einstellungen haben sich geändert, bitte starten sie die Neuberechnung erneut.</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name">@{WERTE}</td>
+<td>FAIL</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</table>
+<table border="1" id="keyword">
+<tr>
+<th class="name" colspan="5">Keywords</th>
+</tr>
+<tr>
+<td class="name"><a name="keyword_Open Login Page">Open Login Page</a></td>
+<td>[Arguments]</td>
+<td>${login_url}</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Open Browser</td>
+<td>${login_url}</td>
+<td>${BROWSER}</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"><a name="keyword_Input Login Name">Input Login Name</a></td>
+<td>[Arguments]</td>
+<td>${name}</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Input Text</td>
+<td>//input[@id='un']</td>
+<td>${name}</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"><a name="keyword_Input Login Password">Input Login Password</a></td>
+<td>[Arguments]</td>
+<td>${password}</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Input Password</td>
+<td>//input[@id='pw']</td>
+<td>${password}</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"><a name="keyword_Submit Login">Submit Login</a></td>
+<td>Click Button</td>
+<td>//button[@class='btn']</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"><a name="keyword_Check Intro Page">Check Intro Page</a></td>
+<td>Element Text Should Be</td>
+<td>//form[@id='product-search-form']/fieldset/legend</td>
+<td>Artikelsuche</td>
+<td>message=</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Element Text Should Be</td>
+<td>//div[@id='session-timer']/ul/li</td>
+<td>SESSIONTIMER</td>
+<td>message=</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Input Text</td>
+<td>//input[@id='appendedInputButtons']</td>
+<td>Kamera</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Element Should be Visible</td>
+<td>//form[@id='product-search-form']/fieldset/div/button/i[@class='icon-search']</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Element Text Should Be</td>
+<td>//form[@id='product-search-form']/fieldset/div/button</td>
+<td>Suche</td>
+<td>message=</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Element Text Should Be</td>
+<td>//form[@id='product-search-form']/fieldset/div/a[@class='btn']</td>
+<td>Optionen</td>
+<td>message=</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Element Should Be Visible</td>
+<td>//form[@id='product-search-form']/fieldset/div/a[@href='#searchOptions']</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Check Page Header Elements</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Element Should Be Visible</td>
+<td>//div[@id='session-timer']/ul[2]/li/span</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Element Should Be Visible</td>
+<td>//body/div[@class='navbar navbar-fixed-top']/div[@class='navbar-inner']/div[@class='container']/a[@class='brand']/img</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Element Text Should Be</td>
+<td>//body/div[@class='navbar navbar-fixed-top']/div[@class='navbar-inner']/div[@class='container']/div[1]/ul[@class='nav']/li[@class='active']/a</td>
+<td>Startseite</td>
+<td>message=</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>${link}</td>
+<td>Get Element Attribute</td>
+<td>//body/div[@class='navbar navbar-fixed-top']/div[@class='navbar-inner']/div[@class='container']/a@href</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Should Contain</td>
+<td>${link}</td>
+<td><a href="https://sbbo-int.rigilog.com/shop/">https://sbbo-int.rigilog.com/shop/</a></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"><a name="keyword_Close Optika Shop">Close Optika Shop</a></td>
+<td>Close Browser</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"><a name="keyword_Login Optika Shop">Login Optika Shop</a></td>
+<td>Open Login Page</td>
+<td>${LOGIN_URL}</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Input Login Name</td>
+<td>${LOGIN_NAME}</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Input Login Password</td>
+<td>${PWD}</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Submit Login</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"><a name="keyword_Check Page Header Elements">Check Page Header Elements</a></td>
+<td>[Documentation]</td>
+<td class="colspan3" colspan="3">*Keyword is intended to verify the availability of the Web page header line with appropriate links*</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Element Should Be Visible</td>
+<td>//body/div[@class='navbar navbar-fixed-top']</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Element Should Be Visible</td>
+<td>//body/div[@class='navbar navbar-fixed-top']/div[@class='navbar-inner']/div[@class='container']</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Element Should Be Visible</td>
+<td>//body/div[@class='navbar navbar-fixed-top']/div[@class='navbar-inner']/div[@class='container']/div[1]/ul[@class='nav']</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Element Should Be Visible</td>
+<td>//li[@id='cartLinkContainer']</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Element Text Should Be</td>
+<td>//body/div[@class='navbar navbar-fixed-top']/div[@class='navbar-inner']/div[@class='container']/div[1]/ul[@class='nav']/li[2]/a</td>
+<td>Startseite</td>
+<td>message=</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Element Text Should Be</td>
+<td>//body/div[@class='navbar navbar-fixed-top']/div[@class='navbar-inner']/div[@class='container']/div[1]/ul[@class='nav']/li[3]/a</td>
+<td>Artikel</td>
+<td>message=</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Element Text Should Be</td>
+<td>//body/div[@class='navbar navbar-fixed-top']/div[@class='navbar-inner']/div[@class='container']/div[1]/ul[@class='nav']/li[4]/a</td>
+<td>Warenkorb</td>
+<td>message=</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Element Text Should Be</td>
+<td>//ul[@id='language-switch']/li[1]/a</td>
+<td>Deutsch</td>
+<td>message=</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Element Text Should Be</td>
+<td>//ul[@id='language-switch']/li[2]/a</td>
+<td>Französisch</td>
+<td>message=</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Element Text Should Be</td>
+<td>//ul[@id='language-switch']/li[3]/a</td>
+<td>Italienisch</td>
+<td>message=</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Element Should be Visible</td>
+<td>//body/div[@class='navbar navbar-fixed-top']/div[@class='navbar-inner']/div[@class='container']/a[@class='brand']/img[@src='https://sbb.zugseil.com/shop/Content/logo-sbb.gif']</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"><a name="keyword_Check Artikelart Facets">Check Artikelart Facets</a></td>
+<td>[Arguments]</td>
+<td>${artikel}</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Element Should Be Visible</td>
+<td>//div[@id='facets-container-catalogfoldername_de']</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Element Text Should Be</td>
+<td>//div[@id='facets-container-catalogfoldername_de']/ul/li[@class='nav-header']</td>
+<td>ARTIKELART</td>
+<td>message=</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Element Should Be Visible</td>
+<td>//div[@id='facets-container-catalogfoldername_de']/ul[@class='nav facets-wrapper']/li/a[@title=${artikel}]</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Click Link</td>
+<td>//div[@id='facets-container-catalogfoldername_de']/ul[@class='nav facets-wrapper']/li/a[@title=${artikel}]</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"><a name="keyword_Check Page Elements">Check Page Elements</a></td>
+<td>Element Text Should Be</td>
+<td>//div[@id='session-timer']/ul/li</td>
+<td>SESSIONTIMER</td>
+<td>message=</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Element Text Should Be</td>
+<td>//form[@id='product-search-form']/fieldset/legend</td>
+<td>Artikelsuche</td>
+<td>message=</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Element Text Should Be</td>
+<td>//form[@id='product-search-form']/fieldset/div/button</td>
+<td>Suche</td>
+<td>message=</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Element Text Should Be</td>
+<td>//form[@id='product-search-form']/fieldset/div/a[@class='btn']</td>
+<td>Optionen</td>
+<td>message=</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"><a name="keyword_Search For Artikel">Search For Artikel</a></td>
+<td>[Arguments]</td>
+<td>${artikelname}</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>[Documentation]</td>
+<td class="colspan3" colspan="3">*Keyword initiiert Suche auf der Einstiegsseite nach dem übergebenen Artikel*\n<br>
+\n<br>
+Als Resultat bleibt die Seite mit den Suchergebnissen stehen.</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Input Text</td>
+<td>//input[@id='appendedInputButtons']</td>
+<td>${artikelname}</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Click Button</td>
+<td>//form[@id='product-search-form']/fieldset/div/button</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Wait Until Element Is Visible</td>
+<td>//p[@id='search-result-count']</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"><a name="keyword_Open Login Page Redesing-OAC">Open Login Page Redesing-OAC</a></td>
+<td>[Arguments]</td>
+<td>${login_url}</td>
+<td>${browser}</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Open Browser</td>
+<td>${login_url}</td>
+<td>${browser}</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"><a name="keyword_Logout Redesign OAC">Logout Redesign OAC</a></td>
+<td>Element Should Be Visible</td>
+<td>//span[@data-reactid='.0.0.0.0.$=10.0.$=12.0.$=11']</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Click Link</td>
+<td>//a[@data-reactid='.0.0.0.0.$=10.0.$=12.0']</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Element Should Be Visible</td>
+<td>//a[@data-reactid='.0.0.0.0.$=11.$=12.0.$=11.0']</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Click Link</td>
+<td>//a[@data-reactid='.0.0.0.0.$=11.$=12.0.$=11.0']</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Element Should Be Visible</td>
+<td>//div[@id='react-container']</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"><a name="keyword_Check Redesign Main Page">Check Redesign Main Page</a></td>
+<td>Element Should Be Visible</td>
+<td>//select[@data-reactid='.0.0.2.0.$=11.0.0.0.$=10.0']</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Element Should Contain</td>
+<td>//select[@data-reactid='.0.0.2.0.$=11.0.0.0.$=10.0']</td>
+<td>Deutsch</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Element Should Be Visible</td>
+<td>//a[@data-reactid='.0.0.0.0.$=11.$=10.$=11.0.$=10=2$personal_initial_order.0']</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Element Text Should Be</td>
+<td>//a[@data-reactid='.0.0.0.0.$=11.$=10.$=11.0.$=10=2$personal_initial_order.0']</td>
+<td>MITARBEITER AUSSTATTEN</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Element Should Be Visible</td>
+<td>//a[@data-reactid='.0.0.0.0.$=11.$=10.$=11.0.$=10=2$cost_center_order.0']</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Element Text Should Be</td>
+<td>//a[@data-reactid='.0.0.0.0.$=11.$=10.$=11.0.$=10=2$cost_center_order.0']</td>
+<td>KONTIERTE BESTELLUNG</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Element Should Be Visible</td>
+<td>//a[@data-reactid='.0.0.0.0.$=11.$=10.$=11.0.$=10=2$order_info.0']</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Element Text Should Be</td>
+<td>//a[@data-reactid='.0.0.0.0.$=11.$=10.$=11.0.$=10=2$order_info.0']</td>
+<td>MEINE BESTELLUNGEN</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Element Should Be Visible</td>
+<td>//input[@data-reactid='.0.0.0.1.0.$=10.0.0.0.0.0.0.$=11.0.$=10']</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Element Should Be Visible</td>
+<td>//input[@data-reactid='.0.0.0.1.0.$=10.0.0.0.0.0.0.$=11.0.$=10']</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Element Should Be Visible</td>
+<td>//input[@data-reactid='.0.0.0.1.0.$=10.0.0.0.0.0.0.$=13.0.$=10']</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Element Should Be Visible</td>
+<td>//button[@data-reactid='.0.0.0.1.0.$=10.0.0.0.0.0.0.$=14.0']</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Element Text Should Be</td>
+<td>//button[@data-reactid='.0.0.0.1.0.$=10.0.0.0.0.0.0.$=14.0']</td>
+<td>Suchen</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Element Should Be Visible</td>
+<td>//div[@data-reactid='.0.0.0.1.0.$=12.$=10.0.0']</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Element Text Should Be</td>
+<td>//div[@data-reactid='.0.0.0.1.0.$=12.$=10.0.0']</td>
+<td>NEWS</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Element Should Be Visible</td>
+<td>//div[@data-reactid='.0.0.0.1.0.$=13.$=10.0.0']</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Element Text Should Be</td>
+<td>//div[@data-reactid='.0.0.0.1.0.$=13.$=10.0.0']</td>
+<td>DASHBOARD</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Element Should Be Visible</td>
+<td>//div[@data-reactid='.0.0.2.0.$=10']</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Element Should Contain</td>
+<td>//div[@data-reactid='.0.0.2.0.$=10']</td>
+<td>Rigilog AG</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Element Should Be Visible</td>
+<td>//a[@data-reactid='.0.0.2.0.$=11.0.0.0.$=11.0']</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Element Text Should Be</td>
+<td>//a[@data-reactid='.0.0.2.0.$=11.0.0.0.$=11.0']</td>
+<td>Rechtliches</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Element Should Be Visible</td>
+<td>//a[@data-reactid='.0.0.2.0.$=11.0.0.0.$=12.0']</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Element Text Should Be</td>
+<td>//a[@data-reactid='.0.0.2.0.$=11.0.0.0.$=12.0']</td>
+<td>Kontakt</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"><a name="keyword_Login to RLX Website">Login to RLX Website</a></td>
+<td>Open Browser</td>
+<td>${RLX_LOGIN_URL}</td>
+<td>${BROWSER}</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Wait Until Page Contains Element</td>
+<td>//input[contains(@id, 'login_username')]</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Page Should Contain Element</td>
+<td>//input[contains(@id,'login_password')]</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Input Text</td>
+<td>//input[contains(@id, 'login_username')]</td>
+<td>${RLX_USER}</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Input Text</td>
+<td>//input[contains(@id,'login_password')]</td>
+<td>${RLX_PWD}</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Click Element</td>
+<td>//button//div[contains(text(), 'Anmelden')]</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Wait Until Page Contains Element</td>
+<td>//div[contains(text(), 'Mandantenauswahl')]</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"><a name="keyword_Check available Mandators">Check available Mandators</a></td>
+<td>[Arguments]</td>
+<td>${Mandator}</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Page Should Contain Element</td>
+<td>//div[contains(text(), '${Mandator}')]</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"><a name="keyword_Select Mandator">Select Mandator</a></td>
+<td>[Arguments]</td>
+<td>${Mandator}</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Wait Until Element Is Visible</td>
+<td>//div[contains(text(), 'Mandantenauswahl')]</td>
+<td>5 sec</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Click Element</td>
+<td>//div[contains(text(), '${Mandator}')]</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Click Element</td>
+<td>//button//div[contains(text(), 'Mandanten auswählen')]</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"><a name="keyword_Select SubMenü">Select SubMenü</a></td>
+<td>[Arguments]</td>
+<td>${Hauptmenüpunkt}</td>
+<td>${Untermenüpunkt}</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Run Keyword If</td>
+<td>'${Hauptmenüpunkt}' != ''</td>
+<td>Wait Until Page Contains Element</td>
+<td>//div[contains(text(),'${Hauptmenüpunkt}')]</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Click Element</td>
+<td>//div[contains(text(),'${Hauptmenüpunkt}')]/..</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Comment</td>
+<td>Click Element</td>
+<td>//div[contains(@id,'admin_other')]</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Comment</td>
+<td>${x}=</td>
+<td>Get Horizontal Position</td>
+<td>//div[contains(@id,'admin_other')]</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Comment</td>
+<td>${y}=</td>
+<td>Get Vertical Position</td>
+<td>//div[contains(@id,'admin_other')]</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Comment</td>
+<td>Click Element At Coordinates</td>
+<td>//div[contains(@id,'admin_other')]</td>
+<td>${x}</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>...</td>
+<td>${y}</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Run Keyword If</td>
+<td>'${Untermenüpunkt}' != ''</td>
+<td>Wait Until Element is Visible</td>
+<td>//div[contains(text(),'${Untermenüpunkt}')]</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Run Keyword If</td>
+<td>'${Untermenüpunkt}' != ''</td>
+<td>Click Element</td>
+<td>//div[contains(text(),'${Untermenüpunkt}')]</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"><a name="keyword_Check Search Page Elements">Check Search Page Elements</a></td>
+<td>Page Should Contain Element</td>
+<td>//label[contains(text(),"Bestellnummer")]</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Page Should Contain Element</td>
+<td>//input[contains(@id,"-order_number")]</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Page Should Contain Element</td>
+<td>//label[contains(text(),"Lieferauftrags-Nummer")]</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Page Should Contain Element</td>
+<td>//input[contains(@id,"-delivery_number")] \</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Page Should Contain Element</td>
+<td>//label[contains(text(),"Name")]</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Page Should Contain Element</td>
+<td>//input[contains(@id,"-name")] \ \</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Page Should Contain Element</td>
+<td>//label[contains(text(),"Organisationseinheit")]</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Page Should Contain Element</td>
+<td>//label[contains(text(),"Kostenstelle")]</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Page Should Contain Element</td>
+<td>//div/label[contains(text(),"ab Bestelldatum")]</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Page Should Contain Element</td>
+<td>//input[contains(@id,"-from_order_date")]</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Page Should Contain Element</td>
+<td>//label[contains(text(),"bis Bestelldatum")]</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Page Should Contain Element</td>
+<td>//input[contains(@id,"-up_order_date")] \ \</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Page Should Contain Element</td>
+<td>//label[contains(text(),"Gelöschte Aufträge in Suche miteinbeziehen")]</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Page Should Contain Element</td>
+<td>//input[contains(@id,"-search_delete_order")]</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Page Should Contain Textfield</td>
+<td>//div[contains(text(),"im Format tt.mm.jjjj")]</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"><a name="keyword_Goto SubMenü">Goto SubMenü</a></td>
+<td>[Arguments]</td>
+<td>${Mandator}</td>
+<td>${Hauptmenü}</td>
+<td>${Submenü}</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Select Mandator</td>
+<td>${Mandator}</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Select SubMenü</td>
+<td>${Hauptmenü}</td>
+<td>${Submenü}</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"><a name="keyword_Open Search Page PreOrders">Open Search Page PreOrders</a></td>
+<td>[Arguments]</td>
+<td>${Mandator}</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Login to RLX Website</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Select Mandator</td>
+<td>${Mandator}</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Select SubMenü</td>
+<td>Nachbestellung/Ersatz</td>
+<td>Vorbestellung bearbeiten</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Wait Until Element is Visible</td>
+<td>//div[contains(text(),"Informationen zu Change Peak Vorbestellungen")]</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"><a name="keyword_Get Number of Search Results">Get Number of Search Results</a></td>
+<td>[Arguments]</td>
+<td>${ResultText}</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>${vollText}</td>
+<td>Get Text</td>
+<td>//div[contains(text(),"${ResultText}") ]</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>${NumberOfResults} =</td>
+<td>Get Substring</td>
+<td>${vollText}</td>
+<td>0</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>...</td>
+<td>1</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>[Return]</td>
+<td>${NumberOfResults}</td>
+<td># Gibt die Anzahl der Suchergebnisse zurück</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"><a name="keyword_Search For Item">Search For Item</a></td>
+<td>[Arguments]</td>
+<td>${SearchInputField}</td>
+<td>${SearchString}</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Input Text</td>
+<td>//input[contains(@id, '${SearchInputField}')]</td>
+<td>${SearchString}</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Click Element</td>
+<td>//button//div[contains(text(),'Suche')]</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"><a name="keyword_Select Module Website">Select Module Website</a></td>
+<td>[Arguments]</td>
+<td>${MODULE}</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>[Documentation]</td>
+<td class="colspan3" colspan="3">Is intended to be used for switching to an dedicated and given Module website</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Wait Until Element Is Visible</td>
+<td>//select[contains(@id,'modules')]</td>
+<td>10</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>${x}=</td>
+<td>Get Horizontal Position</td>
+<td>//select[contains(@id,'modules')]</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>${y}</td>
+<td>Get Vertical Position</td>
+<td>//select[contains(@id,'modules')]</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Click Element At Coordinates</td>
+<td>//select[contains(@id,'modules')]</td>
+<td>${x}</td>
+<td>${y}</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Select From List By Label</td>
+<td>//select[contains(@id,'modules')]</td>
+<td>${MODULE}</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"><a name="keyword_Go To Reichweiten Bewertung">Go To Reichweiten Bewertung</a></td>
+<td>Select SubMenü</td>
+<td>Admin/Anderes</td>
+<td>Reichweiten Bewertung</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Sleep</td>
+<td>3</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Page Should Contain</td>
+<td>Reichweiten Bewertung</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"><a name="keyword_Check Menu Section">Check Menu Section</a></td>
+<td>[Arguments]</td>
+<td>${SectionName}</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Element Should Be Visible</td>
+<td>//div[contains(text(),'${SectionName}')]</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"><a name="keyword_Check Menu Item">Check Menu Item</a></td>
+<td>[Arguments]</td>
+<td>${MenuName}</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Element Should Be Visible</td>
+<td>//div[contains(@id,'admin_other')]</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Element Text Should Be</td>
+<td>//div[contains(@id,'admin_other')]</td>
+<td>${MenuName}</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"><a name="keyword_Start Test For Module">Start Test For Module</a></td>
+<td>[Arguments]</td>
+<td>${SystemModule}</td>
+<td>${Mandator}</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Login To RLX Website</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Set Browser Implicit Wait</td>
+<td>10</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Select Mandator</td>
+<td>${Mandator}</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Select Module Website</td>
+<td>${SystemModule}</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Wait Until Element Is Visible</td>
+<td>//div[contains(@id,'menu_bottom/switchwarehouse')]</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Sleep</td>
+<td>2</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"><a name="keyword_Reichweiten Bewertung Search Article No">Reichweiten Bewertung Search Article No</a></td>
+<td>[Arguments]</td>
+<td>${ArticleNo}</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>[Documentation]</td>
+<td class="colspan3" colspan="3">Führt eine Suche mit der übergebenen Artikelnummer duch und prüft das Suchergebnis nach Anzahl der Suchergebnisse.\n<br>
+Wenn die Anzhal größer als 50 ist wird ein Fehler erzeugt</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Input Text</td>
+<td>//input[contains(@id,'articleNo')]</td>
+<td>${ArticleNo}</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Click Button</td>
+<td>//button[contains(@id,'search')]</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Sleep</td>
+<td>1</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>${Suchergebnis}</td>
+<td>Get Text</td>
+<td>//div[contains(@id,'flow_content/found')]</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Should Contain</td>
+<td>${Suchergebnis}</td>
+<td>Anzahl der Suchergebnisse: 1 -</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>${Suchergebnis}</td>
+<td>Convert To String</td>
+<td>${Suchergebnis}</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>${length}=</td>
+<td>Get Length</td>
+<td>${Suchergebnis}</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>${Anzahl}=</td>
+<td>Split String From Right</td>
+<td>${Suchergebnis}</td>
+<td>${WHITESPACE}</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>...</td>
+<td>1</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>${list}=</td>
+<td>Get Matching Xpath Count</td>
+<td>//table/tbody/tr[contains(@id,'/$flow_main/$flow_content/list_articles/')]</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>${Anzahl}=</td>
+<td>Convert To Integer</td>
+<td>${Anzahl[1]}</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>${list}=</td>
+<td>Convert To Integer</td>
+<td>${list}</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Should Be Equal</td>
+<td>${Anzahl}</td>
+<td>${list}</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"><a name="keyword_Reichweiten Bewertung Search Article Name">Reichweiten Bewertung Search Article Name</a></td>
+<td>[Arguments]</td>
+<td>${ArticleName}</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Input Text</td>
+<td>//input[contains(@id,'articleName')]</td>
+<td>${ArticleName}</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Click Button</td>
+<td>//button[contains(@id,'search')]</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Sleep</td>
+<td>3</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>${Suchergebnis}</td>
+<td>Get Text</td>
+<td>//div[contains(@id,'flow_content/found')]</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Should Contain</td>
+<td>${Suchergebnis}</td>
+<td>Anzahl der Suchergebnisse: 1 -</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>${Suchergebnis}</td>
+<td>Convert To String</td>
+<td>${Suchergebnis}</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>${length}=</td>
+<td>Get Length</td>
+<td>${Suchergebnis}</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>${Anzahl}=</td>
+<td>Split String From Right</td>
+<td>${Suchergebnis}</td>
+<td>${WHITESPACE}</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>...</td>
+<td>1</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>${list}=</td>
+<td>Get Matching Xpath Count</td>
+<td>//table/tbody/tr[contains(@id,'/$flow_main/$flow_content/list_articles/')]</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>${Anzahl}=</td>
+<td>Convert To Integer</td>
+<td>${Anzahl[1]}</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>${list}=</td>
+<td>Convert To Integer</td>
+<td>${list}</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Should Be Equal</td>
+<td>${Anzahl}</td>
+<td>${list}</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"><a name="keyword_Change To Reichweiten Settings Page">Change To Reichweiten Settings Page</a></td>
+<td>[Documentation]</td>
+<td class="colspan3" colspan="3">Wechselt auf die Konfigurationsseite der Reichweiten Bewertung - Konfigurations-Seite</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Wait Until Keyword Succeeds</td>
+<td>10 sec</td>
+<td>1 sec</td>
+<td>Click Element</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>...</td>
+<td>//button[contains(@id,'$flow_content/setting')]</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Sleep</td>
+<td>1</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Wait Until Page Contains</td>
+<td>${NAME_REICHWEITEN_CONFIG}</td>
+<td>10</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"><a name="keyword_Add Entry To Reichweiten Config Table">Add Entry To Reichweiten Config Table</a></td>
+<td>[Arguments]</td>
+<td>${Months}</td>
+<td>${Percentage}</td>
+<td>${Description}</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>${AnzahlEintraege}=</td>
+<td>Get Matching Xpath Count</td>
+<td>//table/tbody/tr[contains(@id,'/$flow_main/$flow_content/list_articles/')]</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>${AnzahlEintraege}=</td>
+<td>Convert To Integer</td>
+<td>${AnzahlEintraege}</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>${AnzahlEintraege}=</td>
+<td>Evaluate</td>
+<td>${AnzahlEintraege}-1</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Comment</td>
+<td>Wait Until Keyword Succeeds</td>
+<td>3 sec</td>
+<td>1 sec</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>...</td>
+<td>Element Should Be \ Visible</td>
+<td>//input[contains(@id,'/$flow_main/$flow_content/list_articles/${AnzahlEintraege}/Range_Months/')]</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Click Element</td>
+<td>//*[contains(@id,'/$flow_main/$flow_content/list_articles/${AnzahlEintraege}/Range_Months/')]</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Click Element</td>
+<td>//*[contains(@id,'/$flow_main/$flow_content/list_articles/${AnzahlEintraege}/Range_Months/')]</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Input Text</td>
+<td>//input[contains(@id,'/list_articles/${AnzahlEintraege}/Range_Months/')]</td>
+<td>${Months}</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Click Element</td>
+<td>//div[contains(@id,'/$flow_main/$flow_content/list_articles/${AnzahlEintraege}/Reduction_Percent/')]</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Input Text</td>
+<td>//input[contains(@id,'/$flow_main/$flow_content/list_articles/${AnzahlEintraege}/Reduction_Percent/')]</td>
+<td>${Percentage}</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Wait Until Keyword Succeeds</td>
+<td>3 sec</td>
+<td>1 sec</td>
+<td>Click Element</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>...</td>
+<td>//div[contains(@id,'${AnzahlEintraege}/Description/')]</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Wait Until Keyword Succeeds</td>
+<td>3 sec</td>
+<td>1 sec</td>
+<td>Click Element</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>...</td>
+<td>//div[contains(@id,'${AnzahlEintraege}/Description/')]</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Wait Until Keyword Succeeds</td>
+<td>3 sec</td>
+<td>1 sec</td>
+<td>Input Text</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>...</td>
+<td>//*[contains(@id,'${AnzahlEintraege}/Description/inp')]</td>
+<td>${Description}</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Wait Until Keyword Succeeds</td>
+<td>3 sec</td>
+<td>1 sec</td>
+<td>Click Button</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>...</td>
+<td>//button[contains(@id,'save')]</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Wait Until Keyword Succeeds</td>
+<td>3 sec</td>
+<td>1 sec</td>
+<td>Click Button</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>...</td>
+<td>//button[contains(@id,'/$flow_main/$flow_content/plus')]</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>${AnzahlEintraege}=</td>
+<td>Evaluate</td>
+<td>${AnzahlEintraege}+1</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Wait Until Element Is Visible</td>
+<td>//div[contains(@id,'/$flow_main/$flow_content/list_articles/${AnzahlEintraege}/Description/txt')]</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"><a name="keyword_Modify Reichweiten Time Settings">Modify Reichweiten Time Settings</a></td>
+<td>[Arguments]</td>
+<td>${InventaryTime}</td>
+<td>${ArtikelAge}</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>[Documentation]</td>
+<td class="colspan3" colspan="3">Procedure modifiziert die Zeitinterveral Settings für die Reichweiten Berechnung:\n<br>
+\n<br>
+- Zeitraum für den Bestand (in Monaten)\n<br>
+- mindest Alter der Artikel, die für die Reichweiten Berehcnung berücksichtigt werden (in Monaten)</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Input Text</td>
+<td>//input[contains(@id,'/months')]</td>
+<td>${InventaryTime}</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Input Text</td>
+<td>//input[contains(@id,'/ages')]</td>
+<td>${ArtikelAge}</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Wait Until Keyword Succeeds</td>
+<td>3 sec</td>
+<td>1 sec</td>
+<td>Click Button</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>...</td>
+<td>//button[contains(@id,'/save')]</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"><a name="keyword_Prepare for Reichweiten Config And Calculation Tests">Prepare for Reichweiten Config And Calculation Tests</a></td>
+<td>[Arguments]</td>
+<td>${Mandator}</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Start Test For Module</td>
+<td>LOG</td>
+<td>${Mandator}</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Go To Reichweiten Bewertung</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Change To Reichweiten Settings Page</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Wait Until Keyword Succeeds</td>
+<td>3 sec</td>
+<td>1 sec</td>
+<td>Element Should Be Visible</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>...</td>
+<td>//input[contains(@id,'/months')]</td>
+<td></td>
+<td></td>
+</tr>
+</table>
+</body>
+</html>
