@@ -1,0 +1,162 @@
+*** Settings ***
+Resource          ../../UserKeywords/LOG_Resources.html
+Resource          ../../UserKeywords/Common_Resources.html
+Library           Selenium2Library
+
+*** Test Cases ***
+Check GUI Elements Overview Page
+    Start Test For Module    LOG    Hauptmandant
+    Go To Reichweiten Bewertung
+    Element Should be Visible    //div[contains(text(), 'Artikel Nr:')]
+    Element Should be Visible    //input[contains(@id,'articleNo')]
+    Element Should be Visible    //div[contains(text(), 'Artikel Name:')]
+    Element Should be Visible    //input[contains(@id,'articleName')]
+    Page Should contain    Anzahl der Suchergebnisse
+    Element Should be Visible    //button[contains(@id,'$flow_content/refresh')]
+    Element Should Be Visible    //button[contains(@id,'$flow_content/search')]
+    Element Should Be Visible    //button[contains(@id,'$flow_content/setting')]
+    Element Should Be Visible    //button[contains(@id,'$flow_content/abort')]
+    Wait Until Keyword Succeeds    3 sec    1 sec    Click Element    //div[contains(@id,'exit')]
+    [Teardown]    Close Browser
+
+Check GUI Elements Config Page
+    [Setup]    Prepare For Reichweiten Bewertung Tests    Hauptmandant
+    Wait Until Page Contains    Reichweiten Bewertung    10
+    Wait Until Element Is Visible    //button[contains(@id,'$flow_content/setting')]
+    Sleep    3
+    Click Element    //button[contains(@id,'$flow_content/setting')]
+    Sleep    1
+    Wait Until Page Contains    Einstellungen    10
+    ${REConfigFile}=    Capture Page Screenshot
+    Element Should Be Visible    //div[contains(@id,'list_articles/$col_range_Months')]
+    Element Should Be Visible    //div[contains(@id,'list_articles/$col_reduction_Percent')]
+    Element Should Be Visible    //div[contains(@id,'list_articles/$col_2')]
+    Element Should Be Visible    //div[contains(@id,'list_articles/$col_description')]
+    Element Should Be Visible    //button[contains(@id,'$flow_content/plus')]
+    Element Should Be Visible    //button[contains(@id,'$flow_content/remove')]
+    Page Should Contain    Ausnahmeregeln:
+    element Should Be Visible    //input[contains(@id,'$flow_content/months')]
+    Element Should Be Visible    //input[contains(@id,'$flow_content/ages')]
+    Element Should Be Visible    //button[contains(@id,'$flow_content/back')]
+    Element Should Be Visible    //button[contains(@id,'$flow_content/recalculation')]
+    Element Should Be Visible    //button[contains(@id,'$flow_content/save')]
+    Element Should Be Visible    //button[contains(@id,'$flow_content/abort')]
+    Click Element    //button[contains(@id,'$flow_content/back')]
+    Sleep    3
+    Element Should Be Visible    //button[contains(@id,'$flow_content/setting')]
+    [Teardown]    Close Browser
+
+Verify Search Function on Results
+    [Documentation]    Hier wird geprüft, ob die Suchfunktion nach Artikelnummer und Artikelname funktioniert und Ergebjisse liefert
+    [Setup]    Prepare For Reichweiten Bewertung Tests    Hauptmandant
+    Wait Until Element is Visible    //input[contains(@id,'articleNo')]
+    sleep    3
+    Reichweiten Bewertung Search article No    110
+    Input Text    //input[contains(@id,'articleNo')]    ${WHITESPACE}
+    Reichweiten Bewertung Search Article Name    Jacke
+    [Teardown]    Close Browser
+
+Change Configuration For Reichweiten Bewertung
+    [Documentation]    Test Case prüft die Funktionalität rund um die Abschreibungs Settings für die Reichweiten Bewertung
+    [Setup]    Prepare For Reichweiten Bewertung Tests    Hauptmandant
+    Change To Reichweiten Settings Page
+    ${AnzahlEintraege}=    Get Matching Xpath Count    //table/tbody/tr[contains(@id,'/$flow_main/$flow_content/list_articles/')]
+    ${AnzahlEintraege}=    Convert To Integer    ${AnzahlEintraege}
+    ${AnzahlEintraege}=    Evaluate    ${AnzahlEintraege}-1
+    : FOR    ${INDEX}    IN RANGE    0    ${AnzahlEintraege}
+    \    Click Element    //div[contains(@id,'/$flow_main/$flow_content/list_articles/0/Range_Months/')]
+    \    Click Element    //button[contains(@id,'/$flow_main/$flow_content/remove')]
+    \    Wait Until Keyword Succeeds    3 sec    1 sec    Element Should be Visible    //div[contains(@id,'/$flow_main/$popover0')]
+    \    Click Button    //button[contains(@id,'/$flow_main/$popover0/btn0')]
+    \    Sleep    1
+    Wait Until Keyword Succeeds    5 sec    1 sec    Click Button    //button[contains(@id,'save')]
+    Wait Until Keyword Succeeds    3 sec    1 sec    Click Button    //button[contains(@id,'/$flow_main/$flow_content/plus')]
+    Add Entry To Reichweiten Config Table    6    10    Erstabschreibung
+    Add Entry To Reichweiten Config Table    12    20    jährliche Abschreibung
+    Add Entry To Reichweiten Config Table    24    30    2-Jahresabschreibung
+    [Teardown]    Close Browser
+
+Check Exclusion Rules Setting
+    [Documentation]    Test prüft das Setzen und Abspeichern der Ausnahmeregeln für Artikel.
+    ...    Darüber hinaus wird geprüft, ob nach Änderung der Settings die Warnmeldung ausgegeben wird, dass eine Neuberechnung notwenidg ist, wegen Veränderung der Konfiguration
+    [Setup]    Prepare For Reichweiten Bewertung Tests    Hauptmandant
+    Change To Reichweiten Settings Page
+    Wait Until Keyword Succeeds    3 sec    1 sec    Element Should Be Visible    //input[contains(@id,'/months')]
+    ${Zeitraum}=    Get Value    //input[contains(@id,'/months')]
+    ${Alter}=    Get Value    //input[contains(@id,'/ages')]
+    Modify Reichweiten Time Settings    24    4
+    Element Should Be Visible    //div[contains(@id,'/warningIcon')]
+    Element Text Should Be    //*[contains(@id,'warningMSG')]    ${RE_WARNING_MESSAGE}
+    Wait Until Keyword Succeeds    3 sec    1 sec    Click Button    //button[contains(@id,'/back')]
+    Change To Reichweiten Settings Page
+    Wait Until Keyword Succeeds    3 sec    1 sec    Element Should Be Visible    //input[contains(@id,'/months')]
+    ${Zeitraum_2}=    Get Value    //input[contains(@id,'/months')]
+    ${Alter_2}=    Get Value    //input[contains(@id,'/ages')]
+    ${Zeitraum_2}=    Convert To Integer    ${Zeitraum_2}
+    ${Alter_2}=    Convert To Integer    ${Alter_2}
+    Run Keyword If    ${Zeitraum_2}==24 and ${Alter_2}==4    Modify Reichweiten Time Settings    ${Zeitraum}    ${Alter}
+    [Teardown]    Close Browser
+
+Verify Re-Calculation of Range Evalaution Values
+    [Documentation]    Prüft, ob die Berechnung mit neune Konfiguration durchgeführt und erfolgreich abgeschlossen wird.
+    [Setup]    Prepare For Reichweiten Config And Calculation Tests    Hauptmandant    # Prepares RE Tests
+    ${Zeitraum}=    Get Value    //input[contains(@id,'/months')]
+    ${Alter}=    Get Value    //input[contains(@id,'/ages')]
+    Modify Reichweiten Time Settings    6    1
+    Wait Until Keyword Succeeds    3 sec    1 sec    Click Button    //button[contains(@id,'recalculation')]
+    Wait Until Keyword Succeeds    3 sec    1 sec    Element Should Be Visible    //div[contains(@id,'popover')]
+    Page Should Contain Checkbox    //input[contains(@id,'sendemail')]
+    Page Should Contain    Email senden an
+    Element Should Be Visible    //input[contains(@id,'email')]
+    Element Should Be Visible    //button[contains(@id,'Abort')]
+    Element Should Be Visible    //button[contains(@id,'start')]
+    Wait Until Keyword Succeeds    3 sec    1 sec    Input Text    //input[contains(@id,'$popover0/email')]    ob@rigilog.com
+    Click Element    //input[contains(@id,'sendemail')]
+    ${RecalcRE}=    Capture Page Screenshot
+    Click Element    //input[contains(@id,'sendemail')]
+    Click Button    //button[contains(@id,'start')]
+    Wait Until Element Is Visible    //button[contains(@id,'recalculation')]
+    Wait Until Keyword Succeeds    3 sec    1 sec    Click Button    //button[contains(@id,'recalculation')]    # Aufruf, um die Neuberechnung neu zu starten
+    Wait Until Keyword Succeeds    3 sec    1 sec    Element Should Be Visible    //div[contains(@id,'$popover0')]
+    Element Should Be Visible    //button[contains(@id,'start')]
+    Click Button    //button[contains(@id,'start')]    # neuerlicher Start wird verhindert, popup wird gezeigt
+    Wait Until Keyword Succeeds    3 sec    1 sec    Element Should Be Visible    //div[contains(@id,'$popover0/msg')]
+    ${RestartFailRE}=    Capture Page Screenshot
+    Click Button    //button[contains(@id,'$popover0/btn')]
+    Wait Until Element Is Visible    //button[contains(@id,'back')]    5 sec
+    Click Element    //button[contains(@id,'back')]
+    Wait Until Keyword Succeeds    5 sec    1 sec    Element Should Be Visible    //div[contains(@id,'flow_content/found')]
+    : FOR    ${Index}    IN RANGE    0    60    # Loop um den Fortschritt der Berechnung zu prüfen und die Werte zu protokollieren
+    \    Wait Until Keyword Succeeds    5 sec    1 sec    Input Text    //input[contains(@id,'articleNo')]    %
+    \    Click Button    //button[contains(@id,'search')]
+    \    Sleep    15s
+    \    ${Result}    ${value}=    Run Keyword And Ignore Error    Element Should Be Visible    //div[contains(@id,'$popover0/msg')]
+    \    Exit For Loop If    '${Result}' == 'PASS'
+    \    Click Button    //button[contains(@id,'refresh')]
+    \    Wait Until Keyword Succeeds    5 sec    1 sec    Element Should Be Visible    //div[contains(@id,'flow_content/found')]
+    \    ${Ergebnis}=    Get Text    //div[contains(@id,'flow_content/found')]
+    \    ${TotalAverage}=    Get Text    //div[contains(@id,'Total_AverageStockValue')]
+    \    ${Total}=    Get Text    //div[contains(@id,'Total_AbsoluteStockValue')]
+    \    ${TotalReduction}=    Get Text    //div[contains(@id,'Total_Reduction')]
+    \    ${TotalReduced}=    Get Text    //div[contains(@id,'Total_ActualStockValueAfterReduction')]
+    \    ${Status}=    Get Text    //div[contains(@id,'locked')]
+    Element Text Should Be    //button[contains(@id,'popover0/btn')]    OK
+    Click Button    //button[contains(@id,'popover0/btn')]
+    ${Las Re-Calculation}=    Get Text    //div[contains(@id,'LastCalculatedDate')]
+    ${TimeActual}=    Get Time
+    Change To Reichweiten Settings Page
+    Modify Reichweiten Time Settings    ${Zeitraum}    ${Alter}    # Zurück zu Ausgangswerten
+    Wait Until Keyword Succeeds    3 sec    1 sec    Click Element    //div[contains(@id,'exit')]
+    [Teardown]    Close Browser
+
+Enter Manual Deduction Value for One Article
+    [Documentation]    Test der Funktionalität, die den Wert für manuelle Abschreibung einzutragen.
+    ...    Prüfen, ob die resultierenden Berechnungen der Änderung Rechnung tragen.
+    [Setup]    Prepare For Reichweiten Bewertung Tests    Hauptmandant
+    Sleep    5s
+    Reichweiten Bewertung Search Article No    110
+    ${AnzahlEinträge}=    Get Matching Xpath Count    //table/tbody/tr[contains(@id,'/$flow_main/$flow_content/list_articles/')]
+    ${AnzahlEinträge}=    Convert To Integer    ${AnzahlEinträge}    \    # wird nur zu Log Zwekcen verwendet
+    Verify RE Manual Position Reduction    4    50    # Tested die Reduktion des Artikelwertes in Zeile 4 um 50%
+    Wait Until Keyword Succeeds    3 sec    1 sec    Click Element    //div[contains(@id,'exit')]
+    [Teardown]    Close Browser

@@ -1,0 +1,43 @@
+*** Settings ***
+Resource          ../UserKeywords/LOG_Resources.html
+Library           Selenium2Library
+
+*** Test Cases ***
+Login to new Website
+    Open Browser    ${RLX_LOGIN_URL}    ${BROWSER}
+    Wait Until Page Contains Element    //input[contains(@id, 'login_username')]
+    Page Should Contain Element    //input[contains(@id,'login_password')]
+    Input Text    //input[contains(@id, 'login_username')]    ${RLX_USER}
+    Input Text    //input[contains(@id,'login_password')]    ${RLX_PWD}
+    Click Element    //button//div[contains(text(), '${RLX_LOGIN_BUTTON_TEXT}')]
+    Wait Until Page Contains Element    //div[contains(text(), 'Mandantenauswahl')]
+    [Teardown]    Close Browser
+
+Check Mandators
+    Login to RLX Website
+    Check available Mandators    Hauptmandant
+    Check available Mandators    Submandant1
+    Check available Mandators    Submandant2
+    Select Mandator    Hauptmandant
+    [Teardown]    Close Browser
+
+Check OAC Main Page
+    Login to RLX Website
+    Select Mandator    Hauptmandant
+    Wait Until Page Contains Element    //select[contains(@id, 'modules')]
+    Element Text Should Be    //select[contains(@id, 'modules')]/option[@value=0]    OAC
+    Page Should Contain Element    //select[contains(@id, 'modules')]/option[contains(text(), 'OAC')]
+    [Teardown]    Close Browser
+
+Check PSTB Employee
+    Login to RLX Website
+    Select Mandator    Hauptmandant
+    Select SubMenü    Nachbestellung/Ersatz    Für Mitarbeiter
+    Wait Until Element Is Visible    //input[contains(@id,'person_name')]
+    Input Text    //input[contains(@id,'person_name')]    Ackermann
+    Click Element    //button//div[contains(text(),'Suche starten')]
+    Wait Until Element Is Visible    //div[contains(text(),'Mitarbeiter, auf die die')]
+    Page Should Contain Element    //table//tr//td//div[contains(text(),'Ackermann')]
+    Click Element    //button//div[contains(text(),'Zurück')]
+    Wait Until Page Contains Element    //input[contains(@id,'person_name')]
+    [Teardown]    Close Browser
