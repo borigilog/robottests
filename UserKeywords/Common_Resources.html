@@ -128,6 +128,13 @@ td.name, th.name {
 <td></td>
 <td></td>
 </tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
 </table>
 <table border="1" id="keyword">
 <tr>
@@ -337,7 +344,7 @@ td.name, th.name {
 <tr>
 <td class="name"></td>
 <td>Wait Until Element Is Visible</td>
-<td>//div[contains(@id,'menu_bottom/switchwarehouse')]</td>
+<td>//*[@id="/$flow_main/menu_bottom/help"]</td>
 <td></td>
 <td></td>
 </tr>
@@ -354,6 +361,76 @@ td.name, th.name {
 <td></td>
 <td></td>
 <td></td>
+</tr>
+<tr>
+<td class="name"><a name="keyword_Select SubMenü">Select SubMenü</a></td>
+<td>[Arguments]</td>
+<td>${Hauptmenüpunkt}</td>
+<td>${Untermenüpunkt}</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Run Keyword If</td>
+<td>'${Hauptmenüpunkt}' != ''</td>
+<td>Wait Until Page Contains Element</td>
+<td>//div[contains(text(),'${Hauptmenüpunkt}')]</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Click Element</td>
+<td>//div[contains(text(),'${Hauptmenüpunkt}')]/..</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Comment</td>
+<td>Click Element</td>
+<td>//div[contains(@id,'admin_other')]</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Comment</td>
+<td>${x}=</td>
+<td>Get Horizontal Position</td>
+<td>//div[contains(@id,'admin_other')]</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Comment</td>
+<td>${y}=</td>
+<td>Get Vertical Position</td>
+<td>//div[contains(@id,'admin_other')]</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Comment</td>
+<td>Click Element At Coordinates</td>
+<td>//div[contains(@id,'admin_other')]</td>
+<td>${x}</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>...</td>
+<td>${y}</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Run Keyword If</td>
+<td>'${Untermenüpunkt}' != ''</td>
+<td>Wait Until Element is Visible</td>
+<td>//div[contains(text(),'${Untermenüpunkt}')]</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Run Keyword If</td>
+<td>'${Untermenüpunkt}' != ''</td>
+<td>Click Element</td>
+<td>//div[contains(text(),'${Untermenüpunkt}')]</td>
 </tr>
 </table>
 </body>

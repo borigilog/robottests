@@ -7,8 +7,9 @@ Resource          ../../UserKeywords/OAC_Resources.html
 *** Test Cases ***
 Check Page Contents
     [Documentation]    Test überrüft alle Elemente der Search Page - Label, Eingabefelder
-    OpenSearch Page PreOrders    Hauptmandant
-    Check Search Page Elements
+    [Setup]    Start Test For Module    OAC    Hauptmandant
+    OpenSearch Page PreOrders
+    Check Order Search Page Elements
     [Teardown]    Close Browser
 
 Test Vorbestellungen bearbeiten Seitenstruktur

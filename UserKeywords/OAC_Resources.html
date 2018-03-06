@@ -86,6 +86,34 @@ td.name, th.name {
 <tr>
 <th class="name" colspan="5">Variables</th>
 </tr>
+<tr>
+<td class="name">@{ORDER_SEARCH_PAGE_LABELS_DE}</td>
+<td>Bestellnummer</td>
+<td>Lieferauftrags-Nummer</td>
+<td>Name</td>
+<td>Organisationseinheit</td>
+</tr>
+<tr>
+<td class="name">...</td>
+<td>Kostenstelle</td>
+<td>ab Bestelldatum</td>
+<td>bis Bestelldatum</td>
+<td>im Format tt.mm.jjjj</td>
+</tr>
+<tr>
+<td class="name">...</td>
+<td>Gelöschte Aufträge in Suche miteinbeziehen</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
 </table>
 <table border="1" id="keyword">
 <tr>
@@ -93,27 +121,6 @@ td.name, th.name {
 </tr>
 <tr>
 <td class="name"><a name="keyword_Open Search Page PreOrders">Open Search Page PreOrders</a></td>
-<td>[Arguments]</td>
-<td>${Mandator}</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="name"></td>
-<td>Login to RLX Website</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="name"></td>
-<td>Select Mandator</td>
-<td>${Mandator}</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="name"></td>
 <td>Select SubMenü</td>
 <td>Nachbestellung/Ersatz</td>
 <td>Vorbestellung bearbeiten</td>
@@ -121,9 +128,23 @@ td.name, th.name {
 </tr>
 <tr>
 <td class="name"></td>
+<td>Wait Until Keyword Succeeds</td>
+<td>3 sec</td>
+<td>1 sec</td>
 <td>Wait Until Element is Visible</td>
-<td>//div[contains(text(),"Informationen zu Change Peak Vorbestellungen")]</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>...</td>
+<td>//*[@id="/$flow_main/$flow_content/title"]</td>
 <td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Element Text Should Be</td>
+<td>//*[@id="/$flow_main/$flow_content/title"]</td>
+<td>Informationen zu Change Peak Vorbestellungen</td>
 <td></td>
 </tr>
 <tr>
@@ -133,107 +154,129 @@ td.name, th.name {
 <td></td>
 <td></td>
 </tr>
-<td class="name"><a name="keyword_Check Search Page Elements">Check Search Page Elements</a></td>
-<td>Page Should Contain Element</td>
-<td>//label[contains(text(),"Bestellnummer")]</td>
-<td></td>
-<td></td>
-</tr>
 <tr>
-<td class="name"></td>
-<td>Page Should Contain Element</td>
-<td>//input[contains(@id,"-order_number")]</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="name"></td>
-<td>Page Should Contain Element</td>
-<td>//label[contains(text(),"Lieferauftrags-Nummer")]</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="name"></td>
-<td>Page Should Contain Element</td>
-<td>//input[contains(@id,"-delivery_number")] \</td>
-<td></td>
+<td class="name"><a name="keyword_Check Order Search Page Elements">Check Order Search Page Elements</a></td>
+<td>Element Text Should Be</td>
+<td>//label[@for="/$flow_main/$flow_content/order_number"]</td>
+<td>@{ORDER_SEARCH_PAGE_LABELS_DE}[0]</td>
 <td></td>
 </tr>
 <tr>
 <td class="name"></td>
 <td>Page Should Contain Element</td>
-<td>//label[contains(text(),"Name")]</td>
+<td>//*[@id="/$flow_main/$flow_content/order_number"]</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Element Text Should Be</td>
+<td>//label[@for="/$flow_main/$flow_content/delivery_number"]</td>
+<td>@{ORDER_SEARCH_PAGE_LABELS_DE}[1]</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Page Should Contain Element</td>
+<td>//*[@id="/$flow_main/$flow_content/delivery_number"]</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Element Text Should Be</td>
+<td>//label[@for="/$flow_main/$flow_content/order_name"]</td>
+<td>@{ORDER_SEARCH_PAGE_LABELS_DE}[2]</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Page Should Contain Element</td>
+<td>//*[@id="/$flow_main/$flow_content/order_name"]</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Element Text Should Be</td>
+<td>//label[@for="/$flow_main/$flow_content/org_entity"]</td>
+<td>@{ORDER_SEARCH_PAGE_LABELS_DE}[3]</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Page Should Contain Element</td>
+<td>//*[@id="/$flow_main/$flow_content/org_entity/pick"]</td>
+<td># open selector for Org unit</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Element Text Should Be</td>
+<td>//label[@for="/$flow_main/$flow_content/costcenter_entity"]</td>
+<td>@{ORDER_SEARCH_PAGE_LABELS_DE}[4]</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Page Should Contain Element</td>
+<td>//*[@id="/$flow_main/$flow_content/costcenter_entity/pick"]</td>
+<td># open selector for cost center unit</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Element Text Should Be</td>
+<td>//label[@for="/$flow_main/$flow_content/from_order_date"]</td>
+<td>@{ORDER_SEARCH_PAGE_LABELS_DE}[5]</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Page Should Contain Element</td>
+<td>//*[@id="/$flow_main/$flow_content/from_order_date"]</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Element Text Should Be</td>
+<td>//label[@for="/$flow_main/$flow_content/up_order_date"]</td>
+<td>@{ORDER_SEARCH_PAGE_LABELS_DE}[6]</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Page Should Contain Element</td>
+<td>//*[@id="/$flow_main/$flow_content/up_order_date"]</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Element Text Should Be</td>
+<td>//label[@for="/$flow_main/$flow_content/search_delete_order"]</td>
+<td>@{ORDER_SEARCH_PAGE_LABELS_DE}[8]</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Page Should Contain Element</td>
+<td>//*[@id="/$flow_main/$flow_content/search_delete_order"]</td>
 <td></td>
 <td></td>
 </tr>
 <tr>
 <td class="name"></td>
 <td>Page Should Contain Element</td>
-<td>//input[contains(@id,"-name")] \ \</td>
+<td>//*[@id="/$flow_main/$flow_content/start_search"]</td>
 <td></td>
 <td></td>
 </tr>
 <tr>
 <td class="name"></td>
 <td>Page Should Contain Element</td>
-<td>//label[contains(text(),"Organisationseinheit")]</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="name"></td>
-<td>Page Should Contain Element</td>
-<td>//label[contains(text(),"Kostenstelle")]</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="name"></td>
-<td>Page Should Contain Element</td>
-<td>//div/label[contains(text(),"ab Bestelldatum")]</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="name"></td>
-<td>Page Should Contain Element</td>
-<td>//input[contains(@id,"-from_order_date")]</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="name"></td>
-<td>Page Should Contain Element</td>
-<td>//label[contains(text(),"bis Bestelldatum")]</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="name"></td>
-<td>Page Should Contain Element</td>
-<td>//input[contains(@id,"-up_order_date")] \ \</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="name"></td>
-<td>Page Should Contain Element</td>
-<td>//label[contains(text(),"Gelöschte Aufträge in Suche miteinbeziehen")]</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="name"></td>
-<td>Page Should Contain Element</td>
-<td>//input[contains(@id,"-search_delete_order")]</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="name"></td>
-<td>Page Should Contain Textfield</td>
-<td>//div[contains(text(),"im Format tt.mm.jjjj")]</td>
+<td>//*[@id="/$flow_main/$flow_content/cancel"]</td>
 <td></td>
 <td></td>
 </tr>
