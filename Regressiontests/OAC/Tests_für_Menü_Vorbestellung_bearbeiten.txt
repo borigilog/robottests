@@ -14,16 +14,17 @@ Check Page Contents
 
 Test Vorbestellungen bearbeiten Seitenstruktur
     [Documentation]    Test um zu überprüfen, ob Button "Zurück" auf Seite der Suchergebnisse aktiv und funktioniert
-    Login to RLX Website
-    Select Mandator    Hauptmandant
+    [Setup]    Start Test For Module    OAC    Hauptmandant
     Select SubMenü    Nachbestellung/Ersatz    Vorbestellung bearbeiten
-    Wait Until Element is visible    //div[contains(text(),"Informationen zu Change Peak Vorbestellungen")]
+    Wait Until Keyword Succeeds    3 sec    1 sec    Element Should Be Visible    //*[@id="/$flow_main/$flow_content/title"]
     Page Should Contain    Bitte geben Sie die Kriterien ein, die von der gesuchten Bestellung bekannt sind:
-    Input Text    //input[contains(@id,"-order_number")]    %
-    Click Element    //button//div[contains(text(),"Suche starten")]
-    Wait Until Element is Visible    //div[contains(text(),"passende Bestellungen wurden gefunden")]
-    ${search_result}    Get Text    //div[contains(text(),"passende Bestellungen wurden gefunden")]
-    Click Element    //button//div[contains(text(),"Zurück")]
+    Input Text    //*[@id="/$flow_main/$flow_content/order_number"]    %
+    Click Button    //*[@id="/$flow_main/$flow_content/start_search"]
+    ${Result}    ${msg}=    Run Keyword And Ignore Error    Wait Until Element Is Visible    //div[contains(text(),"passende Bestellungen wurden gefunden")]
+    Run Keyword If    '${Result}'=='FAIL'    Click Button    //button[@id="/$flow_main/$popover0/btn"]    # Keine Suchergebnisse
+    Run KEyword If    '${Result}'=='FAIL'    Element Text Should Be    //*[@id="/$flow_main/$popover0/msg"]    ${NO_SEARCH_RESULTS_TEXT_DE}
+    Run Keyword If    '${Result}'=='PASS'    Element Should Be Visible    //div[contains(text(),"passende Bestellungen wurden gefunden")]
+    Run Keyword If    '${Result}'=='PASS'    Click Button    //button[contains(@id,'back')]
     [Teardown]    Close Browser
 
 Test Search All Orders
