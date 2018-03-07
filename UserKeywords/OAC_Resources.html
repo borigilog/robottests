@@ -280,6 +280,69 @@ td.name, th.name {
 <td></td>
 <td></td>
 </tr>
+<tr>
+<td class="name"><a name="keyword_Get Number of Search Results">Get Number of Search Results</a></td>
+<td>[Arguments]</td>
+<td>${ResultText}</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>${vollText}</td>
+<td>Get Text</td>
+<td>//div[contains(text(),"${ResultText}") ]</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>${NumberOfResults} =</td>
+<td>Get Substring</td>
+<td>${vollText}</td>
+<td>0</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>...</td>
+<td>1</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>[Return]</td>
+<td>${NumberOfResults}</td>
+<td># Gibt die Anzahl der Suchergebnisse zurück</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"><a name="keyword_Search For Item">Search For Item</a></td>
+<td>[Arguments]</td>
+<td>${SearchInputField}</td>
+<td>${SearchString}</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Input Text</td>
+<td>//input[contains(@id, '${SearchInputField}')]</td>
+<td>${SearchString}</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Click Element</td>
+<td>//button//div[contains(text(),'Suche')]</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
 </table>
 </body>
 </html>

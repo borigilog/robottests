@@ -144,6 +144,7 @@ Verify Re-Calculation of Range Evalaution Values
     Click Button    //button[contains(@id,'popover0/btn')]
     ${Las Re-Calculation}=    Get Text    //div[contains(@id,'LastCalculatedDate')]
     ${TimeActual}=    Get Time
+    Check Update Page After Re-Calculation
     Change To Reichweiten Settings Page
     Modify Reichweiten Time Settings    ${Zeitraum}    ${Alter}    # Zurück zu Ausgangswerten
     Wait Until Keyword Succeeds    3 sec    1 sec    Click Element    //div[contains(@id,'exit')]
@@ -159,4 +160,13 @@ Enter Manual Deduction Value for One Article
     ${AnzahlEinträge}=    Convert To Integer    ${AnzahlEinträge}    \    # wird nur zu Log Zwekcen verwendet
     Verify RE Manual Position Reduction    4    50    # Tested die Reduktion des Artikelwertes in Zeile 4 um 50%
     Wait Until Keyword Succeeds    3 sec    1 sec    Click Element    //div[contains(@id,'exit')]
+    [Teardown]    Close Browser
+
+Check Calculation For Reichweiten Bewertung
+    [Setup]    Prepare For Reichweiten Bewertung Tests    Hauptmandant
+    Check Update Page After Re-Calculation
+    [Teardown]    Close Browser
+
+Test
+    Prepare for Service Point Tests    Hauptmandant
     [Teardown]    Close Browser
