@@ -1,0 +1,12 @@
+*** Settings ***
+Library           Selenium2Library
+Resource          ../../UserKeywords/Common_Resources.html
+Resource          ../../UserKeywords/LOG_Resources.html
+
+*** Test Cases ***
+Check Report erstellen GUI Elements
+    [Setup]    Prepare for Service Point Tests    Hauptmandant    # Führt das System zur SP GUI
+    Wait Until Element Is Visible    //*[@id="/$flow_main/$flow_content/generate_report"]
+    Click Element    //*[@id="/$flow_main/$flow_content/generate_report"]
+    Wait Until Keyword Succeeds    3 sec    1 sec    Page Should Contain    Artikel Service Point - Report
+    [Teardown]    Close Browser
