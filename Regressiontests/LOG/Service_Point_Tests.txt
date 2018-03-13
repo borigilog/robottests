@@ -2,6 +2,7 @@
 Library           Selenium2Library
 Resource          ../../UserKeywords/Common_Resources.html
 Resource          ../../UserKeywords/LOG_Resources.html
+Library           Collections
 
 *** Test Cases ***
 Check Report erstellen GUI Elements

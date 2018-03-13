@@ -15,7 +15,7 @@ Check Page Contents
 Test Vorbestellungen bearbeiten Seitenstruktur
     [Documentation]    Test um zu überprüfen, ob Button "Zurück" auf Seite der Suchergebnisse aktiv und funktioniert
     [Setup]    Start Test For Module    OAC    Hauptmandant
-    Select SubMenü    Nachbestellung/Ersatz    Vorbestellung bearbeiten
+    Select SubMenue    Nachbestellung/Ersatz    Vorbestellung bearbeiten
     Wait Until Keyword Succeeds    3 sec    1 sec    Element Should Be Visible    //*[@id="/$flow_main/$flow_content/title"]
     Page Should Contain    Bitte geben Sie die Kriterien ein, die von der gesuchten Bestellung bekannt sind:
     Input Text    //*[@id="/$flow_main/$flow_content/order_number"]    %
@@ -74,7 +74,7 @@ Check Menüpoint Vorbestellung bearbeiten für Submandant
     [Documentation]    Test verifies whether the Sub menu Vorbestellung bearbeiten is not available within the Sub Mandator Submandant1
     Login to RLX Website
     Select Mandator    Submandant1
-    Run Keyword And Expect Error    did not match any element    Select SubMenü    Nachbestellung/Ersatz    Vorbestellung bearbeiten
+    Run Keyword And Expect Error    did not match any element    Select SubMenue    Nachbestellung/Ersatz    Vorbestellung bearbeiten
     [Teardown]    Close Browser
 
 Check Content of Pre-Order O103438

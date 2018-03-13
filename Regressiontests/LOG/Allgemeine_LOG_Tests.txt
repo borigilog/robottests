@@ -12,10 +12,10 @@ Verify LOG Menü entries for SericePoint and RangeEvaluation
     Wait Until Element Is Visible    //div[contains(@id,'menu_bottom/switchwarehouse')]    5
     Check Menu Section    Management/Information
     Check Menu Item    Admin/Anderes
-    Select SubMenü    Admin/Anderes    Service Point
+    Select SubMenue    Admin/Anderes    Service Point
     Wait Until Element is Visible    //div[contains(text(),'Artikel Service Point')]
     ${SPFile} =    Capture Page Screenshot
-    Select SubMenü    Admin/Anderes    Reichweiten Bewertung
+    Select SubMenue    Admin/Anderes    Reichweiten Bewertung
     Wait Until Element Is Visible    //button[contains(@id,'$flow_content/refresh')]    10
     ${REFile}=    Capture Page Screenshot
     [Teardown]    Close Browser

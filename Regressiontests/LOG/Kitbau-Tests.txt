@@ -1,6 +1,70 @@
 *** Settings ***
 Resource          ../../UserKeywords/LOG_Resources.html
 Resource          ../../UserKeywords/Common_Resources.html
+Library           Collections
 Library           Selenium2Library
 
 *** Test Cases ***
+Verify GUI Elements on Kitbau GUI Overview
+    [Documentation]    Test prüft die GUI Element auf der Kitbau Übersichtsseite und die Hauptfunktionnen der entsprechenden Elemente darauf
+    ...
+    ...    Ersteller: O. Baeker
+    ...
+    ...    erstellt am: 12.03.2018
+    [Setup]    Prepare For Service Point Tests    Hauptmandant    # The Mandator does not play any role, it is needed to login to RLX website only
+    Go To Kitbau Function
+    Element Should Be Visible    //button[@id="/$flow_main/$flow_content/newproduction"]
+    Element Should Be Visible    //*[@id="/$flow_main/$flow_content/back"]
+    Element Should Be Visible    //*[@id="/$flow_main/$flow_content/countProductionOpen"]
+    Element Should Be Visible    //*[@id="/$flow_main/$flow_content/delivery_Number"]
+    Element Should Be Visible    //*[@id="/$flow_main/$flow_content/list_Articles/$col_ArtNr"]
+    Element Should Be Visible    //*[@id="/$flow_main/$flow_content/list_Articles/$col_ArtName"]
+    Element Should Be Visible    //*[@id="/$flow_main/$flow_content/list_Articles/$col_OrderNumber"]
+    Element Should Be Visible    //*[@id="/$flow_main/$flow_content/list_Articles/$col_Creator"]
+    Element Should Be Visible    //*[@id="/$flow_main/$flow_content/list_Articles/$col_CreationDate"]
+    Click Element    //*[@id="/$flow_main/$flow_content/list_Articles/0/$ArtNr"]    # markieren der ersten Zeile in der in Übersicht der KIT Bau Aufträge
+    Element Should Be Visible    //button[@id="/$flow_main/$flow_content/cancel"]
+    Click Button    //button[@id="/$flow_main/$flow_content/cancel"]
+    Wait Until Keyword Succeeds    3 sec    1 sec    Element Should Be Visible    //*[@id="/$flow_main/$popover0"]
+    Element Should Be Visible    //*[@id="/$flow_main/$popover0/msg"]
+    Element Should Contain    //*[@id="/$flow_main/$popover0/msg"]    Fortfahren?
+    Element Should Be Visible    //*[@id="/$flow_main/$popover0/btn0"]
+    Element Text Should Be    //*[@id="/$flow_main/$popover0/btn0"]    Ja
+    Element Should Be Visible    //*[@id="/$flow_main/$popover0/btn1"]
+    Element Text Should Be    //*[@id="/$flow_main/$popover0/btn1"]    Nein
+    Click Button    //*[@id="/$flow_main/$popover0/btn1"]
+    Element Should Not Be Visible    //*[@id="/$flow_main/$popover0"]
+    Click Element    //*[@id="/$flow_main/$flow_content/back"]
+    Wait Until Keyword Succeeds    3 sec    1 sec    Element Should Be Visible    //*[@id="/$flow_main/$popover0"]
+    Element Should Contain    //*[@id="/$flow_main/$popover0/msg"]    Trotzdem verlassen?
+    Click Button    //*[@id="/$flow_main/$popover0/btn0"]
+    [Teardown]    Close Browser
+
+Verify Kitbau Abschluss
+    [Documentation]    Test überprüft die Funktionalität beim Abschluss eines Kitbau Auftrages, nachdem die entsprechenden Komponenten vollständig komissioniert werden konnten
+    ...
+    ...    Ersteller: O. Baeker
+    ...
+    ...    erstellt am: 12.03.2018
+    [Setup]    Prepare For Service Point Tests    Hauptmandant    # The Mandator does not play any role, it is needed to login to RLX website only
+    Go To Kitbau Function
+    ${LineNumber}=    Get Entry From Kitbau Overview Table    O675735
+    Run Keyword If    '${LineNumber}'!='None'    Click Element    //*[@id="/$flow_main/$flow_content/list_Articles/${LineNumber}/$ArtNr"]
+    ${Lieferauftragsnummer}=    Get Text    //*[@id="/$flow_main/$flow_content/delivery_Number"]
+    ${Bestellnummer}=    Get Text    //*[@id="/$flow_main/$flow_content/Order_Number"]
+    ${Lieferauftragsnummer}=    Convert To String    ${Lieferauftragsnummer}
+    ${Bestellnummer}=    Convert To String    ${Bestellnummer}
+    Run Keyword If    '${Bestellnummer}'!='O675735'    Fail    Bestellnummer wird nicht angezeigt nach Auswahl der entsprechenden Zeile
+    Run Keyword If    '${Lieferauftragsnummer}'==''    Fail    Lieferauftragsnummer zur Bestellung wird nicht angezeigt
+    Element Should Be Visible    //button[@id="/$flow_main/$flow_content/edit"]
+    Click Button    //button[@id="/$flow_main/$flow_content/edit"]
+    Wait Until Keyword Succeeds    3 sec    1 sec    Element Should Not Be Visible    //*[@id="/$flow_main/$flow_content/newproduction"]    # Hier sollte auf den nächsten Bildschirm gesprungen werden.
+    [Teardown]    Close Browser
+
+Verify Kitbau - new KIT
+    [Setup]    Prepare For Service Point Tests    Hauptmandant    # The Mandator does not play any role, it is needed to login to RLX website only
+    Go To Kitbau Function
+    Wait Until Keyword Succeeds    3    1 sec    Element Should Be Visible    //button[@id="/$flow_main/$flow_content/newproduction"]
+    Wait Until Keyword Succeeds    3    1 sec    Click Button    //button[@id="/$flow_main/$flow_content/newproduction"]
+    Wait Until Keyword Succeeds    5    1 sec    Page Should Contain    ${KITBAU_BAU_HEADER_TEXT_DE}
+    [Teardown]    Close Browser

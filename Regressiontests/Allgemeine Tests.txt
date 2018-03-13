@@ -33,7 +33,7 @@ Check PSTB Employee
     Login to RLX Website
     Select Mandator    Hauptmandant
     Select Module Website    OAC
-    Select SubMenü    Nachbestellung/Ersatz    Für Mitarbeiter
+    Select SubMenue    Nachbestellung/Ersatz    Für Mitarbeiter
     Wait Until Element Is Visible    //*[@id="/$flow_main/$flow_content/person_name"]
     Click Element    //*[@id="/$flow_main/$flow_content/person_name"]
     Input Text    //*[@id="/$flow_main/$flow_content/person_name"]    Ackermann
