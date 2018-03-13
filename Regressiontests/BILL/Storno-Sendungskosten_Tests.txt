@@ -1,0 +1,25 @@
+*** Settings ***
+Resource          ../../UserKeywords/Common_Resources.html
+Resource          ../../UserKeywords/BILL_Resources.html
+
+*** Test Cases ***
+Check GUI Elements Storno-Sendungskosten
+    [Documentation]    Überprüft alle GUI Elemente der Übersichtsseite im BILL - Storno - Sendungskosten
+    ...
+    ...    Ersteller: O. Baeker
+    ...
+    ...    erstaellt am: 13.03.2018
+    [Setup]    Go To Storno Sendungskosten Test
+    Element Should be Visible    //*[@id="/$flow_main/$flow_content/invoices/list_invoices/$col_invoiceNumber"]
+    Element Text Should Be     //*[@id="/$flow_main/$flow_content/invoices/list_invoices/$col_invoiceNumber"]    ${BILL_NO_HEADER_TEXT_DE}
+    Element Should be Visible    //*[@id="/$flow_main/$flow_content/invoices/list_invoices/$col_description"]
+    Element Text Should Be     //*[@id="/$flow_main/$flow_content/invoices/list_invoices/$col_description"]    ${BILL_NAME_HEADER_TEXT_DE}
+    Element Should be Visible    //*[@id="/$flow_main/$flow_content/invoices/list_invoices/$col_status"]
+    Element Text Should Be     //*[@id="/$flow_main/$flow_content/invoices/list_invoices/$col_status"]    ${STATUS_HEADER_TEXT_DE}
+    Element Should be Visible    //*[@id="/$flow_main/$flow_content/invoices/list_invoices/$col_creationDate"]
+    Element Text Should Be     //*[@id="/$flow_main/$flow_content/invoices/list_invoices/$col_creationDate"]    ${CREATION_DATE_HEADER_TEXT_DE}
+    Element Should be Visible    //*[@id="/$flow_main/$flow_content/invoices/list_invoices/$col_items"]
+    Element Text Should Be     //*[@id="/$flow_main/$flow_content/invoices/list_invoices/$col_items"]    ${POSITIONS_HEADER_TEXT_DE}
+    Element Should Be Visible    //button[@id="/$flow_main/$flow_content/abort"]
+    Element Should Not Be Visible    id="/$flow_main/$flow_content/select"
+    Click Button    //button[@id="/$flow_main/$flow_content/abort"]
