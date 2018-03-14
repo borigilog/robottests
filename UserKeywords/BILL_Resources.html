@@ -217,6 +217,51 @@ td.name, th.name {
 <td></td>
 <td></td>
 </tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"><a name="keyword_Go To Rechnungsverwaltung">Go To Rechnungsverwaltung</a></td>
+<td>[Arguments]</td>
+<td>${Mandator}=Hauptmandant</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>[Documentation]</td>
+<td class="colspan3" colspan="3">Navigiere zu BILL -&gt; Rechnungsverwaltung (inkl. Login)\n<br>
+\n<br>
+Ersteller: CD\n<br>
+\n<br>
+\n<br>
+</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Start Test For Module</td>
+<td>Bill</td>
+<td>${Mandator}</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Click Element</td>
+<td>/$flow_main/main_menu/invoice_management</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Wait Until Element Is Visible</td>
+<td>/$flow_main/$flow_content</td>
+<td></td>
+<td></td>
+</tr>
 </table>
 </body>
 </html>
