@@ -9,17 +9,63 @@ Check GUI Elements Storno-Sendungskosten
     ...    Ersteller: O. Baeker
     ...
     ...    erstaellt am: 13.03.2018
-    [Setup]    Go To Storno Sendungskosten Test
+    [Setup]    Prepare For Storno Sendungskosten Test    Hauptmandant
     Element Should be Visible    //*[@id="/$flow_main/$flow_content/invoices/list_invoices/$col_invoiceNumber"]
-    Element Text Should Be     //*[@id="/$flow_main/$flow_content/invoices/list_invoices/$col_invoiceNumber"]    ${BILL_NO_HEADER_TEXT_DE}
+    Element Text Should Be    //*[@id="/$flow_main/$flow_content/invoices/list_invoices/$col_invoiceNumber"]    ${BILL_NO_HEADER_TEXT_DE}
     Element Should be Visible    //*[@id="/$flow_main/$flow_content/invoices/list_invoices/$col_description"]
-    Element Text Should Be     //*[@id="/$flow_main/$flow_content/invoices/list_invoices/$col_description"]    ${BILL_NAME_HEADER_TEXT_DE}
+    Element Text Should Be    //*[@id="/$flow_main/$flow_content/invoices/list_invoices/$col_description"]    ${BILL_NAME_HEADER_TEXT_DE}
     Element Should be Visible    //*[@id="/$flow_main/$flow_content/invoices/list_invoices/$col_status"]
-    Element Text Should Be     //*[@id="/$flow_main/$flow_content/invoices/list_invoices/$col_status"]    ${STATUS_HEADER_TEXT_DE}
+    Element Text Should Be    //*[@id="/$flow_main/$flow_content/invoices/list_invoices/$col_status"]    ${STATUS_HEADER_TEXT_DE}
     Element Should be Visible    //*[@id="/$flow_main/$flow_content/invoices/list_invoices/$col_creationDate"]
-    Element Text Should Be     //*[@id="/$flow_main/$flow_content/invoices/list_invoices/$col_creationDate"]    ${CREATION_DATE_HEADER_TEXT_DE}
+    Element Text Should Be    //*[@id="/$flow_main/$flow_content/invoices/list_invoices/$col_creationDate"]    ${CREATION_DATE_HEADER_TEXT_DE}
     Element Should be Visible    //*[@id="/$flow_main/$flow_content/invoices/list_invoices/$col_items"]
-    Element Text Should Be     //*[@id="/$flow_main/$flow_content/invoices/list_invoices/$col_items"]    ${POSITIONS_HEADER_TEXT_DE}
+    Element Text Should Be    //*[@id="/$flow_main/$flow_content/invoices/list_invoices/$col_items"]    ${POSITIONS_HEADER_TEXT_DE}
     Element Should Be Visible    //button[@id="/$flow_main/$flow_content/abort"]
     Element Should Not Be Visible    id="/$flow_main/$flow_content/select"
     Click Button    //button[@id="/$flow_main/$flow_content/abort"]
+    [Teardown]    Close Browser
+
+Verify Select BILL For Storno And GUI For Storno
+    [Setup]    Prepare For Storno Sendungskosten Test    Hauptmandant
+    ${Line}=    Get Entry From Bill Table    B00000054
+    ${Number}=    Get Text    //*[@id="/$flow_main/$flow_content/invoices/list_invoices/${Line}/$invoiceNumber"]
+    ${Number}=    Convert To String    ${Number}
+    ${Header}=    Catenate    ${STORNO_PAGE_HEADER_DE}    (
+    ${Header}=    Catenate    SEPARATOR=    ${Header}    ${Number}    )
+    Click Element    //*[@id="/$flow_main/$flow_content/invoices/list_invoices/${Line}/$invoiceNumber"]
+    Click Button    //*[@id="/$flow_main/$flow_content/select"]
+    Wait Until Keyword Succeeds    3    1 sec    Page Should Contain    ${Header}
+    Click Button    //button[@id="/$flow_main/$flow_content/back"]
+    Wait Until Keyword Succeeds    3    1 sec    Element Should Be Visible    //div[contains(text(),'${STORNO_SENDUNGSKOSTEN_HEADER_DE}')]
+    Click Button    //*[@id="/$flow_main/$flow_content/select"]
+    Wait Until Keyword Succeeds    3    1 sec    Page Should Contain    ${Header}
+    [Teardown]    Close Browser
+
+Verify GUI Elements On Storno Page
+    [Setup]    Prepare For Storno Sendungskosten Test    Hauptmandant
+    ${Line}=    Get Entry From Bill Table    B00000054
+    ${Number}=    Get Text    //*[@id="/$flow_main/$flow_content/invoices/list_invoices/${Line}/$invoiceNumber"]
+    ${Number}=    Convert To String    ${Number}
+    ${Header}=    Catenate    ${STORNO_PAGE_HEADER_DE}    (
+    ${Header}=    Catenate    SEPARATOR=    ${Header}    ${Number}    )
+    Click Element    //*[@id="/$flow_main/$flow_content/invoices/list_invoices/${Line}/$invoiceNumber"]
+    Element Should Be Visible    //*[@id="/$flow_main/$flow_content/select"]
+    Click Button    //*[@id="/$flow_main/$flow_content/select"]
+    Wait Until Keyword Succeeds    3    1 sec    Page Should Contain    ${Header}
+    Element Text Should Be    //*[@id="/$flow_main/$flow_content/list_invoices_items/$col_delivery_note"]    ${BILL_STORNO_HEADER_DELIVERY_DE}
+    Element Text Should Be    //*[@id="/$flow_main/$flow_content/list_invoices_items/$col_operation"]    ${BILL_STORNO_HEADER_PROCESS_DE}
+    Element Text Should Be    //*[@id="/$flow_main/$flow_content/list_invoices_items/$col_failed"]    ${BILL_STORNO_HEADER_ERROR_DE}
+    Element Text Should Be    //*[@id="/$flow_main/$flow_content/list_invoices_items/$col_receiver_unit"]    ${BILL_STORNO_HEADER_RECEIVER_UNIT_DE}
+    Element Text Should Be    //*[@id="/$flow_main/$flow_content/list_invoices_items/$col_recipient"]    ${BILL_STORNO_HEADER_RECEIVER_DE}
+    Element Should Be Visible    //button[@id="/$flow_main/$flow_content/back"]
+    Element Should Be Visible    //button[@id="/$flow_main/$flow_content/cancel"]
+    ${Status}=    Run Keyword And Return Status    Click Button    //button[@id="/$flow_main/$flow_content/cancel"]
+    Run Keyword Unless    ${Status}    Click Button    //button[@id="/$flow_main/$flow_content/back"]
+    Run Keyword If    ${Status}    Fail    Cancel Button kann auch ohne Selektion einer Zeile bedient werden
+    Element Should Not Be Visible    //*[@id="/$flow_main/$flow_content/billComment"]
+    Click Element    //*[@id="/$flow_main/$flow_content/list_invoices_items/0/$delivery_note"]
+    Element Should Be Visible    //*[@id="/$flow_main/$flow_content/billComment"]
+    ${InfoText}=    Get Text    //*[@id="/$flow_main/$flow_content/billComment"]
+    ${BILL_Storno}=    Capture Page Screenshot
+    Click Button    //button[@id="/$flow_main/$flow_content/back"]
+    [Teardown]    Close Browser

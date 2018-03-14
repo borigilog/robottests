@@ -75,6 +75,13 @@ td.name, th.name {
 <td></td>
 </tr>
 <tr>
+<td class="name">Resource</td>
+<td>Common_Resources.html</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
 <td class="name"></td>
 <td></td>
 <td></td>
@@ -143,6 +150,48 @@ td.name, th.name {
 <td></td>
 </tr>
 <tr>
+<td class="name">${STORNO_PAGE_HEADER_DE}</td>
+<td>Faktura / Einzelbestellungs-Storno</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name">${BILL_STORNO_HEADER_DELIVERY_DE}</td>
+<td>Lieferschein</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name">${BILL_STORNO_HEADER_PROCESS_DE}</td>
+<td>Vorgang</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name">${BILL_STORNO_HEADER_ERROR_DE}</td>
+<td>Fehlgeschlagen</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name">${BILL_STORNO_HEADER_RECEIVER_UNIT_DE}</td>
+<td>Empfänger-Einheit</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name">${BILL_STORNO_HEADER_RECEIVER_DE}</td>
+<td>Empfänger</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
 <td class="name"></td>
 <td></td>
 <td></td>
@@ -155,7 +204,7 @@ td.name, th.name {
 <th class="name" colspan="5">Keywords</th>
 </tr>
 <tr>
-<td class="name"><a name="keyword_Go To Storno Sendungskosten Test">Go To Storno Sendungskosten Test</a></td>
+<td class="name"><a name="keyword_Prepare For Storno Sendungskosten Test">Prepare For Storno Sendungskosten Test</a></td>
 <td>[Arguments]</td>
 <td>${Mandator}=Hauptmandant</td>
 <td></td>
@@ -213,7 +262,142 @@ td.name, th.name {
 <tr>
 <td class="name"></td>
 <td>[Teardown]</td>
-<td>Close Browser</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"><a name="keyword_Get Entry From Bill Table">Get Entry From Bill Table</a></td>
+<td>[Arguments]</td>
+<td>${BillNumber}</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>[Documentation]</td>
+<td class="colspan3" colspan="3">Ermittelt den Tabellen Index für die angegebene Rechnungsnummer\n<br>
+\n<br>
+Ersteller: O. Baeker\n<br>
+\n<br>
+erstellt am: 13.03.2018</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Sleep</td>
+<td>2s</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>${EntriesInTableOnPage}=</td>
+<td>Set Variable</td>
+<td>11</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>${EntriesInTableOnPage}=</td>
+<td>Convert To Integer</td>
+<td>${EntriesInTableOnPage}</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>${EntriesInTableOnPage}=</td>
+<td>Evaluate</td>
+<td>${EntriesInTableOnPage}-1</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>: FOR</td>
+<td>${Index}</td>
+<td>IN RANGE</td>
+<td>0</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>...</td>
+<td>${EntriesInTableOnPage}</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td>Click Element</td>
+<td>//*[@id="/$flow_main/$flow_content/invoices/list_invoices/${Index}/$invoiceNumber"]</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td>${BillNumberTable}=</td>
+<td>Get Text</td>
+<td>//*[@id="/$flow_main/$flow_content/invoices/list_invoices/${Index}/$invoiceNumber"]</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td>${BillNumberTable}=</td>
+<td>Convert To String</td>
+<td>${BillNumberTable}</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td>${Result}</td>
+<td>${msg}=</td>
+<td>Run Keyword And Ignore Error</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td>...</td>
+<td>Should be Equal</td>
+<td>${BillNumberTable}</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td>...</td>
+<td>${BillNumber}</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td>${LineIndex}=</td>
+<td>Set Variable If</td>
+<td>'${Result}'=='PASS'</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td>...</td>
+<td>${Index}</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td>Run Keyword If</td>
+<td>'${BillNumberTable}'=='${BillNumber}'</td>
+<td>Exit For Loop</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>[Return]</td>
+<td>${LineIndex}</td>
 <td></td>
 <td></td>
 </tr>
