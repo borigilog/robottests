@@ -60,12 +60,20 @@ Verify GUI Elements On Storno Page
     Element Should Be Visible    //button[@id="/$flow_main/$flow_content/back"]
     Element Should Be Visible    //button[@id="/$flow_main/$flow_content/cancel"]
     ${Status}=    Run Keyword And Return Status    Click Button    //button[@id="/$flow_main/$flow_content/cancel"]
-    Run Keyword Unless    ${Status}    Click Button    //button[@id="/$flow_main/$flow_content/back"]
+    Run Keyword Unless    ${Status}    Element Should Be Visible    //*[@id="/$flow_main/$flow_content/billComment"]
     Run Keyword If    ${Status}    Fail    Cancel Button kann auch ohne Selektion einer Zeile bedient werden
-    Element Should Not Be Visible    //*[@id="/$flow_main/$flow_content/billComment"]
+    ${InfoText}=    Get Text    //*[@id="/$flow_main/$flow_content/billComment"]
+    ${InfoText}=    Convert To String    ${InfoText}
+    ${Length}=    Get Length    ${InfoText}
+    Run Keyword If    ${Length}>1    Fail    Element zur Information einer Sendung ist sichtbar, sollte es aber nicht sein
     Click Element    //*[@id="/$flow_main/$flow_content/list_invoices_items/0/$delivery_note"]
     Element Should Be Visible    //*[@id="/$flow_main/$flow_content/billComment"]
     ${InfoText}=    Get Text    //*[@id="/$flow_main/$flow_content/billComment"]
+    ${InfoText}=    Convert To String    ${InfoText}
+    ${TextList}=    Split String    ${InfoText}    ${SPACE}
+    ${Wert1}=     Set Variable     Faktura
+    ${Wert1}=     Convert To String    ${Wert1}
+    List Should Contain Value    ${TextList}    ${Wert1}
     ${BILL_Storno}=    Capture Page Screenshot
     Click Button    //button[@id="/$flow_main/$flow_content/back"]
     [Teardown]    Close Browser
