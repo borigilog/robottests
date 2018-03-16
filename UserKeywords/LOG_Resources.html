@@ -1297,7 +1297,7 @@ Wenn die Anzhal größer als 50 ist wird ein Fehler erzeugt</td>
 <tr>
 <td class="name"><a name="keyword_Prepare for Service Point Tests">Prepare for Service Point Tests</a></td>
 <td>[Arguments]</td>
-<td>${Mandator}</td>
+<td>${Mandator}=Hauptmandant</td>
 <td></td>
 <td></td>
 </tr>
@@ -2327,6 +2327,284 @@ erstellt am: 12.03.2018</td>
 <td>[Return]</td>
 <td>${LineNumber}</td>
 <td># Indicates the line with the Kitbau order within the overview table accordiing to the given order number</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"><a name="keyword_Get Line Number Of KIT Article">Get Line Number Of KIT Article</a></td>
+<td>[Arguments]</td>
+<td>${KitArticle}</td>
+<td>${NumberOfKitArticles}</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>[Documentation]</td>
+<td class="colspan3" colspan="3">Keyword returns the Line Number of the given KIT Article within the List of availabel KIT Articles to built from \n<br>
+\n<br>
+Ersteller: O. Baeker\n<br>
+\n<br>
+erstaellt am: 15.03.2018\n<br>
+</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>${MaxIndex}=</td>
+<td>Evaluate</td>
+<td>${NumberOfKitArticles}-1</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>: FOR</td>
+<td>${Index}</td>
+<td>IN RANGE</td>
+<td>0</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>...</td>
+<td>${MaxIndex}</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td>Click Element</td>
+<td>//*[@id="/$flow_main/$flow_content/list_Articles/${Index}/$ArtNr"]</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td>${ArticleNo}=</td>
+<td>Get Text</td>
+<td>//*[@id="/$flow_main/$flow_content/list_Articles/${Index}/$ArtNr"]</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td>${ArticleNo}=</td>
+<td>Convert To String</td>
+<td>${ArticleNo}</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td>${LineNumber}=</td>
+<td>Set Variable</td>
+<td>${Index}</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td>Run Keyword If</td>
+<td>'${ArticleNo}'=='${KitArticle}'</td>
+<td>Exit For LOOP</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>[Return]</td>
+<td>${LineNumber}</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"><a name="keyword_Fill Data For Finishing Kitbau Order">Fill Data For Finishing Kitbau Order</a></td>
+<td>[Arguments]</td>
+<td>${Storehouse}</td>
+<td>${Account}</td>
+<td>${Name}=System Administrator, System Administrator</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>...</td>
+<td>${Street}=Reinhardtstrasse 25</td>
+<td>${ZipCode}=10117</td>
+<td>${City}=Berlin</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>...</td>
+<td>${Country}=Deutschland</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>[Documentation]</td>
+<td class="colspan3" colspan="3">Keyword fills in Data for finishing the Kitbau Order and uses defualt vaule for the delivery address if not given\n<br>
+\n<br>
+Ersteller: \ O. Baeker\n<br>
+\n<br>
+erstellt am: 16.03.2108 </td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Select From List By Label </td>
+<td>//*[@id="/$flow_main/$flow_content/deliveryDestination"]</td>
+<td>${Storehouse}</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Click Button</td>
+<td>//button[@id="/$flow_main/$flow_content/choose_costcenter"]</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Wait Until Keyword Succeeds</td>
+<td>5</td>
+<td>1 sec</td>
+<td>Element Should Be Visible</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>...</td>
+<td>//button[@id="/$flow_main/$flow_content/ok"]</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Click Element</td>
+<td>//*[@id="/$flow_main/$flow_content/tree_costcenter/1_4"]</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Wait Until Keyword Succeeds</td>
+<td>3</td>
+<td>1 sec</td>
+<td>Click Element</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>...</td>
+<td>//*[@id="/$flow_main/$flow_content/tree_costcenter/1_4/$btn"]</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>${KstName}=</td>
+<td>Get Text</td>
+<td>//*[@id="/$flow_main/$flow_content/tree_costcenter/1_4_0/$txt"]</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>${KstName}=</td>
+<td>Convert To String</td>
+<td>${KstName}</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Run Keyword If </td>
+<td>'${KstName}'=='${Account}'</td>
+<td>Click Element</td>
+<td>//*[@id="/$flow_main/$flow_content/tree_costcenter/1_4_1/$txt"]</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Click Button</td>
+<td>//*[@id="/$flow_main/$flow_content/ok"]</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Wait Until Keyword Succeeds</td>
+<td>3</td>
+<td>1 sec</td>
+<td>Element Should Be Visible</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>...</td>
+<td>//Button[@id="/$flow_main/$flow_content/complete"]</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Click Element</td>
+<td>//input[@id="/$flow_main/$flow_content/addressName"]</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Input Text</td>
+<td>//input[@id="/$flow_main/$flow_content/addressName"]</td>
+<td>${Name}</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Click Element</td>
+<td>//input[@id="/$flow_main/$flow_content/AddressStrasse_Number"]</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Input Text</td>
+<td>//input[@id="/$flow_main/$flow_content/AddressStrasse_Number"]</td>
+<td>${Street}</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Click Element</td>
+<td>//Input[@id="/$flow_main/$flow_content/PLZ"]</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Input Text</td>
+<td>//Input[@id="/$flow_main/$flow_content/PLZ"]</td>
+<td>${ZipCode}</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Click Element</td>
+<td>//input[@id="/$flow_main/$flow_content/town"]</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Input Text</td>
+<td>//input[@id="/$flow_main/$flow_content/town"]</td>
+<td>${City}</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Select From List By Label </td>
+<td>//select[@id="/$flow_main/$flow_content/country"]</td>
+<td>${Country}</td>
 <td></td>
 </tr>
 </table>

@@ -64,7 +64,31 @@ Verify Kitbau Abschluss
 Verify Kitbau - new KIT
     [Setup]    Prepare For Service Point Tests    Hauptmandant    # The Mandator does not play any role, it is needed to login to RLX website only
     Go To Kitbau Function
+    Sleep    2s
+    ${NumberOfKitsBefore}=    Get Text    //*[@id="/$flow_main/$flow_content/countProductionOpen"]
+    ${NumberOfKitsBefore}=    Convert To Integer    ${NumberOfKitsBefore}
     Wait Until Keyword Succeeds    3    1 sec    Element Should Be Visible    //button[@id="/$flow_main/$flow_content/newproduction"]
     Wait Until Keyword Succeeds    3    1 sec    Click Button    //button[@id="/$flow_main/$flow_content/newproduction"]
     Wait Until Keyword Succeeds    5    1 sec    Page Should Contain    ${KITBAU_BAU_HEADER_TEXT_DE}
+    :FOR    ${Index}    IN RANGE    0    10
+    \    ${NumberOfKitArticles}=    Get Text    //*[@id="/$flow_main/$flow_content/numberItems"]
+    \    Run Keyword If    '${NumberOfKitArticles}'!='${Space}'    Exit For Loop
+    ${NumberOfKitArticles}=    Convert To Integer    ${NumberOfKitArticles}
+    Run Keyword If    ${NumberOfKitArticles}==0    Fail    Keine Kit Artikel zur Auswahl vorhanden
+    ${LineIndex}=    Get Line Number Of KIT Article    KIT100001    ${NumberOfKitArticles}
+    Click Element    //*[@id="/$flow_main/$flow_content/list_Articles/${LineIndex}/$ArtNr"]
+    Click Button    //button[@id="/$flow_main/$flow_content/edit"]
+    Wait Until Keyword Succeeds    3    1 sec    Element Should Be Visible    //input[@id="/$flow_main/$flow_content/numberArticle"]
+    ${NumerOfKits}=    Get Value    //*[@id="/$flow_main/$flow_content/numberArticle"]
+    ${NumerOfKits}=    Convert To Integer    ${NumerOfKits}
+    ${Number}=    Set Variable    1
+    ${Number}=    Convert To Integer    ${Number}
+    Run Keyword If    ${NumerOfKits}>${Number}    Input Text    //*[@id="/$flow_main/$flow_content/numberArticle"]    ${Number}
+    Wait Until Keyword Succeeds    3    1 sec    Click Button    //button[@id="/$flow_main/$flow_content/continue"]
+    Wait Until Keyword Succeeds    3    1 sec    Element Should Be Visible    //*[@id="/$flow_main/$flow_content/complete"]
+    Fill Data For Finishing Kitbau Order    Bekleidungslager    KST_Fahrdienst
+    Click Button    //button[@id="/$flow_main/$flow_content/complete"]
+    Wait Until Keyword Succeeds    5    1 sec    Element Should Be Visible    //*[@id="/$flow_main/$flow_content/countProductionOpen"]
+    ${NumberOfKitsAfter}=    Get Text    //*[@id="/$flow_main/$flow_content/countProductionOpen"]
+    Run Keyword If    ${NumberOfKitsBefore}==${NumberOfKitsAfter}    Fail    Neu gebautes KIT wird nicht in der Liste der offenen KITs angezeigt bzw. KIT wird nicht gebaut
     [Teardown]    Close Browser
