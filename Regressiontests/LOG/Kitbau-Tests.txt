@@ -93,7 +93,7 @@ Verify Kitbau - new KIT
     Run Keyword If    ${NumberOfKitsBefore}==${NumberOfKitsAfter}    Fail    Neu gebautes KIT wird nicht in der Liste der offenen KITs angezeigt bzw. KIT wird nicht gebaut
     [Teardown]    Close Browser
 
-Verify GUI Element On Pages During Kitbau
+Verify GUI Element On Page 1 During Kitbau
     [Documentation]    This test verifies the GUI elements on all pages related to the kitbau process (excluding the overview page)
     ...
     ...    Ersteller: O.Baeker
@@ -108,6 +108,20 @@ Verify GUI Element On Pages During Kitbau
     Wait Until Keyword Succeeds    3    1 sec    Click Button    //button[@id="/$flow_main/$flow_content/newproduction"]    # change to first subpage for selection of KIT article
     Wait Until Keyword Succeeds    5    1 sec    Page Should Contain    ${KITBAU_BAU_HEADER_TEXT_DE}
     Verify Kitbau Page 1 Elements
+    Click Button    //button[@id="/$flow_main/$flow_content/edit"]
+    Wait Until Keyword Succeeds    3    1 sec    Element Should Be Visible    //input[@id="/$flow_main/$flow_content/numberArticle"]
+    [Teardown]    Close Browser
+
+Verify GUI Element On Page 2 During Kitbau
+    [Setup]    Prepare For Service Point Tests    Hauptmandant    # The Mandator does not play any role, it is needed to login to RLX website only
+    Go To Kitbau Function
+    Sleep    2s
+    Wait Until Keyword Succeeds    3    1 sec    Element Should Be Visible    //button[@id="/$flow_main/$flow_content/newproduction"]
+    Wait Until Keyword Succeeds    3    1 sec    Click Button    //button[@id="/$flow_main/$flow_content/newproduction"]    # change to first subpage for selection of KIT article
+    Wait Until Keyword Succeeds    5    1 sec    Page Should Contain    ${KITBAU_BAU_HEADER_TEXT_DE}
+    Click Element    //Input[@id="/$flow_main/$flow_content/filter"]
+    Input Text    //Input[@id="/$flow_main/$flow_content/filter"]    KIT100001
+    Click Element    //*[@id="/$flow_main/$flow_content/list_Articles/0/$ArtNr"]
     Click Button    //button[@id="/$flow_main/$flow_content/edit"]
     Wait Until Keyword Succeeds    3    1 sec    Element Should Be Visible    //input[@id="/$flow_main/$flow_content/numberArticle"]
     [Teardown]    Close Browser

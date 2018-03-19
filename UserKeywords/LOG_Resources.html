@@ -1357,8 +1357,7 @@ Creator: O.Baeker\n<br>
 \n<br>
 Date: \ 06.03.2108\n<br>
 \n<br>
-Modified: \ O.Baeker \ \ \n<br>
-Date: \ 09.03.2108</td>
+Modified: \ O.Baeker \ \ Date: \ 09.03.2108</td>
 </tr>
 <tr>
 <td class="name"></td>
@@ -2346,12 +2345,11 @@ erstellt am: 12.03.2018</td>
 <tr>
 <td class="name"></td>
 <td>[Documentation]</td>
-<td class="colspan3" colspan="3">Keyword returns the Line Number of the given KIT Article within the List of availabel KIT Articles to built from \n<br>
+<td class="colspan3" colspan="3">Keyword returns the Line Number of the given KIT Article within the List of availabel KIT Articles to built from\n<br>
 \n<br>
 Ersteller: O. Baeker\n<br>
 \n<br>
-erstaellt am: 15.03.2018\n<br>
-</td>
+erstaellt am: 15.03.2018</td>
 </tr>
 <tr>
 <td class="name"></td>
@@ -2619,10 +2617,11 @@ erstellt am: 16.03.2108</td>
 <td>[Documentation]</td>
 <td class="colspan3" colspan="3">Verifies the GUI Page elements for the intro page of the Kitbau process - selection of Kitbau article to be built\n<br>
 \n<br>
+(!) Testet aktuell den Fehler, dass der Button um zur nächsten Siete beim KITBau zu kommen auch genutzt werden kann, \ wenn vorher kein KIT Artikel gewählt worden war.\n<br>
+\n<br>
 Ersteller: O. Baeker\n<br>
 \n<br>
-erstellt am: 19.03.2018\n<br>
-</td>
+erstellt am: 19.03.2018</td>
 </tr>
 <tr>
 <td class="name"></td>
@@ -2682,7 +2681,7 @@ erstellt am: 19.03.2018\n<br>
 </tr>
 <tr>
 <td class="name"></td>
-<td>:FOR</td>
+<td>: FOR</td>
 <td>${Index}</td>
 <td>IN RANGE</td>
 <td>0</td>
@@ -2704,14 +2703,14 @@ erstellt am: 19.03.2018\n<br>
 <tr>
 <td class="name"></td>
 <td></td>
-<td>${Artikel}= </td>
+<td>${Artikel}=</td>
 <td>Get Text</td>
 <td>//*[@id="/$flow_main/$flow_content/list_Articles/${Index}/$ArtNr"]</td>
 </tr>
 <tr>
 <td class="name"></td>
 <td></td>
-<td>${Artikel}= </td>
+<td>${Artikel}=</td>
 <td>Convert To String</td>
 <td>${Artikel}</td>
 </tr>
@@ -2726,7 +2725,7 @@ erstellt am: 19.03.2018\n<br>
 <td class="name"></td>
 <td></td>
 <td>...</td>
-<td>Keine Artikelnummer für Kit Artikel vorhanden obwohl erwartet </td>
+<td>Keine Artikelnummer für Kit Artikel vorhanden obwohl erwartet</td>
 <td></td>
 </tr>
 <tr>
@@ -2770,6 +2769,62 @@ erstellt am: 19.03.2018\n<br>
 <td>//button[@id="/$flow_main/$flow_content/edit"]</td>
 <td></td>
 <td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Click Element</td>
+<td>//Input[@id="/$flow_main/$flow_content/filter"]</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Input Text</td>
+<td>//Input[@id="/$flow_main/$flow_content/filter"]</td>
+<td>KIT100001</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>${NmberOfArticles}=</td>
+<td>Get Text</td>
+<td>//*[@id="/$flow_main/$flow_content/numberItems"]</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>${NmberOfArticles}=</td>
+<td>Convert To Integer</td>
+<td>${NmberOfArticles}</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Run Keyword If</td>
+<td>${NmberOfArticles}!=1</td>
+<td>Fail</td>
+<td>Filter wurde nicht in entsprechender Weise angewendet</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>${Artikel}=</td>
+<td>Get Text</td>
+<td>//*[@id="/$flow_main/$flow_content/list_Articles/0/$ArtNr"]</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>${Artikel}=</td>
+<td>Convert To String</td>
+<td>${Artikel}</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Run Keyword If</td>
+<td>'${Artikel}'!='KIT100001'</td>
+<td>Fail</td>
+<td>Gefilterter Artikel entspricht nicht dem Fikter-Wert aus der Eingabe im Filter Eingabefeld</td>
 </tr>
 <tr>
 <td class="name"></td>
