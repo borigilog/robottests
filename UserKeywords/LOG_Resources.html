@@ -2451,11 +2451,11 @@ erstaellt am: 15.03.2018\n<br>
 \n<br>
 Ersteller: \ O. Baeker\n<br>
 \n<br>
-erstellt am: 16.03.2108 </td>
+erstellt am: 16.03.2108</td>
 </tr>
 <tr>
 <td class="name"></td>
-<td>Select From List By Label </td>
+<td>Select From List By Label</td>
 <td>//*[@id="/$flow_main/$flow_content/deliveryDestination"]</td>
 <td>${Storehouse}</td>
 <td></td>
@@ -2518,7 +2518,7 @@ erstellt am: 16.03.2108 </td>
 </tr>
 <tr>
 <td class="name"></td>
-<td>Run Keyword If </td>
+<td>Run Keyword If</td>
 <td>'${KstName}'=='${Account}'</td>
 <td>Click Element</td>
 <td>//*[@id="/$flow_main/$flow_content/tree_costcenter/1_4_1/$txt"]</td>
@@ -2602,9 +2602,222 @@ erstellt am: 16.03.2108 </td>
 </tr>
 <tr>
 <td class="name"></td>
-<td>Select From List By Label </td>
+<td>Select From List By Label</td>
 <td>//select[@id="/$flow_main/$flow_content/country"]</td>
 <td>${Country}</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"><a name="keyword_Verify Kitbau Page 1 Elements">Verify Kitbau Page 1 Elements</a></td>
+<td>[Documentation]</td>
+<td class="colspan3" colspan="3">Verifies the GUI Page elements for the intro page of the Kitbau process - selection of Kitbau article to be built\n<br>
+\n<br>
+Ersteller: O. Baeker\n<br>
+\n<br>
+erstellt am: 19.03.2018\n<br>
+</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Element Should Be Visible</td>
+<td>//Input[@id="/$flow_main/$flow_content/filter"]</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Element Should Be Visible</td>
+<td>//*[@id="/$flow_main/$flow_content/numberItems"]</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>${NmberOfArticles}=</td>
+<td>Get Text</td>
+<td>//*[@id="/$flow_main/$flow_content/numberItems"]</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>${NmberOfArticles}=</td>
+<td>Convert To Integer</td>
+<td>${NmberOfArticles}</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>${NumerbOfRows}=</td>
+<td>Evaluate</td>
+<td>${NmberOfArticles}-1</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Element Should Be Visible</td>
+<td>//*[@id="/$flow_main/$flow_content/list_Articles/$col_ArtNr"]</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Element Should Be Visible</td>
+<td>//*[@id="/$flow_main/$flow_content/list_Articles/$col_ArtName"]</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Element Should Be Visible</td>
+<td>//*[@id="/$flow_main/$flow_content/list_Articles/$col_ArtDesc"]</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>:FOR</td>
+<td>${Index}</td>
+<td>IN RANGE</td>
+<td>0</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>...</td>
+<td>${NumerbOfRows}</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td>Click Element</td>
+<td>//*[@id="/$flow_main/$flow_content/list_Articles/${Index}/$ArtNr"]</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td>${Artikel}= </td>
+<td>Get Text</td>
+<td>//*[@id="/$flow_main/$flow_content/list_Articles/${Index}/$ArtNr"]</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td>${Artikel}= </td>
+<td>Convert To String</td>
+<td>${Artikel}</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td>Run Keyword If</td>
+<td>'${Artikel}'=='${Empty}'</td>
+<td>Fail</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td>...</td>
+<td>Keine Artikelnummer für Kit Artikel vorhanden obwohl erwartet </td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td>${ArtikelName}=</td>
+<td>Get Text</td>
+<td>//*[@id="/$flow_main/$flow_content/list_Articles/0/$ArtName"]</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td>${ArtikelName}=</td>
+<td>Convert To String</td>
+<td>${ArtikelName}</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td>Run Keyword If</td>
+<td>'${ArtikelName}'=='${Empty}'</td>
+<td>Fail</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td>...</td>
+<td>Kein Artikelname für Kit Artikel in List obwohl erwartet</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Element Should Be Visible</td>
+<td>//button[@id="/$flow_main/$flow_content/back"]</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Element Should Be Visible</td>
+<td>//button[@id="/$flow_main/$flow_content/edit"]</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Click Button</td>
+<td>//button[@id="/$flow_main/$flow_content/edit"]</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>${Status}</td>
+<td>${msg}=</td>
+<td>Run Keyword And Ignore Error</td>
+<td>Wait Until Element Is Visible</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>...</td>
+<td>//button[@id="/$flow_main/$flow_content/kitdetail"]</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>${KB1Screen}=</td>
+<td>Capture Page Screenshot</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>sleep</td>
+<td>2s</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Run Keyword If</td>
+<td>'${Status}'=='PASS'</td>
+<td>Fail</td>
+<td>Button dürfte nicht aktiv sein, lässt sich aber anklicken und führt zur nächsten Seite</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Click Element</td>
+<td>//*[@id="/$flow_main/$flow_content/list_Articles/${NumberOfRows}/$ArtNr"]</td>
+<td></td>
 <td></td>
 </tr>
 </table>

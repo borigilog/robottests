@@ -70,7 +70,7 @@ Verify Kitbau - new KIT
     Wait Until Keyword Succeeds    3    1 sec    Element Should Be Visible    //button[@id="/$flow_main/$flow_content/newproduction"]
     Wait Until Keyword Succeeds    3    1 sec    Click Button    //button[@id="/$flow_main/$flow_content/newproduction"]
     Wait Until Keyword Succeeds    5    1 sec    Page Should Contain    ${KITBAU_BAU_HEADER_TEXT_DE}
-    :FOR    ${Index}    IN RANGE    0    10
+    : FOR    ${Index}    IN RANGE    0    10
     \    ${NumberOfKitArticles}=    Get Text    //*[@id="/$flow_main/$flow_content/numberItems"]
     \    Run Keyword If    '${NumberOfKitArticles}'!='${Space}'    Exit For Loop
     ${NumberOfKitArticles}=    Convert To Integer    ${NumberOfKitArticles}
@@ -91,4 +91,23 @@ Verify Kitbau - new KIT
     Wait Until Keyword Succeeds    5    1 sec    Element Should Be Visible    //*[@id="/$flow_main/$flow_content/countProductionOpen"]
     ${NumberOfKitsAfter}=    Get Text    //*[@id="/$flow_main/$flow_content/countProductionOpen"]
     Run Keyword If    ${NumberOfKitsBefore}==${NumberOfKitsAfter}    Fail    Neu gebautes KIT wird nicht in der Liste der offenen KITs angezeigt bzw. KIT wird nicht gebaut
+    [Teardown]    Close Browser
+
+Verify GUI Element On Pages During Kitbau
+    [Documentation]    This test verifies the GUI elements on all pages related to the kitbau process (excluding the overview page)
+    ...
+    ...    Ersteller: O.Baeker
+    ...
+    ...    erstellt am: 16.03.2018
+    [Setup]    Prepare For Service Point Tests    Hauptmandant    # The Mandator does not play any role, it is needed to login to RLX website only
+    Go To Kitbau Function
+    Sleep    2s
+    ${NumberOfKitsBefore}=    Get Text    //*[@id="/$flow_main/$flow_content/countProductionOpen"]
+    ${NumberOfKitsBefore}=    Convert To Integer    ${NumberOfKitsBefore}
+    Wait Until Keyword Succeeds    3    1 sec    Element Should Be Visible    //button[@id="/$flow_main/$flow_content/newproduction"]
+    Wait Until Keyword Succeeds    3    1 sec    Click Button    //button[@id="/$flow_main/$flow_content/newproduction"]    # change to first subpage for selection of KIT article
+    Wait Until Keyword Succeeds    5    1 sec    Page Should Contain    ${KITBAU_BAU_HEADER_TEXT_DE}
+    Verify Kitbau Page 1 Elements
+    Click Button    //button[@id="/$flow_main/$flow_content/edit"]
+    Wait Until Keyword Succeeds    3    1 sec    Element Should Be Visible    //input[@id="/$flow_main/$flow_content/numberArticle"]
     [Teardown]    Close Browser
