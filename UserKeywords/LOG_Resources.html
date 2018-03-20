@@ -122,6 +122,34 @@ td.name, th.name {
 <td></td>
 </tr>
 <tr>
+<td class="name">${KB_T-HEADER-2_GROUP_DE}</td>
+<td>Gruppe</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name">${KB_T-HEADER-2_A-NR_DE}</td>
+<td>Artikelnr</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name">${KB_T-HEADER-2_A-NAME_DE}</td>
+<td>Artikelname</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name">${KB_T-HEADER-2_ALTERNATIVE_DE}</td>
+<td>Alternativen *</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
 <td class="name"></td>
 <td></td>
 <td></td>
@@ -2872,6 +2900,251 @@ erstellt am: 19.03.2018</td>
 <td class="name"></td>
 <td>Click Element</td>
 <td>//*[@id="/$flow_main/$flow_content/list_Articles/${NumberOfRows}/$ArtNr"]</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"><a name="keyword_Verify Kitbau Page 2 Elements">Verify Kitbau Page 2 Elements</a></td>
+<td>${NumberOfArtiklesToBuilt}=</td>
+<td>Get Value</td>
+<td>//input[@id="/$flow_main/$flow_content/numberArticle"]</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>${NumberOfArtiklesToBuilt}=</td>
+<td>Convert To Integer</td>
+<td>${NumberOfArtiklesToBuilt}</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Run Keyword If</td>
+<td>${NumberOfArtiklesToBuilt}!=1</td>
+<td>Fail</td>
+<td>Default Wert für die Anzahl der zu bauenden KIT ist ungleich 1</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Wait Until Keyword Succeeds</td>
+<td>3</td>
+<td>1 sec</td>
+<td>Click Element</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>...</td>
+<td>//input[@id="/$flow_main/$flow_content/numberArticle"]</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Input Text</td>
+<td>//input[@id="/$flow_main/$flow_content/numberArticle"]</td>
+<td>2</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>${NumberOfArtiklesToBuilt}=</td>
+<td>Get Value</td>
+<td>//input[@id="/$flow_main/$flow_content/numberArticle"]</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>${NumberOfArtiklesToBuilt}=</td>
+<td>Convert To Integer</td>
+<td>${NumberOfArtiklesToBuilt}</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Run Keyword If</td>
+<td>${NumberOfArtiklesToBuilt}!=2</td>
+<td>Fail</td>
+<td>Anzahl der zu bauenden KITs wurde nicht wie erwartet auf den Wert 2 geändert</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Element Should Be Visible</td>
+<td>//*[@id="/$flow_main/$flow_content/list_Articles/$col_GroupName"]</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Element Text Should Be</td>
+<td>//*[@id="/$flow_main/$flow_content/list_Articles/$col_GroupName"]</td>
+<td>${KB_T-HEADER-2_GROUP_DE}</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Element Should Be Visible</td>
+<td>//*[@id="/$flow_main/$flow_content/list_Articles/$col_ArtNr"]</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Element Text Should Be</td>
+<td>//*[@id="/$flow_main/$flow_content/list_Articles/$col_ArtNr"]</td>
+<td>${KB_T-HEADER-2_A-NR_DE}</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Element Should Be Visible</td>
+<td>//*[@id="/$flow_main/$flow_content/list_Articles/$col_ArtName"]</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Element Text Should Be</td>
+<td>//*[@id="/$flow_main/$flow_content/list_Articles/$col_ArtName"]</td>
+<td>${KB_T-HEADER-2_A-NAME_DE}</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Element Should Be Visible</td>
+<td>//*[@id="/$flow_main/$flow_content/list_Articles/$col_3"]</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Element Text Should Be</td>
+<td>//*[@id="/$flow_main/$flow_content/list_Articles/$col_3"]</td>
+<td>${KB_T-HEADER-2_ALTERNATIVE_DE}</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>${KitArtikel}=</td>
+<td>Set Variable</td>
+<td>0</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>${KitArtikel}=</td>
+<td>Convert To Integer </td>
+<td>${KitArtikel}</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>:FOR</td>
+<td>${Index}</td>
+<td>IN RANGE</td>
+<td>0</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>...</td>
+<td>50</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td>${Result}</td>
+<td>${msg}=</td>
+<td>Run Keyword And Ignore Error</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td>...</td>
+<td>Element Should Be Visible</td>
+<td>//*[@id="/$flow_main/$flow_content/list_Articles/${Index}/$ArtNr"]</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td>Run Keyword If</td>
+<td>'${Result}'!='PASS'</td>
+<td>Exit FOR LOOP</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td>${Article}=</td>
+<td>Get Text</td>
+<td>//*[@id="/$flow_main/$flow_content/list_Articles/${Index}/$ArtNr"]</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td>${KitArtikel}=</td>
+<td>Evaluate</td>
+<td>${KitArtikel}+1</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td>Run Keyword If</td>
+<td>'${Article}'=='${Empty}'</td>
+<td>Exit FOR LOOP</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td>${Resultat}</td>
+<td>${msg}=</td>
+<td>Run Keyword And Ignore Error</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td>...</td>
+<td>Element Should Be Visible</td>
+<td>//*[@id="/$flow_main/$flow_content/list_Articles/${Index}/alternative"]</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td>${AlternativArtikelIndex}=</td>
+<td>Set Variable If</td>
+<td>'${Resultat}'=='PASS'</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td>...</td>
+<td>${Index}</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Element Should Be Visible</td>
+<td>//button[@id="/$flow_main/$flow_content/kitdetail"]</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Element Should Be Visible</td>
+<td>//button[@id="/$flow_main/$flow_content/continue"]</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Element Should Be Visible</td>
+<td>//button[@id="/$flow_main/$flow_content/back"]</td>
 <td></td>
 <td></td>
 </tr>

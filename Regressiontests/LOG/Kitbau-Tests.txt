@@ -119,9 +119,16 @@ Verify GUI Element On Page 2 During Kitbau
     Wait Until Keyword Succeeds    3    1 sec    Element Should Be Visible    //button[@id="/$flow_main/$flow_content/newproduction"]
     Wait Until Keyword Succeeds    3    1 sec    Click Button    //button[@id="/$flow_main/$flow_content/newproduction"]    # change to first subpage for selection of KIT article
     Wait Until Keyword Succeeds    5    1 sec    Page Should Contain    ${KITBAU_BAU_HEADER_TEXT_DE}
-    Click Element    //Input[@id="/$flow_main/$flow_content/filter"]
+    Wait Until Keyword Succeeds    3    1 sec    Click Element    //Input[@id="/$flow_main/$flow_content/filter"]
     Input Text    //Input[@id="/$flow_main/$flow_content/filter"]    KIT100001
     Click Element    //*[@id="/$flow_main/$flow_content/list_Articles/0/$ArtNr"]
     Click Button    //button[@id="/$flow_main/$flow_content/edit"]
     Wait Until Keyword Succeeds    3    1 sec    Element Should Be Visible    //input[@id="/$flow_main/$flow_content/numberArticle"]
+    Verify Kitbau Page 2 Elements
+    Click Button    //button[@id="/$flow_main/$flow_content/back"]
+    Wait Until Keyword Succeeds    3    1 sec    Click Button    //button[@id="/$flow_main/$flow_content/back"]
+    Wait Until Keyword Succeeds    3    1 sec    Click Element    //*[@id="/$flow_main/$flow_content/back"]
+    Wait Until Element Is Visible    //*[@id="/$flow_main/$popover0"]
+    Click Button    //button[@id="/$flow_main/$popover0/btn0"]
+    Element Should Not Be Visible    //button[@id="/$flow_main/$flow_content/newproduction"]
     [Teardown]    Close Browser
