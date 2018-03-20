@@ -1,0 +1,36 @@
+*** Variables ***
+# ~~~~~~~~~ checkboxes
+${chkShowOnlyOpenBills}    /$flow_main/$flow_content/ShowOnlyOpenBills
+${chkShowProcessedBills}    /$flow_main/$flow_content/ShowProcessedBills
+${chkShowProformaBills}    /$flow_main/$flow_content/ShowProformaBills
+# ~~~~~~~ buttons
+${btnCreateBill}    /$flow_main/$flow_content/createBill
+${btnAbort}       /$flow_main/$flow_content/abort
+${btnRecalculate}    /$flow_main/$flow_content/recalculate
+${btnEditBill}    /$flow_main/$flow_content/editBill
+${btnDeleteBill}    /$flow_main/$flow_content/deleteBill
+${btnReopenBill}    /$flow_main/$flow_content/reopenBill
+${btnCloseBill}    /$flow_main/$flow_content/closeBill
+${btnProcessBill}    /$flow_main/$flow_content/isprocessedBill
+${btnViewBill}    /$flow_main/$flow_content/viewBill
+# ~~~~~~~ invoices
+${invOpen}        /$flow_main/$flow_content/invoice_list/46
+${invClosed}      /$flow_main/$flow_content/invoice_list/94
+${invProcessed}    /$flow_main/$flow_content/invoice_list/0
+${invProcessedClosed}    /$flow_main/$flow_content/invoice_list/1
+
+*** Keywords ***
+Select Invoice
+    [Arguments]    ${id}
+    Wait Until Element Is Visible    ${id}/$invoiceNumber
+    Set Focus To Element    ${id}/$invoiceNumber
+    Click Element    ${id}/$invoiceNumber
+
+Status of Invoice Should Be
+    [Arguments]    ${id}    ${status}
+    Element Text Should Be    ${id}/$status    ${status}
+
+Invoice Should Be Selected
+    [Arguments]    ${id}
+    ${cls} =    Get Element Attribute    ${id}    class
+    Should Be Equal    ${cls}    sel

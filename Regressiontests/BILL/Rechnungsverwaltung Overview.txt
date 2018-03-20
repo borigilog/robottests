@@ -1,0 +1,114 @@
+*** Settings ***
+Documentation     Menüpunktes BILL -> Rechnungsverwaltung: Rechnungsübersicht
+Suite Setup       Go To Rechnungsverwaltung
+Suite Teardown    Close Browser
+Resource          ../../UserKeywords/Common_Resources.html
+Resource          ../../UserKeywords/BILL_Resources.html
+Resource          PageObjects/Rechnungsverwaltung_Overview.txt
+Library           RechnungsverwaltungOverview.py
+
+*** Test Cases ***
+No Invoice Selected
+    [Documentation]    BILL -> Rechnungsverwaltung: Status der Buttons, wenn kein Element selektiert ist
+    Element Should Be Enabled    ${chkShowOnlyOpenBills}
+    Element Should Be Enabled    ${chkShowProcessedBills}
+    Element Should Be Enabled    ${chkShowProformaBills}
+    Element Should Be Enabled    ${btnCreateBill}
+    Element Should Be Enabled    ${btnAbort}
+    Element Should Be Disabled    ${btnRecalculate}
+    Element Should Be Disabled    ${btnEditBill}
+    Element Should Be Disabled    ${btnDeleteBill}
+    Element Should Be Disabled    ${btnReopenBill}
+    Element Should Be Disabled    ${btnCloseBill}
+    Element Should Be Disabled    ${btnProcessBill}
+    Element Should Be Disabled    ${btnViewBill}
+
+Open Invoice Selected
+    [Documentation]    BILL -> Rechnungsverwaltung: Status der Buttons, wenn Rechnung selektiert ist im Status "In Bearbeitung"
+    Select Invoice    ${invOpen}
+    Status of Invoice Should Be    ${invOpen}    In Bearbeitung
+    Element Should Be Enabled    ${chkShowOnlyOpenBills}
+    Element Should Be Enabled    ${chkShowProcessedBills}
+    Element Should Be Enabled    ${chkShowProformaBills}
+    Element Should Be Enabled    ${btnCreateBill}
+    Element Should Be Enabled    ${btnAbort}
+    Element Should Be Enabled    ${btnRecalculate}
+    Element Should Be Enabled    ${btnEditBill}
+    Element Should Be Enabled    ${btnDeleteBill}
+    Element Should Be Disabled    ${btnReopenBill}
+    Element Should Be Enabled    ${btnCloseBill}
+    Element Should Be Enabled    ${btnProcessBill}
+    Element Should Be Enabled    ${btnViewBill}
+
+Processed Invoice Selected
+    [Documentation]    BILL -> Rechnungsverwaltung: Status der Buttons, wenn Rechnung selektiert ist im Status "Verarbeitet"
+    Select Invoice    ${invProcessed}
+    Status of Invoice Should Be    ${invProcessed}    Verarbeitet
+    Element Should Be Enabled    ${chkShowOnlyOpenBills}
+    Element Should Be Enabled    ${chkShowProcessedBills}
+    Element Should Be Enabled    ${chkShowProformaBills}
+    Element Should Be Enabled    ${btnCreateBill}
+    Element Should Be Enabled    ${btnAbort}
+    Element Should Be Disabled    ${btnRecalculate}
+    Element Should Be Enabled    ${btnEditBill}
+    Element Should Be Enabled    ${btnDeleteBill}
+    Element Should Be Disabled    ${btnReopenBill}
+    Element Should Be Disabled    ${btnCloseBill}
+    Element Should Be Disabled    ${btnProcessBill}
+    Element Should Be Enabled    ${btnViewBill}
+
+Processed Closed Invoice Selected
+    [Documentation]    BILL -> Rechnungsverwaltung: Status der Buttons, wenn Rechnung selektiert ist im Status "Verarbeitet"
+    Select Invoice    ${invProcessedClosed}
+    Status of Invoice Should Be    ${invProcessedClosed}    Verarbeitet & veröffentlicht
+    Element Should Be Enabled    ${chkShowOnlyOpenBills}
+    Element Should Be Enabled    ${chkShowProcessedBills}
+    Element Should Be Enabled    ${chkShowProformaBills}
+    Element Should Be Enabled    ${btnCreateBill}
+    Element Should Be Enabled    ${btnAbort}
+    Element Should Be Disabled    ${btnRecalculate}
+    Element Should Be Enabled    ${btnEditBill}
+    Element Should Be Enabled    ${btnDeleteBill}
+    Element Should Be Disabled    ${btnReopenBill}
+    Element Should Be Disabled    ${btnCloseBill}
+    Element Should Be Disabled    ${btnProcessBill}
+    Element Should Be Enabled    ${btnViewBill}
+
+Closed Invoice Selected
+    [Documentation]    BILL -> Rechnungsverwaltung: Status der Buttons, wenn Rechnung selektiert ist im Status "Veröffentlicht"
+    Select Invoice    ${invClosed}
+    Status of Invoice Should Be    ${invClosed}    Veröffentlicht
+    Element Should Be Enabled    ${chkShowOnlyOpenBills}
+    Element Should Be Enabled    ${chkShowProcessedBills}
+    Element Should Be Enabled    ${chkShowProformaBills}
+    Element Should Be Enabled    ${btnCreateBill}
+    Element Should Be Enabled    ${btnAbort}
+    Element Should Be Disabled    ${btnRecalculate}
+    Element Should Be Enabled    ${btnEditBill}
+    Element Should Be Enabled    ${btnDeleteBill}
+    Element Should Be Enabled    ${btnReopenBill}
+    Element Should Be Disabled    ${btnCloseBill}
+    Element Should Be Enabled    ${btnProcessBill}
+    Element Should Be Enabled    ${btnViewBill}
+
+Multiple Invoices selected
+    [Documentation]    BILL -> Rechnungsverwaltung: Status der Buttons, wenn mehrere Elemente selektiert sind
+    ${ids}    Create List    ${invProcessed}    ${invProcessedClosed}
+    Select Multiple Invoices    ${ids}
+    Run Keyword And Continue On Failure    Invoice Should Be Selected    ${invProcessed}
+    Run Keyword And Continue On Failure    Invoice Should Be Selected    ${invProcessedClosed}
+    Select Invoices Between    ${invProcessed}    ${invProcessedClosed}
+    Invoice Should Be Selected    ${invProcessed}
+    Invoice Should Be Selected    ${invProcessedClosed}
+    Element Should Be Enabled    ${chkShowOnlyOpenBills}
+    Element Should Be Enabled    ${chkShowProcessedBills}
+    Element Should Be Enabled    ${chkShowProformaBills}
+    Element Should Be Enabled    ${btnCreateBill}
+    Element Should Be Enabled    ${btnAbort}
+    Element Should Be Disabled    ${btnRecalculate}
+    Element Should Be Disabled    ${btnEditBill}
+    Element Should Be Disabled    ${btnDeleteBill}
+    Element Should Be Disabled    ${btnReopenBill}
+    Element Should Be Disabled    ${btnCloseBill}
+    Element Should Be Disabled    ${btnProcessBill}
+    Element Should Be Disabled    ${btnViewBill}
