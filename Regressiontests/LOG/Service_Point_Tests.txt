@@ -11,3 +11,7 @@ Check Report erstellen GUI Elements
     Click Element    //*[@id="/$flow_main/$flow_content/generate_report"]
     Wait Until Keyword Succeeds    3 sec    1 sec    Page Should Contain    Artikel Service Point - Report
     [Teardown]    Close Browser
+
+Create And Check New Kit Article
+    [Setup]    Prepare For Service Point Tests
+    [Teardown]    Close Browser
