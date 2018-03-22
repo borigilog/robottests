@@ -800,24 +800,10 @@ check page area is visible, the content has allways the same element id therefor
 </tr>
 <tr>
 <td class="name"></td>
-<td>${visible as bool}</td>
-<td>Is Truthy</td>
+<td>Check ElementId with class is visible</td>
+<td>${element id}</td>
+<td>${class}</td>
 <td>${visible}</td>
-<td></td>
-</tr>
-<tr>
-<td class="name"></td>
-<td>Run Keyword If</td>
-<td>'${visible as bool}' == '${FALSE}'</td>
-<td>Page Should Not Contain Element</td>
-<td>//*[@id="${element id}"][contains(@class, '${class}')]</td>
-</tr>
-<tr>
-<td class="name"></td>
-<td>Run Keyword If</td>
-<td>'${visible as bool}' == '${TRUE}'</td>
-<td>Page Should Contain Element</td>
-<td>//*[@id="${element id}"][contains(@class, '${class}')]</td>
 </tr>
 <tr>
 <td class="name"></td>
@@ -1018,22 +1004,56 @@ list elemnet is selected</td>
 </tr>
 <tr>
 <td class="name"></td>
-<td>${selected as bool}</td>
-<td>Is Truthy</td>
+<td>Check ElementId with class is visible</td>
+<td>${element id}</td>
+<td>${class}</td>
 <td>${selected}</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"><a name="keyword_Check ElementId with class is visible">Check ElementId with class is visible</a></td>
+<td>[Arguments]</td>
+<td>${element id}</td>
+<td>${class}</td>
+<td>${visible}=${TRUE}</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>[Documentation]</td>
+<td class="colspan3" colspan="3">MM 22.03.2018\n<br>
+check elemnetid with class ist visible</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>[Tags]</td>
+<td>General, Helper</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>${visible as bool}</td>
+<td>Is Truthy</td>
+<td>${visible}</td>
 <td></td>
 </tr>
 <tr>
 <td class="name"></td>
 <td>Run Keyword If</td>
-<td>'${selected as bool}' == '${FALSE}'</td>
+<td>'${visible as bool}' == '${FALSE}'</td>
 <td>Page Should Not Contain Element</td>
 <td>//*[@id="${element id}"][contains(@class, '${class}')]</td>
 </tr>
 <tr>
 <td class="name"></td>
 <td>Run Keyword If</td>
-<td>'${selected as bool}' == '${TRUE}'</td>
+<td>'${visible as bool}' == '${TRUE}'</td>
 <td>Page Should Contain Element</td>
 <td>//*[@id="${element id}"][contains(@class, '${class}')]</td>
 </tr>

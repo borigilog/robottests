@@ -29,7 +29,9 @@ Check GUI Elements Rechnungsausgabe
     Check ElementId    ${btnThirdParty}    Rechnung an Dritte    false
     Check ElementId    ${btnProForma}    Proformarechnung    false
     Check ElementId    ${btnAbort}    Zurück zum Hauptmenü    true
-    #Click Element    /$flow_main/$flow_content/issue_list/0
+    Click Element    /$flow_main/$flow_content/issue_list/0
+    Check List ElementId is selected    /$flow_main/$flow_content/issue_list/0    sel
+    Check List ElementId is selected    /$flow_main/$flow_content/issue_list/1    sel    false
     Click Button    ${btnAbort}
     Check PageArea is visible    /$flow_main/$flow_content    screen look_rlx_screen_bill_generally_invoiceissue    false
     Check Homescreen is selected
