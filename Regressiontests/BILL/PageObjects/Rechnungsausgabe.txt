@@ -1,0 +1,20 @@
+*** Variables ***
+# ~~~~~~~~~ checkboxes
+${chkShowOnlyOpenBills}    /$flow_main/$flow_content/ShowOnlyOpenBills
+${chkShowProcessedBills}    /$flow_main/$flow_content/ShowProcessedBills
+${chkShowProformaBills}    /$flow_main/$flow_content/ShowProformaBills
+${chkPrintLogo}    /$flow_main/$flow_content/Print_Logo
+${chkAddCopy}     /$flow_main/$flow_content/cbx_AddCopy
+# ~~~~~~~~~ textfield
+${txtEmail}       /$flow_main/$flow_content/email
+# ~~~~~~~ buttons
+${btnCreateBill}    /$flow_main/$flow_content/createBill
+${btnAbort}       /$flow_main/$flow_content/abort
+${btnThirdParty}    /$flow_main/$flow_content/thirdParty
+${btnProForma}    /$flow_main/$flow_content/proForma
+# ~~~~~~~ invoices col
+${colInvoiceNumber}    /$flow_main/$flow_content/issue_list/$col_invoiceNumber
+${colDescription}    /$flow_main/$flow_content/issue_list/$col_description
+${colStatus}      /$flow_main/$flow_content/issue_list/$col_status
+${colCreationDate}    /$flow_main/$flow_content/issue_list/$col_creationDate
+${colItems}       /$flow_main/$flow_content/issue_list/$col_items

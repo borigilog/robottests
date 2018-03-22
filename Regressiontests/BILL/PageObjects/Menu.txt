@@ -1,0 +1,21 @@
+*** Variables ***
+# ~~~~~~~~~ Menu
+${invoice_management}    /$flow_main/main_menu/invoice_management
+${manual_booking}    /$flow_main/main_menu/manual_booking
+${invoice_issue}    /$flow_main/main_menu/invoice_issue
+${search}         /$flow_main/main_menu/search
+${evaluation}     /$flow_main/main_menu/evaluation
+${billing_deliveries}    /$flow_main/main_menu/billing_deliveries
+${billing_returns}    /$flow_main/main_menu/billing_returns
+${billing_second_hand}    /$flow_main/main_menu/billing_second_hand
+${billing_shipment_costs}    /$flow_main/main_menu/billing_shipment_costs
+${deliveries}     /$flow_main/main_menu/deliveries
+${returns}        /$flow_main/main_menu/returns
+${second_hand}    /$flow_main/main_menu/second_hand
+${shipment_costs}    /$flow_main/main_menu/shipment_costs
+${offsetting_charging}    /$flow_main/main_menu/offsetting_charging
+${mandatorname}    /$flow_main/menu_bottom/mandatorname
+${switchmandator}    /$flow_main/menu_bottom/switchmandator
+${help}           /$flow_main/menu_bottom/help
+${exit}           /$flow_main/menu_bottom/exit
+${languages}      /$flow_main/menu_bottom/languages

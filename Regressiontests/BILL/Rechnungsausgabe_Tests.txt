@@ -1,6 +1,7 @@
 *** Settings ***
 Resource          ../../UserKeywords/Common_Resources.html
 Resource          ../../UserKeywords/BILL_Resources.html
+Resource          PageObjects/Rechnungsausgabe.txt
 
 *** Test Cases ***
 Check GUI Elements Rechnungsausgabe
@@ -8,36 +9,27 @@ Check GUI Elements Rechnungsausgabe
     [Tags]    Bill    Rechnungsausgabe
     [Setup]    Prepare For Bill Test    Hauptmandant
     Select Menu Rechnungsausgabe
-    #variable - set locations
-    ${issue_list_location}    Set Variable    /$flow_main/$flow_content/issue_list
-    ${flow_content_location}    Set Variable    /$flow_main/$flow_content
     #title
     Check ContainsText    Rechnungs- / Belegausgabe
     #grid
-    Check ElementId    ${issue_list_location}/$col_invoiceNumber    ${BILL_NO_HEADER_TEXT_DE}    true
-    Check ElementId    ${issue_list_location}/$col_description    ${BILL_NAME_HEADER_TEXT_DE}    true
-    Check ElementId    ${issue_list_location}/$col_status    ${STATUS_HEADER_TEXT_DE}    true
-    Check ElementId    ${issue_list_location}/$col_creationDate    ${CREATION_DATE_HEADER_TEXT_DE}    true
-    Check ElementId    ${issue_list_location}/$col_items    ${POSITIONS_HEADER_TEXT_DE}    true
+    Check ElementId    ${colInvoiceNumber}    ${BILL_NO_HEADER_TEXT_DE}    true
+    Check ElementId    ${colDescription}    ${BILL_NAME_HEADER_TEXT_DE}    true
+    Check ElementId    ${colStatus}    ${STATUS_HEADER_TEXT_DE}    true
+    Check ElementId    ${colCreationDate}    ${CREATION_DATE_HEADER_TEXT_DE}    true
+    Check ElementId    ${colItems}    ${POSITIONS_HEADER_TEXT_DE}    true
     #checkbox
-    Check CheckboxId    ${flow_content_location}/ShowOnlyOpenBills    Auch bereits veröffentlichte Rechnungen mit anzeigen    true    false
-    Check CheckboxId    ${flow_content_location}/ShowProcessedBills    Auch bereits verarbeitete Rechnungen mit anzeigen    true    false
-    Check CheckboxId    ${flow_content_location}/ShowProformaBills    Auch Proformarechnungen mit anzeigen    true    false
-    Check CheckboxId    ${flow_content_location}/Print_Logo    Logo mit aufdrucken    true    false
-    Check CheckboxId    ${flow_content_location}/cbx_AddCopy    Kopie anfügen    true    false
+    Check CheckboxId    ${chkShowOnlyOpenBills}    Auch bereits veröffentlichte Rechnungen mit anzeigen    true    false
+    Check CheckboxId    ${chkShowProcessedBills}    Auch bereits verarbeitete Rechnungen mit anzeigen    true    false
+    Check CheckboxId    ${chkShowProformaBills}    Auch Proformarechnungen mit anzeigen    true    false
+    Check CheckboxId    ${chkPrintLogo}    Logo mit aufdrucken    true    false
+    Check CheckboxId    ${chkAddCopy}    Kopie anfügen    true    false
     #textfield
-    Check TextfieldId    ${flow_content_location}/email    support@rigilog.com    true    Empfänger-E-Mail
+    Check TextfieldId    ${txtEmail}    support@rigilog.com    true    Empfänger-E-Mail
     #buttons
-    Check ElementId    ${flow_content_location}/thirdParty    Rechnung an Dritte    false
-    Check ElementId    ${flow_content_location}/proForma    Proformarechnung    false
-    Check ElementId    ${flow_content_location}/abort    Zurück zum Hauptmenü    true
-    Check ElementId    ${flow_content_location}/abort    enabled=true
-    #short action
-    Click Element    ${issue_list_location}/0
-    Select Checkbox    ${flow_content_location}/cbx_AddCopy
-    Input Text    ${flow_content_location}/email    test
-    Click Button    ${flow_content_location}/abort
-    Check PageArea is visible    ${flow_content_location}    screen look_rlx_screen_bill_generally_invoiceissue    false
-    Element Should Be Visible    /$flow_main/main_menu/invoice_issue
+    Check ElementId    ${btnThirdParty}    Rechnung an Dritte    false
+    Check ElementId    ${btnProForma}    Proformarechnung    false
+    Check ElementId    ${btnAbort}    Zurück zum Hauptmenü    true
+    Click Button    ${btnAbort}
+    Check PageArea is visible    /$flow_main/$flow_content    screen look_rlx_screen_bill_generally_invoiceissue    false
     Check Homescreen is selected
     [Teardown]    Close Browser
