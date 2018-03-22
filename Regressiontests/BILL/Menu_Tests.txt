@@ -1,0 +1,49 @@
+*** Settings ***
+Resource          ../../UserKeywords/Common_Resources.html
+Resource          ../../UserKeywords/BILL_Resources.html
+
+*** Test Cases ***
+Check GUI Elements Menu
+    [Documentation]    MM 22.03.2018, check GUI Elements for Menu
+    [Tags]    Bill    Menu
+    [Setup]    Prepare For Bill Test    Hauptmandant
+    #variable - set locations
+    ${main_menu_location}    Set Variable    /$flow_main/main_menu
+    ${main_menu_bottom_location}    Set Variable    /$flow_main/menu_bottom
+    #Benutzer
+    Check ContainsText    Benutzer:
+    Check ElementId    /$flow_main/username    System Administrator, System Administrator    true
+    #Allgemein
+    Check ContainsText    Allgemein
+    Check ElementId    ${main_menu_location}/invoice_management    Rechnungsverwaltung    true
+    Check ElementId    ${main_menu_location}/manual_booking    Manuelle Buchungen    true
+    Check ElementId    ${main_menu_location}/invoice_issue    Rechnungsausgabe    true
+    Check ElementId    ${main_menu_location}/search    Suchen    true
+    Check ElementId    ${main_menu_location}/evaluation    Auswertung    true
+    #Fakturierung
+    Check ContainsText    Fakturierung
+    Check ElementId    ${main_menu_location}/billing_deliveries    Lieferungen    true
+    Check ElementId    ${main_menu_location}/billing_returns    Retouren    true
+    Check ElementId    ${main_menu_location}/billing_second_hand    Occasionen    true
+    Check ElementId    ${main_menu_location}/billing_shipment_costs    ${MENUE_TEXT_STORNO_SENDUNGSKOSTEN_DE}    true
+    #Storno
+    Check ContainsText    ${MENU_SECTION_STORNO_TEXT_DE}
+    Check ElementId    ${main_menu_location}/deliveries    Lieferungen    true
+    Check ElementId    ${main_menu_location}/returns    Retouren    true
+    Check ElementId    ${main_menu_location}/second_hand    Occasionen    true
+    Check ElementId    ${main_menu_location}/shipment_costs    ${MENUE_TEXT_STORNO_SENDUNGSKOSTEN_DE}    true
+    #Voreinstellungen
+    Check ContainsText    Voreinstellungen
+    Check ElementId    ${main_menu_location}/offsetting_charging    Verrechnung    true
+    #Mandant
+    Check ElementId    ${main_menu_bottom_location}/mandatorname    Hauptmandant    true
+    Check TooltipId    ${main_menu_bottom_location}/switchmandator    Aktiven Mandanten wechseln
+    Check TooltipId    ${main_menu_bottom_location}/help    Kontakt
+    Check TooltipId    ${main_menu_bottom_location}/exit    Modul verlassen
+    #Sprachauswahl
+    Check ContainsText    Sprachauswahl
+    Check ElementId    ${main_menu_bottom_location}/languages
+    Check ElementId    ${main_menu_bottom_location}/languages:1    D    true
+    Check ElementId    ${main_menu_bottom_location}/languages:15    E    true
+    Check ElementId    ${main_menu_bottom_location}/languages:16    F    true
+    [Teardown]    Close Browser

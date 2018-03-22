@@ -481,6 +481,419 @@ td.name, th.name {
 <td>Click Element</td>
 <td>//div[contains(text(),'${Untermenüpunkt}')]</td>
 </tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"><a name="keyword_Check TooltipId">Check TooltipId</a></td>
+<td>[Arguments]</td>
+<td>${element id}</td>
+<td>${text}</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>[Documentation]</td>
+<td class="colspan3" colspan="3">MM 22.03.2018\n<br>
+check tooltip</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>[Tags]</td>
+<td>General, Helper, Tooltip</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Element Should Be Visible</td>
+<td>${element id}</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Mouse Over</td>
+<td>${element id}</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Wait Until Element Is Visible</td>
+<td>${element id}/$tooltip</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Element Should Be Visible</td>
+<td>${element id}/$tooltip</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Element Text Should Be</td>
+<td>${element id}/$tooltip</td>
+<td>${text}</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Mouse Out</td>
+<td>${element id}</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Wait Until Element Is Not Visible</td>
+<td>${element id}/$tooltip</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"><a name="keyword_Check ElementId">Check ElementId</a></td>
+<td>[Arguments]</td>
+<td>${element id}</td>
+<td>${text}=${EMPTY}</td>
+<td>${enabled}=${EMPTY}</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>[Documentation]</td>
+<td class="colspan3" colspan="3">MM 22.03.2018\n<br>
+check elements, the arguments are passed with name or in the correct order</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>[Tags]</td>
+<td>General, Helper, Element</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>${enabled as bool}</td>
+<td>Is Truthy</td>
+<td>${enabled}</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>#Log To Console</td>
+<td>${enabled} -&gt; ${enabled as bool}</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Element Should Be Visible</td>
+<td>${element id}</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Run Keyword If</td>
+<td>'${enabled}' != '${EMPTY}' and '${enabled as bool}' == '${TRUE}'</td>
+<td>Element Should Be Enabled</td>
+<td>${element id}</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Run Keyword If</td>
+<td>'${enabled}' != '${EMPTY}' and '${enabled as bool}' == '${FALSE}'</td>
+<td>Element Should Be Disabled</td>
+<td>${element id}</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Run Keyword If</td>
+<td>'${text}' != '${EMPTY}'</td>
+<td>Element Text Should Be</td>
+<td>${element id}</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>...</td>
+<td>${text}</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"><a name="keyword_Check CheckboxId">Check CheckboxId</a></td>
+<td>[Arguments]</td>
+<td>${element id}</td>
+<td>${text}=${EMPTY}</td>
+<td>${enabled}=${EMPTY}</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>...</td>
+<td>${selected}=${EMPTY}</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>[Documentation]</td>
+<td class="colspan3" colspan="3">MM 22.03.2018\n<br>
+check checkbox, the arguments are passed with name or in the correct order</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>[Tags]</td>
+<td>General, Helper, Checkbox</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>${selected as bool}</td>
+<td>Is Truthy</td>
+<td>${selected}</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Check ElementId</td>
+<td>${element id}</td>
+<td>enabled=${enabled}</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Run Keyword If</td>
+<td>'${selected}' != '${EMPTY}' and '${selected as bool}' == '${TRUE}'</td>
+<td>Checkbox Should Be Selected</td>
+<td>${element id}</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Run Keyword If</td>
+<td>'${selected}' != '${EMPTY}' and '${selected as bool}' == '${FALSE}'</td>
+<td>Checkbox Should Not Be Selected</td>
+<td>${element id}</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Run Keyword If</td>
+<td>'${text}' != '${EMPTY}'</td>
+<td>Element Text Should Be</td>
+<td>//label[@for="${element id}"]</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>...</td>
+<td>${text}</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"><a name="keyword_Check TextfieldId">Check TextfieldId</a></td>
+<td>[Arguments]</td>
+<td>${element id}</td>
+<td>${inputvalue}=${EMPTY}</td>
+<td>${enabled}=${EMPTY}</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>...</td>
+<td>${labeltext}=${EMPTY}</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>[Documentation]</td>
+<td class="colspan3" colspan="3">MM 22.03.2018\n<br>
+check textfields, the arguments are passed with name or in the correct order</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>[Tags]</td>
+<td>General, Helper, Textfield</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Check ElementId</td>
+<td>${element id}</td>
+<td>enabled=${enabled}</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Run Keyword If</td>
+<td>'${inputvalue}' != '${EMPTY}'</td>
+<td>Textfield Value Should Be</td>
+<td>${element id}</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>...</td>
+<td>${inputvalue}</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Run Keyword If</td>
+<td>'${labeltext}' != '${EMPTY}'</td>
+<td>Check ContainsText</td>
+<td>${labeltext}</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"><a name="keyword_Check PageArea is visible">Check PageArea is visible</a></td>
+<td>[Arguments]</td>
+<td>${element id}</td>
+<td>${class}</td>
+<td>${visible}=${TRUE}}</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>[Documentation]</td>
+<td class="colspan3" colspan="3">MM 22.03.2018\n<br>
+check page area is visible, the content has allways the same element id therefore consider class also</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>[Tags]</td>
+<td>General, Helper, Page Area</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>${visible as bool}</td>
+<td>Is Truthy</td>
+<td>${visible}</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Run Keyword If</td>
+<td>'${visible as bool}' == '${FALSE}'</td>
+<td>Page Should Not Contain Element</td>
+<td>//*[@id="${element id}"][contains(@class, '${class}')]</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Run Keyword If</td>
+<td>'${visible as bool}' == '${TRUE}'</td>
+<td>Page Should Contain Element</td>
+<td>//*[@id="${element id}"][contains(@class, '${class}')]</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"><a name="keyword_Check ContainsText">Check ContainsText</a></td>
+<td>[Arguments]</td>
+<td>${text}</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>[Documentation]</td>
+<td class="colspan3" colspan="3">MM 22.03.2018\n<br>
+check page contains text</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>[Tags]</td>
+<td>General, Helper, Text</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Element Should Be Visible</td>
+<td>//div[contains(text(),'${text}')]</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"><a name="keyword_Is Truthy">Is Truthy</a></td>
+<td>[Arguments]</td>
+<td>${value}</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>[Documentation]</td>
+<td class="colspan3" colspan="3">MM 22.03.2018\n<br>
+parsing booleans</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>[Tags]</td>
+<td>General, Helper, Parsing, Bool</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>${value as bool}</td>
+<td>Evaluate</td>
+<td>robot.utils.is_truthy($value)</td>
+<td>modules=robot</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>[Return]</td>
+<td>${value as bool}</td>
+<td></td>
+<td></td>
+</tr>
 </table>
 </body>
 </html>
