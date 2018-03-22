@@ -1,4 +1,6 @@
 *** Settings ***
+Suite Setup       Login Select Bill
+Suite Teardown    Close Browser
 Resource          ../../UserKeywords/Common_Resources.html
 Resource          ../../UserKeywords/BILL_Resources.html
 Resource          PageObjects/Menu.txt
@@ -7,7 +9,6 @@ Resource          PageObjects/Menu.txt
 Check GUI Elements Menu
     [Documentation]    MM 22.03.2018, check GUI Elements for Menu
     [Tags]    Bill    Menu
-    [Setup]    Prepare For Bill Test    Hauptmandant
     #Benutzer
     Check ContainsText    Benutzer:
     Check ElementId    /$flow_main/username    System Administrator, System Administrator    true
@@ -47,7 +48,46 @@ Check GUI Elements Menu
     Check ElementId    ${languages}:1    D    true
     Check ElementId    ${languages}:15    E    true
     Check ElementId    ${languages}:16    F    true
-    #Set LanguageID    15
-    #Check LanguageID is selected    15
-    #Check LanguageID is selected    1    false
-    [Teardown]    Close Browser
+
+Check Language Selection
+    Check LanguageId is selected    1
+    Check LanguageId is selected    15    false
+    Set LanguageId    15
+    Check LanguageId is selected    15
+    Check LanguageId is selected    1    false
+    ${langunge id}=    Get selected LanguageId
+    Should Be Equal    ${langunge id}    15
+
+Check Menu Selection
+    #Allgemein
+    Select Menu Content    ${invoice_management}    ${invoice_management_class}
+    Sleep    1s
+    Select Menu Content    ${manual_booking}    ${manual_booking_class}
+    Sleep    1s
+    Select Menu Content    ${invoice_issue}    ${invoice_issue_class}
+    Sleep    1s
+    Select Menu Content    ${search}    ${search_class}
+    Sleep    1s
+    Select Menu Content    ${evaluation}    ${evaluation_class}
+    Sleep    1s
+    #Fakturierung
+    Select Menu Content    ${billing_deliveries}    ${billing_deliveries_class}
+    Sleep    1s
+    Select Menu Content    ${billing_returns}    ${billing_returns_class}
+    Sleep    1s
+    Select Menu Content    ${billing_second_hand}    ${billing_second_hand_class}
+    Sleep    1s
+    Select Menu Content    ${billing_shipment_costs}    ${billing_shipment_costs_class}
+    Sleep    1s
+    #Storno
+    Select Menu Content    ${deliveries}    ${deliveries_class}
+    Sleep    1s
+    Select Menu Content    ${returns}    ${returns_class}
+    Sleep    1s
+    Select Menu Content    ${second_hand}    ${second_hand_class}
+    Sleep    1s
+    Select Menu Content    ${shipment_costs}    ${shipment_costs_class}
+    Sleep    1s
+    #Voreinstellungen
+    Select Menu Content    ${offsetting_charging}    ${offsetting_charging_class}
+    Sleep    1s

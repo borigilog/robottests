@@ -12,6 +12,8 @@ ${btnCreateBill}    /$flow_main/$flow_content/createBill
 ${btnAbort}       /$flow_main/$flow_content/abort
 ${btnThirdParty}    /$flow_main/$flow_content/thirdParty
 ${btnProForma}    /$flow_main/$flow_content/proForma
+# ~~~~~~~ invoices list
+${listInvoice}    /$flow_main/$flow_content/issue_list
 # ~~~~~~~ invoices col
 ${colInvoiceNumber}    /$flow_main/$flow_content/issue_list/$col_invoiceNumber
 ${colDescription}    /$flow_main/$flow_content/issue_list/$col_description

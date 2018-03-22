@@ -489,6 +489,53 @@ td.name, th.name {
 <td></td>
 </tr>
 <tr>
+<td class="name"><a name="keyword_Select Menu Content">Select Menu Content</a></td>
+<td>[Arguments]</td>
+<td>${element id}</td>
+<td>${class}</td>
+<td>${content id}=/$flow_main/$flow_content</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>[Documentation]</td>
+<td class="colspan3" colspan="3">MM 22.03.2018, select certain Menu content</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Check ElementId</td>
+<td>${element id}</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Click Element</td>
+<td>${element id}</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Wait Until Keyword Succeeds</td>
+<td>5</td>
+<td>2 sec</td>
+<td>Check PageArea is visible</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>...</td>
+<td>${content id}</td>
+<td>${class}</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
 <td class="name"><a name="keyword_Check TooltipId">Check TooltipId</a></td>
 <td>[Arguments]</td>
 <td>${element id}</td>
@@ -552,7 +599,21 @@ check tooltip</td>
 </tr>
 <tr>
 <td class="name"></td>
-<td>Wait Until Element Is Not Visible</td>
+<td>Sleep</td>
+<td>2</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Page Should Not Contain Element</td>
+<td>${element id}/$tooltip</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>#Wait Until Element Is Not Visible</td>
 <td>${element id}/$tooltip</td>
 <td></td>
 <td></td>
@@ -888,7 +949,7 @@ parsing booleans</td>
 <td></td>
 </tr>
 <tr>
-<td class="name"><a name="keyword_Get selected LanguageID">Get selected LanguageID</a></td>
+<td class="name"><a name="keyword_Get selected LanguageId">Get selected LanguageId</a></td>
 <td>[Documentation]</td>
 <td class="colspan3" colspan="3">MM 22.03.2018\n<br>
 get languageid</td>
@@ -902,8 +963,50 @@ get languageid</td>
 </tr>
 <tr>
 <td class="name"></td>
-<td>[Return]</td>
+<td>@{list} =</td>
+<td>Create List</td>
 <td>1</td>
+<td>15</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>...</td>
+<td>16</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>: FOR</td>
+<td>${item}</td>
+<td>IN</td>
+<td>@{list}</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td>${class} =</td>
+<td>Get Element Attribute</td>
+<td>/$flow_main/menu_bottom/languages:${item}</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td>...</td>
+<td>class</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td>Return From Keyword If</td>
+<td>'${class}'=='selected'</td>
+<td>${item}</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>[Return]</td>
+<td>-1</td>
 <td></td>
 <td></td>
 </tr>
@@ -915,7 +1018,7 @@ get languageid</td>
 <td></td>
 </tr>
 <tr>
-<td class="name"><a name="keyword_Set LanguageID">Set LanguageID</a></td>
+<td class="name"><a name="keyword_Set LanguageId">Set LanguageId</a></td>
 <td>[Arguments]</td>
 <td>${langunge id}</td>
 <td></td>
@@ -949,7 +1052,7 @@ set languageid</td>
 <td></td>
 </tr>
 <tr>
-<td class="name"><a name="keyword_Check LanguageID is selected">Check LanguageID is selected</a></td>
+<td class="name"><a name="keyword_Check LanguageId is selected">Check LanguageId is selected</a></td>
 <td>[Arguments]</td>
 <td>${langunge id}</td>
 <td>${selected}=${TRUE}</td>

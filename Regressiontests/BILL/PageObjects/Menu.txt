@@ -1,21 +1,52 @@
 *** Variables ***
 # ~~~~~~~~~ Menu
+${menu_content}    /$flow_main/$flow_content
 ${invoice_management}    /$flow_main/main_menu/invoice_management
+${invoice_management_class}    screen look_rlx_screen_bill_generally_invoicemanagement
 ${manual_booking}    /$flow_main/main_menu/manual_booking
+${manual_booking_class}    screen look_rlx_screen_bill_generally_manualbooking
 ${invoice_issue}    /$flow_main/main_menu/invoice_issue
+${invoice_issue_class}    screen look_rlx_screen_bill_generally_invoiceissue
 ${search}         /$flow_main/main_menu/search
+${search_class}    screen look_rlx_screen_bill_generally_search
 ${evaluation}     /$flow_main/main_menu/evaluation
+${evaluation_class}    screen look_rlx_screen_bill_generally_evaluation
 ${billing_deliveries}    /$flow_main/main_menu/billing_deliveries
+${billing_deliveries_class}    screen look_rlx_screen_bill_billing_deliveries_shipment
 ${billing_returns}    /$flow_main/main_menu/billing_returns
+${billing_returns_class}    screen look_rlx_screen_bill_billing_returns
 ${billing_second_hand}    /$flow_main/main_menu/billing_second_hand
+${billing_second_hand_class}    screen look_rlx_screen_bill_billing_second_hand
 ${billing_shipment_costs}    /$flow_main/main_menu/billing_shipment_costs
+${billing_shipment_costs_class}    screen look_rlx_screen_bill_billing_deliveries_shipment
 ${deliveries}     /$flow_main/main_menu/deliveries
+${deliveries_class}    screen look_rlx_screen_bill_cancellation
 ${returns}        /$flow_main/main_menu/returns
+${returns_class}    screen look_rlx_screen_bill_cancellation
 ${second_hand}    /$flow_main/main_menu/second_hand
+${second_hand_class}    screen look_rlx_screen_bill_cancellation
 ${shipment_costs}    /$flow_main/main_menu/shipment_costs
+${shipment_costs_class}    screen look_rlx_screen_bill_cancellation
 ${offsetting_charging}    /$flow_main/main_menu/offsetting_charging
+${offsetting_charging_class}    screen look_rlx_screen_bill_defaultSettings_offseting_charging
 ${mandatorname}    /$flow_main/menu_bottom/mandatorname
+#${mandatorname_class}
 ${switchmandator}    /$flow_main/menu_bottom/switchmandator
+#${switchmandator_class}
 ${help}           /$flow_main/menu_bottom/help
+#${help_class}
 ${exit}           /$flow_main/menu_bottom/exit
+#${exit_class}
 ${languages}      /$flow_main/menu_bottom/languages
+
+*** Keywords ***
+Login Select Bill
+    [Arguments]    ${Mandator}=Hauptmandant
+    [Documentation]    MM 22.03.2018, prepare content for BILL tests
+    Start Test For Module    Bill    ${Mandator}
+    Wait Until Keyword Succeeds    5    2 sec    Check PageArea is visible    /$flow_main    screen look_rlx_screen_bill_main
+    Check Homescreen is selected
+
+Check Homescreen is selected
+    [Documentation]    MM 22.03.2018, check content homescreen is selected
+    Check PageArea is visible    ${menu_content}    screen look_rlx_screen_bill_homescreen
