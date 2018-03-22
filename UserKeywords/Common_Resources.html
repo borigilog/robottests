@@ -783,7 +783,7 @@ check textfields, the arguments are passed with name or in the correct order</td
 <td>[Arguments]</td>
 <td>${element id}</td>
 <td>${class}</td>
-<td>${visible}=${TRUE}}</td>
+<td>${visible}=${TRUE}</td>
 </tr>
 <tr>
 <td class="name"></td>
@@ -893,6 +893,149 @@ parsing booleans</td>
 <td>${value as bool}</td>
 <td></td>
 <td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"><a name="keyword_Get selected LanguageID">Get selected LanguageID</a></td>
+<td>[Documentation]</td>
+<td class="colspan3" colspan="3">MM 22.03.2018\n<br>
+get languageid</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>[Tags]</td>
+<td>General, Helper, List, Selection, Language</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>[Return]</td>
+<td>1</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"><a name="keyword_Set LanguageID">Set LanguageID</a></td>
+<td>[Arguments]</td>
+<td>${langunge id}</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>[Documentation]</td>
+<td class="colspan3" colspan="3">MM 22.03.2018\n<br>
+set languageid</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>[Tags]</td>
+<td>General, Helper, List, Selection, Language</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Click Element</td>
+<td>/$flow_main/menu_bottom/languages:${langunge id}</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"><a name="keyword_Check LanguageID is selected">Check LanguageID is selected</a></td>
+<td>[Arguments]</td>
+<td>${langunge id}</td>
+<td>${selected}=${TRUE}</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>[Documentation]</td>
+<td class="colspan3" colspan="3">MM 22.03.2018\n<br>
+check languageid</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>[Tags]</td>
+<td>General, Helper, List, Selection, Language</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Check List ElementId is selected</td>
+<td>/$flow_main/menu_bottom/languages:${langunge id}</td>
+<td>selected</td>
+<td>${selected}</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"><a name="keyword_Check List ElementId is selected">Check List ElementId is selected</a></td>
+<td>[Arguments]</td>
+<td>${element id}</td>
+<td>${class}</td>
+<td>${selected}=${TRUE}</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>[Documentation]</td>
+<td class="colspan3" colspan="3">MM 22.03.2018\n<br>
+list elemnet is selected</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>[Tags]</td>
+<td>General, Helper, List, Selection</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>${selected as bool}</td>
+<td>Is Truthy</td>
+<td>${selected}</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Run Keyword If</td>
+<td>'${selected as bool}' == '${FALSE}'</td>
+<td>Page Should Not Contain Element</td>
+<td>//*[@id="${element id}"][contains(@class, '${class}')]</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Run Keyword If</td>
+<td>'${selected as bool}' == '${TRUE}'</td>
+<td>Page Should Contain Element</td>
+<td>//*[@id="${element id}"][contains(@class, '${class}')]</td>
 </tr>
 </table>
 </body>

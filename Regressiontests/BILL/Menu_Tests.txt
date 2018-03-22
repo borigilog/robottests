@@ -35,8 +35,11 @@ Check GUI Elements Menu
     Check ElementId    ${offsetting_charging}    Verrechnung    true
     #Mandant
     Check ElementId    ${mandatorname}    Hauptmandant    true
+    Check ElementId    ${switchmandator}    enabled=true
     Check TooltipId    ${switchmandator}    Aktiven Mandanten wechseln
+    Check ElementId    ${help}    enabled=true
     Check TooltipId    ${help}    Kontakt
+    Check ElementId    ${exit}    enabled=true
     Check TooltipId    ${exit}    Modul verlassen
     #Sprachauswahl
     Check ContainsText    Sprachauswahl
@@ -44,4 +47,7 @@ Check GUI Elements Menu
     Check ElementId    ${languages}:1    D    true
     Check ElementId    ${languages}:15    E    true
     Check ElementId    ${languages}:16    F    true
+    #Set LanguageID    15
+    #Check LanguageID is selected    15
+    #Check LanguageID is selected    1    false
     [Teardown]    Close Browser
