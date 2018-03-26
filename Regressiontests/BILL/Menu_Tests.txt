@@ -9,45 +9,46 @@ Resource          PageObjects/Menu.txt
 Check GUI Elements Menu
     [Documentation]    MM 22.03.2018, check GUI Elements for Menu
     [Tags]    Bill    Menu
+    ${langunge_id}=    Get selected LanguageId
     #Benutzer
-    Check ContainsText    Benutzer:
-    Check ElementId    /$flow_main/username    System Administrator, System Administrator    true
+    Check ContainsText    &{Dic_Benutzer}[${langunge_id}]
+    Check ElementId    ${user_name}    System Administrator, System Administrator    true
     #Allgemein
-    Check ContainsText    Allgemein
-    Check ElementId    ${invoice_management}    Rechnungsverwaltung    true
-    Check ElementId    ${manual_booking}    Manuelle Buchungen    true
-    Check ElementId    ${invoice_issue}    Rechnungsausgabe    true
-    Check ElementId    ${search}    Suchen    true
-    Check ElementId    ${evaluation}    Auswertung    true
+    Check ContainsText    &{Dic_Allgemein}[${langunge_id}]
+    Check ElementId    ${invoice_management}    &{Dic_Rechnungsverwaltung}[${langunge_id}]    true
+    Check ElementId    ${manual_booking}    &{Dic_Manuelle_Buchungen}[${langunge_id}]    true
+    Check ElementId    ${invoice_issue}    &{Dic_Rechnungsausgabe}[${langunge_id}]    true
+    Check ElementId    ${search}    &{Dic_Suchen}[${langunge_id}]    true
+    Check ElementId    ${evaluation}    &{Dic_Auswertung}[${langunge_id}]    true
     #Fakturierung
-    Check ContainsText    Fakturierung
-    Check ElementId    ${billing_deliveries}    Lieferungen    true
-    Check ElementId    ${billing_returns}    Retouren    true
-    Check ElementId    ${billing_second_hand}    Occasionen    true
-    Check ElementId    ${billing_shipment_costs}    ${MENUE_TEXT_STORNO_SENDUNGSKOSTEN_DE}    true
+    Check ContainsText    &{Dic_Fakturierung}[${langunge_id}]
+    Check ElementId    ${billing_deliveries}    &{Dic_Lieferungen}[${langunge_id}]    true
+    Check ElementId    ${billing_returns}    &{Dic_Retouren}[${langunge_id}]    true
+    Check ElementId    ${billing_second_hand}    &{Dic_Occasionen}[${langunge_id}]    true
+    Check ElementId    ${billing_shipment_costs}    &{Dic_Sendungskosten}[${langunge_id}]    true
     #Storno
-    Check ContainsText    ${MENU_SECTION_STORNO_TEXT_DE}
-    Check ElementId    ${deliveries}    Lieferungen    true
-    Check ElementId    ${returns}    Retouren    true
-    Check ElementId    ${second_hand}    Occasionen    true
-    Check ElementId    ${shipment_costs}    ${MENUE_TEXT_STORNO_SENDUNGSKOSTEN_DE}    true
+    Check ContainsText    &{Dic_Storno}[${langunge_id}]
+    Check ElementId    ${deliveries}    &{Dic_Storno_Lieferungen}[${langunge_id}]    true
+    Check ElementId    ${returns}    &{Dic_Storno_Retouren}[${langunge_id}]    true
+    Check ElementId    ${second_hand}    &{Dic_Storno_Occasionen}[${langunge_id}]    true
+    Check ElementId    ${shipment_costs}    &{Dic_Storno_Sendungskosten}[${langunge_id}]    true
     #Voreinstellungen
-    Check ContainsText    Voreinstellungen
-    Check ElementId    ${offsetting_charging}    Verrechnung    true
+    Check ContainsText    &{Dic_Voreinstellungen}[${langunge_id}]
+    Check ElementId    ${offsetting_charging}    &{Dic_Verrechnung}[${langunge_id}]    true
     #Mandant
     Check ElementId    ${mandatorname}    Hauptmandant    true
     Check ElementId    ${switchmandator}    enabled=true
-    Check TooltipId    ${switchmandator}    Aktiven Mandanten wechseln
+    Check TooltipId    ${switchmandator}    &{Dic_Mandantenauswahl}[${langunge_id}]
     Check ElementId    ${help}    enabled=true
-    Check TooltipId    ${help}    Kontakt
+    Check TooltipId    ${help}    &{Dic_Kontakt}[${langunge_id}]
     Check ElementId    ${exit}    enabled=true
-    Check TooltipId    ${exit}    Modul verlassen
+    Check TooltipId    ${exit}    &{Dic_Modul_verlassen}[${langunge_id}]
     #Sprachauswahl
-    Check ContainsText    Sprachauswahl
+    Check ContainsText    &{Dic_Sprachauswahl}[${langunge_id}]
     Check ElementId    ${languages}
-    Check ElementId    ${languages}:1    D    true
-    Check ElementId    ${languages}:15    E    true
-    Check ElementId    ${languages}:16    F    true
+    Check ElementId    ${languages}:1    &{Dic_Sprachen_Code}[1]    true
+    Check ElementId    ${languages}:15    &{Dic_Sprachen_Code}[15]    true
+    Check ElementId    ${languages}:16    &{Dic_Sprachen_Code}[16]    true
 
 Check Language Selection
     Check LanguageId is selected    1
@@ -55,39 +56,61 @@ Check Language Selection
     Set LanguageId    15
     Check LanguageId is selected    15
     Check LanguageId is selected    1    false
-    ${langunge id}=    Get selected LanguageId
-    Should Be Equal    ${langunge id}    15
+    ${langunge_id}=    Get selected LanguageId
+    Should Be Equal    ${langunge_id}    15
+
+Check Text Languagedependent
+    : FOR    ${item}    IN    @{LANGUAGE_IDS}
+    \    Set LanguageId    ${item}
+    \    Sleep    1s
+    \    ${langunge_id}=    Get selected LanguageId
+    \    Check ContainsText    &{Dic_Benutzer}[${langunge_id}]
+    \    Check ContainsText    &{Dic_Allgemein}[${langunge_id}]
+    \    Element Text Should Be    ${invoice_management}    &{Dic_Rechnungsverwaltung}[${langunge_id}]
+    \    Element Text Should Be    ${manual_booking}    &{Dic_Manuelle_Buchungen}[${langunge_id}]
+    \    Element Text Should Be    ${invoice_issue}    &{Dic_Rechnungsausgabe}[${langunge_id}]
+    \    Element Text Should Be    ${search}    &{Dic_Suchen}[${langunge_id}]
+    \    Element Text Should Be    ${evaluation}    &{Dic_Auswertung}[${langunge_id}]
+    \    Check ContainsText    &{Dic_Fakturierung}[${langunge_id}]
+    \    Element Text Should Be    ${billing_deliveries}    &{Dic_Lieferungen}[${langunge_id}]
+    \    Element Text Should Be    ${billing_returns}    &{Dic_Retouren}[${langunge_id}]
+    \    Element Text Should Be    ${billing_second_hand}    &{Dic_Occasionen}[${langunge_id}]
+    \    Element Text Should Be    ${billing_shipment_costs}    &{Dic_Sendungskosten}[${langunge_id}]
+    \    Check ContainsText    &{Dic_Storno}[${langunge_id}]
+    \    Element Text Should Be    ${deliveries}    &{Dic_Storno_Lieferungen}[${langunge_id}]
+    \    Element Text Should Be    ${returns}    &{Dic_Storno_Retouren}[${langunge_id}]
+    \    Element Text Should Be    ${second_hand}    &{Dic_Storno_Occasionen}[${langunge_id}]
+    \    Element Text Should Be    ${shipment_costs}    &{Dic_Storno_Sendungskosten}[${langunge_id}]
+    \    Check ContainsText    &{Dic_Voreinstellungen}[${langunge_id}]
+    \    Element Text Should Be    ${offsetting_charging}    &{Dic_Verrechnung}[${langunge_id}]
+    \    Check ContainsText    &{Dic_Sprachauswahl}[${langunge_id}]
 
 Check Menu Selection
-    #Allgemein
-    Select Menu Content    ${invoice_management}    ${invoice_management_class}
+    Select Rechnungsverwaltung
     Sleep    1s
-    Select Menu Content    ${manual_booking}    ${manual_booking_class}
+    Select Manuelle Buchungen
     Sleep    1s
-    Select Menu Content    ${invoice_issue}    ${invoice_issue_class}
+    Select Rechnungsausgabe
     Sleep    1s
-    Select Menu Content    ${search}    ${search_class}
+    Select Suchen
     Sleep    1s
-    Select Menu Content    ${evaluation}    ${evaluation_class}
+    Select Auswertung
     Sleep    1s
-    #Fakturierung
-    Select Menu Content    ${billing_deliveries}    ${billing_deliveries_class}
+    Select Lieferungen
     Sleep    1s
-    Select Menu Content    ${billing_returns}    ${billing_returns_class}
+    Select Retouren
     Sleep    1s
-    Select Menu Content    ${billing_second_hand}    ${billing_second_hand_class}
+    Select Occasionen
     Sleep    1s
-    Select Menu Content    ${billing_shipment_costs}    ${billing_shipment_costs_class}
+    Select Sendungskosten
     Sleep    1s
-    #Storno
-    Select Menu Content    ${deliveries}    ${deliveries_class}
+    Select Storno Lieferungen
     Sleep    1s
-    Select Menu Content    ${returns}    ${returns_class}
+    Select Storno Retouren
     Sleep    1s
-    Select Menu Content    ${second_hand}    ${second_hand_class}
+    Select Storno Occasionen
     Sleep    1s
-    Select Menu Content    ${shipment_costs}    ${shipment_costs_class}
+    Select Storno Sendungskosten
     Sleep    1s
-    #Voreinstellungen
-    Select Menu Content    ${offsetting_charging}    ${offsetting_charging_class}
+    Select Verrechnung
     Sleep    1s

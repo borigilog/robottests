@@ -10,7 +10,7 @@ Resource          PageObjects/Rechnungsausgabe.txt
 Check GUI Elements Rechnungsausgabe
     [Documentation]    MM 22.03.2018, Check GUI Elements for Rechnugsausgabe
     [Tags]    Bill    Rechnungsausgabe
-    Select Menu Content    ${invoice_issue}    ${invoice_issue_class}
+    Select Rechnungsausgabe
     #title
     Check ContainsText    Rechnungs- / Belegausgabe
     #grid

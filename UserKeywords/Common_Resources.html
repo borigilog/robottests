@@ -157,6 +157,13 @@ td.name, th.name {
 <td></td>
 </tr>
 <tr>
+<td class="name">@{LANGUAGE_IDS}</td>
+<td>1</td>
+<td>15</td>
+<td>16</td>
+<td></td>
+</tr>
+<tr>
 <td class="name">${NO_SEARCH_RESULTS_TEXT_DE}</td>
 <td>Leider wurden keine passenden Lieferaufträge gefunden. Bitte prüfen Sie die Suchkriterien!</td>
 <td># Meldungstext, wenn für Suchkriterien kein Ergebnis gefunden worden ist</td>
@@ -491,9 +498,9 @@ td.name, th.name {
 <tr>
 <td class="name"><a name="keyword_Select Menu Content">Select Menu Content</a></td>
 <td>[Arguments]</td>
-<td>${element id}</td>
+<td>${element_id}</td>
 <td>${class}</td>
-<td>${content id}=/$flow_main/$flow_content</td>
+<td>${content_id}=/$flow_main/$flow_content</td>
 </tr>
 <tr>
 <td class="name"></td>
@@ -503,28 +510,28 @@ td.name, th.name {
 <tr>
 <td class="name"></td>
 <td>Check ElementId</td>
-<td>${element id}</td>
+<td>${element_id}</td>
 <td></td>
 <td></td>
 </tr>
 <tr>
 <td class="name"></td>
 <td>Click Element</td>
-<td>${element id}</td>
+<td>${element_id}</td>
 <td></td>
 <td></td>
 </tr>
 <tr>
 <td class="name"></td>
 <td>Wait Until Keyword Succeeds</td>
-<td>5</td>
-<td>2 sec</td>
+<td>10 sec</td>
+<td>1 sec</td>
 <td>Check PageArea is visible</td>
 </tr>
 <tr>
 <td class="name"></td>
 <td>...</td>
-<td>${content id}</td>
+<td>${content_id}</td>
 <td>${class}</td>
 <td></td>
 </tr>
@@ -538,7 +545,7 @@ td.name, th.name {
 <tr>
 <td class="name"><a name="keyword_Check TooltipId">Check TooltipId</a></td>
 <td>[Arguments]</td>
-<td>${element id}</td>
+<td>${element_id}</td>
 <td>${text}</td>
 <td></td>
 </tr>
@@ -558,42 +565,42 @@ check tooltip</td>
 <tr>
 <td class="name"></td>
 <td>Element Should Be Visible</td>
-<td>${element id}</td>
+<td>${element_id}</td>
 <td></td>
 <td></td>
 </tr>
 <tr>
 <td class="name"></td>
 <td>Mouse Over</td>
-<td>${element id}</td>
+<td>${element_id}</td>
 <td></td>
 <td></td>
 </tr>
 <tr>
 <td class="name"></td>
 <td>Wait Until Element Is Visible</td>
-<td>${element id}/$tooltip</td>
+<td>${element_id}/$tooltip</td>
 <td></td>
 <td></td>
 </tr>
 <tr>
 <td class="name"></td>
 <td>Element Should Be Visible</td>
-<td>${element id}/$tooltip</td>
+<td>${element_id}/$tooltip</td>
 <td></td>
 <td></td>
 </tr>
 <tr>
 <td class="name"></td>
 <td>Element Text Should Be</td>
-<td>${element id}/$tooltip</td>
+<td>${element_id}/$tooltip</td>
 <td>${text}</td>
 <td></td>
 </tr>
 <tr>
 <td class="name"></td>
 <td>Mouse Out</td>
-<td>${element id}</td>
+<td>${element_id}</td>
 <td></td>
 <td></td>
 </tr>
@@ -607,14 +614,14 @@ check tooltip</td>
 <tr>
 <td class="name"></td>
 <td>Page Should Not Contain Element</td>
-<td>${element id}/$tooltip</td>
+<td>${element_id}/$tooltip</td>
 <td></td>
 <td></td>
 </tr>
 <tr>
 <td class="name"></td>
 <td>#Wait Until Element Is Not Visible</td>
-<td>${element id}/$tooltip</td>
+<td>${element_id}/$tooltip</td>
 <td></td>
 <td></td>
 </tr>
@@ -628,7 +635,7 @@ check tooltip</td>
 <tr>
 <td class="name"><a name="keyword_Check ElementId">Check ElementId</a></td>
 <td>[Arguments]</td>
-<td>${element id}</td>
+<td>${element_id}</td>
 <td>${text}=${EMPTY}</td>
 <td>${enabled}=${EMPTY}</td>
 </tr>
@@ -662,7 +669,7 @@ check elements, the arguments are passed with name or in the correct order</td>
 <tr>
 <td class="name"></td>
 <td>Element Should Be Visible</td>
-<td>${element id}</td>
+<td>${element_id}</td>
 <td></td>
 <td></td>
 </tr>
@@ -671,21 +678,21 @@ check elements, the arguments are passed with name or in the correct order</td>
 <td>Run Keyword If</td>
 <td>'${enabled}' != '${EMPTY}' and '${enabled as bool}' == '${TRUE}'</td>
 <td>Element Should Be Enabled</td>
-<td>${element id}</td>
+<td>${element_id}</td>
 </tr>
 <tr>
 <td class="name"></td>
 <td>Run Keyword If</td>
 <td>'${enabled}' != '${EMPTY}' and '${enabled as bool}' == '${FALSE}'</td>
 <td>Element Should Be Disabled</td>
-<td>${element id}</td>
+<td>${element_id}</td>
 </tr>
 <tr>
 <td class="name"></td>
 <td>Run Keyword If</td>
 <td>'${text}' != '${EMPTY}'</td>
 <td>Element Text Should Be</td>
-<td>${element id}</td>
+<td>${element_id}</td>
 </tr>
 <tr>
 <td class="name"></td>
@@ -704,7 +711,7 @@ check elements, the arguments are passed with name or in the correct order</td>
 <tr>
 <td class="name"><a name="keyword_Check CheckboxId">Check CheckboxId</a></td>
 <td>[Arguments]</td>
-<td>${element id}</td>
+<td>${element_id}</td>
 <td>${text}=${EMPTY}</td>
 <td>${enabled}=${EMPTY}</td>
 </tr>
@@ -738,7 +745,7 @@ check checkbox, the arguments are passed with name or in the correct order</td>
 <tr>
 <td class="name"></td>
 <td>Check ElementId</td>
-<td>${element id}</td>
+<td>${element_id}</td>
 <td>enabled=${enabled}</td>
 <td></td>
 </tr>
@@ -747,21 +754,21 @@ check checkbox, the arguments are passed with name or in the correct order</td>
 <td>Run Keyword If</td>
 <td>'${selected}' != '${EMPTY}' and '${selected as bool}' == '${TRUE}'</td>
 <td>Checkbox Should Be Selected</td>
-<td>${element id}</td>
+<td>${element_id}</td>
 </tr>
 <tr>
 <td class="name"></td>
 <td>Run Keyword If</td>
 <td>'${selected}' != '${EMPTY}' and '${selected as bool}' == '${FALSE}'</td>
 <td>Checkbox Should Not Be Selected</td>
-<td>${element id}</td>
+<td>${element_id}</td>
 </tr>
 <tr>
 <td class="name"></td>
 <td>Run Keyword If</td>
 <td>'${text}' != '${EMPTY}'</td>
 <td>Element Text Should Be</td>
-<td>//label[@for="${element id}"]</td>
+<td>//label[@for="${element_id}"]</td>
 </tr>
 <tr>
 <td class="name"></td>
@@ -780,7 +787,7 @@ check checkbox, the arguments are passed with name or in the correct order</td>
 <tr>
 <td class="name"><a name="keyword_Check TextfieldId">Check TextfieldId</a></td>
 <td>[Arguments]</td>
-<td>${element id}</td>
+<td>${element_id}</td>
 <td>${inputvalue}=${EMPTY}</td>
 <td>${enabled}=${EMPTY}</td>
 </tr>
@@ -807,7 +814,7 @@ check textfields, the arguments are passed with name or in the correct order</td
 <tr>
 <td class="name"></td>
 <td>Check ElementId</td>
-<td>${element id}</td>
+<td>${element_id}</td>
 <td>enabled=${enabled}</td>
 <td></td>
 </tr>
@@ -816,7 +823,7 @@ check textfields, the arguments are passed with name or in the correct order</td
 <td>Run Keyword If</td>
 <td>'${inputvalue}' != '${EMPTY}'</td>
 <td>Textfield Value Should Be</td>
-<td>${element id}</td>
+<td>${element_id}</td>
 </tr>
 <tr>
 <td class="name"></td>
@@ -842,7 +849,7 @@ check textfields, the arguments are passed with name or in the correct order</td
 <tr>
 <td class="name"><a name="keyword_Check PageArea is visible">Check PageArea is visible</a></td>
 <td>[Arguments]</td>
-<td>${element id}</td>
+<td>${element_id}</td>
 <td>${class}</td>
 <td>${visible}=${TRUE}</td>
 </tr>
@@ -850,7 +857,7 @@ check textfields, the arguments are passed with name or in the correct order</td
 <td class="name"></td>
 <td>[Documentation]</td>
 <td class="colspan3" colspan="3">MM 22.03.2018\n<br>
-check page area is visible, the content has allways the same element id therefore consider class also</td>
+check page area is visible, the content has allways the same element_id therefore consider class also</td>
 </tr>
 <tr>
 <td class="name"></td>
@@ -862,7 +869,7 @@ check page area is visible, the content has allways the same element id therefor
 <tr>
 <td class="name"></td>
 <td>Check ElementId with class is visible</td>
-<td>${element id}</td>
+<td>${element_id}</td>
 <td>${class}</td>
 <td>${visible}</td>
 </tr>
@@ -963,7 +970,7 @@ get languageid</td>
 </tr>
 <tr>
 <td class="name"></td>
-<td>@{list} =</td>
+<td>#@{list} =</td>
 <td>Create List</td>
 <td>1</td>
 <td>15</td>
@@ -971,7 +978,7 @@ get languageid</td>
 <tr>
 <td class="name"></td>
 <td>...</td>
-<td>16</td>
+<td># 16</td>
 <td></td>
 <td></td>
 </tr>
@@ -980,7 +987,7 @@ get languageid</td>
 <td>: FOR</td>
 <td>${item}</td>
 <td>IN</td>
-<td>@{list}</td>
+<td>@{LANGUAGE_IDS}</td>
 </tr>
 <tr>
 <td class="name"></td>
@@ -1020,7 +1027,7 @@ get languageid</td>
 <tr>
 <td class="name"><a name="keyword_Set LanguageId">Set LanguageId</a></td>
 <td>[Arguments]</td>
-<td>${langunge id}</td>
+<td>${langunge_id}</td>
 <td></td>
 <td></td>
 </tr>
@@ -1040,7 +1047,7 @@ set languageid</td>
 <tr>
 <td class="name"></td>
 <td>Click Element</td>
-<td>/$flow_main/menu_bottom/languages:${langunge id}</td>
+<td>/$flow_main/menu_bottom/languages:${langunge_id}</td>
 <td></td>
 <td></td>
 </tr>
@@ -1054,7 +1061,7 @@ set languageid</td>
 <tr>
 <td class="name"><a name="keyword_Check LanguageId is selected">Check LanguageId is selected</a></td>
 <td>[Arguments]</td>
-<td>${langunge id}</td>
+<td>${langunge_id}</td>
 <td>${selected}=${TRUE}</td>
 <td></td>
 </tr>
@@ -1074,7 +1081,7 @@ check languageid</td>
 <tr>
 <td class="name"></td>
 <td>Check List ElementId is selected</td>
-<td>/$flow_main/menu_bottom/languages:${langunge id}</td>
+<td>/$flow_main/menu_bottom/languages:${langunge_id}</td>
 <td>selected</td>
 <td>${selected}</td>
 </tr>
@@ -1088,7 +1095,7 @@ check languageid</td>
 <tr>
 <td class="name"><a name="keyword_Check List ElementId is selected">Check List ElementId is selected</a></td>
 <td>[Arguments]</td>
-<td>${element id}</td>
+<td>${element_id}</td>
 <td>${class}</td>
 <td>${selected}=${TRUE}</td>
 </tr>
@@ -1108,7 +1115,7 @@ list elemnet is selected</td>
 <tr>
 <td class="name"></td>
 <td>Check ElementId with class is visible</td>
-<td>${element id}</td>
+<td>${element_id}</td>
 <td>${class}</td>
 <td>${selected}</td>
 </tr>
@@ -1122,7 +1129,7 @@ list elemnet is selected</td>
 <tr>
 <td class="name"><a name="keyword_Check ElementId with class is visible">Check ElementId with class is visible</a></td>
 <td>[Arguments]</td>
-<td>${element id}</td>
+<td>${element_id}</td>
 <td>${class}</td>
 <td>${visible}=${TRUE}</td>
 </tr>
@@ -1151,14 +1158,14 @@ check elemnetid with class ist visible</td>
 <td>Run Keyword If</td>
 <td>'${visible as bool}' == '${FALSE}'</td>
 <td>Page Should Not Contain Element</td>
-<td>//*[@id="${element id}"][contains(@class, '${class}')]</td>
+<td>//*[@id="${element_id}"][contains(@class, '${class}')]</td>
 </tr>
 <tr>
 <td class="name"></td>
 <td>Run Keyword If</td>
 <td>'${visible as bool}' == '${TRUE}'</td>
 <td>Page Should Contain Element</td>
-<td>//*[@id="${element id}"][contains(@class, '${class}')]</td>
+<td>//*[@id="${element_id}"][contains(@class, '${class}')]</td>
 </tr>
 </table>
 </body>
