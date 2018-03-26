@@ -4,6 +4,7 @@ Suite Teardown    Close Browser
 Resource          ../../UserKeywords/Common_Resources.html
 Resource          ../../UserKeywords/BILL_Resources.html
 Resource          PageObjects/Menu.txt
+Variables         menu.yaml
 
 *** Test Cases ***
 Check GUI Elements Menu
@@ -58,6 +59,38 @@ Check Language Selection
     Check LanguageId is selected    1    false
     ${langunge_id}=    Get selected LanguageId
     Should Be Equal    ${langunge_id}    15
+
+Check Text Languagedependent YAML
+    [Documentation]    using Variables \ \ \ \ \ \ \ \ menu.yaml
+    ...    Robot Framework requires PyYAML
+    ...    install it by running pip install pyyaml
+    ...
+    ...    file must format in yaml
+    ...    http://docs.ansible.com/ansible/latest/YAMLSyntax.html
+    : FOR    ${item}    IN    @{LANGUAGE_IDS}
+    \    Set LanguageId    ${item}
+    \    Sleep    1s
+    \    ${langunge_code}=    Get selected LanguageCode
+    \    Check ContainsText    &{DicYAML_Benutzer}[${langunge_code}]
+    \    Check ContainsText    &{DicYAML_Allgemein}[${langunge_code}]
+    \    Element Text Should Be    ${invoice_management}    &{DicYAML_Rechnungsverwaltung}[${langunge_code}]
+    \    Element Text Should Be    ${manual_booking}    &{DicYAML_Manuelle_Buchungen}[${langunge_code}]
+    \    Element Text Should Be    ${invoice_issue}    &{DicYAML_Rechnungsausgabe}[${langunge_code}]
+    \    Element Text Should Be    ${search}    &{DicYAML_Suchen}[${langunge_code}]
+    \    Element Text Should Be    ${evaluation}    &{DicYAML_Auswertung}[${langunge_code}]
+    \    Check ContainsText    &{DicYAML_Fakturierung}[${langunge_code}]
+    \    Element Text Should Be    ${billing_deliveries}    &{DicYAML_Lieferungen}[${langunge_code}]
+    \    Element Text Should Be    ${billing_returns}    &{DicYAML_Retouren}[${langunge_code}]
+    \    Element Text Should Be    ${billing_second_hand}    &{DicYAML_Occasionen}[${langunge_code}]
+    \    Element Text Should Be    ${billing_shipment_costs}    &{DicYAML_Sendungskosten}[${langunge_code}]
+    \    Check ContainsText    &{DicYAML_Storno}[${langunge_code}]
+    \    Element Text Should Be    ${deliveries}    &{DicYAML_Storno_Lieferungen}[${langunge_code}]
+    \    Element Text Should Be    ${returns}    &{DicYAML_Storno_Retouren}[${langunge_code}]
+    \    Element Text Should Be    ${second_hand}    &{DicYAML_Storno_Occasionen}[${langunge_code}]
+    \    Element Text Should Be    ${shipment_costs}    &{DicYAML_Storno_Sendungskosten}[${langunge_code}]
+    \    Check ContainsText    &{DicYAML_Voreinstellungen}[${langunge_code}]
+    \    Element Text Should Be    ${offsetting_charging}    &{DicYAML_Verrechnung}[${langunge_code}]
+    \    Check ContainsText    &{DicYAML_Sprachauswahl}[${langunge_code}]
 
 Check Text Languagedependent
     : FOR    ${item}    IN    @{LANGUAGE_IDS}

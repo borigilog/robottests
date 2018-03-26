@@ -970,15 +970,70 @@ get languageid</td>
 </tr>
 <tr>
 <td class="name"></td>
-<td>#@{list} =</td>
-<td>Create List</td>
-<td>1</td>
-<td>15</td>
+<td>: FOR</td>
+<td>${item}</td>
+<td>IN</td>
+<td>@{LANGUAGE_IDS}</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td>${class} =</td>
+<td>Get Element Attribute</td>
+<td>/$flow_main/menu_bottom/languages:${item}</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td>...</td>
+<td>class</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td>Return From Keyword If</td>
+<td>'${class}'=='selected'</td>
+<td>${item}</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>[Return]</td>
+<td>-1</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"><a name="keyword_Get selected LanguageCode">Get selected LanguageCode</a></td>
+<td>[Documentation]</td>
+<td class="colspan3" colspan="3">MM 22.03.2018\n<br>
+get languageid</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>[Tags]</td>
+<td>General, Helper, List, Selection, Language</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>&amp;{langCode}=</td>
+<td>Create Dictionary</td>
+<td>1=D</td>
+<td>15=E</td>
 </tr>
 <tr>
 <td class="name"></td>
 <td>...</td>
-<td># 16</td>
+<td>16=F</td>
 <td></td>
 <td></td>
 </tr>
@@ -1008,7 +1063,7 @@ get languageid</td>
 <td></td>
 <td>Return From Keyword If</td>
 <td>'${class}'=='selected'</td>
-<td>${item}</td>
+<td>&amp;{langCode}[${item}]</td>
 </tr>
 <tr>
 <td class="name"></td>
