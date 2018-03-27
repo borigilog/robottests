@@ -6,6 +6,7 @@ Resource          ../../UserKeywords/BILL_Resources.html
 Resource          PageObjects/Menu.txt
 Variables         customized_menu.yaml
 Variables         menu.yaml
+Library           DatabaseLibrary
 
 *** Test Cases ***
 Check GUI Elements Menu
@@ -14,7 +15,7 @@ Check GUI Elements Menu
     ${langunge_id}=    Get selected LanguageId
     #Benutzer
     Check ContainsText    &{Dic_Benutzer}[${langunge_id}]
-    Check ElementId    ${user_name}    System Administrator, System Administrator    true
+    Check ElementId    ${user_name}    System Administrator, System Administrator    enabled=true
     #Allgemein
     Check ContainsText    &{Dic_Allgemein}[${langunge_id}]
     Check ElementId    ${invoice_management}    &{Dic_Rechnungsverwaltung}[${langunge_id}]    true
@@ -60,6 +61,14 @@ Check Language Selection
     Check LanguageId is selected    1    false
     ${langunge_id}=    Get selected LanguageId
     Should Be Equal    ${langunge_id}    15
+
+Connect To Database
+    [Documentation]    pip install -U robotframework-databaselibrary
+    ...    pip install pymssql
+    ...    http://www.pymssql.org/en/stable/
+    Connect To Database Using Custom Params    pymssql    database='Manualguide', user='dbo_Manualguide', password='zhBs!r7$hbS25', host='test-db2.rigilog.com', port='1433'
+    Check If Exists In Database    select * from Concerns where Concerns.ConcernID = '75d28447-b0b7-4196-9c40-6417e614f836'
+    @{queryConcernResults}=    Query    select ConcernID, IsDeleted, DateOfCreation from Concerns
 
 Check Text Languagedependent YAML
     [Documentation]    using Variables \ \ \ \ \ \ \ \ menu.yaml
