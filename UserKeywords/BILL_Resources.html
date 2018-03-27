@@ -192,6 +192,76 @@ td.name, th.name {
 <td></td>
 </tr>
 <tr>
+<td class="name">${MENU_SECTION_BILLING_TEXT_DE}</td>
+<td>Fakturierung</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name">${MENUE_TEXT_BILLING_SENDUNGSKOSTEN_DE}</td>
+<td>Sendungskosten</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name">${BILLING_SENDUNGSKOSTEN_HEADER_DE}</td>
+<td>Versandte Teile fakturieren</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name">${btnNext}</td>
+<td>//button[@id="/$flow_main/$flow_content/next"]</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name">${btnBilling}</td>
+<td>//button[@id="/$flow_main/$flow_content/billing"]</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name">${btnInvoice}</td>
+<td>//button[@id="/$flow_main/$flow_content/invoice"]</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name">${btnBack}</td>
+<td>//*[@id="/$flow_main/$flow_content/back"]</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name">${btnSelect}</td>
+<td>//*[@id="/$flow_main/$flow_content/select"]</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name">${btnAbort}</td>
+<td>//button[@id="/$flow_main/$flow_content/abort"]</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name">${btnCancel}</td>
+<td>//button[@id="/$flow_main/$flow_content/cancel"]</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
 <td class="name"></td>
 <td></td>
 <td></td>
@@ -207,14 +277,34 @@ td.name, th.name {
 <td class="name"><a name="keyword_Prepare For Storno Sendungskosten Test">Prepare For Storno Sendungskosten Test</a></td>
 <td>[Arguments]</td>
 <td>${Mandator}=Hauptmandant</td>
-<td></td>
+<td>${Login}=Y</td>
 <td></td>
 </tr>
 <tr>
 <td class="name"></td>
+<td>[Documentation]</td>
+<td class="colspan3" colspan="3">Führt den Test in das SubMenue "Sendungskosten" im Bereich Storno. Das Login und die Navigation zum BILL Modul kann unterbunden werden, wenn der 2. Parameter mit 'N' übergeben wird.\n<br>
+\n<br>
+Ersteller: O. Baeker\n<br>
+\n<br>
+Parameter:\n<br>
+\ - Mandant (Optional, default: Hauptmandant)\n<br>
+\ - Login (Optional, default: 'Y' - login to Website and change to BILL Modul)\n<br>
+\n<br>
+erstellt am: 23.03.2018</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Run Keyword If</td>
+<td>'${Login}'=='Y'</td>
 <td>Start Test For Module</td>
 <td>Bill</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>...</td>
 <td>${Mandator}</td>
+<td></td>
 <td></td>
 </tr>
 <tr>
@@ -277,13 +367,16 @@ td.name, th.name {
 <td class="name"><a name="keyword_Get Entry From Bill Table">Get Entry From Bill Table</a></td>
 <td>[Arguments]</td>
 <td>${BillNumber}</td>
-<td></td>
+<td>${maxLines}=100</td>
 <td></td>
 </tr>
 <tr>
 <td class="name"></td>
 <td>[Documentation]</td>
 <td class="colspan3" colspan="3">Ermittelt den Tabellen Index für die angegebene Rechnungsnummer\n<br>
+Parameter:\n<br>
+\ - Rechnungsnummer\n<br>
+\ - max. Anzahl an Zeilen in der Tabelle, die geprüft werden (default = 100)\n<br>
 \n<br>
 Ersteller: O. Baeker\n<br>
 \n<br>
@@ -298,27 +391,6 @@ erstellt am: 13.03.2018</td>
 </tr>
 <tr>
 <td class="name"></td>
-<td>${EntriesInTableOnPage}=</td>
-<td>Set Variable</td>
-<td>11</td>
-<td></td>
-</tr>
-<tr>
-<td class="name"></td>
-<td>${EntriesInTableOnPage}=</td>
-<td>Convert To Integer</td>
-<td>${EntriesInTableOnPage}</td>
-<td></td>
-</tr>
-<tr>
-<td class="name"></td>
-<td>${EntriesInTableOnPage}=</td>
-<td>Evaluate</td>
-<td>${EntriesInTableOnPage}-1</td>
-<td></td>
-</tr>
-<tr>
-<td class="name"></td>
 <td>: FOR</td>
 <td>${Index}</td>
 <td>IN RANGE</td>
@@ -327,15 +399,36 @@ erstellt am: 13.03.2018</td>
 <tr>
 <td class="name"></td>
 <td>...</td>
-<td>${EntriesInTableOnPage}</td>
+<td>${maxLines}</td>
 <td></td>
 <td></td>
 </tr>
 <tr>
 <td class="name"></td>
 <td></td>
+<td>${Result}</td>
+<td>${msg}=</td>
+<td>Run Keyword And Ignore Error</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td>...</td>
 <td>Click Element</td>
 <td>//*[@id="/$flow_main/$flow_content/invoices/list_invoices/${Index}/$invoiceNumber"]</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td>Run Keyword If</td>
+<td>'${Result}'=='FAIL'</td>
+<td>Exit For Loop</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td>...</td>
+<td># kein weiterer Eintrag in der Tabelle</td>
 <td></td>
 </tr>
 <tr>
@@ -420,10 +513,7 @@ erstellt am: 13.03.2018</td>
 <td>[Documentation]</td>
 <td class="colspan3" colspan="3">Navigiere zu BILL -&gt; Rechnungsverwaltung (inkl. Login)\n<br>
 \n<br>
-Ersteller: CD\n<br>
-\n<br>
-\n<br>
-</td>
+Ersteller: CD</td>
 </tr>
 <tr>
 <td class="name"></td>
@@ -443,6 +533,235 @@ Ersteller: CD\n<br>
 <td class="name"></td>
 <td>Wait Until Element Is Visible</td>
 <td>/$flow_main/$flow_content</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"><a name="keyword_Prepare For Billing Shipment Costs Test">Prepare For Billing Shipment Costs Test</a></td>
+<td>[Arguments]</td>
+<td>${Mandator}=Hauptmandant</td>
+<td>${Login}=Y</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>[Documentation]</td>
+<td class="colspan3" colspan="3">Führt den Test in das SubMenue "Sendungskosten" im Bereich Fakturierung. Das Login und die Navigation zum BILL Modul kann unterbunden werden, wenn der 2. Parameter mit 'N' übergeben wird.\n<br>
+\n<br>
+Ersteller: O. Baeker\n<br>
+\n<br>
+Parameter:\n<br>
+\ - Mandant (Optional, default: Hauptmandant)\n<br>
+\ - Login (Optional, default: 'Y' - login to Website and change to BILL Modul)\n<br>
+\n<br>
+erstellt am: 26.03.2018</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Run Keyword If</td>
+<td>'${Login}'=='Y'</td>
+<td>Start Test For Module</td>
+<td>Bill</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>...</td>
+<td>${Mandator}</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Sleep</td>
+<td>2s</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Wait Until Keyword Succeeds</td>
+<td>5</td>
+<td>1 sec</td>
+<td>Element Should Be Visible</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>...</td>
+<td>//div[contains(text(),'${MENU_SECTION_STORNO_TEXT_DE}')]</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Element Text Should Be</td>
+<td>//*[@id="/$flow_main/main_menu/billing_shipment_costs"]</td>
+<td>${MENUE_TEXT_BILLING_SENDUNGSKOSTEN_DE}</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Click Element</td>
+<td>//*[@id="/$flow_main/main_menu/billing_shipment_costs"]</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Wait Until Keyword Succeeds</td>
+<td>5</td>
+<td>1 sec</td>
+<td>Element Should Be Visible</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>...</td>
+<td>//div[contains(text(),'${BILLING_SENDUNGSKOSTEN_HEADER_DE}')]</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"><a name="keyword_Get Entry From Delivery Table">Get Entry From Delivery Table</a></td>
+<td>[Arguments]</td>
+<td>${DeliveryNumber}</td>
+<td>${MaxLines}=100</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>[Documentation]</td>
+<td class="colspan3" colspan="3">Gibt die Zeilennummer für den Eintrag in der Tabelle zurück, die die übergebene Sendungsnummer enthält oder 'None', wenn diese nicht gefunden wurde\n<br>
+\n<br>
+Ersteller: O. Baeker\n<br>
+\n<br>
+Parameter:\n<br>
+- Sendungsnummer\n<br>
+- max. Anzahl von Zeilen, die berücksichtigt werden sollen, default = 100\n<br>
+\n<br>
+erstellt: 27.03.2018</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Sleep</td>
+<td>2s</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>: FOR</td>
+<td>${Index}</td>
+<td>IN RANGE</td>
+<td>0</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>...</td>
+<td>${MaxLines}</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td>${Result}</td>
+<td>${msg}=</td>
+<td>Run Keyword And Ignore Error</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td>...</td>
+<td>Click Element</td>
+<td>//*[@id="/$flow_main/$flow_content/list_deliveries_from_shipments/${Index}/$shipment_no"]</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td>Run Keyword If</td>
+<td>'${Result}'=='FAIL'</td>
+<td>Exit For Loop</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td>...</td>
+<td># kein weiterer Eintrag in der Tabelle</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td>${DeliveryNumberTable}=</td>
+<td>Get Text</td>
+<td>//*[@id="/$flow_main/$flow_content/list_deliveries_from_shipments/${Index}/$shipment_no"]</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td>${DeliveryNumberTable}=</td>
+<td>Convert To String</td>
+<td>${DeliveryNumberTable}</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td>${Result}</td>
+<td>${msg}=</td>
+<td>Run Keyword And Ignore Error</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td>...</td>
+<td>Should be Equal</td>
+<td>${DeliveryNumberTable}</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td>...</td>
+<td>${DeliveryNumber}</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td>${LineIndex}=</td>
+<td>Set Variable If</td>
+<td>'${Result}'=='PASS'</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td>...</td>
+<td>${Index}</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td>Run Keyword If</td>
+<td>'${DeliveryNumberTable}'=='${DeliveryNumber}'</td>
+<td>Exit For Loop</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>[Return]</td>
+<td>${LineIndex}</td>
 <td></td>
 <td></td>
 </tr>

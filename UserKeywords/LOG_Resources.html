@@ -2912,6 +2912,15 @@ erstellt am: 19.03.2018</td>
 </tr>
 <tr>
 <td class="name"><a name="keyword_Verify Kitbau Page 2 Elements">Verify Kitbau Page 2 Elements</a></td>
+<td>[Documentation]</td>
+<td class="colspan3" colspan="3">Test überprüft die WebGUI im KITBau Prozess, die die Artikel eines KITs auflistet und den Ersatz mit Alternativartikeln ermöglicht.\n<br>
+\n<br>
+Ersteller: O.Baeker\n<br>
+\n<br>
+erstellt am: 21.03.2018</td>
+</tr>
+<tr>
+<td class="name"></td>
 <td>${NumberOfArtiklesToBuilt}=</td>
 <td>Get Value</td>
 <td>//input[@id="/$flow_main/$flow_content/numberArticle"]</td>
@@ -3039,13 +3048,13 @@ erstellt am: 19.03.2018</td>
 <tr>
 <td class="name"></td>
 <td>${KitArtikel}=</td>
-<td>Convert To Integer </td>
+<td>Convert To Integer</td>
 <td>${KitArtikel}</td>
 <td></td>
 </tr>
 <tr>
 <td class="name"></td>
-<td>:FOR</td>
+<td>: FOR</td>
 <td>${Index}</td>
 <td>IN RANGE</td>
 <td>0</td>
@@ -3129,6 +3138,69 @@ erstellt am: 19.03.2018</td>
 </tr>
 <tr>
 <td class="name"></td>
+<td>Run Keyword If</td>
+<td>'${AlternativArtikelIndex}'!='None'</td>
+<td>Click Element</td>
+<td>//select[@id="/$flow_main/$flow_content/list_Articles/2/alternative"]</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Run Keyword If</td>
+<td>'${AlternativArtikelIndex}'!='None'</td>
+<td>Select From List By Index</td>
+<td>//select[@id="/$flow_main/$flow_content/list_Articles/2/alternative"]</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>...</td>
+<td>1</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Run Keyword If</td>
+<td>'${AlternativArtikelIndex}'!='None'</td>
+<td>Element Should Be Visible</td>
+<td>//*[@id="/$flow_main/$flow_content/list_Articles/${AlternativArtikelIndex}/$4"]</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>...</td>
+<td># bei Alternativ-Artikeln muss es die Möglichkeit geben, die Verwendung von Original- und Alternativ-Artikeln zu splitten</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Run Keyword If</td>
+<td>'${AlternativArtikelIndex}'!='None'</td>
+<td>Click Element</td>
+<td>//*[@id="/$flow_main/$flow_content/list_Articles/${AlternativArtikelIndex}/$4"]</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>...</td>
+<td># Über das icon erfolgt die Auswahl des Benutzers zum Split</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Comment</td>
+<td>Run Keyword If</td>
+<td>'${AlternativArtikelIndex}'!='None'</td>
+<td>???</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>...</td>
+<td># Hier müsste das icon zum Split des Articles geprüft werden, welches in der aktuellen Version fehlt</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
 <td>Element Should Be Visible</td>
 <td>//button[@id="/$flow_main/$flow_content/kitdetail"]</td>
 <td></td>
@@ -3145,6 +3217,113 @@ erstellt am: 19.03.2018</td>
 <td class="name"></td>
 <td>Element Should Be Visible</td>
 <td>//button[@id="/$flow_main/$flow_content/back"]</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"><a name="keyword_Select Storehouse">Select Storehouse</a></td>
+<td>[Arguments]</td>
+<td>${StorehouseName}</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>[Documentation]</td>
+<td class="colspan3" colspan="3">Keyword wählt und speichert das übergebene Lagerhaus aus zur weiteren Verwendung innerhalb der LOG Tests\n<br>
+\n<br>
+Erstelle: O. Baeker\n<br>
+\n<br>
+erstellt am: 21.03.2018</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Run Keyword If</td>
+<td>'${StorehouseName}'=='${Empty}'</td>
+<td>Fail</td>
+<td>Kein Lager übergeben, Auswahl nicht möglich</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Click Element</td>
+<td>//*[@id="/$flow_main/menu_bottom/switchwarehouse"]</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Wait Until Page Contains</td>
+<td>Aktives Lager festlegen</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>:FOR</td>
+<td>${Index}</td>
+<td>IN RANGE</td>
+<td>0 </td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>...</td>
+<td>25</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td>${Result}</td>
+<td>${msg}=</td>
+<td>Run Keyword And Ignore Error</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td>...</td>
+<td>Click Element</td>
+<td>//*[@id="/$flow_main/$flow_content/warehouse_list/${Index}"]</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td>Run Keyword If</td>
+<td>'${Result}'=='FAIL'</td>
+<td>Exit For Loop</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td>${LagerName}=</td>
+<td>Get Text</td>
+<td>//*[@id="/$flow_main/$flow_content/warehouse_list/${Index}/$StockLocation"]</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td>${LagerName}=</td>
+<td>Convert To String</td>
+<td>${LagerName}</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td>Run Keyword If</td>
+<td>'${LagerName}'=='${StorehouseName}'</td>
+<td>Exit For Loop</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Click Button</td>
+<td>//button[@id="/$flow_main/$flow_content/confirm"]</td>
 <td></td>
 <td></td>
 </tr>

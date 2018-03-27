@@ -415,7 +415,7 @@ td.name, th.name {
 <td class="name"><a name="keyword_Select SubMenue">Select SubMenue</a></td>
 <td>[Arguments]</td>
 <td>${Hauptmenüpunkt}</td>
-<td>${Untermenüpunkt}</td>
+<td>${Untermenüpunkt}=None</td>
 <td></td>
 </tr>
 <tr>
@@ -470,14 +470,14 @@ td.name, th.name {
 <tr>
 <td class="name"></td>
 <td>Run Keyword If</td>
-<td>'${Untermenüpunkt}' != ''</td>
+<td>'${Untermenüpunkt}' != 'None'</td>
 <td>Wait Until Element is Visible</td>
 <td>//div[contains(text(),'${Untermenüpunkt}')]</td>
 </tr>
 <tr>
 <td class="name"></td>
 <td>Run Keyword If</td>
-<td>'${Untermenüpunkt}' != ''</td>
+<td>'${Untermenüpunkt}' != 'None'</td>
 <td>Click Element</td>
 <td>//div[contains(text(),'${Untermenüpunkt}')]</td>
 </tr>
