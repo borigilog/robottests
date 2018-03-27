@@ -66,7 +66,7 @@ Connect To Database
     [Documentation]    pip install -U robotframework-databaselibrary
     ...    pip install pymssql
     ...    http://www.pymssql.org/en/stable/
-    Connect To Database Using Custom Params    pymssql    database='Manualguide', user='dbo_Manualguide', password='zhBs!r7$hbS25', host='test-db2.rigilog.com', port='1433'
+    Connect To Database Using Custom Params    pymssql    database='${DATABASE_NAME}', user='${DATABASE_USER}', password='${DATABASE_PWD}', host='${DATABASE_IP}', port='${DATABASE_PORT}'
     Check If Exists In Database    select * from Concerns where Concerns.ConcernID = '75d28447-b0b7-4196-9c40-6417e614f836'
     @{queryConcernResults}=    Query    select ConcernID, IsDeleted, DateOfCreation from Concerns
 
