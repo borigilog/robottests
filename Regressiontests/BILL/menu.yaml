@@ -1,12 +1,8 @@
 ---
-DicYAML_Benutzer:
-    D: "Benutzer:"
-    E: "User:"
-    F: "Utilisateur:"
-DicYAML_Allgemein:
-    D: Allgemein
-    E: Generally
-    F: Général
+DicYAML_BenutzerCustomizesTest: {D: "Benutzer:", E: "User:", F: "Utilisateur:"}
+DicYAML_RechnungsverwaltungCustomizesTest: {D: Rechnungsverwaltung, E: Invoice management, F: Gestion des factures}
+DicYAML_Benutzer: {D: "Benutzer:", E: "User:", F: "Utilisateur:"}
+DicYAML_Allgemein: {D: Allgemein, E: Generally, F: Général}
 DicYAML_Rechnungsverwaltung: {D: Rechnungsverwaltung, E: Invoice management, F: Gestion des factures}
 DicYAML_Manuelle_Buchungen:
     D: Manuelle Buchungen
@@ -74,10 +70,16 @@ DicYAML_Verrechnung:
     F: Facturation
 DicYAML_Mandantenauswahl:
     D: Aktiven Mandanten wechseln
+    E: ''
+    F: ''
 DicYAML_Kontakt:
     D: Kontakt
+    E: ''
+    F: ''
 DicYAML_Modul_verlassen:
     D: Modul verlassen
+    E: ''
+    F: ''
 DicYAML_Sprachauswahl:
     D: Sprachauswahl
     E: Language selection

@@ -4,6 +4,7 @@ Suite Teardown    Close Browser
 Resource          ../../UserKeywords/Common_Resources.html
 Resource          ../../UserKeywords/BILL_Resources.html
 Resource          PageObjects/Menu.txt
+Variables         customized_menu.yaml
 Variables         menu.yaml
 
 *** Test Cases ***
@@ -91,6 +92,19 @@ Check Text Languagedependent YAML
     \    Check ContainsText    &{DicYAML_Voreinstellungen}[${langunge_code}]
     \    Element Text Should Be    ${offsetting_charging}    &{DicYAML_Verrechnung}[${langunge_code}]
     \    Check ContainsText    &{DicYAML_Sprachauswahl}[${langunge_code}]
+
+Check Text Languagedependent YAML customized
+    [Documentation]    customized muss zuerst eingelesen werden, einlesen erfolgt nach fifo
+    ...    siehe:
+    ...    Variables \ \ \ \ \ \ \ \ customized_menu.yaml
+    ...    Variables \ \ \ \ \ \ \ \ menu.yaml
+    Log To Console    &{DicYAML_RechnungsverwaltungCustomizesTest}[D]
+    Log To Console    &{DicYAML_RechnungsverwaltungCustomizesTest}[E]
+    Log To Console    &{DicYAML_RechnungsverwaltungCustomizesTest}[F]
+    Log To Console    &{DicYAML_BenutzerCustomizesTest}[1]
+    ${langE_Id}=    Convert To Integer    15
+    Log To Console    &{DicYAML_BenutzerCustomizesTest}[${langE_Id}]
+    Log To Console    &{DicYAML_BenutzerCustomizesTest}[16]
 
 Check Text Languagedependent
     : FOR    ${item}    IN    @{LANGUAGE_IDS}
