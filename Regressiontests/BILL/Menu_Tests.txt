@@ -7,6 +7,7 @@ Resource          PageObjects/Menu.txt
 Variables         customized_menu.yaml
 Variables         menu.yaml
 Library           DatabaseLibrary
+Library           DatabaseClass.py
 
 *** Test Cases ***
 Check GUI Elements Menu
@@ -69,6 +70,8 @@ Connect To Database
     Connect To Database Using Custom Params    pymssql    database='${DATABASE_NAME}', user='${DATABASE_USER}', password='${DATABASE_PWD}', host='${DATABASE_IP}', port='${DATABASE_PORT}'
     Check If Exists In Database    select * from Concerns where Concerns.ConcernID = '75d28447-b0b7-4196-9c40-6417e614f836'
     @{queryConcernResults}=    Query    select ConcernID, IsDeleted, DateOfCreation from Concerns
+    DB_Execute_Querry    select * from Concerns where Concerns.ConcernID = '75d28447-b0b7-4196-9c40-6417e614f836'
+    DB_Execute_Scalar    select Count(*) from Concerns where Concerns.ConcernID = '75d28447-b0b7-4196-9c40-6417e614f836'
 
 Check Text Languagedependent YAML
     [Documentation]    using Variables \ \ \ \ \ \ \ \ menu.yaml
