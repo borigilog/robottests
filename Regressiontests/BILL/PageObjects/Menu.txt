@@ -1,0 +1,119 @@
+*** Variables ***
+# ~~~~~~~~~ Menu
+${menu_content}    /$flow_main/$flow_content
+${user_name}      /$flow_main/username
+${invoice_management}    /$flow_main/main_menu/invoice_management
+${invoice_management_class}    screen look_rlx_screen_bill_generally_invoicemanagement
+${manual_booking}    /$flow_main/main_menu/manual_booking
+${manual_booking_class}    screen look_rlx_screen_bill_generally_manualbooking
+${invoice_issue}    /$flow_main/main_menu/invoice_issue
+${invoice_issue_class}    screen look_rlx_screen_bill_generally_invoiceissue
+${search}         /$flow_main/main_menu/search
+${search_class}    screen look_rlx_screen_bill_generally_search
+${evaluation}     /$flow_main/main_menu/evaluation
+${evaluation_class}    screen look_rlx_screen_bill_generally_evaluation
+${billing_deliveries}    /$flow_main/main_menu/billing_deliveries
+${billing_deliveries_class}    screen look_rlx_screen_bill_billing_deliveries_shipment
+${billing_returns}    /$flow_main/main_menu/billing_returns
+${billing_returns_class}    screen look_rlx_screen_bill_billing_returns
+${billing_second_hand}    /$flow_main/main_menu/billing_second_hand
+${billing_second_hand_class}    screen look_rlx_screen_bill_billing_second_hand
+${billing_shipment_costs}    /$flow_main/main_menu/billing_shipment_costs
+${billing_shipment_costs_class}    screen look_rlx_screen_bill_billing_deliveries_shipment
+${deliveries}     /$flow_main/main_menu/deliveries
+${deliveries_class}    screen look_rlx_screen_bill_cancellation
+${returns}        /$flow_main/main_menu/returns
+${returns_class}    screen look_rlx_screen_bill_cancellation
+${second_hand}    /$flow_main/main_menu/second_hand
+${second_hand_class}    screen look_rlx_screen_bill_cancellation
+${shipment_costs}    /$flow_main/main_menu/shipment_costs
+${shipment_costs_class}    screen look_rlx_screen_bill_cancellation
+${offsetting_charging}    /$flow_main/main_menu/offsetting_charging
+${offsetting_charging_class}    screen look_rlx_screen_bill_defaultSettings_offseting_charging
+${mandatorname}    /$flow_main/menu_bottom/mandatorname
+#${mandatorname_class}
+${switchmandator}    /$flow_main/menu_bottom/switchmandator
+#${switchmandator_class}
+${help}           /$flow_main/menu_bottom/help
+#${help_class}
+${exit}           /$flow_main/menu_bottom/exit
+#${exit_class}
+${languages}      /$flow_main/menu_bottom/languages
+# ~~~~~~~~~ Dictionaries
+&{Dic_Storno_Lieferungen}    1=Lieferungen    15=Deliveries    16=Livraisons
+&{Dic_Storno_Retouren}    1=Retouren    15=Returns    16=Retours
+&{Dic_Storno_Occasionen}    1=Occasionen    15=Second-hand    16=Occasions
+&{Dic_Storno_Sendungskosten}    1=Sendungskosten    15=Shipment costs    16=Frais d'expédition
+&{Dic_Lieferungen}    1=Lieferungen    15=Deliveries    16=Livraisons
+&{Dic_Retouren}    1=Retouren    15=Returns    16=Retours
+&{Dic_Occasionen}    1=Occasionen    15=Second-hand    16=Occasions
+&{Dic_Sendungskosten}    1=Sendungskosten    15=Shipment costs    16=Frais d'expédition
+&{Dic_Rechnungsverwaltung}    1=Rechnungsverwaltung    15=Invoice management    16=Gestion des factures
+&{Dic_Manuelle_Buchungen}    1=Manuelle Buchungen    15=Manual bookings    16=Écritures manuelles
+&{Dic_Rechnungsausgabe}    1=Rechnungsausgabe    15=Invoice issue    16=Émission de facture
+&{Dic_Suchen}     1=Suchen    15=Search    16=Rechercher
+&{Dic_Auswertung}    1=Auswertung    15=Evaluation    16=Évaluation
+&{Dic_Verrechnung}    1=Verrechnung    15=Offsetting/Charging    16=Facturation
+&{Dic_Benutzer}    1=Benutzer:    15=User:    16=Utilisateur:
+&{Dic_Allgemein}    1=Allgemein    15=Generally    16=Général
+&{Dic_Fakturierung}    1=Fakturierung    15=Billing    16=Facturation
+&{Dic_Storno}     1=Storno    15=Cancellation    16=Annulation
+&{Dic_Voreinstellungen}    1=Voreinstellungen    15=Default settings    16=Paramètres prédéfinis
+&{Dic_Sprachauswahl}    1=Sprachauswahl    15=Language selection    16=Sélection de langue
+&{Dic_Mandantenauswahl}    1=Aktiven Mandanten wechseln    15=    16=
+&{Dic_Kontakt}    1=Kontakt    15=    16=
+&{Dic_Modul_verlassen}    1=Modul verlassen    15=    16=
+&{Dic_Sprachen_Code}    1=D    15=E    16=F
+
+*** Keywords ***
+Login Select Bill
+    [Documentation]    MM 22.03.2018, prepare content for BILL tests
+    Start Test For Module    Bill
+    Wait Until Keyword Succeeds    60 sec    1 sec    Check PageArea is visible    /$flow_main    screen look_rlx_screen_bill_main
+    Check Homescreen is selected
+
+Check Homescreen is selected
+    [Documentation]    MM 22.03.2018, check content homescreen is selected
+    Check PageArea is visible    ${menu_content}    screen look_rlx_screen_bill_homescreen
+
+Select Rechnungsverwaltung
+    Select Menu Content    ${invoice_management}    ${invoice_management_class}
+
+Select Manuelle Buchungen
+    Select Menu Content    ${manual_booking}    ${manual_booking_class}
+
+Select Rechnungsausgabe
+    Select Menu Content    ${invoice_issue}    ${invoice_issue_class}
+
+Select Suchen
+    Select Menu Content    ${search}    ${search_class}
+
+Select Auswertung
+    Select Menu Content    ${evaluation}    ${evaluation_class}
+
+Select Lieferungen
+    Select Menu Content    ${billing_deliveries}    ${billing_deliveries_class}
+
+Select Retouren
+    Select Menu Content    ${billing_returns}    ${billing_returns_class}
+
+Select Occasionen
+    Select Menu Content    ${billing_second_hand}    ${billing_second_hand_class}
+
+Select Sendungskosten
+    Select Menu Content    ${billing_shipment_costs}    ${billing_shipment_costs_class}
+
+Select Storno Lieferungen
+    Select Menu Content    ${deliveries}    ${deliveries_class}
+
+Select Storno Retouren
+    Select Menu Content    ${returns}    ${returns_class}
+
+Select Storno Occasionen
+    Select Menu Content    ${second_hand}    ${second_hand_class}
+
+Select Storno Sendungskosten
+    Select Menu Content    ${shipment_costs}    ${shipment_costs_class}
+
+Select Verrechnung
+    Select Menu Content    ${offsetting_charging}    ${offsetting_charging_class}
