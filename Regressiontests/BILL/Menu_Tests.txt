@@ -1,49 +1,149 @@
 *** Settings ***
+Suite Setup       Login Select Bill
+Suite Teardown    Close Browser
 Resource          ../../UserKeywords/Common_Resources.html
 Resource          ../../UserKeywords/BILL_Resources.html
+Resource          PageObjects/Menu.txt
+Variables         menu.yaml
 
 *** Test Cases ***
 Check GUI Elements Menu
     [Documentation]    MM 22.03.2018, check GUI Elements for Menu
     [Tags]    Bill    Menu
-    [Setup]    Prepare For Bill Test    Hauptmandant
-    #variable - set locations
-    ${main_menu_location}    Set Variable    /$flow_main/main_menu
-    ${main_menu_bottom_location}    Set Variable    /$flow_main/menu_bottom
+    ${langunge_id}=    Get selected LanguageId
     #Benutzer
-    Check ContainsText    Benutzer:
-    Check ElementId    /$flow_main/username    System Administrator, System Administrator    true
+    Check ContainsText    &{Dic_Benutzer}[${langunge_id}]
+    Check ElementId    ${user_name}    System Administrator, System Administrator    true
     #Allgemein
-    Check ContainsText    Allgemein
-    Check ElementId    ${main_menu_location}/invoice_management    Rechnungsverwaltung    true
-    Check ElementId    ${main_menu_location}/manual_booking    Manuelle Buchungen    true
-    Check ElementId    ${main_menu_location}/invoice_issue    Rechnungsausgabe    true
-    Check ElementId    ${main_menu_location}/search    Suchen    true
-    Check ElementId    ${main_menu_location}/evaluation    Auswertung    true
+    Check ContainsText    &{Dic_Allgemein}[${langunge_id}]
+    Check ElementId    ${invoice_management}    &{Dic_Rechnungsverwaltung}[${langunge_id}]    true
+    Check ElementId    ${manual_booking}    &{Dic_Manuelle_Buchungen}[${langunge_id}]    true
+    Check ElementId    ${invoice_issue}    &{Dic_Rechnungsausgabe}[${langunge_id}]    true
+    Check ElementId    ${search}    &{Dic_Suchen}[${langunge_id}]    true
+    Check ElementId    ${evaluation}    &{Dic_Auswertung}[${langunge_id}]    true
     #Fakturierung
-    Check ContainsText    Fakturierung
-    Check ElementId    ${main_menu_location}/billing_deliveries    Lieferungen    true
-    Check ElementId    ${main_menu_location}/billing_returns    Retouren    true
-    Check ElementId    ${main_menu_location}/billing_second_hand    Occasionen    true
-    Check ElementId    ${main_menu_location}/billing_shipment_costs    ${MENUE_TEXT_STORNO_SENDUNGSKOSTEN_DE}    true
+    Check ContainsText    &{Dic_Fakturierung}[${langunge_id}]
+    Check ElementId    ${billing_deliveries}    &{Dic_Lieferungen}[${langunge_id}]    true
+    Check ElementId    ${billing_returns}    &{Dic_Retouren}[${langunge_id}]    true
+    Check ElementId    ${billing_second_hand}    &{Dic_Occasionen}[${langunge_id}]    true
+    Check ElementId    ${billing_shipment_costs}    &{Dic_Sendungskosten}[${langunge_id}]    true
     #Storno
-    Check ContainsText    ${MENU_SECTION_STORNO_TEXT_DE}
-    Check ElementId    ${main_menu_location}/deliveries    Lieferungen    true
-    Check ElementId    ${main_menu_location}/returns    Retouren    true
-    Check ElementId    ${main_menu_location}/second_hand    Occasionen    true
-    Check ElementId    ${main_menu_location}/shipment_costs    ${MENUE_TEXT_STORNO_SENDUNGSKOSTEN_DE}    true
+    Check ContainsText    &{Dic_Storno}[${langunge_id}]
+    Check ElementId    ${deliveries}    &{Dic_Storno_Lieferungen}[${langunge_id}]    true
+    Check ElementId    ${returns}    &{Dic_Storno_Retouren}[${langunge_id}]    true
+    Check ElementId    ${second_hand}    &{Dic_Storno_Occasionen}[${langunge_id}]    true
+    Check ElementId    ${shipment_costs}    &{Dic_Storno_Sendungskosten}[${langunge_id}]    true
     #Voreinstellungen
-    Check ContainsText    Voreinstellungen
-    Check ElementId    ${main_menu_location}/offsetting_charging    Verrechnung    true
+    Check ContainsText    &{Dic_Voreinstellungen}[${langunge_id}]
+    Check ElementId    ${offsetting_charging}    &{Dic_Verrechnung}[${langunge_id}]    true
     #Mandant
-    Check ElementId    ${main_menu_bottom_location}/mandatorname    Hauptmandant    true
-    Check TooltipId    ${main_menu_bottom_location}/switchmandator    Aktiven Mandanten wechseln
-    Check TooltipId    ${main_menu_bottom_location}/help    Kontakt
-    Check TooltipId    ${main_menu_bottom_location}/exit    Modul verlassen
+    Check ElementId    ${mandatorname}    Hauptmandant    true
+    Check ElementId    ${switchmandator}    enabled=true
+    Check TooltipId    ${switchmandator}    &{Dic_Mandantenauswahl}[${langunge_id}]
+    Check ElementId    ${help}    enabled=true
+    Check TooltipId    ${help}    &{Dic_Kontakt}[${langunge_id}]
+    Check ElementId    ${exit}    enabled=true
+    Check TooltipId    ${exit}    &{Dic_Modul_verlassen}[${langunge_id}]
     #Sprachauswahl
-    Check ContainsText    Sprachauswahl
-    Check ElementId    ${main_menu_bottom_location}/languages
-    Check ElementId    ${main_menu_bottom_location}/languages:1    D    true
-    Check ElementId    ${main_menu_bottom_location}/languages:15    E    true
-    Check ElementId    ${main_menu_bottom_location}/languages:16    F    true
-    [Teardown]    Close Browser
+    Check ContainsText    &{Dic_Sprachauswahl}[${langunge_id}]
+    Check ElementId    ${languages}
+    Check ElementId    ${languages}:1    &{Dic_Sprachen_Code}[1]    true
+    Check ElementId    ${languages}:15    &{Dic_Sprachen_Code}[15]    true
+    Check ElementId    ${languages}:16    &{Dic_Sprachen_Code}[16]    true
+
+Check Language Selection
+    Check LanguageId is selected    1
+    Check LanguageId is selected    15    false
+    Set LanguageId    15
+    Check LanguageId is selected    15
+    Check LanguageId is selected    1    false
+    ${langunge_id}=    Get selected LanguageId
+    Should Be Equal    ${langunge_id}    15
+
+Check Text Languagedependent YAML
+    [Documentation]    using Variables \ \ \ \ \ \ \ \ menu.yaml
+    ...    Robot Framework requires PyYAML
+    ...    install it by running pip install pyyaml
+    ...
+    ...    file must format in yaml
+    ...    http://docs.ansible.com/ansible/latest/YAMLSyntax.html
+    : FOR    ${item}    IN    @{LANGUAGE_IDS}
+    \    Set LanguageId    ${item}
+    \    Sleep    1s
+    \    ${langunge_code}=    Get selected LanguageCode
+    \    Check ContainsText    &{DicYAML_Benutzer}[${langunge_code}]
+    \    Check ContainsText    &{DicYAML_Allgemein}[${langunge_code}]
+    \    Element Text Should Be    ${invoice_management}    &{DicYAML_Rechnungsverwaltung}[${langunge_code}]
+    \    Element Text Should Be    ${manual_booking}    &{DicYAML_Manuelle_Buchungen}[${langunge_code}]
+    \    Element Text Should Be    ${invoice_issue}    &{DicYAML_Rechnungsausgabe}[${langunge_code}]
+    \    Element Text Should Be    ${search}    &{DicYAML_Suchen}[${langunge_code}]
+    \    Element Text Should Be    ${evaluation}    &{DicYAML_Auswertung}[${langunge_code}]
+    \    Check ContainsText    &{DicYAML_Fakturierung}[${langunge_code}]
+    \    Element Text Should Be    ${billing_deliveries}    &{DicYAML_Lieferungen}[${langunge_code}]
+    \    Element Text Should Be    ${billing_returns}    &{DicYAML_Retouren}[${langunge_code}]
+    \    Element Text Should Be    ${billing_second_hand}    &{DicYAML_Occasionen}[${langunge_code}]
+    \    Element Text Should Be    ${billing_shipment_costs}    &{DicYAML_Sendungskosten}[${langunge_code}]
+    \    Check ContainsText    &{DicYAML_Storno}[${langunge_code}]
+    \    Element Text Should Be    ${deliveries}    &{DicYAML_Storno_Lieferungen}[${langunge_code}]
+    \    Element Text Should Be    ${returns}    &{DicYAML_Storno_Retouren}[${langunge_code}]
+    \    Element Text Should Be    ${second_hand}    &{DicYAML_Storno_Occasionen}[${langunge_code}]
+    \    Element Text Should Be    ${shipment_costs}    &{DicYAML_Storno_Sendungskosten}[${langunge_code}]
+    \    Check ContainsText    &{DicYAML_Voreinstellungen}[${langunge_code}]
+    \    Element Text Should Be    ${offsetting_charging}    &{DicYAML_Verrechnung}[${langunge_code}]
+    \    Check ContainsText    &{DicYAML_Sprachauswahl}[${langunge_code}]
+
+Check Text Languagedependent
+    : FOR    ${item}    IN    @{LANGUAGE_IDS}
+    \    Set LanguageId    ${item}
+    \    Sleep    1s
+    \    ${langunge_id}=    Get selected LanguageId
+    \    Check ContainsText    &{Dic_Benutzer}[${langunge_id}]
+    \    Check ContainsText    &{Dic_Allgemein}[${langunge_id}]
+    \    Element Text Should Be    ${invoice_management}    &{Dic_Rechnungsverwaltung}[${langunge_id}]
+    \    Element Text Should Be    ${manual_booking}    &{Dic_Manuelle_Buchungen}[${langunge_id}]
+    \    Element Text Should Be    ${invoice_issue}    &{Dic_Rechnungsausgabe}[${langunge_id}]
+    \    Element Text Should Be    ${search}    &{Dic_Suchen}[${langunge_id}]
+    \    Element Text Should Be    ${evaluation}    &{Dic_Auswertung}[${langunge_id}]
+    \    Check ContainsText    &{Dic_Fakturierung}[${langunge_id}]
+    \    Element Text Should Be    ${billing_deliveries}    &{Dic_Lieferungen}[${langunge_id}]
+    \    Element Text Should Be    ${billing_returns}    &{Dic_Retouren}[${langunge_id}]
+    \    Element Text Should Be    ${billing_second_hand}    &{Dic_Occasionen}[${langunge_id}]
+    \    Element Text Should Be    ${billing_shipment_costs}    &{Dic_Sendungskosten}[${langunge_id}]
+    \    Check ContainsText    &{Dic_Storno}[${langunge_id}]
+    \    Element Text Should Be    ${deliveries}    &{Dic_Storno_Lieferungen}[${langunge_id}]
+    \    Element Text Should Be    ${returns}    &{Dic_Storno_Retouren}[${langunge_id}]
+    \    Element Text Should Be    ${second_hand}    &{Dic_Storno_Occasionen}[${langunge_id}]
+    \    Element Text Should Be    ${shipment_costs}    &{Dic_Storno_Sendungskosten}[${langunge_id}]
+    \    Check ContainsText    &{Dic_Voreinstellungen}[${langunge_id}]
+    \    Element Text Should Be    ${offsetting_charging}    &{Dic_Verrechnung}[${langunge_id}]
+    \    Check ContainsText    &{Dic_Sprachauswahl}[${langunge_id}]
+
+Check Menu Selection
+    Select Rechnungsverwaltung
+    Sleep    1s
+    Select Manuelle Buchungen
+    Sleep    1s
+    Select Rechnungsausgabe
+    Sleep    1s
+    Select Suchen
+    Sleep    1s
+    Select Auswertung
+    Sleep    1s
+    Select Lieferungen
+    Sleep    1s
+    Select Retouren
+    Sleep    1s
+    Select Occasionen
+    Sleep    1s
+    Select Sendungskosten
+    Sleep    1s
+    Select Storno Lieferungen
+    Sleep    1s
+    Select Storno Retouren
+    Sleep    1s
+    Select Storno Occasionen
+    Sleep    1s
+    Select Storno Sendungskosten
+    Sleep    1s
+    Select Verrechnung
+    Sleep    1s

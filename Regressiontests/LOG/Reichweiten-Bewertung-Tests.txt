@@ -157,7 +157,7 @@ Enter Manual Deduction Value for One Article
     [Documentation]    Test der Funktionalität, die den Wert für manuelle Abschreibung einzutragen.
     ...    Prüfen, ob die resultierenden Berechnungen der Änderung Rechnung tragen.
     [Setup]    Prepare For Reichweiten Bewertung Tests    Hauptmandant
-    Sleep    5s
+    Sleep    10s
     Reichweiten Bewertung Search Article No    110
     ${AnzahlEinträge}=    Get Matching Xpath Count    //table/tbody/tr[contains(@id,'/$flow_main/$flow_content/list_articles/')]
     ${AnzahlEinträge}=    Convert To Integer    ${AnzahlEinträge}    \    # wird nur zu Log Zwekcen verwendet
