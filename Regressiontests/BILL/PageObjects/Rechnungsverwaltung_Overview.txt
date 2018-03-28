@@ -14,8 +14,8 @@ ${btnCloseBill}    /$flow_main/$flow_content/closeBill
 ${btnProcessBill}    /$flow_main/$flow_content/isprocessedBill
 ${btnViewBill}    /$flow_main/$flow_content/viewBill
 # ~~~~~~~ invoices
-${invOpen}        /$flow_main/$flow_content/invoice_list/46
-${invClosed}      /$flow_main/$flow_content/invoice_list/94
+${invOpen}        /$flow_main/$flow_content/invoice_list/94
+${invClosed}      /$flow_main/$flow_content/invoice_list/46
 ${invProcessed}    /$flow_main/$flow_content/invoice_list/0
 ${invProcessedClosed}    /$flow_main/$flow_content/invoice_list/1
 

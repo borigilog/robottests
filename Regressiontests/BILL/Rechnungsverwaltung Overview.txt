@@ -5,7 +5,8 @@ Suite Teardown    Close Browser
 Resource          ../../UserKeywords/Common_Resources.html
 Resource          ../../UserKeywords/BILL_Resources.html
 Resource          PageObjects/Rechnungsverwaltung_Overview.txt
-Library           RechnungsverwaltungOverview.py
+Resource          PageObjects/Menu.txt
+Library           ../../Libs/ActionChainsExtension.py
 
 *** Test Cases ***
 No Invoice Selected
@@ -93,11 +94,11 @@ Closed Invoice Selected
 
 Multiple Invoices selected
     [Documentation]    BILL -> Rechnungsverwaltung: Status der Buttons, wenn mehrere Elemente selektiert sind
-    ${ids}    Create List    ${invProcessed}    ${invProcessedClosed}
-    Select Multiple Invoices    ${ids}
+    ${ids}    Create List    ${invProcessed}/$invoiceNumber    ${invProcessedClosed}/$invoiceNumber
+    Select Elements With CONTROL    ${ids}
     Run Keyword And Continue On Failure    Invoice Should Be Selected    ${invProcessed}
     Run Keyword And Continue On Failure    Invoice Should Be Selected    ${invProcessedClosed}
-    Select Invoices Between    ${invProcessed}    ${invProcessedClosed}
+    Select Elements With SHIFT    ${invProcessed}    ${invProcessedClosed}
     Invoice Should Be Selected    ${invProcessed}
     Invoice Should Be Selected    ${invProcessedClosed}
     Element Should Be Enabled    ${chkShowOnlyOpenBills}
