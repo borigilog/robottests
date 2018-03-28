@@ -1,6 +1,8 @@
 *** Settings ***
 Resource          ../UserKeywords/LOG_Resources.html
 Library           Selenium2Library
+Library           DatabaseLibrary
+Library           ../Libs/DatabaseClass.py    database=${DATABASE_NAME}    user=${DATABASE_USER}    password=${DATABASE_PWD}    host=${DATABASE_IP}    port=${DATABASE_PORT}
 
 *** Test Cases ***
 Login to new Website
@@ -45,4 +47,20 @@ Check PSTB Employee
     Click Element    //*[@id="/$flow_main/$flow_content/back"]
     Wait Until Page Contains Element    //*[@id="/$flow_main/$flow_content/person_name"]
     Click Element    //*[@id="/$flow_main/menu_bottom/exit"]
+    [Teardown]    Close Browser
+
+Connect To Database
+    [Documentation]    pip install -U robotframework-databaselibrary
+    ...    https://franz-see.github.io/Robotframework-Database-Library/api/0.5/DatabaseLibrary.html
+    ...    pip install pymssql
+    ...    http://www.pymssql.org/en/stable/
+    Open Browser    ${RLX_LOGIN_URL}    ${BROWSER}
+    Connect To Database Using Custom Params    pymssql    database='${DATABASE_NAME}', user='${DATABASE_USER}', password='${DATABASE_PWD}', host='${DATABASE_IP}', port='${DATABASE_PORT}'
+    Check If Exists In Database    select * from Concerns where Concerns.ConcernID = '75d28447-b0b7-4196-9c40-6417e614f836'
+    @{queryConcernResults1}=    Query    select ConcernID, IsDeleted, DateOfCreation from Concerns
+    Log To Console    Result1:@{queryConcernResults1}
+    @{queryConcernResults2}=    DB_Execute_Querry    select * from Concerns where Concerns.ConcernID = '75d28447-b0b7-4196-9c40-6417e614f836'
+    Log To Console    Result2:@{queryConcernResults2}
+    ${queryConcernResults3}=    DB_Execute_Scalar    select Count(*) from Concerns where Concerns.ConcernID = '75d28447-b0b7-4196-9c40-6417e614f836'
+    Log To Console    Result3:${queryConcernResults3}
     [Teardown]    Close Browser

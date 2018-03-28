@@ -157,6 +157,13 @@ td.name, th.name {
 <td></td>
 </tr>
 <tr>
+<td class="name">&amp;{AVAILABLE_LANGUAGES}</td>
+<td>1=D</td>
+<td>15=E</td>
+<td>16=F</td>
+<td></td>
+</tr>
+<tr>
 <td class="name">@{LANGUAGE_IDS}</td>
 <td>1</td>
 <td>15</td>
@@ -802,14 +809,35 @@ check checkbox, the arguments are passed with name or in the correct order</td>
 <td class="name"></td>
 <td>Run Keyword If</td>
 <td>'${text}' != '${EMPTY}'</td>
-<td>Element Text Should Be</td>
-<td>//label[@for="${element_id}"]</td>
+<td>Check LabelText</td>
+<td>${element_id}</td>
 </tr>
 <tr>
 <td class="name"></td>
 <td>...</td>
 <td>${text}</td>
 <td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"><a name="keyword_Check LabelText">Check LabelText</a></td>
+<td>[Arguments]</td>
+<td>${element_id}</td>
+<td>${text}</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Element Text Should Be</td>
+<td>//label[@for="${element_id}"]</td>
+<td>${text}</td>
 <td></td>
 </tr>
 <tr>
@@ -1006,16 +1034,16 @@ get languageid</td>
 <tr>
 <td class="name"></td>
 <td>: FOR</td>
-<td>${item}</td>
+<td>${key}</td>
 <td>IN</td>
-<td>@{LANGUAGE_IDS}</td>
+<td>@{AVAILABLE_LANGUAGES.keys()}</td>
 </tr>
 <tr>
 <td class="name"></td>
 <td></td>
 <td>${class} =</td>
 <td>Get Element Attribute</td>
-<td>/$flow_main/menu_bottom/languages:${item}</td>
+<td>/$flow_main/menu_bottom/languages:${key}</td>
 </tr>
 <tr>
 <td class="name"></td>
@@ -1029,7 +1057,7 @@ get languageid</td>
 <td></td>
 <td>Return From Keyword If</td>
 <td>'${class}'=='selected'</td>
-<td>${item}</td>
+<td>${key}</td>
 </tr>
 <tr>
 <td class="name"></td>
@@ -1060,31 +1088,17 @@ get languageid</td>
 </tr>
 <tr>
 <td class="name"></td>
-<td>&amp;{langCode}=</td>
-<td>Create Dictionary</td>
-<td>1=D</td>
-<td>15=E</td>
-</tr>
-<tr>
-<td class="name"></td>
-<td>...</td>
-<td>16=F</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="name"></td>
 <td>: FOR</td>
-<td>${item}</td>
+<td>${key}</td>
 <td>IN</td>
-<td>@{LANGUAGE_IDS}</td>
+<td>@{AVAILABLE_LANGUAGES.keys()}</td>
 </tr>
 <tr>
 <td class="name"></td>
 <td></td>
 <td>${class} =</td>
 <td>Get Element Attribute</td>
-<td>/$flow_main/menu_bottom/languages:${item}</td>
+<td>/$flow_main/menu_bottom/languages:${key}</td>
 </tr>
 <tr>
 <td class="name"></td>
@@ -1096,9 +1110,23 @@ get languageid</td>
 <tr>
 <td class="name"></td>
 <td></td>
+<td>${langCode}=</td>
+<td>Get From Dictionary</td>
+<td>${AVAILABLE_LANGUAGES}</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td>...</td>
+<td>${key}</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
 <td>Return From Keyword If</td>
 <td>'${class}'=='selected'</td>
-<td>&amp;{langCode}[${item}]</td>
+<td>${langCode}</td>
 </tr>
 <tr>
 <td class="name"></td>

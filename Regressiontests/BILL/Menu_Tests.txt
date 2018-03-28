@@ -4,10 +4,8 @@ Suite Teardown    Close Browser
 Resource          ../../UserKeywords/Common_Resources.html
 Resource          ../../UserKeywords/BILL_Resources.html
 Resource          PageObjects/Menu.txt
-Variables         customized_menu.yaml
-Variables         menu.yaml
-Library           DatabaseLibrary
-Library           DatabaseClass.py
+Variables         PageObjects/customized_menu.yaml
+Variables         PageObjects/Menu.yaml
 
 *** Test Cases ***
 Check GUI Elements Menu
@@ -63,16 +61,6 @@ Check Language Selection
     ${langunge_id}=    Get selected LanguageId
     Should Be Equal    ${langunge_id}    15
 
-Connect To Database
-    [Documentation]    pip install -U robotframework-databaselibrary
-    ...    pip install pymssql
-    ...    http://www.pymssql.org/en/stable/
-    Connect To Database Using Custom Params    pymssql    database='${DATABASE_NAME}', user='${DATABASE_USER}', password='${DATABASE_PWD}', host='${DATABASE_IP}', port='${DATABASE_PORT}'
-    Check If Exists In Database    select * from Concerns where Concerns.ConcernID = '75d28447-b0b7-4196-9c40-6417e614f836'
-    @{queryConcernResults}=    Query    select ConcernID, IsDeleted, DateOfCreation from Concerns
-    DB_Execute_Querry    select * from Concerns where Concerns.ConcernID = '75d28447-b0b7-4196-9c40-6417e614f836'
-    DB_Execute_Scalar    select Count(*) from Concerns where Concerns.ConcernID = '75d28447-b0b7-4196-9c40-6417e614f836'
-
 Check Text Languagedependent YAML
     [Documentation]    using Variables \ \ \ \ \ \ \ \ menu.yaml
     ...    Robot Framework requires PyYAML
@@ -80,9 +68,10 @@ Check Text Languagedependent YAML
     ...
     ...    file must format in yaml
     ...    http://docs.ansible.com/ansible/latest/YAMLSyntax.html
-    : FOR    ${item}    IN    @{LANGUAGE_IDS}
-    \    Set LanguageId    ${item}
+    : FOR    ${key}    IN    @{AVAILABLE_LANGUAGES.keys()}
+    \    Set LanguageId    ${key}
     \    Sleep    1s
+    \    Check LanguageId is selected    ${key}
     \    ${langunge_code}=    Get selected LanguageCode
     \    Check ContainsText    &{DicYAML_Benutzer}[${langunge_code}]
     \    Check ContainsText    &{DicYAML_Allgemein}[${langunge_code}]
@@ -119,10 +108,11 @@ Check Text Languagedependent YAML customized
     Log To Console    &{DicYAML_BenutzerCustomizesTest}[16]
 
 Check Text Languagedependent
-    : FOR    ${item}    IN    @{LANGUAGE_IDS}
-    \    Set LanguageId    ${item}
+    : FOR    ${key}    IN    @{AVAILABLE_LANGUAGES.keys()}
+    \    Set LanguageId    ${key}
     \    Sleep    1s
     \    ${langunge_id}=    Get selected LanguageId
+    \    Check LanguageId is selected    ${key}
     \    Check ContainsText    &{Dic_Benutzer}[${langunge_id}]
     \    Check ContainsText    &{Dic_Allgemein}[${langunge_id}]
     \    Element Text Should Be    ${invoice_management}    &{Dic_Rechnungsverwaltung}[${langunge_id}]

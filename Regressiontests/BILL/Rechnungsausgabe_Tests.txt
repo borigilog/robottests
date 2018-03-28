@@ -5,35 +5,61 @@ Resource          ../../UserKeywords/Common_Resources.html
 Resource          ../../UserKeywords/BILL_Resources.html
 Resource          PageObjects/Menu.txt
 Resource          PageObjects/Rechnungsausgabe.txt
+Variables         PageObjects/Rechnungsausgabe.yaml
 
 *** Test Cases ***
 Check GUI Elements Rechnungsausgabe
     [Documentation]    MM 22.03.2018, Check GUI Elements for Rechnugsausgabe
     [Tags]    Bill    Rechnungsausgabe
     Select Rechnungsausgabe
+    ${langunge_code}=    Get selected LanguageCode
     #title
-    Check ContainsText    Rechnungs- / Belegausgabe
+    Check ContainsText    &{Dic_Title}[${langunge_code}]
     #grid
-    Check ElementId    ${colInvoiceNumber}    ${BILL_NO_HEADER_TEXT_DE}    true
-    Check ElementId    ${colDescription}    ${BILL_NAME_HEADER_TEXT_DE}    true
-    Check ElementId    ${colStatus}    ${STATUS_HEADER_TEXT_DE}    true
-    Check ElementId    ${colCreationDate}    ${CREATION_DATE_HEADER_TEXT_DE}    true
-    Check ElementId    ${colItems}    ${POSITIONS_HEADER_TEXT_DE}    true
+    Check ElementId    ${colInvoiceNumber}    &{Dic_colInvoiceNumber}[${langunge_code}]    true
+    Check ElementId    ${colDescription}    &{Dic_colDescription}[${langunge_code}]    true
+    Check ElementId    ${colStatus}    &{Dic_colStatus}[${langunge_code}]    true
+    Check ElementId    ${colCreationDate}    &{Dic_colCreationDate}[${langunge_code}]    true
+    Check ElementId    ${colItems}    &{Dic_colItems}[${langunge_code}]    true
     #checkbox
-    Check CheckboxId    ${chkShowOnlyOpenBills}    Auch bereits veröffentlichte Rechnungen mit anzeigen    true    false
-    Check CheckboxId    ${chkShowProcessedBills}    Auch bereits verarbeitete Rechnungen mit anzeigen    true    false
-    Check CheckboxId    ${chkShowProformaBills}    Auch Proformarechnungen mit anzeigen    true    false
-    Check CheckboxId    ${chkPrintLogo}    Logo mit aufdrucken    true    false
-    Check CheckboxId    ${chkAddCopy}    Kopie anfügen    true    false
+    Check CheckboxId    ${chkShowOnlyOpenBills}    &{Dic_chkShowOnlyOpenBills}[${langunge_code}]    true    false
+    Check CheckboxId    ${chkShowProcessedBills}    &{Dic_chkShowProcessedBills}[${langunge_code}]    true    false
+    Check CheckboxId    ${chkShowProformaBills}    &{Dic_chkShowProformaBills}[${langunge_code}]    true    false
+    Check CheckboxId    ${chkPrintLogo}    &{Dic_chkPrintLogo}[${langunge_code}]    true    false
+    Check CheckboxId    ${chkAddCopy}    &{Dic_chkAddCopy}[${langunge_code}]    true    false
     #textfield
-    Check TextfieldId    ${txtEmail}    support@rigilog.com    true    Empfänger-E-Mail
+    Check TextfieldId    ${txtEmail}    support@rigilog.com    true    &{Dic_txtEmail}[${langunge_code}]
     #buttons
-    Check ElementId    ${btnThirdParty}    Rechnung an Dritte    false
-    Check ElementId    ${btnProForma}    Proformarechnung    false
-    Check ElementId    ${btnAbort}    Zurück zum Hauptmenü    true
+    Check ElementId    ${btnThirdParty}    &{Dic_btnThirdParty}[${langunge_code}]    false
+    Check ElementId    ${btnProForma}    &{Dic_btnProForma}[${langunge_code}]    false
+    Check ElementId    ${btnAbort}    &{Dic_btnAbort}[${langunge_code}]    true
     Click Element    ${listInvoice}/0
     Check List ElementId is selected    ${listInvoice}/0    sel
     Check List ElementId is selected    ${listInvoice}/1    sel    false
     Click Button    ${btnAbort}
     Check PageArea is visible    ${menu_content}    ${invoice_issue_class}    false
     Check Homescreen is selected
+
+Check Text Languagedependent
+    Select Rechnungsausgabe
+    Sleep    1s
+    : FOR    ${key}    IN    @{AVAILABLE_LANGUAGES.keys()}
+    \    Set LanguageId    ${key}
+    \    Sleep    1s
+    \    Check LanguageId is selected    ${key}
+    \    ${langunge_code}=    Get selected LanguageCode
+    \    Check ContainsText    &{Dic_Title}[${langunge_code}]
+    \    Element Text Should Be    ${colInvoiceNumber}    &{Dic_colInvoiceNumber}[${langunge_code}]
+    \    Element Text Should Be    ${colDescription}    &{Dic_colDescription}[${langunge_code}]
+    \    Element Text Should Be    ${colStatus}    &{Dic_colStatus}[${langunge_code}]
+    \    Element Text Should Be    ${colCreationDate}    &{Dic_colCreationDate}[${langunge_code}]
+    \    Element Text Should Be    ${colItems}    &{Dic_colItems}[${langunge_code}]
+    \    Check LabelText    ${chkShowOnlyOpenBills}    &{Dic_chkShowOnlyOpenBills}[${langunge_code}]
+    \    Check LabelText    ${chkShowProcessedBills}    &{Dic_chkShowProcessedBills}[${langunge_code}]
+    \    Check LabelText    ${chkShowProformaBills}    &{Dic_chkShowProformaBills}[${langunge_code}]
+    \    Check LabelText    ${chkPrintLogo}    &{Dic_chkPrintLogo}[${langunge_code}]
+    \    Check LabelText    ${chkAddCopy}    &{Dic_chkAddCopy}[${langunge_code}]
+    \    Check ContainsText    &{Dic_txtEmail}[${langunge_code}]
+    \    Element Text Should Be    ${btnThirdParty}    &{Dic_btnThirdParty}[${langunge_code}]
+    \    Element Text Should Be    ${btnProForma}    &{Dic_btnProForma}[${langunge_code}]
+    \    Element Text Should Be    ${btnAbort}    &{Dic_btnAbort}[${langunge_code}]
