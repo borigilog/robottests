@@ -152,3 +152,15 @@ Check Languagedependent Text Content
     \    Run Keyword And Continue On Failure    Element Text Should Be    ${btnAbort}    &{DicYAML_Vorgang abbrechen}[${language_code}]
     \    Run Keyword And Continue On Failure    Element Text Should Be    ${btnExportBills}    &{DicYAML_Rechnungsexport}[${language_code}]
     \    Sleep    1
+
+Check Sort By Rechnungs-Nr
+    [Documentation]    BILL -> Rechnungsverwaltung -> Übersicht: Sortierung nach Spalte "Rechnungs-Nr."
+    [Tags]    Sorting
+    Sleep    1
+    Click Element    ${colBillNo}
+    @{billNumbers} =    Get Elements Texts    ${grdBills}/div[contains(@class,'gridcontainer')]/table/tbody/tr/td[2]/div
+    ${lastVal} =    Set Variable    ''
+    : FOR    ${el}    IN    @{billNumbers}
+    \    Should Be True    "${lastVal}" < "${el}"
+    \    # ${isGreater} =    Set Variable If    "${lastVal}" < "${el}"    true    false
+    \    ${lastVal} =    Set Variable    ${el}

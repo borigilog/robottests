@@ -1657,6 +1657,60 @@ warten bis die seite geladen ist, zB. nach datenabruf</td>
 <td></td>
 <td></td>
 </tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"><a name="keyword_Get Elements Texts">Get Elements Texts</a></td>
+<td>[Arguments]</td>
+<td>${locator}</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>[Documentation]</td>
+<td class="colspan3" colspan="3">Returns a list of the texts of all WebElements matching provided locator</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>@{webelements} =</td>
+<td>Get WebElements</td>
+<td>${locator}</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>${values}=</td>
+<td>Create List</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>: FOR</td>
+<td>${el}</td>
+<td>IN</td>
+<td>@{webelements}</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td>Append To List</td>
+<td>${values}</td>
+<td>${el.text}</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>[Return]</td>
+<td>${values}</td>
+<td></td>
+<td></td>
+</tr>
 </table>
 </body>
 </html>
