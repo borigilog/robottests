@@ -13,7 +13,7 @@ Variables         PageObjects/Rechnungsverwaltung_Overview.yaml
 
 *** Test Cases ***
 No Bill Selected
-    [Documentation]    BILL -> Rechnungsverwaltung: Status der Buttons, wenn kein Element selektiert ist
+    [Documentation]    BILL -> Rechnungsverwaltung -> Übersicht: Status der Buttons, wenn kein Element selektiert ist
     [Tags]    BillSelection
     Element Should Be Enabled    ${chkShowClosedBills}
     Element Should Be Enabled    ${chkShowProcessedBills}
@@ -29,7 +29,7 @@ No Bill Selected
     Element Should Be Disabled    ${btnExportBills}
 
 Open Bill Selected
-    [Documentation]    BILL -> Rechnungsverwaltung: Status der Buttons, wenn Rechnung selektiert ist im Status "In Bearbeitung"
+    [Documentation]    BILL -> Rechnungsverwaltung -> Übersicht: Status der Buttons, wenn Rechnung selektiert ist im Status "In Bearbeitung"
     [Tags]    BillSelection
     Click Element    ${invOpen}
     Status of Bill Should Be    ${invOpen}    In Bearbeitung
@@ -47,7 +47,7 @@ Open Bill Selected
     Element Should Be Enabled    ${btnExportBills}
 
 Processed Bill Selected
-    [Documentation]    BILL -> Rechnungsverwaltung: Status der Buttons, wenn Rechnung selektiert ist im Status "Verarbeitet"
+    [Documentation]    BILL -> Rechnungsverwaltung -> Übersicht: Status der Buttons, wenn Rechnung selektiert ist im Status "Verarbeitet"
     [Tags]    BillSelection
     Click Element    ${invProcessed}
     Status of Bill Should Be    ${invProcessed}    Verarbeitet
@@ -65,7 +65,7 @@ Processed Bill Selected
     Element Should Be Enabled    ${btnExportBills}
 
 Processed Closed Bill Selected
-    [Documentation]    BILL -> Rechnungsverwaltung: Status der Buttons, wenn Rechnung selektiert ist im Status "Verarbeitet"
+    [Documentation]    BILL -> Rechnungsverwaltung -> Übersicht: Status der Buttons, wenn Rechnung selektiert ist im Status "Verarbeitet"
     [Tags]    BillSelection
     Click Element    ${invProcessedClosed}
     Status of Bill Should Be    ${invProcessedClosed}    Verarbeitet & veröffentlicht
@@ -83,7 +83,7 @@ Processed Closed Bill Selected
     Element Should Be Enabled    ${btnExportBills}
 
 Closed Bill Selected
-    [Documentation]    BILL -> Rechnungsverwaltung: Status der Buttons, wenn Rechnung selektiert ist im Status "Veröffentlicht"
+    [Documentation]    BILL -> Rechnungsverwaltung -> Übersicht: Status der Buttons, wenn Rechnung selektiert ist im Status "Veröffentlicht"
     [Tags]    BillSelection
     Click Element    ${invClosed}
     Status of Bill Should Be    ${invClosed}    Veröffentlicht
@@ -101,7 +101,7 @@ Closed Bill Selected
     Element Should Be Enabled    ${btnExportBills}
 
 Multiple Bills selected
-    [Documentation]    BILL -> Rechnungsverwaltung: Status der Buttons, wenn mehrere Elemente selektiert sind
+    [Documentation]    BILL -> Rechnungsverwaltung -> Übersicht: Status der Buttons, wenn mehrere Elemente selektiert sind
     [Tags]    BillSelection
     ${ids}    Create List    ${invProcessed}    ${invProcessedClosed}/$BillNumber
     Select Elements With CONTROL    ${ids}
@@ -124,6 +124,7 @@ Multiple Bills selected
     Element Should Be Disabled    ${btnExportBills}
 
 Check Languagedependent Text Content
+    [Documentation]    Bill -> Rechnungsverwaltung -> Übersicht: Prüft, ob pro Sprache die richtigen Texte der (statischen) Modul-Dictionaries angezeigt werden
     [Tags]    Languagedependent
     Sleep    1
     : FOR    ${key}    IN    @{AVAILABLE_LANGUAGES.keys()}
@@ -151,3 +152,14 @@ Check Languagedependent Text Content
     \    Run Keyword And Continue On Failure    Element Text Should Be    ${btnAbort}    &{DicYAML_Vorgang abbrechen}[${language_code}]
     \    Run Keyword And Continue On Failure    Element Text Should Be    ${btnExportBills}    &{DicYAML_Rechnungsexport}[${language_code}]
     \    Sleep    1
+
+Check Sort By Rechnungs-Nr
+    [Documentation]    BILL -> Rechnungsverwaltung -> Übersicht: Sortierung nach Spalte "Rechnungs-Nr."
+    [Tags]    Sorting
+    Sleep    1
+    Click Element    ${colBillNo}
+    @{billNumbers} =    Get Elements Texts    ${grdBills}/div[contains(@class,'gridcontainer')]/table/tbody/tr/td[2]/div
+    List Of Strings Should Be Ordered ASC    @{billNumbers}
+    Click Element    ${colBillNo}
+    @{billNumbers} =    Get Elements Texts    ${grdBills}/div[contains(@class,'gridcontainer')]/table/tbody/tr/td[2]/div
+    List Of Strings Should Be Ordered DESC    @{billNumbers}
