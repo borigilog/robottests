@@ -77,6 +77,9 @@ Check Homescreen is selected
     Check PageArea is visible    ${menu_content}    screen look_rlx_screen_bill_homescreen
 
 Select Rechnungsverwaltung
+    [Arguments]    ${Login}='false'
+    ${navigateToBillModule} =    Is Truthy    ${Login}
+    Run Keyword If    ${navigateToBillModule}    Login Select Bill
     Select Menu Content    ${invoice_management}    ${invoice_management_class}
 
 Select Manuelle Buchungen

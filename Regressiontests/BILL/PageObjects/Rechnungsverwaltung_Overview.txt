@@ -1,36 +1,41 @@
 *** Variables ***
+${content}        /$flow_main/$flow_content
+# ~~~~~~~ headline
+${lblHeadline}    //div[@class='text look_title']
 # ~~~~~~~~~ checkboxes
-${chkShowOnlyOpenBills}    /$flow_main/$flow_content/ShowOnlyOpenBills
-${chkShowProcessedBills}    /$flow_main/$flow_content/ShowProcessedBills
-${chkShowProformaBills}    /$flow_main/$flow_content/ShowProformaBills
+${chkShowClosedBills}    ${content}/ShowOnlyOpenBills
+${chkShowProcessedBills}    ${content}/ShowProcessedBills
+${chkShowProformaBills}    ${content}/ShowProformaBills
 # ~~~~~~~ buttons
-${btnCreateBill}    /$flow_main/$flow_content/createBill
-${btnAbort}       /$flow_main/$flow_content/abort
-${btnRecalculate}    /$flow_main/$flow_content/recalculate
-${btnEditBill}    /$flow_main/$flow_content/editBill
-${btnDeleteBill}    /$flow_main/$flow_content/deleteBill
-${btnReopenBill}    /$flow_main/$flow_content/reopenBill
-${btnCloseBill}    /$flow_main/$flow_content/closeBill
-${btnProcessBill}    /$flow_main/$flow_content/isprocessedBill
-${btnViewBill}    /$flow_main/$flow_content/viewBill
-# ~~~~~~~ invoices
-${invOpen}        /$flow_main/$flow_content/invoice_list/46
-${invClosed}      /$flow_main/$flow_content/invoice_list/94
-${invProcessed}    /$flow_main/$flow_content/invoice_list/0
-${invProcessedClosed}    /$flow_main/$flow_content/invoice_list/1
+${btnCreateBill}    ${content}/createBill
+${btnEditBill}    ${content}/editBill
+${btnDeleteBill}    ${content}/deleteBill
+${btnReopenBill}    ${content}/reopenBill
+${btnCloseBill}    ${content}/closeBill
+${btnProcessBill}    ${content}/isprocessedBill
+${btnRecalculate}    ${content}/recalculate
+${btnAbort}       ${content}/abort
+${btnExportBills}    ${content}/viewBill
+# ~~~~~~~ column headers
+${grdBills}       /$flow_main/$flow_content/invoice_list
+${colProforma}    ${grdBills}/$col_proForma
+${colBillNo}      ${grdBills}/$col_invoiceNumber
+${colBillName}    ${grdBills}/$col_description
+${colStatus}      ${grdBills}/$col_status
+${colDateOfCreation}    ${grdBills}/$col_creationDate
+${colPositionCount}    ${grdBills}/$col_items
+# ~~~~~~~ Bills
+${invOpen}        ${grdBills}/94
+${invClosed}      ${grdBills}/46
+${invProcessed}    ${grdBills}/0
+${invProcessedClosed}    ${grdBills}/1
 
 *** Keywords ***
-Select Invoice
-    [Arguments]    ${id}
-    Wait Until Element Is Visible    ${id}/$invoiceNumber
-    Set Focus To Element    ${id}/$invoiceNumber
-    Click Element    ${id}/$invoiceNumber
-
-Status of Invoice Should Be
+Status of Bill Should Be
     [Arguments]    ${id}    ${status}
     Element Text Should Be    ${id}/$status    ${status}
 
-Invoice Should Be Selected
+Bill Should Be Selected
     [Arguments]    ${id}
     ${cls} =    Get Element Attribute    ${id}    class
     Should Be Equal    ${cls}    sel
