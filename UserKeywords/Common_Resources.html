@@ -558,7 +558,21 @@ td.name, th.name {
 </tr>
 <tr>
 <td class="name"></td>
-<td>Wait Until Keyword Succeeds</td>
+<td>Wait until Page is unfreezed</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Check PageArea is visible</td>
+<td>${content_id}</td>
+<td>${class}</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>#Wait Until Keyword Succeeds</td>
 <td>10 sec</td>
 <td>1 sec</td>
 <td>Check PageArea is visible</td>
@@ -566,7 +580,7 @@ td.name, th.name {
 <tr>
 <td class="name"></td>
 <td>...</td>
-<td>${content_id}</td>
+<td># ${content_id}</td>
 <td>${class}</td>
 <td></td>
 </tr>
@@ -1164,6 +1178,13 @@ set languageid</td>
 </tr>
 <tr>
 <td class="name"></td>
+<td>Sleep</td>
+<td>1s</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
 <td></td>
 <td></td>
 <td></td>
@@ -1638,23 +1659,30 @@ finde element einer liste statischer loop</td>
 <td></td>
 </tr>
 <tr>
-<td class="name"><a name="keyword_Wait until Page is freezed">Wait until Page is freezed</a></td>
+<td class="name"><a name="keyword_Wait until Page is unfreezed">Wait until Page is unfreezed</a></td>
 <td>[Documentation]</td>
 <td class="colspan3" colspan="3">MM 29.03.2018\n<br>
 warten bis die seite geladen ist, zB. nach datenabruf</td>
 </tr>
 <tr>
 <td class="name"></td>
-<td>Wait Until Page Contains Element</td>
+<td>#${passed} =</td>
+<td>Run Keyword And Return Status</td>
+<td>Element Should Be Visible</td>
 <td>//*[contains(@class,'freezed')]</td>
-<td>10</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>#Log To Console</td>
+<td>freezed exist----&gt;${passed}</td>
+<td></td>
 <td></td>
 </tr>
 <tr>
 <td class="name"></td>
-<td>Sleep</td>
-<td>2</td>
-<td></td>
+<td>Wait Until Page Does Not Contain Element</td>
+<td>//*[contains(@class,'freezed')]</td>
+<td>10</td>
 <td></td>
 </tr>
 </table>

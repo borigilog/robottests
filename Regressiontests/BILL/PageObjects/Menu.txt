@@ -77,52 +77,85 @@ Check Homescreen is selected
     Check PageArea is visible    ${menu_content}    screen look_rlx_screen_bill_homescreen
 
 Select Rechnungsverwaltung
-    [Arguments]    ${Login}='false'
+    [Arguments]    ${Login}=false
     ${navigateToBillModule} =    Is Truthy    ${Login}
     Run Keyword If    ${navigateToBillModule}    Login Select Bill
     Select Menu Content    ${invoice_management}    ${invoice_management_class}
 
 Select Manuelle Buchungen
-    [Arguments]    ${Login}='false'
+    [Arguments]    ${Login}=false
     ${navigateToBillModule} =    Is Truthy    ${Login}
     Run Keyword If    ${navigateToBillModule}    Login Select Bill
     Select Menu Content    ${manual_booking}    ${manual_booking_class}
 
 Select Rechnungsausgabe
-    [Arguments]    ${Login}='false'
+    [Arguments]    ${Login}=false
     ${navigateToBillModule} =    Is Truthy    ${Login}
     Run Keyword If    ${navigateToBillModule}    Login Select Bill
     Select Menu Content    ${invoice_issue}    ${invoice_issue_class}
 
 Select Suchen
+    [Arguments]    ${Login}=false
+    ${navigateToBillModule} =    Is Truthy    ${Login}
+    Run Keyword If    ${navigateToBillModule}    Login Select Bill
     Select Menu Content    ${search}    ${search_class}
 
 Select Auswertung
+    [Arguments]    ${Login}=false
+    ${navigateToBillModule} =    Is Truthy    ${Login}
+    Run Keyword If    ${navigateToBillModule}    Login Select Bill
     Select Menu Content    ${evaluation}    ${evaluation_class}
 
 Select Lieferungen
+    [Arguments]    ${Login}=false
+    ${navigateToBillModule} =    Is Truthy    ${Login}
+    Run Keyword If    ${navigateToBillModule}    Login Select Bill
     Select Menu Content    ${billing_deliveries}    ${billing_deliveries_class}
 
 Select Retouren
+    [Arguments]    ${Login}=false
+    ${navigateToBillModule} =    Is Truthy    ${Login}
+    Run Keyword If    ${navigateToBillModule}    Login Select Bill
     Select Menu Content    ${billing_returns}    ${billing_returns_class}
 
 Select Occasionen
+    [Arguments]    ${Login}=false
+    ${navigateToBillModule} =    Is Truthy    ${Login}
+    Run Keyword If    ${navigateToBillModule}    Login Select Bill
     Select Menu Content    ${billing_second_hand}    ${billing_second_hand_class}
 
 Select Sendungskosten
+    [Arguments]    ${Login}=false
+    ${navigateToBillModule} =    Is Truthy    ${Login}
+    Run Keyword If    ${navigateToBillModule}    Login Select Bill
     Select Menu Content    ${billing_shipment_costs}    ${billing_shipment_costs_class}
 
 Select Storno Lieferungen
+    [Arguments]    ${Login}=false
+    ${navigateToBillModule} =    Is Truthy    ${Login}
+    Run Keyword If    ${navigateToBillModule}    Login Select Bill
     Select Menu Content    ${deliveries}    ${deliveries_class}
 
 Select Storno Retouren
+    [Arguments]    ${Login}=false
+    ${navigateToBillModule} =    Is Truthy    ${Login}
+    Run Keyword If    ${navigateToBillModule}    Login Select Bill
     Select Menu Content    ${returns}    ${returns_class}
 
 Select Storno Occasionen
+    [Arguments]    ${Login}=false
+    ${navigateToBillModule} =    Is Truthy    ${Login}
+    Run Keyword If    ${navigateToBillModule}    Login Select Bill
     Select Menu Content    ${second_hand}    ${second_hand_class}
 
 Select Storno Sendungskosten
+    [Arguments]    ${Login}=false
+    ${navigateToBillModule} =    Is Truthy    ${Login}
+    Run Keyword If    ${navigateToBillModule}    Login Select Bill
     Select Menu Content    ${shipment_costs}    ${shipment_costs_class}
 
 Select Verrechnung
+    [Arguments]    ${Login}=false
+    ${navigateToBillModule} =    Is Truthy    ${Login}
+    Run Keyword If    ${navigateToBillModule}    Login Select Bill
     Select Menu Content    ${offsetting_charging}    ${offsetting_charging_class}

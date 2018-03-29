@@ -14,4 +14,8 @@ Dic_txtEmail: {D: 'Empfänger-E-Mail', E: 'E-mail recipient', F: 'E-mail destina
 Dic_btnThirdParty: {D: 'Rechnung an Dritte', E: 'Invoice to third party', F: 'Facture à tiers'}
 Dic_btnProForma: {D: 'Proformarechnung', E: 'Pro forma invoice', F: 'Facture pro forma'}
 Dic_btnAbort: {D: 'Zurück zum Hauptmenü', E: 'Back to main menu', F: 'Retour au menu principal'}
+Dic_IsOpen: {D: 'In Bearbeitung', E: 'In process', F: 'En cours de traitement'}
+Dic_IsProcessed: {D: 'Verarbeitet', E: 'Processed', F: 'Traité'}
+Dic_IsCompleteAndProcessed: {D: 'Verarbeitet & veröffentlicht', E: 'Processed & published', F: 'Traité & publié'}
+Dic_IsComplete: {D: 'Veröffentlicht', E: 'Published', F: 'Publié'}
 ...
