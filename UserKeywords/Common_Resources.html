@@ -1711,6 +1711,90 @@ warten bis die seite geladen ist, zB. nach datenabruf</td>
 <td></td>
 <td></td>
 </tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"><a name="keyword_List Of Strings Should Be Ordered ASC">List Of Strings Should Be Ordered ASC</a></td>
+<td>[Arguments]</td>
+<td>@{list}</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>${lastVal} =</td>
+<td>Set Variable</td>
+<td>''</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>: FOR</td>
+<td>${el}</td>
+<td>IN</td>
+<td>@{list}</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td>Should Be True</td>
+<td>"${lastVal}" &lt;= "${el}"</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td>${lastVal} =</td>
+<td>Set Variable</td>
+<td>${el}</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"><a name="keyword_List Of Strings Should Be Ordered DESC">List Of Strings Should Be Ordered DESC</a></td>
+<td>[Arguments]</td>
+<td>@{list}</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>${lastVal} =</td>
+<td>Set Variable</td>
+<td>@{list}[0]</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>: FOR</td>
+<td>${el}</td>
+<td>IN</td>
+<td>@{list}</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td>Should Be True</td>
+<td>"${lastVal}" &gt;= "${el}"</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td>${lastVal} =</td>
+<td>Set Variable</td>
+<td>${el}</td>
+</tr>
 </table>
 </body>
 </html>

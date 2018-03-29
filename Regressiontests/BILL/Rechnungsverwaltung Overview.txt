@@ -159,8 +159,7 @@ Check Sort By Rechnungs-Nr
     Sleep    1
     Click Element    ${colBillNo}
     @{billNumbers} =    Get Elements Texts    ${grdBills}/div[contains(@class,'gridcontainer')]/table/tbody/tr/td[2]/div
-    ${lastVal} =    Set Variable    ''
-    : FOR    ${el}    IN    @{billNumbers}
-    \    Should Be True    "${lastVal}" < "${el}"
-    \    # ${isGreater} =    Set Variable If    "${lastVal}" < "${el}"    true    false
-    \    ${lastVal} =    Set Variable    ${el}
+    List Of Strings Should Be Ordered ASC    @{billNumbers}
+    Click Element    ${colBillNo}
+    @{billNumbers} =    Get Elements Texts    ${grdBills}/div[contains(@class,'gridcontainer')]/table/tbody/tr/td[2]/div
+    List Of Strings Should Be Ordered DESC    @{billNumbers}
