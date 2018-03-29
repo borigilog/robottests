@@ -1,0 +1,78 @@
+---
+DicYAML_Rechnungsverwaltung:
+    D: "Rechnungsverwaltung"
+    E: "Invoice management"
+    F: "Gestion des factures"
+DicYAML_Proforma:
+    D: "Proforma"
+    E: "Pro forma"
+    F: "Pro forma"
+DicYAML_Rechnungs-Nr.:
+    D: "Rechnungs-Nr."
+    E: "Invoice no."
+    F: "Facture No." 
+DicYAML_Rechnungsbezeichnung:
+    D: "Rechnungsbezeichnung"
+    E: "Description of the invoice"
+    F: "Désignation de la facture" 
+DicYAML_Status:
+    D: "Status"
+    E: "Status"
+    F: "Statut"
+DicYAML_Erstellt am:
+    D: "Erstellt am"
+    E: "Created on"
+    F: "Date de création" 
+DicYAML_Positionen:
+    D: "Positionen"
+    E: "Items"
+    F: "Postes"
+DicYAML_Auch bereits veröffentlichte Rechnungen mit anzeigen:
+    D: "Auch bereits veröffentlichte Rechnungen mit anzeigen"
+    E: "Show also published invoices"
+    F: "Afficher également factures déjà publiées"   
+DicYAML_Auch bereits verarbeitete Rechnungen mit anzeigen:
+    D: "Auch bereits verarbeitete Rechnungen mit anzeigen"
+    E: "Show also processed invoices"
+    F: "Afficher également factures déjà traitées"  
+DicYAML_Auch Proformarechnungen mit anzeigen:
+    D: "Auch Proformarechnungen mit anzeigen"
+    E: "Show also pro forma invoices"
+    F: "Afficher également factures pro forma"     
+DicYAML_Neue Rechnung eröffnen:
+    D: "Neue Rechnung eröffnen"
+    E: "Create new invoice"
+    F: "Créer nouvelle facture"
+DicYAML_Rechnung bearbeiten:
+    D: "Rechnung bearbeiten"
+    E: "Edit invoice"
+    F: "Éditer la facture" 
+DicYAML_Rechnung löschen:
+    D: "Rechnung löschen"
+    E: "Delete invoice"
+    F: "Supprimer la facture" 
+DicYAML_Rechnung zurückziehen:
+    D: "Rechnung zurückziehen"
+    E: "Withdraw invoice"
+    F: "Retirer la facture" 
+DicYAML_Rechnung veröffentlichen:
+    D: "Rechnung veröffentlichen"
+    E: "Publish invoice"
+    F: "Publier la facture"
+DicYAML_Rechnung ist verarbeitet:
+    D: "Rechnung ist verarbeitet"
+    E: "Invoice is processed"
+    F: "Facture est traitée"  
+DicYAML_Preise erneut berechnen:
+    D: "Preise erneut berechnen"
+    E: "Re-calculate prices"
+    F: "Recalculer les prix" 
+DicYAML_Vorgang abbrechen:
+    D: "Vorgang abbrechen"
+    E: "Abort process"
+    F: "Annuler l'opération"
+DicYAML_Rechnungsexport:
+    D: "Rechnungsexport"
+    E: "Invoice export"
+    F: "Export des factures"    
+...

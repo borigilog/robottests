@@ -1,31 +1,36 @@
 *** Variables ***
+${content}        /$flow_main/$flow_content
+# ~~~~~~~ headline
+${lblHeadline}    //div[@class='text look_title']
 # ~~~~~~~~~ checkboxes
-${chkShowOnlyOpenBills}    /$flow_main/$flow_content/ShowOnlyOpenBills
-${chkShowProcessedBills}    /$flow_main/$flow_content/ShowProcessedBills
-${chkShowProformaBills}    /$flow_main/$flow_content/ShowProformaBills
+${chkShowClosedBills}    ${content}/ShowOnlyOpenBills
+${chkShowProcessedBills}    ${content}/ShowProcessedBills
+${chkShowProformaBills}    ${content}/ShowProformaBills
 # ~~~~~~~ buttons
-${btnCreateBill}    /$flow_main/$flow_content/createBill
-${btnAbort}       /$flow_main/$flow_content/abort
-${btnRecalculate}    /$flow_main/$flow_content/recalculate
-${btnEditBill}    /$flow_main/$flow_content/editBill
-${btnDeleteBill}    /$flow_main/$flow_content/deleteBill
-${btnReopenBill}    /$flow_main/$flow_content/reopenBill
-${btnCloseBill}    /$flow_main/$flow_content/closeBill
-${btnProcessBill}    /$flow_main/$flow_content/isprocessedBill
-${btnViewBill}    /$flow_main/$flow_content/viewBill
+${btnCreateBill}    ${content}/createBill
+${btnEditBill}    ${content}/editBill
+${btnDeleteBill}    ${content}/deleteBill
+${btnReopenBill}    ${content}/reopenBill
+${btnCloseBill}    ${content}/closeBill
+${btnProcessBill}    ${content}/isprocessedBill
+${btnRecalculate}    ${content}/recalculate
+${btnAbort}       ${content}/abort
+${btnExportInvoices}    ${content}/viewBill
+# ~~~~~~~ column headers
+${grdInvoices}    /$flow_main/$flow_content/invoice_list
+${colProforma}    ${grdInvoices}/$col_proForma
+${colInvoiceNo}    ${grdInvoices}/$col_invoiceNumber
+${colInvoiceName}    ${grdInvoices}/$col_description
+${colStatus}      ${grdInvoices}/$col_status
+${colDateOfCreation}    ${grdInvoices}/$col_creationDate
+${colPositionCount}    ${grdInvoices}/$col_items
 # ~~~~~~~ invoices
-${invOpen}        /$flow_main/$flow_content/invoice_list/94
-${invClosed}      /$flow_main/$flow_content/invoice_list/46
-${invProcessed}    /$flow_main/$flow_content/invoice_list/0
-${invProcessedClosed}    /$flow_main/$flow_content/invoice_list/1
+${invOpen}        ${grdInvoices}/94
+${invClosed}      ${grdInvoices}/46
+${invProcessed}    ${grdInvoices}/0
+${invProcessedClosed}    ${grdInvoices}/1
 
 *** Keywords ***
-Select Invoice
-    [Arguments]    ${id}
-    Wait Until Element Is Visible    ${id}/$invoiceNumber
-    Set Focus To Element    ${id}/$invoiceNumber
-    Click Element    ${id}/$invoiceNumber
-
 Status of Invoice Should Be
     [Arguments]    ${id}    ${status}
     Element Text Should Be    ${id}/$status    ${status}
