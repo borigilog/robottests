@@ -12,9 +12,9 @@ Library           ../../Libs/ActionChainsExtension.py
 Variables         PageObjects/Rechnungsverwaltung_Overview.yaml
 
 *** Test Cases ***
-No Invoice Selected
+No Bill Selected
     [Documentation]    BILL -> Rechnungsverwaltung: Status der Buttons, wenn kein Element selektiert ist
-    [Tags]    InvoiceSelection
+    [Tags]    BillSelection
     Element Should Be Enabled    ${chkShowClosedBills}
     Element Should Be Enabled    ${chkShowProcessedBills}
     Element Should Be Enabled    ${chkShowProformaBills}
@@ -26,13 +26,13 @@ No Invoice Selected
     Element Should Be Disabled    ${btnReopenBill}
     Element Should Be Disabled    ${btnCloseBill}
     Element Should Be Disabled    ${btnProcessBill}
-    Element Should Be Disabled    ${btnExportInvoices}
+    Element Should Be Disabled    ${btnExportBills}
 
-Open Invoice Selected
+Open Bill Selected
     [Documentation]    BILL -> Rechnungsverwaltung: Status der Buttons, wenn Rechnung selektiert ist im Status "In Bearbeitung"
-    [Tags]    InvoiceSelection
+    [Tags]    BillSelection
     Click Element    ${invOpen}
-    Status of Invoice Should Be    ${invOpen}    In Bearbeitung
+    Status of Bill Should Be    ${invOpen}    In Bearbeitung
     Element Should Be Enabled    ${chkShowClosedBills}
     Element Should Be Enabled    ${chkShowProcessedBills}
     Element Should Be Enabled    ${chkShowProformaBills}
@@ -44,13 +44,13 @@ Open Invoice Selected
     Element Should Be Disabled    ${btnReopenBill}
     Element Should Be Enabled    ${btnCloseBill}
     Element Should Be Enabled    ${btnProcessBill}
-    Element Should Be Enabled    ${btnExportInvoices}
+    Element Should Be Enabled    ${btnExportBills}
 
-Processed Invoice Selected
+Processed Bill Selected
     [Documentation]    BILL -> Rechnungsverwaltung: Status der Buttons, wenn Rechnung selektiert ist im Status "Verarbeitet"
-    [Tags]    InvoiceSelection
+    [Tags]    BillSelection
     Click Element    ${invProcessed}
-    Status of Invoice Should Be    ${invProcessed}    Verarbeitet
+    Status of Bill Should Be    ${invProcessed}    Verarbeitet
     Element Should Be Enabled    ${chkShowClosedBills}
     Element Should Be Enabled    ${chkShowProcessedBills}
     Element Should Be Enabled    ${chkShowProformaBills}
@@ -62,13 +62,13 @@ Processed Invoice Selected
     Element Should Be Disabled    ${btnReopenBill}
     Element Should Be Disabled    ${btnCloseBill}
     Element Should Be Disabled    ${btnProcessBill}
-    Element Should Be Enabled    ${btnExportInvoices}
+    Element Should Be Enabled    ${btnExportBills}
 
-Processed Closed Invoice Selected
+Processed Closed Bill Selected
     [Documentation]    BILL -> Rechnungsverwaltung: Status der Buttons, wenn Rechnung selektiert ist im Status "Verarbeitet"
-    [Tags]    InvoiceSelection
+    [Tags]    BillSelection
     Click Element    ${invProcessedClosed}
-    Status of Invoice Should Be    ${invProcessedClosed}    Verarbeitet & veröffentlicht
+    Status of Bill Should Be    ${invProcessedClosed}    Verarbeitet & veröffentlicht
     Element Should Be Enabled    ${chkShowClosedBills}
     Element Should Be Enabled    ${chkShowProcessedBills}
     Element Should Be Enabled    ${chkShowProformaBills}
@@ -80,13 +80,13 @@ Processed Closed Invoice Selected
     Element Should Be Disabled    ${btnReopenBill}
     Element Should Be Disabled    ${btnCloseBill}
     Element Should Be Disabled    ${btnProcessBill}
-    Element Should Be Enabled    ${btnExportInvoices}
+    Element Should Be Enabled    ${btnExportBills}
 
-Closed Invoice Selected
+Closed Bill Selected
     [Documentation]    BILL -> Rechnungsverwaltung: Status der Buttons, wenn Rechnung selektiert ist im Status "Veröffentlicht"
-    [Tags]    InvoiceSelection
+    [Tags]    BillSelection
     Click Element    ${invClosed}
-    Status of Invoice Should Be    ${invClosed}    Veröffentlicht
+    Status of Bill Should Be    ${invClosed}    Veröffentlicht
     Element Should Be Enabled    ${chkShowClosedBills}
     Element Should Be Enabled    ${chkShowProcessedBills}
     Element Should Be Enabled    ${chkShowProformaBills}
@@ -98,18 +98,18 @@ Closed Invoice Selected
     Element Should Be Enabled    ${btnReopenBill}
     Element Should Be Disabled    ${btnCloseBill}
     Element Should Be Enabled    ${btnProcessBill}
-    Element Should Be Enabled    ${btnExportInvoices}
+    Element Should Be Enabled    ${btnExportBills}
 
-Multiple Invoices selected
+Multiple Bills selected
     [Documentation]    BILL -> Rechnungsverwaltung: Status der Buttons, wenn mehrere Elemente selektiert sind
-    [Tags]    InvoiceSelection
-    ${ids}    Create List    ${invProcessed}    ${invProcessedClosed}/$invoiceNumber
+    [Tags]    BillSelection
+    ${ids}    Create List    ${invProcessed}    ${invProcessedClosed}/$BillNumber
     Select Elements With CONTROL    ${ids}
-    Run Keyword And Continue On Failure    Invoice Should Be Selected    ${invProcessed}
-    Run Keyword And Continue On Failure    Invoice Should Be Selected    ${invProcessedClosed}
+    Run Keyword And Continue On Failure    Bill Should Be Selected    ${invProcessed}
+    Run Keyword And Continue On Failure    Bill Should Be Selected    ${invProcessedClosed}
     Select Elements With SHIFT    ${invProcessed}    ${invProcessedClosed}
-    Invoice Should Be Selected    ${invProcessed}
-    Invoice Should Be Selected    ${invProcessedClosed}
+    Bill Should Be Selected    ${invProcessed}
+    Bill Should Be Selected    ${invProcessedClosed}
     Element Should Be Enabled    ${chkShowClosedBills}
     Element Should Be Enabled    ${chkShowProcessedBills}
     Element Should Be Enabled    ${chkShowProformaBills}
@@ -121,7 +121,7 @@ Multiple Invoices selected
     Element Should Be Disabled    ${btnReopenBill}
     Element Should Be Disabled    ${btnCloseBill}
     Element Should Be Disabled    ${btnProcessBill}
-    Element Should Be Disabled    ${btnExportInvoices}
+    Element Should Be Disabled    ${btnExportBills}
 
 Check Languagedependent Text Content
     [Tags]    Languagedependent
@@ -133,8 +133,8 @@ Check Languagedependent Text Content
     \    ${language_code} =    Get Selected LanguageCode
     \    Run Keyword And Continue On Failure    Element Text Should Be    ${lblHeadline}    &{DicYAML_Rechnungsverwaltung}[${language_code}]
     \    Run Keyword And Continue On Failure    Element Text Should Be    ${colProforma}    &{DicYAML_Proforma}[${language_code}]
-    \    Run Keyword And Continue On Failure    Element Text Should Be    ${colInvoiceNo}    &{DicYAML_Rechnungs-Nr.}[${language_code}]
-    \    Run Keyword And Continue On Failure    Element Text Should Be    ${colInvoiceName}    &{DicYAML_Rechnungsbezeichnung}[${language_code}]
+    \    Run Keyword And Continue On Failure    Element Text Should Be    ${colBillNo}    &{DicYAML_Rechnungs-Nr.}[${language_code}]
+    \    Run Keyword And Continue On Failure    Element Text Should Be    ${colBillName}    &{DicYAML_Rechnungsbezeichnung}[${language_code}]
     \    Run Keyword And Continue On Failure    Element Text Should Be    ${colStatus}    &{DicYAML_Status}[${language_code}]
     \    Run Keyword And Continue On Failure    Element Text Should Be    ${colDateOfCreation}    &{DicYAML_Erstellt am}[${language_code}]
     \    Run Keyword And Continue On Failure    Element Text Should Be    ${colPositionCount}    &{DicYAML_Positionen}[${language_code}]
@@ -149,5 +149,5 @@ Check Languagedependent Text Content
     \    Run Keyword And Continue On Failure    Element Text Should Be    ${btnProcessBill}    &{DicYAML_Rechnung ist verarbeitet}[${language_code}]
     \    Run Keyword And Continue On Failure    Element Text Should Be    ${btnRecalculate}    &{DicYAML_Preise erneut berechnen}[${language_code}]
     \    Run Keyword And Continue On Failure    Element Text Should Be    ${btnAbort}    &{DicYAML_Vorgang abbrechen}[${language_code}]
-    \    Run Keyword And Continue On Failure    Element Text Should Be    ${btnExportInvoices}    &{DicYAML_Rechnungsexport}[${language_code}]
+    \    Run Keyword And Continue On Failure    Element Text Should Be    ${btnExportBills}    &{DicYAML_Rechnungsexport}[${language_code}]
     \    Sleep    1

@@ -15,27 +15,27 @@ ${btnCloseBill}    ${content}/closeBill
 ${btnProcessBill}    ${content}/isprocessedBill
 ${btnRecalculate}    ${content}/recalculate
 ${btnAbort}       ${content}/abort
-${btnExportInvoices}    ${content}/viewBill
+${btnExportBills}    ${content}/viewBill
 # ~~~~~~~ column headers
-${grdInvoices}    /$flow_main/$flow_content/invoice_list
-${colProforma}    ${grdInvoices}/$col_proForma
-${colInvoiceNo}    ${grdInvoices}/$col_invoiceNumber
-${colInvoiceName}    ${grdInvoices}/$col_description
-${colStatus}      ${grdInvoices}/$col_status
-${colDateOfCreation}    ${grdInvoices}/$col_creationDate
-${colPositionCount}    ${grdInvoices}/$col_items
-# ~~~~~~~ invoices
-${invOpen}        ${grdInvoices}/94
-${invClosed}      ${grdInvoices}/46
-${invProcessed}    ${grdInvoices}/0
-${invProcessedClosed}    ${grdInvoices}/1
+${grdBills}       /$flow_main/$flow_content/invoice_list
+${colProforma}    ${grdBills}/$col_proForma
+${colBillNo}      ${grdBills}/$col_invoiceNumber
+${colBillName}    ${grdBills}/$col_description
+${colStatus}      ${grdBills}/$col_status
+${colDateOfCreation}    ${grdBills}/$col_creationDate
+${colPositionCount}    ${grdBills}/$col_items
+# ~~~~~~~ Bills
+${invOpen}        ${grdBills}/94
+${invClosed}      ${grdBills}/46
+${invProcessed}    ${grdBills}/0
+${invProcessedClosed}    ${grdBills}/1
 
 *** Keywords ***
-Status of Invoice Should Be
+Status of Bill Should Be
     [Arguments]    ${id}    ${status}
     Element Text Should Be    ${id}/$status    ${status}
 
-Invoice Should Be Selected
+Bill Should Be Selected
     [Arguments]    ${id}
     ${cls} =    Get Element Attribute    ${id}    class
     Should Be Equal    ${cls}    sel
