@@ -83,9 +83,15 @@ Select Rechnungsverwaltung
     Select Menu Content    ${invoice_management}    ${invoice_management_class}
 
 Select Manuelle Buchungen
+    [Arguments]    ${Login}='false'
+    ${navigateToBillModule} =    Is Truthy    ${Login}
+    Run Keyword If    ${navigateToBillModule}    Login Select Bill
     Select Menu Content    ${manual_booking}    ${manual_booking_class}
 
 Select Rechnungsausgabe
+    [Arguments]    ${Login}='false'
+    ${navigateToBillModule} =    Is Truthy    ${Login}
+    Run Keyword If    ${navigateToBillModule}    Login Select Bill
     Select Menu Content    ${invoice_issue}    ${invoice_issue_class}
 
 Select Suchen
