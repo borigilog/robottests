@@ -6,6 +6,8 @@ Resource          ../../UserKeywords/BILL_Resources.html
 Resource          PageObjects/Menu.txt
 Resource          PageObjects/Rechnungsausgabe.txt
 Variables         PageObjects/Rechnungsausgabe.yaml
+Library           DatabaseLibrary
+Library           ../../Libs/DatabaseClass.py    database=${DATABASE_NAME}    user=${DATABASE_USER}    password=${DATABASE_PWD}    host=${DATABASE_IP}    port=${DATABASE_PORT}
 
 *** Test Cases ***
 Check GUI Elements Rechnungsausgabe
@@ -16,28 +18,28 @@ Check GUI Elements Rechnungsausgabe
     #title
     Check ContainsText    &{Dic_Title}[${langunge_code}]
     #grid
-    Check ElementId    ${colInvoiceNumber}    &{Dic_colInvoiceNumber}[${langunge_code}]    true
-    Check ElementId    ${colDescription}    &{Dic_colDescription}[${langunge_code}]    true
-    Check ElementId    ${colStatus}    &{Dic_colStatus}[${langunge_code}]    true
-    Check ElementId    ${colCreationDate}    &{Dic_colCreationDate}[${langunge_code}]    true
-    Check ElementId    ${colItems}    &{Dic_colItems}[${langunge_code}]    true
+    Check ElementId    ${colInvoiceNumber}    &{Dic_colInvoiceNumber}[${langunge_code}]    enabled=true
+    Check ElementId    ${colDescription}    &{Dic_colDescription}[${langunge_code}]    enabled=true
+    Check ElementId    ${colStatus}    &{Dic_colStatus}[${langunge_code}]    enabled=true
+    Check ElementId    ${colCreationDate}    &{Dic_colCreationDate}[${langunge_code}]    enabled=true
+    Check ElementId    ${colItems}    &{Dic_colItems}[${langunge_code}]    enabled=true
     #checkbox
-    Check CheckboxId    ${chkShowOnlyOpenBills}    &{Dic_chkShowOnlyOpenBills}[${langunge_code}]    true    false
-    Check CheckboxId    ${chkShowProcessedBills}    &{Dic_chkShowProcessedBills}[${langunge_code}]    true    false
-    Check CheckboxId    ${chkShowProformaBills}    &{Dic_chkShowProformaBills}[${langunge_code}]    true    false
-    Check CheckboxId    ${chkPrintLogo}    &{Dic_chkPrintLogo}[${langunge_code}]    true    false
-    Check CheckboxId    ${chkAddCopy}    &{Dic_chkAddCopy}[${langunge_code}]    true    false
+    Check CheckboxId    ${chkShowOnlyOpenBills}    &{Dic_chkShowOnlyOpenBills}[${langunge_code}]    enabled=true    selected=false
+    Check CheckboxId    ${chkShowProcessedBills}    &{Dic_chkShowProcessedBills}[${langunge_code}]    enabled=true    selected=false
+    Check CheckboxId    ${chkShowProformaBills}    &{Dic_chkShowProformaBills}[${langunge_code}]    enabled=true    selected=false
+    Check CheckboxId    ${chkPrintLogo}    &{Dic_chkPrintLogo}[${langunge_code}]    enabled=true    selected=false
+    Check CheckboxId    ${chkAddCopy}    &{Dic_chkAddCopy}[${langunge_code}]    enabled=true    selected=false
     #textfield
-    Check TextfieldId    ${txtEmail}    support@rigilog.com    true    &{Dic_txtEmail}[${langunge_code}]
+    Check TextfieldId    ${txtEmail}    support@rigilog.com    enabled=true    labeltext=&{Dic_txtEmail}[${langunge_code}]
     #buttons
-    Check ElementId    ${btnThirdParty}    &{Dic_btnThirdParty}[${langunge_code}]    false
-    Check ElementId    ${btnProForma}    &{Dic_btnProForma}[${langunge_code}]    false
-    Check ElementId    ${btnAbort}    &{Dic_btnAbort}[${langunge_code}]    true
+    Check ElementId    ${btnThirdParty}    &{Dic_btnThirdParty}[${langunge_code}]    enabled=false
+    Check ElementId    ${btnProForma}    &{Dic_btnProForma}[${langunge_code}]    enabled=false
+    Check ElementId    ${btnAbort}    &{Dic_btnAbort}[${langunge_code}]    enabled=true
     Click Element    ${listInvoice}/0
     Check List ElementId is selected    ${listInvoice}/0    sel
-    Check List ElementId is selected    ${listInvoice}/1    sel    false
+    Check List ElementId is selected    ${listInvoice}/1    sel    selected=false
     Click Button    ${btnAbort}
-    Check PageArea is visible    ${menu_content}    ${invoice_issue_class}    false
+    Check PageArea is visible    ${menu_content}    ${invoice_issue_class}    visible=false
     Check Homescreen is selected
 
 Check Text Languagedependent
@@ -63,3 +65,99 @@ Check Text Languagedependent
     \    Element Text Should Be    ${btnThirdParty}    &{Dic_btnThirdParty}[${langunge_code}]
     \    Element Text Should Be    ${btnProForma}    &{Dic_btnProForma}[${langunge_code}]
     \    Element Text Should Be    ${btnAbort}    &{Dic_btnAbort}[${langunge_code}]
+
+No Invoice Selected
+    [Documentation]    BILL -> Rechnungsausgabe: Status der Buttons, wenn kein Element selektiert ist
+    Select Rechnungsausgabe
+    ${invoiceIsSelected}    Check List has selection    ${listInvoice}
+    Should Be Equal    ${invoiceIsSelected}    ${FALSE}
+    Check CheckboxId    ${chkShowOnlyOpenBills}    enabled=true    selected=false
+    Check CheckboxId    ${chkShowProcessedBills}    enabled=true    selected=false
+    Check CheckboxId    ${chkShowProformaBills}    enabled=true    selected=false
+    Check CheckboxId    ${chkPrintLogo}    enabled=true    selected=false
+    Check CheckboxId    ${chkAddCopy}    enabled=true    selected=false
+    Check ElementId    ${btnThirdParty}    enabled=false
+    Check ElementId    ${btnProForma}    enabled=false
+    Check ElementId    ${btnAbort}    enabled=true
+
+Open Invoice Selected
+    [Documentation]    BILL -> Rechnungsausgabe: Status der Buttons, wenn Rechnung selektiert ist im Status "In Bearbeitung"
+    Select Rechnungsausgabe
+    ${invoiceIsSelected}    Check List has selection    ${listInvoice}
+    Should Be Equal    ${invoiceIsSelected}    ${FALSE}
+    ${queryResultInvNo}=    DB_Execute_Scalar    ${expectedBills_SQL} AND (Bills.IsComplete = 0) AND (Bills.IsProcessed = 0)
+    Click Element    ${chkShowOnlyOpenBills}
+    Wait until Page is freezed
+    #Log To Console    Open InvoiceNo-->${queryResultInvNo}
+    ${listInvoiceID}    Get ElementID from List    ${listInvoice}    $invoiceNumber    ${queryResultInvNo}
+    Click Element    ${listInvoiceID}
+    Check List ElementId is selected    ${listInvoiceID}    sel
+    Element Text Should Be    ${listInvoiceID}/$status    In Bearbeitung
+    Check CheckboxId    ${chkShowOnlyOpenBills}    enabled=true    selected=true
+    Check CheckboxId    ${chkShowProcessedBills}    enabled=true    selected=false
+    Check CheckboxId    ${chkShowProformaBills}    enabled=true    selected=false
+    Check CheckboxId    ${chkPrintLogo}    enabled=true    selected=false
+    Check CheckboxId    ${chkAddCopy}    enabled=true    selected=false
+    Check ElementId    ${btnThirdParty}    enabled=true
+    Check ElementId    ${btnProForma}    enabled=true
+    Check ElementId    ${btnAbort}    enabled=true
+
+Processed Invoice Selected
+    [Documentation]    BILL -> Rechnungsausgabe: Status der Buttons, wenn Rechnung selektiert ist im Status "Verarbeitet"
+    Select Rechnungsausgabe
+    ${invoiceIsSelected}    Check List has selection    ${listInvoice}
+    Should Be Equal    ${invoiceIsSelected}    ${FALSE}
+    ${queryResultInvNo}=    DB_Execute_Scalar    ${expectedBills_SQL} AND (Bills.IsComplete = 0) AND (Bills.IsProcessed = 1)
+    Log To Console    Processed InvoiceNo-->${queryResultInvNo}
+    ${listInvoiceID}    Get ElementID from List    ${listInvoice}    $invoiceNumber    ${queryResultInvNo}
+    Click Element    ${listInvoiceID}
+    Check List ElementId is selected    ${listInvoiceID}    sel
+    Element Text Should Be    ${listInvoiceID}/$status${invProcessed}    Verarbeitet
+    Check CheckboxId    ${chkShowOnlyOpenBills}    enabled=true    selected=true
+    Check CheckboxId    ${chkShowProcessedBills}    enabled=true    selected=false
+    Check CheckboxId    ${chkShowProformaBills}    enabled=true    selected=false
+    Check CheckboxId    ${chkPrintLogo}    enabled=true    selected=false
+    Check CheckboxId    ${chkAddCopy}    enabled=true    selected=false
+    Check ElementId    ${btnThirdParty}    enabled=false
+    Check ElementId    ${btnProForma}    enabled=false
+    Check ElementId    ${btnAbort}    enabled=true
+
+Processed Closed Invoice Selected
+    [Documentation]    BILL -> Rechnungsausgabe: Status der Buttons, wenn Rechnung selektiert ist im Status "Verarbeitet"
+    Select Rechnungsausgabe
+    ${invoiceIsSelected}    Check List has selection    ${listInvoice}
+    Should Be Equal    ${invoiceIsSelected}    ${FALSE}
+    ${queryResultInvNo}=    DB_Execute_Scalar    ${expectedBills_SQL} AND (Bills.IsComplete = 1) AND (Bills.IsProcessed = 1) AND (Bills.IsProformaInvoice = 0)
+    Log To Console    Processed Closed InvoiceNo-->${queryResultInvNo}
+    ${listInvoiceID}    Get ElementID from List    ${listInvoice}    $invoiceNumber    ${queryResultInvNo}
+    Click Element    ${listInvoiceID}
+    Check List ElementId is selected    ${listInvoiceID}    sel
+    Element Text Should Be    ${listInvoiceID}/$status${invProcessedClosed}    Verarbeitet & veröffentlicht
+    Check CheckboxId    ${chkShowOnlyOpenBills}    enabled=true    selected=false
+    Check CheckboxId    ${chkShowProcessedBills}    enabled=true    selected=true
+    Check CheckboxId    ${chkShowProformaBills}    enabled=true    selected=false
+    Check CheckboxId    ${chkPrintLogo}    enabled=true    selected=false
+    Check CheckboxId    ${chkAddCopy}    enabled=true    selected=false
+    Check ElementId    ${btnThirdParty}    enabled=false
+    Check ElementId    ${btnProForma}    enabled=false
+    Check ElementId    ${btnAbort}    enabled=true
+
+Proforma Invoice Selected
+    [Documentation]    BILL -> Rechnungsausgabe: Status der Buttons, wenn Rechnung selektiert ist im Status "Verarbeitet"
+    Select Rechnungsausgabe
+    ${invoiceIsSelected}    Check List has selection    ${listInvoice}
+    Should Be Equal    ${invoiceIsSelected}    ${FALSE}
+    ${queryResultInvNo}=    DB_Execute_Scalar    ${expectedBills_SQL} AND (Bills.IsComplete = 1) AND (Bills.IsProcessed = 0) AND (Bills.IsProformaInvoice = 1)
+    Log To Console    Proforma InvoiceNo-->${queryResultInvNo}
+    ${listInvoiceID}    Get ElementID from List    ${listInvoice}    $invoiceNumber    ${queryResultInvNo}
+    Click Element    ${listInvoiceID}
+    Check List ElementId is selected    ${listInvoiceID}    sel
+    Element Text Should Be    ${listInvoiceID}/$status${invProcessedClosed}    Verarbeitet & veröffentlicht
+    Check CheckboxId    ${chkShowOnlyOpenBills}    enabled=true    selected=false
+    Check CheckboxId    ${chkShowProcessedBills}    enabled=true    selected=true
+    Check CheckboxId    ${chkShowProformaBills}    enabled=true    selected=false
+    Check CheckboxId    ${chkPrintLogo}    enabled=true    selected=false
+    Check CheckboxId    ${chkAddCopy}    enabled=true    selected=false
+    Check ElementId    ${btnThirdParty}    enabled=false
+    Check ElementId    ${btnProForma}    enabled=false
+    Check ElementId    ${btnAbort}    enabled=true

@@ -157,24 +157,17 @@ td.name, th.name {
 <td></td>
 </tr>
 <tr>
-<td class="name">&amp;{AVAILABLE_LANGUAGES}</td>
-<td>1=D</td>
-<td>15=E</td>
-<td>16=F</td>
-<td></td>
-</tr>
-<tr>
-<td class="name">@{LANGUAGE_IDS}</td>
-<td>1</td>
-<td>15</td>
-<td>16</td>
-<td></td>
-</tr>
-<tr>
 <td class="name">${NO_SEARCH_RESULTS_TEXT_DE}</td>
 <td>Leider wurden keine passenden Lieferaufträge gefunden. Bitte prüfen Sie die Suchkriterien!</td>
 <td># Meldungstext, wenn für Suchkriterien kein Ergebnis gefunden worden ist</td>
 <td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name">&amp;{AVAILABLE_LANGUAGES}</td>
+<td>1=D</td>
+<td>15=E</td>
+<td>16=F</td>
 <td></td>
 </tr>
 <tr>
@@ -1131,7 +1124,7 @@ get languageid</td>
 <tr>
 <td class="name"></td>
 <td>[Return]</td>
-<td>-1</td>
+<td>${EMPTY}</td>
 <td></td>
 <td></td>
 </tr>
@@ -1211,40 +1204,6 @@ check languageid</td>
 <td></td>
 </tr>
 <tr>
-<td class="name"><a name="keyword_Check List ElementId is selected">Check List ElementId is selected</a></td>
-<td>[Arguments]</td>
-<td>${element_id}</td>
-<td>${class}</td>
-<td>${selected}=${TRUE}</td>
-</tr>
-<tr>
-<td class="name"></td>
-<td>[Documentation]</td>
-<td class="colspan3" colspan="3">MM 22.03.2018\n<br>
-list elemnet is selected</td>
-</tr>
-<tr>
-<td class="name"></td>
-<td>[Tags]</td>
-<td>General, Helper, List, Selection</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="name"></td>
-<td>Check ElementId with class is visible</td>
-<td>${element_id}</td>
-<td>${class}</td>
-<td>${selected}</td>
-</tr>
-<tr>
-<td class="name"></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
 <td class="name"><a name="keyword_Check ElementId with class is visible">Check ElementId with class is visible</a></td>
 <td>[Arguments]</td>
 <td>${element_id}</td>
@@ -1284,6 +1243,419 @@ check elemnetid with class ist visible</td>
 <td>'${visible as bool}' == '${TRUE}'</td>
 <td>Page Should Contain Element</td>
 <td>//*[@id="${element_id}"][contains(@class, '${class}')]</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"><a name="keyword_Check List ElementId is selected">Check List ElementId is selected</a></td>
+<td>[Arguments]</td>
+<td>${element_id}</td>
+<td>${class}</td>
+<td>${selected}=${TRUE}</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>[Documentation]</td>
+<td class="colspan3" colspan="3">MM 22.03.2018\n<br>
+list elemnet is selected</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>[Tags]</td>
+<td>General, Helper, List, Selection</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Check ElementId with class is visible</td>
+<td>${element_id}</td>
+<td>${class}</td>
+<td>${selected}</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"><a name="keyword_Get ElementID from List Rekursion is BAD">Get ElementID from List Rekursion is BAD</a></td>
+<td>[Arguments]</td>
+<td>${element_id}</td>
+<td>${col_name}</td>
+<td>${value}</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>...</td>
+<td>${index}=0</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>[Documentation]</td>
+<td class="colspan3" colspan="3">MM 29.03.2018\n<br>
+finde element einer liste rekursiv\n<br>
+The limit is somewhat low, 42 keywords, because on some\n<br>
+operating system and Python interpreter combinations problems occur pretty easily.\n<br>
+konfigurierbar in C:\Python27\Lib\site-packages\robotide\lib\robot\running =&gt; context.py =&gt; _started_keywords_threshold</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>${strippedValue}</td>
+<td>Strip String</td>
+<td>${value}</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>${passed} =</td>
+<td>Run Keyword And Return Status</td>
+<td>Element Should Be Visible</td>
+<td>${element_id}/${index}</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Return From Keyword If</td>
+<td>'${passed}'!='${TRUE}'</td>
+<td>${EMPTY}</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>${colValue} =</td>
+<td>Get Text</td>
+<td>${element_id}/${index}/${col_name}</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>${passed} =</td>
+<td>Run Keyword And Return Status</td>
+<td>Should Be Equal</td>
+<td>${strippedValue}</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>...</td>
+<td>${colValue}</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Return From Keyword If</td>
+<td>'${passed}'=='${TRUE}'</td>
+<td>${element_id}/${index}</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>${index}=</td>
+<td>Evaluate</td>
+<td>${index}+1</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>${passed} =</td>
+<td>Get ElementID from List</td>
+<td>${element_id}</td>
+<td>${col_name}</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>...</td>
+<td>${value}</td>
+<td>${index}</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>[Return]</td>
+<td>${passed}</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"><a name="keyword_Get ElementID from List">Get ElementID from List</a></td>
+<td>[Arguments]</td>
+<td>${element_id}</td>
+<td>${col_name}</td>
+<td>${value}</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>...</td>
+<td>${endRange}=999999</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>[Documentation]</td>
+<td class="colspan3" colspan="3">MM 29.03.2018\n<br>
+finde element einer liste statischer loop</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>${strippedValue}</td>
+<td>Strip String</td>
+<td>${value}</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>: FOR</td>
+<td>${index}</td>
+<td>IN RANGE</td>
+<td>${endRange}</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td>${passed} =</td>
+<td>Run Keyword And Return Status</td>
+<td>Element Should Be Visible</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td>...</td>
+<td>${element_id}/${index}</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td>Return From Keyword If</td>
+<td>'${passed}'!='${TRUE}'</td>
+<td>${EMPTY}</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td>${colValue} =</td>
+<td>Get Text</td>
+<td>${element_id}/${index}/${col_name}</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td>${passed} =</td>
+<td>Run Keyword And Return Status</td>
+<td>Should Be Equal</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td>...</td>
+<td>${strippedValue}</td>
+<td>${colValue}</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td>Return From Keyword If</td>
+<td>'${passed}'=='${TRUE}'</td>
+<td>${element_id}/${index}</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>[Return]</td>
+<td>${EMPTY}</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"><a name="keyword_Check List has selection Rekursion is BAD">Check List has selection Rekursion is BAD</a></td>
+<td>[Arguments]</td>
+<td>${element_id}</td>
+<td>${index}=0</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>[Documentation]</td>
+<td class="colspan3" colspan="3">MM 29.03.2018\n<br>
+finde element einer liste rekursiv.\n<br>
+The limit is somewhat low, 42 keywords, because on some\n<br>
+operating system and Python interpreter combinations problems occur pretty easily.\n<br>
+konfigurierbar in C:\Python27\Lib\site-packages\robotide\lib\robot\running =&gt; context.py =&gt; _started_keywords_threshold</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>${passed} =</td>
+<td>Run Keyword And Return Status</td>
+<td>Element Should Be Visible</td>
+<td>${element_id}/${index}</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Return From Keyword If</td>
+<td>'${passed}'!='${TRUE}'</td>
+<td>${FALSE}</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>${class} =</td>
+<td>Get Element Attribute</td>
+<td>${element_id}/${index}</td>
+<td>class</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Return From Keyword If</td>
+<td>'${class}'!='${EMPTY}'</td>
+<td>${TRUE}</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>${index}=</td>
+<td>Evaluate</td>
+<td>${index}+1</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>${passed} =</td>
+<td>Check List has selection</td>
+<td>${element_id}</td>
+<td>${index}</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>[Return]</td>
+<td>${passed}</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"><a name="keyword_Check List has selection">Check List has selection</a></td>
+<td>[Arguments]</td>
+<td>${element_id}</td>
+<td>${endRange}=999999</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>[Documentation]</td>
+<td class="colspan3" colspan="3">MM 29.03.2018\n<br>
+finde element einer liste statischer loop</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>: FOR</td>
+<td>${index}</td>
+<td>IN RANGE</td>
+<td>${endRange}</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td>${passed} =</td>
+<td>Run Keyword And Return Status</td>
+<td>Element Should Be Visible</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td>...</td>
+<td>${element_id}/${index}</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td>Return From Keyword If</td>
+<td>'${passed}'!='${TRUE}'</td>
+<td>${FALSE}</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td>${class} =</td>
+<td>Get Element Attribute</td>
+<td>${element_id}/${index}</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td>...</td>
+<td>class</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td>Return From Keyword If</td>
+<td>'${class}'!='${EMPTY}'</td>
+<td>${TRUE}</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>[Return]</td>
+<td>${FALSE}</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"><a name="keyword_Wait until Page is freezed">Wait until Page is freezed</a></td>
+<td>[Documentation]</td>
+<td class="colspan3" colspan="3">MM 29.03.2018\n<br>
+warten bis die seite geladen ist, zB. nach datenabruf</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Wait Until Page Contains Element</td>
+<td>//*[contains(@class,'freezed')]</td>
+<td>10</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Sleep</td>
+<td>2</td>
+<td></td>
+<td></td>
 </tr>
 </table>
 </body>

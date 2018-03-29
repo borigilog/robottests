@@ -17,28 +17,28 @@ Check GUI Elements Menu
     Check ElementId    ${user_name}    System Administrator, System Administrator    enabled=true
     #Allgemein
     Check ContainsText    &{Dic_Allgemein}[${langunge_id}]
-    Check ElementId    ${invoice_management}    &{Dic_Rechnungsverwaltung}[${langunge_id}]    true
-    Check ElementId    ${manual_booking}    &{Dic_Manuelle_Buchungen}[${langunge_id}]    true
-    Check ElementId    ${invoice_issue}    &{Dic_Rechnungsausgabe}[${langunge_id}]    true
-    Check ElementId    ${search}    &{Dic_Suchen}[${langunge_id}]    true
-    Check ElementId    ${evaluation}    &{Dic_Auswertung}[${langunge_id}]    true
+    Check ElementId    ${invoice_management}    &{Dic_Rechnungsverwaltung}[${langunge_id}]    enabled=true
+    Check ElementId    ${manual_booking}    &{Dic_Manuelle_Buchungen}[${langunge_id}]    enabled=true
+    Check ElementId    ${invoice_issue}    &{Dic_Rechnungsausgabe}[${langunge_id}]    enabled=true
+    Check ElementId    ${search}    &{Dic_Suchen}[${langunge_id}]    enabled=true
+    Check ElementId    ${evaluation}    &{Dic_Auswertung}[${langunge_id}]    enabled=true
     #Fakturierung
     Check ContainsText    &{Dic_Fakturierung}[${langunge_id}]
-    Check ElementId    ${billing_deliveries}    &{Dic_Lieferungen}[${langunge_id}]    true
-    Check ElementId    ${billing_returns}    &{Dic_Retouren}[${langunge_id}]    true
-    Check ElementId    ${billing_second_hand}    &{Dic_Occasionen}[${langunge_id}]    true
-    Check ElementId    ${billing_shipment_costs}    &{Dic_Sendungskosten}[${langunge_id}]    true
+    Check ElementId    ${billing_deliveries}    &{Dic_Lieferungen}[${langunge_id}]    enabled=true
+    Check ElementId    ${billing_returns}    &{Dic_Retouren}[${langunge_id}]    enabled=true
+    Check ElementId    ${billing_second_hand}    &{Dic_Occasionen}[${langunge_id}]    enabled=true
+    Check ElementId    ${billing_shipment_costs}    &{Dic_Sendungskosten}[${langunge_id}]    enabled=true
     #Storno
     Check ContainsText    &{Dic_Storno}[${langunge_id}]
-    Check ElementId    ${deliveries}    &{Dic_Storno_Lieferungen}[${langunge_id}]    true
-    Check ElementId    ${returns}    &{Dic_Storno_Retouren}[${langunge_id}]    true
-    Check ElementId    ${second_hand}    &{Dic_Storno_Occasionen}[${langunge_id}]    true
-    Check ElementId    ${shipment_costs}    &{Dic_Storno_Sendungskosten}[${langunge_id}]    true
+    Check ElementId    ${deliveries}    &{Dic_Storno_Lieferungen}[${langunge_id}]    enabled=true
+    Check ElementId    ${returns}    &{Dic_Storno_Retouren}[${langunge_id}]    enabled=true
+    Check ElementId    ${second_hand}    &{Dic_Storno_Occasionen}[${langunge_id}]    enabled=true
+    Check ElementId    ${shipment_costs}    &{Dic_Storno_Sendungskosten}[${langunge_id}]    enabled=true
     #Voreinstellungen
     Check ContainsText    &{Dic_Voreinstellungen}[${langunge_id}]
-    Check ElementId    ${offsetting_charging}    &{Dic_Verrechnung}[${langunge_id}]    true
+    Check ElementId    ${offsetting_charging}    &{Dic_Verrechnung}[${langunge_id}]    enabled=true
     #Mandant
-    Check ElementId    ${mandatorname}    Hauptmandant    true
+    Check ElementId    ${mandatorname}    Hauptmandant    enabled=true
     Check ElementId    ${switchmandator}    enabled=true
     Check TooltipId    ${switchmandator}    &{Dic_Mandantenauswahl}[${langunge_id}]
     Check ElementId    ${help}    enabled=true
@@ -48,16 +48,15 @@ Check GUI Elements Menu
     #Sprachauswahl
     Check ContainsText    &{Dic_Sprachauswahl}[${langunge_id}]
     Check ElementId    ${languages}
-    Check ElementId    ${languages}:1    &{Dic_Sprachen_Code}[1]    true
-    Check ElementId    ${languages}:15    &{Dic_Sprachen_Code}[15]    true
-    Check ElementId    ${languages}:16    &{Dic_Sprachen_Code}[16]    true
+    : FOR    ${key}    IN    @{AVAILABLE_LANGUAGES.keys()}
+    \    Check ElementId    ${languages}:${key}    &{Dic_Sprachen_Code}[${key}]    enabled=true
 
 Check Language Selection
     Check LanguageId is selected    1
-    Check LanguageId is selected    15    false
+    Check LanguageId is selected    15    selected=false
     Set LanguageId    15
     Check LanguageId is selected    15
-    Check LanguageId is selected    1    false
+    Check LanguageId is selected    1    selected=false
     ${langunge_id}=    Get selected LanguageId
     Should Be Equal    ${langunge_id}    15
 
