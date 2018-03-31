@@ -551,15 +551,8 @@ td.name, th.name {
 </tr>
 <tr>
 <td class="name"></td>
-<td>Click Element</td>
+<td>Click Element And Wait</td>
 <td>${element_id}</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="name"></td>
-<td>Wait until Page is unfreezed</td>
-<td></td>
 <td></td>
 <td></td>
 </tr>
@@ -567,20 +560,6 @@ td.name, th.name {
 <td class="name"></td>
 <td>Check PageArea is visible</td>
 <td>${content_id}</td>
-<td>${class}</td>
-<td></td>
-</tr>
-<tr>
-<td class="name"></td>
-<td>#Wait Until Keyword Succeeds</td>
-<td>10 sec</td>
-<td>1 sec</td>
-<td>Check PageArea is visible</td>
-</tr>
-<tr>
-<td class="name"></td>
-<td>...</td>
-<td># ${content_id}</td>
 <td>${class}</td>
 <td></td>
 </tr>
@@ -628,13 +607,20 @@ check tooltip</td>
 <tr>
 <td class="name"></td>
 <td>Wait Until Element Is Visible</td>
+<td>//div[contains(@class,'tt fadein')]</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>#Wait Until Element Is Visible</td>
 <td>${element_id}/$tooltip</td>
 <td></td>
 <td></td>
 </tr>
 <tr>
 <td class="name"></td>
-<td>Element Should Be Visible</td>
+<td>#Element Should Be Visible</td>
 <td>${element_id}/$tooltip</td>
 <td></td>
 <td></td>
@@ -655,14 +641,21 @@ check tooltip</td>
 </tr>
 <tr>
 <td class="name"></td>
-<td>Sleep</td>
+<td>#MM Hinweis nach Elemente zu suchen die nicht vorhanden sind dauert immer ca 10 sec</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>#Sleep</td>
 <td>2</td>
 <td></td>
 <td></td>
 </tr>
 <tr>
 <td class="name"></td>
-<td>Page Should Not Contain Element</td>
+<td>#Page Should Not Contain Element</td>
 <td>${element_id}/$tooltip</td>
 <td></td>
 <td></td>
@@ -671,6 +664,13 @@ check tooltip</td>
 <td class="name"></td>
 <td>#Wait Until Element Is Not Visible</td>
 <td>${element_id}/$tooltip</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Wait Until Page Contains Element</td>
+<td>//div[contains(@class,'tt fadeout nodisp')]</td>
 <td></td>
 <td></td>
 </tr>
@@ -1171,15 +1171,8 @@ set languageid</td>
 </tr>
 <tr>
 <td class="name"></td>
-<td>Click Element</td>
+<td>Click Element And Wait</td>
 <td>/$flow_main/menu_bottom/languages:${langunge_id}</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="name"></td>
-<td>Sleep</td>
-<td>1s</td>
 <td></td>
 <td></td>
 </tr>
@@ -1307,6 +1300,34 @@ list elemnet is selected</td>
 <td></td>
 </tr>
 <tr>
+<td class="name"><a name="keyword_Click Element And Wait">Click Element And Wait</a></td>
+<td>[Arguments]</td>
+<td>${locator}</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Click Element</td>
+<td>${locator}</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Wait until Page is unfreezed</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
 <td class="name"><a name="keyword_Get ElementID from List Rekursion is BAD">Get ElementID from List Rekursion is BAD</a></td>
 <td>[Arguments]</td>
 <td>${element_id}</td>
@@ -1331,8 +1352,15 @@ konfigurierbar in C:\Python27\Lib\site-packages\robotide\lib\robot\running =&gt;
 </tr>
 <tr>
 <td class="name"></td>
+<td>[Tags]</td>
+<td>Versuch</td>
+<td>Temporary</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
 <td>${strippedValue}</td>
-<td>Strip String</td>
+<td>Get Stripped String</td>
 <td>${value}</td>
 <td></td>
 </tr>
@@ -1436,7 +1464,7 @@ finde element einer liste statischer loop</td>
 <tr>
 <td class="name"></td>
 <td>${strippedValue}</td>
-<td>Strip String</td>
+<td>Get Stripped String</td>
 <td>${value}</td>
 <td></td>
 </tr>
@@ -1511,6 +1539,55 @@ finde element einer liste statischer loop</td>
 <td></td>
 </tr>
 <tr>
+<td class="name"><a name="keyword_Get Stripped String">Get Stripped String</a></td>
+<td>[Arguments]</td>
+<td>${Value}=${EMPTY}</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Return From Keyword If</td>
+<td>'${Value}' == '${NONE}'</td>
+<td>${EMPTY}</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Return From Keyword If</td>
+<td>'${Value}' == '${EMPTY}'</td>
+<td>${EMPTY}</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>${strippedValue}</td>
+<td>Strip String</td>
+<td>${Value}</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>#Log To Console</td>
+<td>Get Stripped String---&gt;${strippedValue}</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>[Return]</td>
+<td>${strippedValue}</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
 <td class="name"><a name="keyword_Check List has selection Rekursion is BAD">Check List has selection Rekursion is BAD</a></td>
 <td>[Arguments]</td>
 <td>${element_id}</td>
@@ -1525,6 +1602,13 @@ finde element einer liste rekursiv.\n<br>
 The limit is somewhat low, 42 keywords, because on some\n<br>
 operating system and Python interpreter combinations problems occur pretty easily.\n<br>
 konfigurierbar in C:\Python27\Lib\site-packages\robotide\lib\robot\running =&gt; context.py =&gt; _started_keywords_threshold</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>[Tags]</td>
+<td>Versuch</td>
+<td>Temporary</td>
+<td></td>
 </tr>
 <tr>
 <td class="name"></td>
@@ -1669,7 +1753,7 @@ warten bis die seite geladen ist, zB. nach datenabruf</td>
 <td>#${passed} =</td>
 <td>Run Keyword And Return Status</td>
 <td>Element Should Be Visible</td>
-<td>//*[contains(@class,'freezed')]</td>
+<td>//body[contains(@class,'freezed')]</td>
 </tr>
 <tr>
 <td class="name"></td>
@@ -1680,10 +1764,97 @@ warten bis die seite geladen ist, zB. nach datenabruf</td>
 </tr>
 <tr>
 <td class="name"></td>
+<td>#Run Keyword If</td>
+<td>'${passed}'=='${TRUE}'</td>
 <td>Wait Until Page Does Not Contain Element</td>
-<td>//*[contains(@class,'freezed')]</td>
-<td>10</td>
+<td>//body[contains(@class,'freezed')]</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>...</td>
+<td># 10 sec</td>
 <td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>#Wait Until Keyword Succeeds</td>
+<td>5 min</td>
+<td>1 sec</td>
+<td>Page Should Not Contain Element</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>...</td>
+<td># //body[contains(@class,'freezed')]</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>#${passed} =</td>
+<td>Run Keyword And Return Status</td>
+<td>Element Should Be Visible</td>
+<td>//body[contains(@class,'freezed')]</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>#Log To Console</td>
+<td>freezed visible----&gt;${passed}</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>#MM Hinweis nach Elemente zu suchen die nicht vorhanden sind dauert immer ca 10 sec</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>#Temporary Helper: loop for max 300 sec =&gt; 5 min</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>: FOR</td>
+<td>${index}</td>
+<td>IN RANGE</td>
+<td>300</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td>${class} =</td>
+<td>Get Element Attribute</td>
+<td>//body</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td>...</td>
+<td>class</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td>Exit For Loop If</td>
+<td>'${class}'!='freezed'</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td>Sleep</td>
+<td>1</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
 <td></td>
 <td></td>
 <td></td>

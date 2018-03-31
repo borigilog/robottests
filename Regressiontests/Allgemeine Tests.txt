@@ -13,7 +13,7 @@ Login to new Website
     Input Text    //input[contains(@id,'login_password')]    ${RLX_PWD}
     Click Element    //button//div[contains(text(), '${RLX_LOGIN_BUTTON_TEXT}')]
     Wait Until Page Contains Element    //div[contains(text(), 'Mandantenauswahl')]
-    [Teardown]    Close Browser
+    #[Teardown]    Close Browser
 
 Check Mandators
     Login to RLX Website

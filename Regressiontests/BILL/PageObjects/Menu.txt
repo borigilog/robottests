@@ -60,17 +60,21 @@ ${languages}      /$flow_main/menu_bottom/languages
 &{Dic_Storno}     1=Storno    15=Cancellation    16=Annulation
 &{Dic_Voreinstellungen}    1=Voreinstellungen    15=Default settings    16=Paramètres prédéfinis
 &{Dic_Sprachauswahl}    1=Sprachauswahl    15=Language selection    16=Sélection de langue
-&{Dic_Mandantenauswahl}    1=Aktiven Mandanten wechseln    15=    16=
-&{Dic_Kontakt}    1=Kontakt    15=    16=
-&{Dic_Modul_verlassen}    1=Modul verlassen    15=    16=
+&{Dic_Mandantenauswahl}    1=Aktiven Mandanten wechseln    15=Change active client    16=Changer le mandant actif
+&{Dic_Kontakt}    1=Kontakt    15=Contact    16=Contact
+&{Dic_Modul_verlassen}    1=Modul verlassen    15=Leave module    16=Quitter le module
 &{Dic_Sprachen_Code}    1=D    15=E    16=F
 
 *** Keywords ***
 Login Select Bill
+    [Arguments]    ${Login}=true
     [Documentation]    MM 22.03.2018, prepare content for BILL tests
-    Start Test For Module    Bill
-    Wait Until Keyword Succeeds    60 sec    1 sec    Check PageArea is visible    /$flow_main    screen look_rlx_screen_bill_main
-    Check Homescreen is selected
+    ${navigateToBillModule} =    Is Truthy    ${Login}
+    #Log To Console    Login Select Bill--->${Login}--->${navigateToBillModule}
+    Run Keyword If    ${navigateToBillModule}    Start Test For Module    Bill
+    Run Keyword If    ${navigateToBillModule}    Wait until Page is unfreezed
+    Run Keyword If    ${navigateToBillModule}    Check Homescreen is selected
+    Check PageArea is visible    /$flow_main    screen look_rlx_screen_bill_main
 
 Check Homescreen is selected
     [Documentation]    MM 22.03.2018, check content homescreen is selected
@@ -78,84 +82,70 @@ Check Homescreen is selected
 
 Select Rechnungsverwaltung
     [Arguments]    ${Login}=false
-    ${navigateToBillModule} =    Is Truthy    ${Login}
-    Run Keyword If    ${navigateToBillModule}    Login Select Bill
+    Login Select Bill    ${Login}
     Select Menu Content    ${invoice_management}    ${invoice_management_class}
 
 Select Manuelle Buchungen
     [Arguments]    ${Login}=false
-    ${navigateToBillModule} =    Is Truthy    ${Login}
-    Run Keyword If    ${navigateToBillModule}    Login Select Bill
+    Login Select Bill    ${Login}
     Select Menu Content    ${manual_booking}    ${manual_booking_class}
 
 Select Rechnungsausgabe
     [Arguments]    ${Login}=false
-    ${navigateToBillModule} =    Is Truthy    ${Login}
-    Run Keyword If    ${navigateToBillModule}    Login Select Bill
+    Login Select Bill    ${Login}
     Select Menu Content    ${invoice_issue}    ${invoice_issue_class}
 
 Select Suchen
     [Arguments]    ${Login}=false
-    ${navigateToBillModule} =    Is Truthy    ${Login}
-    Run Keyword If    ${navigateToBillModule}    Login Select Bill
+    Login Select Bill    ${Login}
     Select Menu Content    ${search}    ${search_class}
 
 Select Auswertung
     [Arguments]    ${Login}=false
-    ${navigateToBillModule} =    Is Truthy    ${Login}
-    Run Keyword If    ${navigateToBillModule}    Login Select Bill
+    Login Select Bill    ${Login}
     Select Menu Content    ${evaluation}    ${evaluation_class}
 
 Select Lieferungen
     [Arguments]    ${Login}=false
-    ${navigateToBillModule} =    Is Truthy    ${Login}
-    Run Keyword If    ${navigateToBillModule}    Login Select Bill
+    Login Select Bill    ${Login}
     Select Menu Content    ${billing_deliveries}    ${billing_deliveries_class}
 
 Select Retouren
     [Arguments]    ${Login}=false
-    ${navigateToBillModule} =    Is Truthy    ${Login}
-    Run Keyword If    ${navigateToBillModule}    Login Select Bill
+    Login Select Bill    ${Login}
     Select Menu Content    ${billing_returns}    ${billing_returns_class}
 
 Select Occasionen
     [Arguments]    ${Login}=false
-    ${navigateToBillModule} =    Is Truthy    ${Login}
-    Run Keyword If    ${navigateToBillModule}    Login Select Bill
+    Login Select Bill    ${Login}
     Select Menu Content    ${billing_second_hand}    ${billing_second_hand_class}
 
 Select Sendungskosten
     [Arguments]    ${Login}=false
-    ${navigateToBillModule} =    Is Truthy    ${Login}
-    Run Keyword If    ${navigateToBillModule}    Login Select Bill
+    Login Select Bill    ${Login}
     Select Menu Content    ${billing_shipment_costs}    ${billing_shipment_costs_class}
 
 Select Storno Lieferungen
     [Arguments]    ${Login}=false
-    ${navigateToBillModule} =    Is Truthy    ${Login}
-    Run Keyword If    ${navigateToBillModule}    Login Select Bill
+    Login Select Bill    ${Login}
     Select Menu Content    ${deliveries}    ${deliveries_class}
 
 Select Storno Retouren
     [Arguments]    ${Login}=false
-    ${navigateToBillModule} =    Is Truthy    ${Login}
-    Run Keyword If    ${navigateToBillModule}    Login Select Bill
+    Login Select Bill    ${Login}
     Select Menu Content    ${returns}    ${returns_class}
 
 Select Storno Occasionen
     [Arguments]    ${Login}=false
-    ${navigateToBillModule} =    Is Truthy    ${Login}
-    Run Keyword If    ${navigateToBillModule}    Login Select Bill
+    Login Select Bill    ${Login}
     Select Menu Content    ${second_hand}    ${second_hand_class}
 
 Select Storno Sendungskosten
     [Arguments]    ${Login}=false
-    ${navigateToBillModule} =    Is Truthy    ${Login}
-    Run Keyword If    ${navigateToBillModule}    Login Select Bill
+    Login Select Bill    ${Login}
     Select Menu Content    ${shipment_costs}    ${shipment_costs_class}
 
 Select Verrechnung
     [Arguments]    ${Login}=false
-    ${navigateToBillModule} =    Is Truthy    ${Login}
-    Run Keyword If    ${navigateToBillModule}    Login Select Bill
+    Login Select Bill    ${Login}
     Select Menu Content    ${offsetting_charging}    ${offsetting_charging_class}

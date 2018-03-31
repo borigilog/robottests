@@ -32,14 +32,6 @@ Get InvoiceID
     Run Keyword If    '${Value}' != '${EMPTY}' and '${ElementId}' == '${EMPTY}'    Fail    Die Rechnung (${Value}) konnte nicht gefunden werden!
     [Return]    ${ElementId}
 
-Get Stripped String
-    [Arguments]    ${Value}=${EMPTY}
-    Return From Keyword If    '${Value}' == '${NONE}'    ${EMPTY}
-    Return From Keyword If    '${Value}' == '${EMPTY}'    ${EMPTY}
-    ${strippedValue}    Strip String    ${Value}
-    #Log To Console    Get Stripped String--->${strippedValue}
-    [Return]    ${strippedValue}
-
 Check Invoice is selectable
     [Arguments]    ${Id}
     ${selectInvoice}=    Set Variable if    '${Id}'=='${EMPTY}'    ${FALSE}    ${TRUE}
@@ -49,6 +41,14 @@ Check Invoice is selectable
 
 Select InvoiceID
     [Arguments]    ${Id}
-    Click Element    ${Id}
-    Wait until Page is unfreezed
+    Click Element And Wait    ${Id}
     Check List ElementId is selected    ${Id}    sel
+
+Get InvoiceID with Positions
+    [Arguments]    ${element_id}    ${endRange}=999999
+    : FOR    ${index}    IN RANGE    ${endRange}
+    \    ${passed} =    Run Keyword And Return Status    Element Should Be Visible    ${element_id}/${index}
+    \    Return From Keyword If    '${passed}'!='${TRUE}'    ${EMPTY}
+    \    ${colValue} =    Get Text    ${element_id}/${index}/$items
+    \    Return From Keyword If    '${colValue}'>'0'    ${element_id}/${index}
+    [Return]    ${EMPTY}

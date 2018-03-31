@@ -18,4 +18,9 @@ Dic_IsOpen: {D: 'In Bearbeitung', E: 'In process', F: 'En cours de traitement'}
 Dic_IsProcessed: {D: 'Verarbeitet', E: 'Processed', F: 'Traité'}
 Dic_IsCompleteAndProcessed: {D: 'Verarbeitet & veröffentlicht', E: 'Processed & published', F: 'Traité & publié'}
 Dic_IsComplete: {D: 'Veröffentlicht', E: 'Published', F: 'Publié'}
+Dic_ErrorTitle: {D: 'Fehler', E: 'Error', F: 'Erreur'}
+Dic_ErrorMsg: 
+    D: "Es ist ein Fehler beim Erstellen der Rechnung aufgetreten:\nNo positions on this Bill"
+    E: "An error occurred while creating the invoice:\n No positions on this Bill"
+    F: "Une erreur s'est produite lors de la création de la facture:\nNo positions on this Bill"
 ...

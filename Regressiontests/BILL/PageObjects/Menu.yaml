@@ -70,16 +70,16 @@ DicYAML_Verrechnung:
     F: Facturation
 DicYAML_Mandantenauswahl:
     D: Aktiven Mandanten wechseln
-    E: ''
-    F: ''
+    E: 'Change active client'
+    F: 'Changer le mandant actif'
 DicYAML_Kontakt:
     D: Kontakt
-    E: ''
-    F: ''
+    E: 'Contact'
+    F: 'Contact'
 DicYAML_Modul_verlassen:
     D: Modul verlassen
-    E: ''
-    F: ''
+    E: 'Leave module'
+    F: 'Quitter le module'
 DicYAML_Sprachauswahl:
     D: Sprachauswahl
     E: Language selection
