@@ -61,6 +61,7 @@ Check Language Selection
     \    ${langunge_id}=    Get selected LanguageId
     \    Should Be Equal    ${langunge_id}    ${key}
     \    Check ContainsText    &{Dic_Sprachauswahl}[${langunge_id}]
+    Set LanguageId    ${DEFAULT_LANGUAGE_ID}
 
 Check Text Languagedependent YAML
     [Documentation]    using Variables \ \ \ \ \ \ \ \ menu.yaml
@@ -93,6 +94,7 @@ Check Text Languagedependent YAML
     \    Run Keyword And Continue On Failure    Check ContainsText    &{DicYAML_Voreinstellungen}[${langunge_code}]
     \    Run Keyword And Continue On Failure    Element Text Should Be    ${offsetting_charging}    &{DicYAML_Verrechnung}[${langunge_code}]
     \    Run Keyword And Continue On Failure    Check ContainsText    &{DicYAML_Sprachauswahl}[${langunge_code}]
+    Set LanguageId    ${DEFAULT_LANGUAGE_ID}
 
 Check Text Languagedependent YAML customized
     [Documentation]    customized muss zuerst eingelesen werden, einlesen erfolgt nach fifo
@@ -134,6 +136,7 @@ Check Text Languagedependent
     \    Run Keyword And Continue On Failure    Check ContainsText    &{Dic_Voreinstellungen}[${langunge_id}]
     \    Run Keyword And Continue On Failure    Element Text Should Be    ${offsetting_charging}    &{Dic_Verrechnung}[${langunge_id}]
     \    Run Keyword And Continue On Failure    Check ContainsText    &{Dic_Sprachauswahl}[${langunge_id}]
+    Set LanguageId    ${DEFAULT_LANGUAGE_ID}
 
 Check ToolTip Mandantenauswahl
     [Tags]    ToolTip    TextLanguagedependent    Action

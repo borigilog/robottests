@@ -1,0 +1,148 @@
+*** Settings ***
+Suite Setup       Select Auswertung    true
+Suite Teardown    Close Browser
+Test Teardown     Select Auswertung
+Force Tags        Bill    Auswertung
+Default Tags
+Resource          ../../UserKeywords/Common_Resources.html
+Resource          ../../UserKeywords/BILL_Resources.html
+Resource          PageObjects/Menu.txt
+Resource          PageObjects/Auswertung.txt
+Resource          PageObjects/Datum_Selector.txt
+Variables         PageObjects/Auswertung.yaml
+
+*** Test Cases ***
+Check GUI Elements Auswertung Screen1
+    [Documentation]    MM 01.04.2018, BILL -> Auswertung: Check GUI Elements for Auswertung
+    [Tags]    GUI_Elements    TextLanguagedependent
+    ${langunge_code}=    Get selected LanguageCode
+    #title
+    Check ContainsText    &{Dic_Title}[${langunge_code}]
+    Check ContainsText    &{Dic_Info}[${langunge_code}]
+    #grid
+    Check ElementId    ${colIntern}    &{Dic_colMandantorIntern}[${langunge_code}]    enabled=true
+    Check ElementId    ${colExtern}    &{Dic_colMandantorExtern}[${langunge_code}]    enabled=true
+    #buttons
+    Check ElementId    ${btnConfirm}    &{Dic_btnConfirm}[${langunge_code}]    enabled=false
+    Check ElementId    ${btnAbort}    &{Dic_btnAbort}[${langunge_code}]    enabled=true
+
+Check Text Languagedependent Screen1
+    [Documentation]    MM 01.04.2018, BILL -> Auswertung: Check texte in allen verfügbaren sprachen
+    [Tags]    TextLanguagedependent    ChangeLanguage
+    : FOR    ${key}    IN    @{AVAILABLE_LANGUAGES.keys()}
+    \    Set LanguageId    ${key}
+    \    Check LanguageId is selected    ${key}
+    \    ${langunge_code}=    Get selected LanguageCode
+    \    Run Keyword And Continue On Failure    Check ContainsText    &{Dic_Title}[${langunge_code}]
+    \    Run Keyword And Continue On Failure    Check ContainsText    &{Dic_Info}[${langunge_code}]
+    \    Run Keyword And Continue On Failure    Element Text Should Be    ${colIntern}    &{Dic_colMandantorIntern}[${langunge_code}]
+    \    Run Keyword And Continue On Failure    Element Text Should Be    ${colExtern}    &{Dic_colMandantorExtern}[${langunge_code}]
+    \    Run Keyword And Continue On Failure    Element Text Should Be    ${btnConfirm}    &{Dic_btnConfirm}[${langunge_code}]
+    \    Run Keyword And Continue On Failure    Element Text Should Be    ${btnAbort}    &{Dic_btnAbort}[${langunge_code}]
+    Set LanguageId    ${DEFAULT_LANGUAGE_ID}
+
+Check No Mandator Selected Screen1
+    [Documentation]    MM 01.04.2018, BILL -> Auswertung: Status der Buttons, wenn kein Element selektiert ist
+    [Tags]    Action
+    ${isSelected}    Check List has selection    ${listMandator}
+    Should Be Equal    ${isSelected}    ${FALSE}
+    Check ElementId    ${btnConfirm}    enabled=false
+    Check ElementId    ${btnAbort}    enabled=true
+
+Click Button Auswahl bestätigen Screen1
+    [Documentation]    MM 01.04.2018, BILL -> Auswertung: Status der Buttons, wenn ein Element selektiert ist
+    [Tags]    Action
+    Select Hauptmandant
+    ${passed} =    Run Keyword And Return Status    Click Element And Wait    ${btnConfirm}
+    Should Be Equal    ${passed}    ${TRUE}
+    Check PageArea is visible    ${menu_content}    screen look_rlx_screen_bill_generally_evaluation_fromto
+
+Click Button Abbruch Screen1
+    [Documentation]    MM 01.04.2018, BILL -> Auswertung abbrechen
+    [Tags]    Action
+    ${passed} =    Run Keyword And Return Status    Click Element And Wait    ${btnAbort}
+    Should Be Equal    ${passed}    ${TRUE}
+    Check PageArea is visible    ${menu_content}    ${evaluation_class}    visible=false
+    Check Homescreen is selected
+
+Check GUI Elements Auswertung Screen2
+    [Documentation]    MM 01.04.2018, BILL -> Auswertung: Check GUI Elements for Auswertung
+    [Tags]    GUI_Elements    TextLanguagedependent
+    ${langunge_code}=    Get selected LanguageCode
+    Go To Screen2
+    #title
+    Check ContainsText    &{Dic_Title}[${langunge_code}]
+    Check ContainsText    &{Dic_InfoSelectDate}[${langunge_code}]
+    #date
+    Check DateSelector    ${selStartDate}    labeltext=&{Dic_startDate}[${langunge_code}]    enabled=false
+    Check DateSelector    ${selEndDate}    labeltext=&{Dic_endDate}[${langunge_code}]    enabled=false
+    #buttons
+    Check ElementId    ${btnGenerate}    &{Dic_btnGenerate}[${langunge_code}]    enabled=false
+    Check ElementId    ${btnAbort}    &{Dic_btnAbort}[${langunge_code}]    enabled=true
+
+Check Text Languagedependent Screen2
+    [Documentation]    MM 01.04.2018, BILL -> Auswertung: Check texte in allen verfügbaren sprachen
+    [Tags]    TextLanguagedependent    ChangeLanguage
+    Go To Screen2
+    : FOR    ${key}    IN    @{AVAILABLE_LANGUAGES.keys()}
+    \    Set LanguageId    ${key}
+    \    Check LanguageId is selected    ${key}
+    \    ${langunge_code}=    Get selected LanguageCode
+    \    Run Keyword And Continue On Failure    Check ContainsText    &{Dic_Title}[${langunge_code}]
+    \    Run Keyword And Continue On Failure    Check ContainsText    &{Dic_InfoSelectDate}[${langunge_code}]
+    \    Run Keyword And Continue On Failure    Check ContainsText    &{Dic_startDate}[${langunge_code}]
+    \    Run Keyword And Continue On Failure    Check ContainsText    &{Dic_endDate}[${langunge_code}]
+    \    Run Keyword And Continue On Failure    Element Text Should Be    ${btnGenerate}    &{Dic_btnGenerate}[${langunge_code}]
+    \    Run Keyword And Continue On Failure    Element Text Should Be    ${btnAbort}    &{Dic_btnAbort}[${langunge_code}]
+    Set LanguageId    ${DEFAULT_LANGUAGE_ID}
+
+Check Startdatum and Enddatum is not selected Screen2
+    [Documentation]    MM 01.04.2018, BILL -> Auswertung: kein datum ausgewählt
+    [Tags]    Action    DatumSelector
+    Go To Screen2
+    Check Date Is Selected    ${selStartDate}    selected=false
+    Check Date Is Selected    ${selEndDate}    selected=false
+    Check ElementId    ${btnGenerate}    enabled=false
+    Check ElementId    ${btnAbort}    enabled=true
+
+Check Startdatum and Enddatum is not editable Screen2
+    [Documentation]    MM 01.04.2018, BILL -> Auswertung: datum ist nicht editierbar
+    [Tags]    Action    DatumSelector
+    Go To Screen2
+    ${passed} =    Run Keyword And Return Status    Edit DateValue In DateSelector    ${selStartDate}    01.04.2018
+    Should Be Equal    ${passed}    ${FALSE}
+    ${passed} =    Run Keyword And Return Status    Edit DateValue In DateSelector    ${selEndDate}    07.04.2018
+    Should Be Equal    ${passed}    ${FALSE}
+
+Check Startdatum and Enddatum is selectable Screen2
+    [Documentation]    MM 01.04.2018, BILL -> Auswertung: datum ist nicht editierbar
+    [Tags]    Action    DatumSelector
+    Go To Screen2
+    Check Date Is Selectable    ${selStartDate}
+    Check Date Is Selectable    ${selEndDate}
+
+Click Button Bericht erstellen Screen2
+    [Documentation]    MM 01.04.2018, BILL -> Auswertung: Bericht erstellen
+    [Tags]    Action    DatumSelector
+    Go To Screen2
+    Set Date In DateSelector    ${selStartDate}    23.01.2018
+    Check Expected DateValue In DateSelector    ${selStartDate}    23.01.2018
+    Check Date Is Selected    ${selStartDate}
+    Check ElementId    ${btnGenerate}    enabled=false
+    Set Date In DateSelector    ${selEndDate}    17.09.2018
+    Check Expected DateValue In DateSelector    ${selEndDate}    17.09.2018
+    Check Date Is Selected    ${selEndDate}
+    Check ElementId    ${btnGenerate}    enabled=true
+    ${passed} =    Run Keyword And Return Status    Click Element And Wait    ${btnGenerate}
+    Should Be Equal    ${passed}    ${TRUE}
+    Check PageArea is visible    ${menu_content}    ${evaluation_class}    visible=false
+    Check Homescreen is selected
+
+Click Button Abbruch Screen2
+    [Documentation]    MM 01.04.2018, BILL -> Auswertung abbrechen
+    [Tags]    Action    Fehlerhaft
+    Go To Screen2
+    ${passed} =    Run Keyword And Return Status    Click Element And Wait    ${btnAbort}
+    Should Be Equal    ${passed}    ${TRUE}
+    Check PageArea is visible    ${menu_content}    ${evaluation_class}    visible=false
+    Check Homescreen is selected

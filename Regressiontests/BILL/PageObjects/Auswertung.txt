@@ -1,0 +1,23 @@
+*** Variables ***
+# ~~~~~~~~~ date selector
+${selStartDate}    /$flow_main/$flow_content/dateFrom
+${selEndDate}     /$flow_main/$flow_content/dateTo
+# ~~~~~~~ buttons
+${btnAbort}       /$flow_main/$flow_content/abort
+${btnConfirm}     /$flow_main/$flow_content/confirm
+${btnGenerate}    /$flow_main/$flow_content/generate
+# ~~~~~~~ mandator list
+${listMandator}    /$flow_main/$flow_content/mandator_list
+# ~~~~~~~ mandator col
+${colIntern}      /$flow_main/$flow_content/mandator_list/$col_intName
+${colExtern}      /$flow_main/$flow_content/mandator_list/$col_extName
+
+*** Keywords ***
+Select Hauptmandant
+    ${ElementId}    Get ElementID from List    ${listMandator}    $intName    Hauptmandant
+    Click Element And Wait    ${ElementId}
+    Check List ElementId is selected    ${ElementId}    sel
+
+Go To Screen2
+    Select Hauptmandant
+    Click Element And Wait    ${btnConfirm}

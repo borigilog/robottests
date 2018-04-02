@@ -171,6 +171,13 @@ td.name, th.name {
 <td></td>
 </tr>
 <tr>
+<td class="name">${DEFAULT_LANGUAGE_ID}</td>
+<td>1</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
 <td class="name">${DATABASE_NAME}</td>
 <td>Manualguide</td>
 <td></td>
@@ -1539,23 +1546,91 @@ finde element einer liste statischer loop</td>
 <td></td>
 </tr>
 <tr>
+<td class="name"><a name="keyword_Get ElementId From Table">Get ElementId From Table</a></td>
+<td>[Arguments]</td>
+<td>${locator}</td>
+<td>${value}</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>[Documentation]</td>
+<td class="colspan3" colspan="3">MM 01.04.2018 This way is good and fast, works with xpath</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>${strippedValue}</td>
+<td>Get Stripped String</td>
+<td>${value}</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>@{webelements} =</td>
+<td>Get WebElements</td>
+<td>${locator}</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>: FOR</td>
+<td>${element}</td>
+<td>IN</td>
+<td>@{webelements}</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td>Continue For Loop If</td>
+<td>'${strippedValue}'!='${element.text}'</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td>${id}=</td>
+<td>Set Variable</td>
+<td>${element.get_attribute('id')}</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td>Return From Keyword</td>
+<td>${id}</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>[Return]</td>
+<td>${EMPTY}</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
 <td class="name"><a name="keyword_Get Stripped String">Get Stripped String</a></td>
 <td>[Arguments]</td>
-<td>${Value}=${EMPTY}</td>
+<td>${value}=${EMPTY}</td>
 <td></td>
 <td></td>
 </tr>
 <tr>
 <td class="name"></td>
 <td>Return From Keyword If</td>
-<td>'${Value}' == '${NONE}'</td>
+<td>'${value}' == '${NONE}'</td>
 <td>${EMPTY}</td>
 <td></td>
 </tr>
 <tr>
 <td class="name"></td>
 <td>Return From Keyword If</td>
-<td>'${Value}' == '${EMPTY}'</td>
+<td>'${value}' == '${EMPTY}'</td>
 <td>${EMPTY}</td>
 <td></td>
 </tr>
@@ -1563,14 +1638,7 @@ finde element einer liste statischer loop</td>
 <td class="name"></td>
 <td>${strippedValue}</td>
 <td>Strip String</td>
-<td>${Value}</td>
-<td></td>
-</tr>
-<tr>
-<td class="name"></td>
-<td>#Log To Console</td>
-<td>Get Stripped String---&gt;${strippedValue}</td>
-<td></td>
+<td>${value}</td>
 <td></td>
 </tr>
 <tr>
@@ -1743,51 +1811,125 @@ finde element einer liste statischer loop</td>
 <td></td>
 </tr>
 <tr>
+<td class="name"><a name="keyword_Check Table Has Selection Class">Check Table Has Selection Class</a></td>
+<td>[Arguments]</td>
+<td>${locator}</td>
+<td>${class}</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>[Documentation]</td>
+<td class="colspan3" colspan="3">MM 01.04.2018 This way is good and fast, works with xpath</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>@{webelements} =</td>
+<td>Get WebElements</td>
+<td>${locator}</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>: FOR</td>
+<td>${element}</td>
+<td>IN</td>
+<td>@{webelements}</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td>${id}=</td>
+<td>Set Variable</td>
+<td>${element.get_attribute('id')}</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td>${current_class} =</td>
+<td>Get Element Attribute</td>
+<td>${id}</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td>...</td>
+<td>class</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td>Continue For Loop If</td>
+<td>'${class}'!='${current_class}'</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td>Return From Keyword</td>
+<td>${TRUE}</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>[Return]</td>
+<td>${FALSE}</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
 <td class="name"><a name="keyword_Wait until Page is unfreezed">Wait until Page is unfreezed</a></td>
 <td>[Documentation]</td>
-<td class="colspan3" colspan="3">MM 29.03.2018\n<br>
-warten bis die seite geladen ist, zB. nach datenabruf</td>
-</tr>
-<tr>
-<td class="name"></td>
+<td>MM 29.03.2018\n<br>
+warten bis die seite geladen ist, zB. nach datenabruf\n<br>
+\n<br>
+\n<br>
+\n<br>
+</td>
 <td>#${passed} =</td>
 <td>Run Keyword And Return Status</td>
-<td>Element Should Be Visible</td>
-<td>//body[contains(@class,'freezed')]</td>
-</tr>
-<tr>
-<td class="name"></td>
-<td>#Log To Console</td>
-<td>freezed exist----&gt;${passed}</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="name"></td>
-<td>#Run Keyword If</td>
-<td>'${passed}'=='${TRUE}'</td>
-<td>Wait Until Page Does Not Contain Element</td>
-<td>//body[contains(@class,'freezed')]</td>
 </tr>
 <tr>
 <td class="name"></td>
 <td>...</td>
-<td># 10 sec</td>
-<td></td>
-<td></td>
+<td># Element Should Be Visible</td>
+<td>//body[contains(@class,'freezed')]</td>
+<td>#Log To Console</td>
 </tr>
 <tr>
 <td class="name"></td>
+<td>...</td>
+<td># freezed exist----&gt;${passed}</td>
+<td>#Run Keyword If</td>
+<td>'${passed}'=='${TRUE}'</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>...</td>
+<td># Wait Until Page Does Not Contain Element</td>
+<td>//body[contains(@class,'freezed')]</td>
+<td># 10 sec</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>...</td>
 <td>#Wait Until Keyword Succeeds</td>
 <td>5 min</td>
 <td>1 sec</td>
-<td>Page Should Not Contain Element</td>
 </tr>
 <tr>
 <td class="name"></td>
 <td>...</td>
+<td># Page Should Not Contain Element</td>
 <td># //body[contains(@class,'freezed')]</td>
-<td></td>
 <td></td>
 </tr>
 <tr>

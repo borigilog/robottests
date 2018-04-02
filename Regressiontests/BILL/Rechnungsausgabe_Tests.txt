@@ -59,6 +59,7 @@ Check Text Languagedependent
     \    Run Keyword And Continue On Failure    Element Text Should Be    ${btnThirdParty}    &{Dic_btnThirdParty}[${langunge_code}]
     \    Run Keyword And Continue On Failure    Element Text Should Be    ${btnProForma}    &{Dic_btnProForma}[${langunge_code}]
     \    Run Keyword And Continue On Failure    Element Text Should Be    ${btnAbort}    &{Dic_btnAbort}[${langunge_code}]
+    Set LanguageId    ${DEFAULT_LANGUAGE_ID}
 
 Check Valid Email
     [Tags]    Action
