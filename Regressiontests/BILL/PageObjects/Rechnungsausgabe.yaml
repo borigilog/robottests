@@ -1,0 +1,26 @@
+---
+Dic_Title: {D: 'Rechnungs- / Belegausgabe', E: 'Issue of invoice / receipt', F: 'Émission facture / reçu'}
+Dic_colInvoiceNumber: {D: 'Rechnungs-Nr.', E: 'Invoice no.', F: 'Facture No.'}
+Dic_colDescription: {D: 'Rechnungsbezeichnung', E: 'Description of the invoice', F: 'Désignation de la facture'}
+Dic_colStatus: {D: 'Status', E: 'Status', F: 'Statut'}
+Dic_colCreationDate: {D: 'Erstellt am', E: 'Created on', F: 'Date de création'}
+Dic_colItems: {D: 'Positionen', E: 'Items', F: 'Postes'}
+Dic_chkShowOnlyOpenBills: {D: 'Auch bereits veröffentlichte Rechnungen mit anzeigen', E: 'Show also published invoices', F: 'Afficher également factures déjà publiées'}
+Dic_chkShowProcessedBills: {D: 'Auch bereits verarbeitete Rechnungen mit anzeigen', E: 'Show also processed invoices', F: 'Afficher également factures déjà traitées'}
+Dic_chkShowProformaBills: {D: 'Auch Proformarechnungen mit anzeigen', E: 'Show also pro forma invoices', F: 'Afficher également factures pro forma'}
+Dic_chkPrintLogo: {D: 'Logo mit aufdrucken', E: 'Print logo', F: 'Imprimer logo'}
+Dic_chkAddCopy: {D: 'Kopie anfügen', E: 'Add copy', F: 'Ajouter copie'}
+Dic_txtEmail: {D: 'Empfänger-E-Mail', E: 'E-mail recipient', F: 'E-mail destinataire'}
+Dic_btnThirdParty: {D: 'Rechnung an Dritte', E: 'Invoice to third party', F: 'Facture à tiers'}
+Dic_btnProForma: {D: 'Proformarechnung', E: 'Pro forma invoice', F: 'Facture pro forma'}
+Dic_btnAbort: {D: 'Zurück zum Hauptmenü', E: 'Back to main menu', F: 'Retour au menu principal'}
+Dic_IsOpen: {D: 'In Bearbeitung', E: 'In process', F: 'En cours de traitement'}
+Dic_IsProcessed: {D: 'Verarbeitet', E: 'Processed', F: 'Traité'}
+Dic_IsCompleteAndProcessed: {D: 'Verarbeitet & veröffentlicht', E: 'Processed & published', F: 'Traité & publié'}
+Dic_IsComplete: {D: 'Veröffentlicht', E: 'Published', F: 'Publié'}
+Dic_ErrorTitle: {D: 'Fehler', E: 'Error', F: 'Erreur'}
+Dic_ErrorMsg: 
+    D: "Es ist ein Fehler beim Erstellen der Rechnung aufgetreten:\nNo positions on this Bill"
+    E: "An error occurred while creating the invoice:\n No positions on this Bill"
+    F: "Une erreur s'est produite lors de la création de la facture:\nNo positions on this Bill"
+...

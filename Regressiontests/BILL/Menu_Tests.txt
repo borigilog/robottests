@@ -1,149 +1,171 @@
 *** Settings ***
 Suite Setup       Login Select Bill
 Suite Teardown    Close Browser
+Force Tags        Bill    Menu
+Default Tags
 Resource          ../../UserKeywords/Common_Resources.html
 Resource          ../../UserKeywords/BILL_Resources.html
 Resource          PageObjects/Menu.txt
-Variables         menu.yaml
+Variables         PageObjects/customized_menu.yaml
+Variables         PageObjects/Menu.yaml
 
 *** Test Cases ***
 Check GUI Elements Menu
     [Documentation]    MM 22.03.2018, check GUI Elements for Menu
-    [Tags]    Bill    Menu
+    [Tags]    GUI_Elements    TextLanguagedependent
     ${langunge_id}=    Get selected LanguageId
+    #Module
+    Check ContainsText    Module:
+    Check PageArea is visible    /$flow_main/modsel    screen look_rlx_screen_moduleselector
     #Benutzer
     Check ContainsText    &{Dic_Benutzer}[${langunge_id}]
-    Check ElementId    ${user_name}    System Administrator, System Administrator    true
+    Check ElementId    ${user_name}    System Administrator, System Administrator    enabled=true
     #Allgemein
     Check ContainsText    &{Dic_Allgemein}[${langunge_id}]
-    Check ElementId    ${invoice_management}    &{Dic_Rechnungsverwaltung}[${langunge_id}]    true
-    Check ElementId    ${manual_booking}    &{Dic_Manuelle_Buchungen}[${langunge_id}]    true
-    Check ElementId    ${invoice_issue}    &{Dic_Rechnungsausgabe}[${langunge_id}]    true
-    Check ElementId    ${search}    &{Dic_Suchen}[${langunge_id}]    true
-    Check ElementId    ${evaluation}    &{Dic_Auswertung}[${langunge_id}]    true
+    Check ElementId    ${invoice_management}    &{Dic_Rechnungsverwaltung}[${langunge_id}]    enabled=true
+    Check ElementId    ${manual_booking}    &{Dic_Manuelle_Buchungen}[${langunge_id}]    enabled=true
+    Check ElementId    ${invoice_issue}    &{Dic_Rechnungsausgabe}[${langunge_id}]    enabled=true
+    Check ElementId    ${search}    &{Dic_Suchen}[${langunge_id}]    enabled=true
+    Check ElementId    ${evaluation}    &{Dic_Auswertung}[${langunge_id}]    enabled=true
     #Fakturierung
     Check ContainsText    &{Dic_Fakturierung}[${langunge_id}]
-    Check ElementId    ${billing_deliveries}    &{Dic_Lieferungen}[${langunge_id}]    true
-    Check ElementId    ${billing_returns}    &{Dic_Retouren}[${langunge_id}]    true
-    Check ElementId    ${billing_second_hand}    &{Dic_Occasionen}[${langunge_id}]    true
-    Check ElementId    ${billing_shipment_costs}    &{Dic_Sendungskosten}[${langunge_id}]    true
+    Check ElementId    ${billing_deliveries}    &{Dic_Lieferungen}[${langunge_id}]    enabled=true
+    Check ElementId    ${billing_returns}    &{Dic_Retouren}[${langunge_id}]    enabled=true
+    Check ElementId    ${billing_second_hand}    &{Dic_Occasionen}[${langunge_id}]    enabled=true
+    Check ElementId    ${billing_shipment_costs}    &{Dic_Sendungskosten}[${langunge_id}]    enabled=true
     #Storno
     Check ContainsText    &{Dic_Storno}[${langunge_id}]
-    Check ElementId    ${deliveries}    &{Dic_Storno_Lieferungen}[${langunge_id}]    true
-    Check ElementId    ${returns}    &{Dic_Storno_Retouren}[${langunge_id}]    true
-    Check ElementId    ${second_hand}    &{Dic_Storno_Occasionen}[${langunge_id}]    true
-    Check ElementId    ${shipment_costs}    &{Dic_Storno_Sendungskosten}[${langunge_id}]    true
+    Check ElementId    ${deliveries}    &{Dic_Storno_Lieferungen}[${langunge_id}]    enabled=true
+    Check ElementId    ${returns}    &{Dic_Storno_Retouren}[${langunge_id}]    enabled=true
+    Check ElementId    ${second_hand}    &{Dic_Storno_Occasionen}[${langunge_id}]    enabled=true
+    Check ElementId    ${shipment_costs}    &{Dic_Storno_Sendungskosten}[${langunge_id}]    enabled=true
     #Voreinstellungen
     Check ContainsText    &{Dic_Voreinstellungen}[${langunge_id}]
-    Check ElementId    ${offsetting_charging}    &{Dic_Verrechnung}[${langunge_id}]    true
+    Check ElementId    ${offsetting_charging}    &{Dic_Verrechnung}[${langunge_id}]    enabled=true
     #Mandant
-    Check ElementId    ${mandatorname}    Hauptmandant    true
+    Check ElementId    ${mandatorname}    Hauptmandant    enabled=true
     Check ElementId    ${switchmandator}    enabled=true
-    Check TooltipId    ${switchmandator}    &{Dic_Mandantenauswahl}[${langunge_id}]
     Check ElementId    ${help}    enabled=true
-    Check TooltipId    ${help}    &{Dic_Kontakt}[${langunge_id}]
     Check ElementId    ${exit}    enabled=true
-    Check TooltipId    ${exit}    &{Dic_Modul_verlassen}[${langunge_id}]
     #Sprachauswahl
     Check ContainsText    &{Dic_Sprachauswahl}[${langunge_id}]
     Check ElementId    ${languages}
-    Check ElementId    ${languages}:1    &{Dic_Sprachen_Code}[1]    true
-    Check ElementId    ${languages}:15    &{Dic_Sprachen_Code}[15]    true
-    Check ElementId    ${languages}:16    &{Dic_Sprachen_Code}[16]    true
+    : FOR    ${key}    IN    @{AVAILABLE_LANGUAGES.keys()}
+    \    Check ElementId    ${languages}:${key}    &{Dic_Sprachen_Code}[${key}]    enabled=true
 
 Check Language Selection
-    Check LanguageId is selected    1
-    Check LanguageId is selected    15    false
-    Set LanguageId    15
-    Check LanguageId is selected    15
-    Check LanguageId is selected    1    false
-    ${langunge_id}=    Get selected LanguageId
-    Should Be Equal    ${langunge_id}    15
+    [Tags]    Action    ChangeLanguage
+    : FOR    ${key}    IN    @{AVAILABLE_LANGUAGES.keys()}
+    \    Set LanguageId    ${key}
+    \    Check LanguageId is selected    ${key}
+    \    ${langunge_id}=    Get selected LanguageId
+    \    Should Be Equal    ${langunge_id}    ${key}
+    \    Check ContainsText    &{Dic_Sprachauswahl}[${langunge_id}]
+    Set LanguageId    ${DEFAULT_LANGUAGE_ID}
 
 Check Text Languagedependent YAML
     [Documentation]    using Variables \ \ \ \ \ \ \ \ menu.yaml
     ...    Robot Framework requires PyYAML
     ...    install it by running pip install pyyaml
-    ...
     ...    file must format in yaml
     ...    http://docs.ansible.com/ansible/latest/YAMLSyntax.html
-    : FOR    ${item}    IN    @{LANGUAGE_IDS}
-    \    Set LanguageId    ${item}
-    \    Sleep    1s
+    [Tags]    TextLanguagedependent    ChangeLanguage
+    : FOR    ${key}    IN    @{AVAILABLE_LANGUAGES.keys()}
+    \    Set LanguageId    ${key}
+    \    Check LanguageId is selected    ${key}
     \    ${langunge_code}=    Get selected LanguageCode
-    \    Check ContainsText    &{DicYAML_Benutzer}[${langunge_code}]
-    \    Check ContainsText    &{DicYAML_Allgemein}[${langunge_code}]
-    \    Element Text Should Be    ${invoice_management}    &{DicYAML_Rechnungsverwaltung}[${langunge_code}]
-    \    Element Text Should Be    ${manual_booking}    &{DicYAML_Manuelle_Buchungen}[${langunge_code}]
-    \    Element Text Should Be    ${invoice_issue}    &{DicYAML_Rechnungsausgabe}[${langunge_code}]
-    \    Element Text Should Be    ${search}    &{DicYAML_Suchen}[${langunge_code}]
-    \    Element Text Should Be    ${evaluation}    &{DicYAML_Auswertung}[${langunge_code}]
-    \    Check ContainsText    &{DicYAML_Fakturierung}[${langunge_code}]
-    \    Element Text Should Be    ${billing_deliveries}    &{DicYAML_Lieferungen}[${langunge_code}]
-    \    Element Text Should Be    ${billing_returns}    &{DicYAML_Retouren}[${langunge_code}]
-    \    Element Text Should Be    ${billing_second_hand}    &{DicYAML_Occasionen}[${langunge_code}]
-    \    Element Text Should Be    ${billing_shipment_costs}    &{DicYAML_Sendungskosten}[${langunge_code}]
-    \    Check ContainsText    &{DicYAML_Storno}[${langunge_code}]
-    \    Element Text Should Be    ${deliveries}    &{DicYAML_Storno_Lieferungen}[${langunge_code}]
-    \    Element Text Should Be    ${returns}    &{DicYAML_Storno_Retouren}[${langunge_code}]
-    \    Element Text Should Be    ${second_hand}    &{DicYAML_Storno_Occasionen}[${langunge_code}]
-    \    Element Text Should Be    ${shipment_costs}    &{DicYAML_Storno_Sendungskosten}[${langunge_code}]
-    \    Check ContainsText    &{DicYAML_Voreinstellungen}[${langunge_code}]
-    \    Element Text Should Be    ${offsetting_charging}    &{DicYAML_Verrechnung}[${langunge_code}]
-    \    Check ContainsText    &{DicYAML_Sprachauswahl}[${langunge_code}]
+    \    Run Keyword And Continue On Failure    Check ContainsText    &{DicYAML_Benutzer}[${langunge_code}]
+    \    Run Keyword And Continue On Failure    Check ContainsText    &{DicYAML_Allgemein}[${langunge_code}]
+    \    Run Keyword And Continue On Failure    Element Text Should Be    ${invoice_management}    &{DicYAML_Rechnungsverwaltung}[${langunge_code}]
+    \    Run Keyword And Continue On Failure    Element Text Should Be    ${manual_booking}    &{DicYAML_Manuelle_Buchungen}[${langunge_code}]
+    \    Run Keyword And Continue On Failure    Element Text Should Be    ${invoice_issue}    &{DicYAML_Rechnungsausgabe}[${langunge_code}]
+    \    Run Keyword And Continue On Failure    Element Text Should Be    ${search}    &{DicYAML_Suchen}[${langunge_code}]
+    \    Run Keyword And Continue On Failure    Element Text Should Be    ${evaluation}    &{DicYAML_Auswertung}[${langunge_code}]
+    \    Run Keyword And Continue On Failure    Check ContainsText    &{DicYAML_Fakturierung}[${langunge_code}]
+    \    Run Keyword And Continue On Failure    Element Text Should Be    ${billing_deliveries}    &{DicYAML_Lieferungen}[${langunge_code}]
+    \    Run Keyword And Continue On Failure    Element Text Should Be    ${billing_returns}    &{DicYAML_Retouren}[${langunge_code}]
+    \    Run Keyword And Continue On Failure    Element Text Should Be    ${billing_second_hand}    &{DicYAML_Occasionen}[${langunge_code}]
+    \    Run Keyword And Continue On Failure    Element Text Should Be    ${billing_shipment_costs}    &{DicYAML_Sendungskosten}[${langunge_code}]
+    \    Run Keyword And Continue On Failure    Check ContainsText    &{DicYAML_Storno}[${langunge_code}]
+    \    Run Keyword And Continue On Failure    Element Text Should Be    ${deliveries}    &{DicYAML_Storno_Lieferungen}[${langunge_code}]
+    \    Run Keyword And Continue On Failure    Element Text Should Be    ${returns}    &{DicYAML_Storno_Retouren}[${langunge_code}]
+    \    Run Keyword And Continue On Failure    Element Text Should Be    ${second_hand}    &{DicYAML_Storno_Occasionen}[${langunge_code}]
+    \    Run Keyword And Continue On Failure    Element Text Should Be    ${shipment_costs}    &{DicYAML_Storno_Sendungskosten}[${langunge_code}]
+    \    Run Keyword And Continue On Failure    Check ContainsText    &{DicYAML_Voreinstellungen}[${langunge_code}]
+    \    Run Keyword And Continue On Failure    Element Text Should Be    ${offsetting_charging}    &{DicYAML_Verrechnung}[${langunge_code}]
+    \    Run Keyword And Continue On Failure    Check ContainsText    &{DicYAML_Sprachauswahl}[${langunge_code}]
+    Set LanguageId    ${DEFAULT_LANGUAGE_ID}
+
+Check Text Languagedependent YAML customized
+    [Documentation]    customized muss zuerst eingelesen werden, einlesen erfolgt nach fifo
+    ...    siehe:
+    ...    Variables \ \ \ \ \ \ \ \ customized_menu.yaml
+    ...    Variables \ \ \ \ \ \ \ \ menu.yaml
+    [Tags]    Versuch    Temporary
+    Log To Console    &{DicYAML_RechnungsverwaltungCustomizesTest}[D]
+    Log To Console    &{DicYAML_RechnungsverwaltungCustomizesTest}[E]
+    Log To Console    &{DicYAML_RechnungsverwaltungCustomizesTest}[F]
+    Log To Console    &{DicYAML_BenutzerCustomizesTest}[1]
+    ${langE_Id}=    Convert To Integer    15
+    Log To Console    &{DicYAML_BenutzerCustomizesTest}[${langE_Id}]
+    Log To Console    &{DicYAML_BenutzerCustomizesTest}[16]
 
 Check Text Languagedependent
-    : FOR    ${item}    IN    @{LANGUAGE_IDS}
-    \    Set LanguageId    ${item}
-    \    Sleep    1s
+    [Tags]    TextLanguagedependent    ChangeLanguage
+    : FOR    ${key}    IN    @{AVAILABLE_LANGUAGES.keys()}
+    \    Set LanguageId    ${key}
     \    ${langunge_id}=    Get selected LanguageId
-    \    Check ContainsText    &{Dic_Benutzer}[${langunge_id}]
-    \    Check ContainsText    &{Dic_Allgemein}[${langunge_id}]
-    \    Element Text Should Be    ${invoice_management}    &{Dic_Rechnungsverwaltung}[${langunge_id}]
-    \    Element Text Should Be    ${manual_booking}    &{Dic_Manuelle_Buchungen}[${langunge_id}]
-    \    Element Text Should Be    ${invoice_issue}    &{Dic_Rechnungsausgabe}[${langunge_id}]
-    \    Element Text Should Be    ${search}    &{Dic_Suchen}[${langunge_id}]
-    \    Element Text Should Be    ${evaluation}    &{Dic_Auswertung}[${langunge_id}]
-    \    Check ContainsText    &{Dic_Fakturierung}[${langunge_id}]
-    \    Element Text Should Be    ${billing_deliveries}    &{Dic_Lieferungen}[${langunge_id}]
-    \    Element Text Should Be    ${billing_returns}    &{Dic_Retouren}[${langunge_id}]
-    \    Element Text Should Be    ${billing_second_hand}    &{Dic_Occasionen}[${langunge_id}]
-    \    Element Text Should Be    ${billing_shipment_costs}    &{Dic_Sendungskosten}[${langunge_id}]
-    \    Check ContainsText    &{Dic_Storno}[${langunge_id}]
-    \    Element Text Should Be    ${deliveries}    &{Dic_Storno_Lieferungen}[${langunge_id}]
-    \    Element Text Should Be    ${returns}    &{Dic_Storno_Retouren}[${langunge_id}]
-    \    Element Text Should Be    ${second_hand}    &{Dic_Storno_Occasionen}[${langunge_id}]
-    \    Element Text Should Be    ${shipment_costs}    &{Dic_Storno_Sendungskosten}[${langunge_id}]
-    \    Check ContainsText    &{Dic_Voreinstellungen}[${langunge_id}]
-    \    Element Text Should Be    ${offsetting_charging}    &{Dic_Verrechnung}[${langunge_id}]
-    \    Check ContainsText    &{Dic_Sprachauswahl}[${langunge_id}]
+    \    Run Keyword And Continue On Failure    Check LanguageId is selected    ${key}
+    \    Run Keyword And Continue On Failure    Check ContainsText    &{Dic_Benutzer}[${langunge_id}]
+    \    Run Keyword And Continue On Failure    Check ContainsText    &{Dic_Allgemein}[${langunge_id}]
+    \    Run Keyword And Continue On Failure    Element Text Should Be    ${invoice_management}    &{Dic_Rechnungsverwaltung}[${langunge_id}]
+    \    Run Keyword And Continue On Failure    Element Text Should Be    ${manual_booking}    &{Dic_Manuelle_Buchungen}[${langunge_id}]
+    \    Run Keyword And Continue On Failure    Element Text Should Be    ${invoice_issue}    &{Dic_Rechnungsausgabe}[${langunge_id}]
+    \    Run Keyword And Continue On Failure    Element Text Should Be    ${search}    &{Dic_Suchen}[${langunge_id}]
+    \    Run Keyword And Continue On Failure    Element Text Should Be    ${evaluation}    &{Dic_Auswertung}[${langunge_id}]
+    \    Run Keyword And Continue On Failure    Check ContainsText    &{Dic_Fakturierung}[${langunge_id}]
+    \    Run Keyword And Continue On Failure    Element Text Should Be    ${billing_deliveries}    &{Dic_Lieferungen}[${langunge_id}]
+    \    Run Keyword And Continue On Failure    Element Text Should Be    ${billing_returns}    &{Dic_Retouren}[${langunge_id}]
+    \    Run Keyword And Continue On Failure    Element Text Should Be    ${billing_second_hand}    &{Dic_Occasionen}[${langunge_id}]
+    \    Run Keyword And Continue On Failure    Element Text Should Be    ${billing_shipment_costs}    &{Dic_Sendungskosten}[${langunge_id}]
+    \    Run Keyword And Continue On Failure    Check ContainsText    &{Dic_Storno}[${langunge_id}]
+    \    Run Keyword And Continue On Failure    Element Text Should Be    ${deliveries}    &{Dic_Storno_Lieferungen}[${langunge_id}]
+    \    Run Keyword And Continue On Failure    Element Text Should Be    ${returns}    &{Dic_Storno_Retouren}[${langunge_id}]
+    \    Run Keyword And Continue On Failure    Element Text Should Be    ${second_hand}    &{Dic_Storno_Occasionen}[${langunge_id}]
+    \    Run Keyword And Continue On Failure    Element Text Should Be    ${shipment_costs}    &{Dic_Storno_Sendungskosten}[${langunge_id}]
+    \    Run Keyword And Continue On Failure    Check ContainsText    &{Dic_Voreinstellungen}[${langunge_id}]
+    \    Run Keyword And Continue On Failure    Element Text Should Be    ${offsetting_charging}    &{Dic_Verrechnung}[${langunge_id}]
+    \    Run Keyword And Continue On Failure    Check ContainsText    &{Dic_Sprachauswahl}[${langunge_id}]
+    Set LanguageId    ${DEFAULT_LANGUAGE_ID}
+
+Check ToolTip Mandantenauswahl
+    [Tags]    ToolTip    TextLanguagedependent    Action
+    ${langunge_id}=    Get selected LanguageId
+    Check TooltipId    ${switchmandator}    &{Dic_Mandantenauswahl}[${langunge_id}]
+
+Check ToolTip Kontakt
+    [Tags]    ToolTip    TextLanguagedependent    Action
+    ${langunge_id}=    Get selected LanguageId
+    Check TooltipId    ${help}    &{Dic_Kontakt}[${langunge_id}]
+
+Check ToolTip Module verlassen
+    [Tags]    ToolTip    TextLanguagedependent    Action
+    ${langunge_id}=    Get selected LanguageId
+    Check TooltipId    ${exit}    &{Dic_Modul_verlassen}[${langunge_id}]
 
 Check Menu Selection
+    [Tags]    Action
     Select Rechnungsverwaltung
-    Sleep    1s
     Select Manuelle Buchungen
-    Sleep    1s
     Select Rechnungsausgabe
-    Sleep    1s
     Select Suchen
-    Sleep    1s
     Select Auswertung
-    Sleep    1s
     Select Lieferungen
-    Sleep    1s
     Select Retouren
-    Sleep    1s
     Select Occasionen
-    Sleep    1s
     Select Sendungskosten
-    Sleep    1s
     Select Storno Lieferungen
-    Sleep    1s
     Select Storno Retouren
-    Sleep    1s
     Select Storno Occasionen
-    Sleep    1s
     Select Storno Sendungskosten
-    Sleep    1s
     Select Verrechnung
-    Sleep    1s

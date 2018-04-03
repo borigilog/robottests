@@ -1,0 +1,225 @@
+*** Settings ***
+Library           DateTime
+Variables         Datum_Selector.yaml
+
+*** Variables ***
+# ~~~~~~~ calendar grid
+${grdCalendarPopday}    //div[@class='grid look_popcal look_rlx_grid_popcal_calendar']/div[contains(@class,'gridcontainer noscroll')]/table/tbody/tr/td/button
+${grdCalendarNoSelection}    //div[@class='grid look_popcal look_rlx_grid_popcal_calendar']/div[contains(@class,'gridcontainer noscroll')]/table/tbody/tr/td/div/button
+@{DATE_MonthName}    &{Dic_January}    &{Dic_February}    &{Dic_March}    &{Dic_April}    &{Dic_May}    &{Dic_June}    &{Dic_July}
+...               &{Dic_August}    &{Dic_September}    &{Dic_October}    &{Dic_November}    &{Dic_December}
+
+*** Keywords ***
+Check DateSelector
+    [Arguments]    ${locator}    ${labeltext}=${EMPTY}    ${inputvalue}=${EMPTY}    ${enabled}=${EMPTY}
+    [Documentation]    MM 01.04.2018
+    ...    check date selector element, the arguments are passed with name or in the correct order
+    [Tags]    General, Helper, Element, DateSelector
+    ${langunge_code}    Get selected LanguageCode
+    ${date_id}    Set Variable    ${locator}/date
+    ${picker_id}    Set Variable    ${locator}/pick
+    ${enabled as bool}    Is Truthy    ${enabled}
+    Element Should Be Visible    ${date_id}
+    Element Should Be Visible    ${picker_id}
+    Run Keyword If    '${enabled}' != '${EMPTY}' and '${enabled as bool}' == '${TRUE}'    Element Should Be Enabled    ${date_id}
+    Run Keyword If    '${enabled}' != '${EMPTY}' and '${enabled as bool}' == '${FALSE}'    Element Should Be Disabled    ${date_id}
+    Run Keyword If    '${inputvalue}' != '${EMPTY}'    Textfield Value Should Be    ${date_id}    ${inputvalue}
+    Run Keyword If    '${labeltext}' != '${EMPTY}'    Check ContainsText    ${labeltext}
+
+Check DateSelector Is Visible
+    [Arguments]    ${locator}
+    [Documentation]    MM 02.04.2018
+    [Tags]    General, Helper, DateSelector
+    ${calendar_id}    Set Variable    ${locator}/$popover0
+    Check PageArea is visible    ${calendar_id}    screen look_rlx_screen_popcal    visible=true
+
+Check DateValue Is Valid
+    [Arguments]    ${locator}    ${selected}=${TRUE}
+    [Documentation]    MM 02.04.2018
+    [Tags]    General, Helper, DateSelector
+    ${selected}    Is Truthy    ${selected}
+    ${date_id}    Set Variable    ${locator}/date
+    ${datevalue}    Get Value    ${date_id}
+    ${langunge_code}    Get selected LanguageCode
+    ${none_value} =    Run Keyword And Return Status    Should Be Equal    ${datevalue}    &{Dic_NoValue}[${langunge_code}]
+    Return From Keyword If    '${selected}' == '${FALSE}' and '${none_value}' == '${TRUE}'    ${TRUE}
+    Return From Keyword If    '${selected}' == '${FALSE}' and '${datevalue}' == '${EMPTY}'    ${TRUE}
+    ${passed} =    Run Keyword And Return Status    Convert DateString To DateTime    ${datevalue}
+    Should Be Equal    ${selected}    ${passed}
+
+Check Expected DateValue In DateSelector
+    [Arguments]    ${locator}    ${expected_datevalue}
+    [Documentation]    MM 02.04.2018
+    [Tags]    General, Helper, DateSelector
+    ${date_id}    Set Variable    ${locator}/date
+    ${current_datevalue}    Get Value    ${date_id}
+    Should Be Equal    ${current_datevalue}    ${expected_datevalue}
+
+Check Date Is Selected
+    [Arguments]    ${locator}    ${selected}=${TRUE}
+    [Documentation]    MM 02.04.2018
+    [Tags]    General, Helper, DateSelector
+    ${selected}    Is Truthy    ${selected}
+    Check DateValue Is Valid    ${locator}    ${selected}
+    ${picker_visible} =    Run Keyword And Return Status    Check DateSelector Is Visible    ${locator}
+    Run Keyword If    '${picker_visible}' == '${FALSE}'    Log    Der Datumsselektor ist nicht sichtbar und muss daher geöffnet werden!    WARN
+    Run Keyword If    '${picker_visible}' == '${FALSE}'    Select DateSelector Picker PopUp    ${locator}
+    ${passed}=    Check Table Has Selection Class    ${grdCalendarPopday}    look_popday look_sel
+    Should Be Equal    ${selected}    ${passed}
+    Run Keyword If    '${picker_visible}' == '${FALSE}'    Close DateSelector    ${locator}
+
+Check Date Is Selectable
+    [Arguments]    ${locator}
+    [Documentation]    MM 02.04.2018
+    [Tags]    General, Helper, DateSelector
+    Select DateSelector Picker PopUp    ${locator}
+    Check DateSelector Is Visible    ${locator}
+    Select Previous Month In DateSelector    ${locator}
+    Select Next Month In DateSelector    ${locator}
+    Select None Date Selection In DateSelector
+    Select DateSelector Picker PopUp    ${locator}
+    Select Day In DateSelector    13
+
+Select None Date Selection In DateSelector
+    [Documentation]    MM 02.04.2018
+    [Tags]    General, Helper, DateSelector
+    ${langunge_code}    Get selected LanguageCode
+    ${date_id}    Get ElementId From Table    ${grdCalendarNoSelection}    &{Dic_NoValue}[${langunge_code}]
+    ${passed} =    Run Keyword And Return Status    Click Element    ${date_id}
+    Should Be Equal    ${passed}    ${TRUE}
+
+Select DateSelector Picker PopUp
+    [Arguments]    ${locator}
+    [Documentation]    MM 02.04.2018
+    [Tags]    General, Helper, DateSelector
+    ${picker_id}    Set Variable    ${locator}/pick
+    ${passed} =    Run Keyword And Return Status    Click Element    ${picker_id}
+    Should Be Equal    ${passed}    ${TRUE}
+
+Select Previous Month In DateSelector
+    [Arguments]    ${locator}
+    [Documentation]    MM 02.04.2018
+    [Tags]    General, Helper, DateSelector
+    ${prev_id}    Set Variable    ${locator}/$popover0/prev
+    ${passed} =    Run Keyword And Return Status    Click Element    ${prev_id}
+    Should Be Equal    ${passed}    ${TRUE}
+
+Select Next Month In DateSelector
+    [Arguments]    ${locator}
+    [Documentation]    MM 02.04.2018
+    [Tags]    General, Helper, DateSelector
+    ${next_id}    Set Variable    ${locator}/$popover0/next
+    ${passed} =    Run Keyword And Return Status    Click Element    ${next_id}
+    Should Be Equal    ${passed}    ${TRUE}
+
+Select Month In DateSelector
+    [Arguments]    ${locator}    ${datetime}
+    [Documentation]    MM 02.04.2018
+    [Tags]    General, Helper, DateSelector
+    ${month_id}    Set Variable    ${locator}/$popover0/month
+    ${current_month_year}    Get Text    ${month_id}
+    @{words} =    Split String    ${current_month_year}    ${SPACE}    1
+    ${current_month_name}=    Get From List    ${words}    0
+    ${current_month}=    Convert MonthName To Month    ${current_month_name}
+    ${current_year}=    Get From List    ${words}    1
+    ${current_datetime} =    Convert DateString To DateTime    1.${current_month}.${current_year}
+    ${set_next_month}=    Set Variable If    '${datetime}'>'${current_datetime}'    ${TRUE}    ${False}
+    ${target_month_name}=    Convert Month To MonthName    ${datetime.month}
+    ${target_year}=    Convert To String    ${datetime.year}
+    ${target_month_year}=    Set Variable    ${target_month_name}${SPACE}${target_year}
+    : FOR    ${index}    IN RANGE    999999
+    \    ${current_month_year}    Get Text    ${month_id}
+    \    Exit For Loop If    '${current_month_year}'=='${target_month_year}'
+    \    Run Keyword If    '${set_next_month}'=='${False}'    Select Previous Month In DateSelector    ${locator}
+    \    Run Keyword If    '${set_next_month}'=='${TRUE}'    Select Next Month In DateSelector    ${locator}
+
+Select Day In DateSelector
+    [Arguments]    ${day}
+    [Documentation]    MM 02.04.2018
+    [Tags]    General, Helper, DateSelector
+    ${day}=    Convert To String    ${day}
+    ${date_id}    Get ElementId From Table    ${grdCalendarPopday}    ${day}
+    ${passed} =    Run Keyword And Return Status    Click Element    ${date_id}
+    Should Be Equal    ${passed}    ${TRUE}
+
+Close DateSelector
+    [Arguments]    ${locator}
+    [Documentation]    MM 02.04.2018
+    [Tags]    General, Helper, DateSelector
+    ${picker_visible} =    Run Keyword And Return Status    Check DateSelector Is Visible    ${locator}
+    Run Keyword If    '${picker_visible}' == '${FALSE}'    Log    Der Datumsselektor ist nicht sichtbar und kann daher nicht geschlossen werden!    WARN
+    Return From Keyword If    '${picker_visible}' == '${FALSE}'
+    ${day}    Get Selected Day In DateSelector
+    Run Keyword If    '${day}' > '${0}'    Select Day In DateSelector    ${day}
+    Run Keyword If    '${day}' < '${0}'    Select None Date Selection In DateSelector
+
+Set Date In DateSelector
+    [Arguments]    ${locator}    ${datevalue}
+    [Documentation]    MM 02.04.2018
+    [Tags]    General, Helper, DateSelector
+    ${datetime} =    Convert DateString To DateTime    ${datevalue}
+    Select DateSelector Picker PopUp    ${locator}
+    Select Month In DateSelector    ${locator}    ${datetime}
+    Select Day In DateSelector    ${datetime.day}
+
+Edit DateValue In DateSelector
+    [Arguments]    ${locator}    ${datevalue}
+    [Documentation]    MM 02.04.2018
+    [Tags]    General, Helper, DateSelector
+    ${date_id}    Set Variable    ${locator}/date
+    Input Text    ${date_id}    ${datevalue}
+
+Get Selected Day In DateSelector
+    [Documentation]    MM 02.04.2018
+    [Tags]    General, Helper, DateSelector
+    @{webelements} =    Get WebElements    ${grdCalendarPopday}
+    : FOR    ${element}    IN    @{webelements}
+    \    ${class}=    Set Variable    ${element.get_attribute('class')}
+    \    Continue For Loop If    '${class}'!='look_popday look_sel'
+    \    Return From Keyword    ${element.text}
+    [Return]    ${-1}
+
+Convert DateTime To DateString
+    [Arguments]    ${datetime}
+    [Documentation]    MM 02.04.2018
+    [Tags]    General, Helper, DateSelector
+    Should Be Not String    ${value}
+    ${date} =    Convert Date    ${datetime}    result_format=%d.%m.%Y    exclude_millis=yes
+    [Return]    ${date}
+
+Convert DateString To DateTime
+    [Arguments]    ${value}
+    [Documentation]    MM 02.04.2018
+    [Tags]    General, Helper, DateSelector
+    Should Be String    ${value}
+    ${date} =    Convert Date    ${value}    date_format=%d.%m.%Y    exclude_millis=yes
+    ${datetime} =    Convert Date    ${date}    datetime
+    [Return]    ${datetime}
+
+Convert Month To MonthName
+    [Arguments]    ${month}
+    [Documentation]    MM 02.04.2018
+    ...    get selected month
+    [Tags]    General, Helper, DateSelector
+    ${index}=    Set Variable    0
+    : FOR    ${monthDic}    IN    @{DATE_MonthName}
+    \    ${index}=    Evaluate    ${index}+1
+    \    Continue For Loop If    '${index}'!='${month}'
+    \    ${langunge_code}    Get selected LanguageCode
+    \    ${monthName}=    Get From Dictionary    ${monthDic}    ${langunge_code}
+    \    Return From Keyword    ${monthName}
+    [Return]    Fail    Der Monat (${month}) konnte nicht gefunden werden
+
+Convert MonthName To Month
+    [Arguments]    ${month_name}
+    [Documentation]    MM 02.04.2018
+    ...    get selected month
+    [Tags]    General, Helper, DateSelector
+    ${langunge_code}    Get selected LanguageCode
+    ${stripped_month_name}    Get Stripped String    ${month_name}
+    ${index}=    Set Variable    0
+    : FOR    ${monthDic}    IN    @{DATE_MonthName}
+    \    ${index}=    Evaluate    ${index}+1
+    \    ${isMonthName}=    Get From Dictionary    ${monthDic}    ${langunge_code}
+    \    Return From Keyword If    '${isMonthName}'=='${stripped_month_name}'    ${index}
+    [Return]    Fail    Der Monat (${month_name}) konnte nicht gefunden werden

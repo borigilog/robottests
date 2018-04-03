@@ -1,39 +1,279 @@
 *** Settings ***
-Suite Setup       Login Select Bill
+Suite Setup       Select Rechnungsausgabe    true
 Suite Teardown    Close Browser
+Test Teardown     Select Rechnungsausgabe
+Force Tags        Bill    Rechnungsausgabe
+Default Tags
 Resource          ../../UserKeywords/Common_Resources.html
 Resource          ../../UserKeywords/BILL_Resources.html
 Resource          PageObjects/Menu.txt
 Resource          PageObjects/Rechnungsausgabe.txt
+Variables         PageObjects/Rechnungsausgabe.yaml
+Library           DatabaseLibrary
+Library           ../../Libs/DatabaseClass.py    database=${DATABASE_NAME}    user=${DATABASE_USER}    password=${DATABASE_PWD}    host=${DATABASE_IP}    port=${DATABASE_PORT}
 
 *** Test Cases ***
 Check GUI Elements Rechnungsausgabe
     [Documentation]    MM 22.03.2018, Check GUI Elements for Rechnugsausgabe
-    [Tags]    Bill    Rechnungsausgabe
-    Select Rechnungsausgabe
+    [Tags]    GUI_Elements    TextLanguagedependent
+    ${langunge_code}=    Get selected LanguageCode
     #title
-    Check ContainsText    Rechnungs- / Belegausgabe
+    Check ContainsText    &{Dic_Title}[${langunge_code}]
     #grid
-    Check ElementId    ${colInvoiceNumber}    ${BILL_NO_HEADER_TEXT_DE}    true
-    Check ElementId    ${colDescription}    ${BILL_NAME_HEADER_TEXT_DE}    true
-    Check ElementId    ${colStatus}    ${STATUS_HEADER_TEXT_DE}    true
-    Check ElementId    ${colCreationDate}    ${CREATION_DATE_HEADER_TEXT_DE}    true
-    Check ElementId    ${colItems}    ${POSITIONS_HEADER_TEXT_DE}    true
+    Check ElementId    ${colInvoiceNumber}    &{Dic_colInvoiceNumber}[${langunge_code}]    enabled=true
+    Check ElementId    ${colDescription}    &{Dic_colDescription}[${langunge_code}]    enabled=true
+    Check ElementId    ${colStatus}    &{Dic_colStatus}[${langunge_code}]    enabled=true
+    Check ElementId    ${colCreationDate}    &{Dic_colCreationDate}[${langunge_code}]    enabled=true
+    Check ElementId    ${colItems}    &{Dic_colItems}[${langunge_code}]    enabled=true
     #checkbox
-    Check CheckboxId    ${chkShowOnlyOpenBills}    Auch bereits veröffentlichte Rechnungen mit anzeigen    true    false
-    Check CheckboxId    ${chkShowProcessedBills}    Auch bereits verarbeitete Rechnungen mit anzeigen    true    false
-    Check CheckboxId    ${chkShowProformaBills}    Auch Proformarechnungen mit anzeigen    true    false
-    Check CheckboxId    ${chkPrintLogo}    Logo mit aufdrucken    true    false
-    Check CheckboxId    ${chkAddCopy}    Kopie anfügen    true    false
+    Check CheckboxId    ${chkShowOnlyOpenBills}    &{Dic_chkShowOnlyOpenBills}[${langunge_code}]    enabled=true    selected=false
+    Check CheckboxId    ${chkShowProcessedBills}    &{Dic_chkShowProcessedBills}[${langunge_code}]    enabled=true    selected=false
+    Check CheckboxId    ${chkShowProformaBills}    &{Dic_chkShowProformaBills}[${langunge_code}]    enabled=true    selected=false
+    Check CheckboxId    ${chkPrintLogo}    &{Dic_chkPrintLogo}[${langunge_code}]    enabled=true    selected=false
+    Check CheckboxId    ${chkAddCopy}    &{Dic_chkAddCopy}[${langunge_code}]    enabled=true    selected=false
     #textfield
-    Check TextfieldId    ${txtEmail}    support@rigilog.com    true    Empfänger-E-Mail
+    Check TextfieldId    ${txtEmail}    support@rigilog.com    enabled=true    labeltext=&{Dic_txtEmail}[${langunge_code}]
     #buttons
-    Check ElementId    ${btnThirdParty}    Rechnung an Dritte    false
-    Check ElementId    ${btnProForma}    Proformarechnung    false
-    Check ElementId    ${btnAbort}    Zurück zum Hauptmenü    true
-    Click Element    ${listInvoice}/0
-    Check List ElementId is selected    ${listInvoice}/0    sel
-    Check List ElementId is selected    ${listInvoice}/1    sel    false
-    Click Button    ${btnAbort}
-    Check PageArea is visible    ${menu_content}    ${invoice_issue_class}    false
+    Check ElementId    ${btnThirdParty}    &{Dic_btnThirdParty}[${langunge_code}]    enabled=false
+    Check ElementId    ${btnProForma}    &{Dic_btnProForma}[${langunge_code}]    enabled=false
+    Check ElementId    ${btnAbort}    &{Dic_btnAbort}[${langunge_code}]    enabled=true
+
+Check Text Languagedependent
+    [Tags]    TextLanguagedependent    ChangeLanguage
+    : FOR    ${key}    IN    @{AVAILABLE_LANGUAGES.keys()}
+    \    Set LanguageId    ${key}
+    \    Check LanguageId is selected    ${key}
+    \    ${langunge_code}=    Get selected LanguageCode
+    \    Run Keyword And Continue On Failure    Check ContainsText    &{Dic_Title}[${langunge_code}]
+    \    Run Keyword And Continue On Failure    Element Text Should Be    ${colInvoiceNumber}    &{Dic_colInvoiceNumber}[${langunge_code}]
+    \    Run Keyword And Continue On Failure    Element Text Should Be    ${colDescription}    &{Dic_colDescription}[${langunge_code}]
+    \    Run Keyword And Continue On Failure    Element Text Should Be    ${colStatus}    &{Dic_colStatus}[${langunge_code}]
+    \    Run Keyword And Continue On Failure    Element Text Should Be    ${colCreationDate}    &{Dic_colCreationDate}[${langunge_code}]
+    \    Run Keyword And Continue On Failure    Element Text Should Be    ${colItems}    &{Dic_colItems}[${langunge_code}]
+    \    Run Keyword And Continue On Failure    Check LabelText    ${chkShowOnlyOpenBills}    &{Dic_chkShowOnlyOpenBills}[${langunge_code}]
+    \    Run Keyword And Continue On Failure    Check LabelText    ${chkShowProcessedBills}    &{Dic_chkShowProcessedBills}[${langunge_code}]
+    \    Run Keyword And Continue On Failure    Check LabelText    ${chkShowProformaBills}    &{Dic_chkShowProformaBills}[${langunge_code}]
+    \    Run Keyword And Continue On Failure    Check LabelText    ${chkPrintLogo}    &{Dic_chkPrintLogo}[${langunge_code}]
+    \    Run Keyword And Continue On Failure    Check LabelText    ${chkAddCopy}    &{Dic_chkAddCopy}[${langunge_code}]
+    \    Run Keyword And Continue On Failure    Check ContainsText    &{Dic_txtEmail}[${langunge_code}]
+    \    Run Keyword And Continue On Failure    Element Text Should Be    ${btnThirdParty}    &{Dic_btnThirdParty}[${langunge_code}]
+    \    Run Keyword And Continue On Failure    Element Text Should Be    ${btnProForma}    &{Dic_btnProForma}[${langunge_code}]
+    \    Run Keyword And Continue On Failure    Element Text Should Be    ${btnAbort}    &{Dic_btnAbort}[${langunge_code}]
+    Set LanguageId    ${DEFAULT_LANGUAGE_ID}
+
+Check Valid Email
+    [Tags]    Action
+    #Clear Element Text
+    Input Text    ${txtEmail}    support@rigilog.com
+    Check ElementId with class is visible    ${txtEmail}    invalid    visible=false
+    Input Text    ${txtEmail}    support@rigilog
+    Check ElementId with class is visible    ${txtEmail}    invalid    visible=true
+
+Check No Invoice Selected
+    [Documentation]    BILL -> Rechnungsausgabe: Status der Buttons, wenn kein Element selektiert ist
+    [Tags]    Action
+    ${invoiceIsSelected}    Check List has selection    ${listInvoice}
+    Should Be Equal    ${invoiceIsSelected}    ${FALSE}
+    Check CheckboxId    ${chkShowOnlyOpenBills}    enabled=true    selected=false
+    Check CheckboxId    ${chkShowProcessedBills}    enabled=true    selected=false
+    Check CheckboxId    ${chkShowProformaBills}    enabled=true    selected=false
+    Check CheckboxId    ${chkPrintLogo}    enabled=true    selected=false
+    Check CheckboxId    ${chkAddCopy}    enabled=true    selected=false
+    Check ElementId    ${btnThirdParty}    enabled=false
+    Check ElementId    ${btnProForma}    enabled=false
+    Check ElementId    ${btnAbort}    enabled=true
+
+Select Open Invoice DBConnection
+    [Documentation]    BILL -> Rechnungsausgabe: Status der Buttons, wenn Rechnung selektiert ist im Status "In Bearbeitung"
+    [Tags]    Action    DBConnection
+    ${langunge_code}=    Get selected LanguageCode
+    ${invoiceIsSelected}    Check List has selection    ${listInvoice}
+    Should Be Equal    ${invoiceIsSelected}    ${FALSE}
+    ${queryResultInvNo}=    DB_Execute_Scalar    ${expectedBills_SQL} AND (Bills.IsComplete = 0) AND (Bills.IsProcessed = 0)
+    ${InvoiceID}    Get InvoiceID    ${listInvoice}    $invoiceNumber    ${queryResultInvNo}
+    ${selectInvoice}=    Check Invoice is selectable    ${InvoiceID}
+    Run Keyword If    ${selectInvoice}    Select InvoiceID    ${InvoiceID}
+    Run Keyword If    ${selectInvoice}    Element Text Should Be    ${InvoiceID}/$status    &{Dic_IsOpen}[${langunge_code}]
+    Check CheckboxId    ${chkShowOnlyOpenBills}    enabled=true    selected=false
+    Check CheckboxId    ${chkShowProcessedBills}    enabled=true    selected=false
+    Check CheckboxId    ${chkShowProformaBills}    enabled=true    selected=false
+    Check CheckboxId    ${chkPrintLogo}    enabled=true    selected=false
+    Check CheckboxId    ${chkAddCopy}    enabled=true    selected=false
+    Check ElementId    ${btnThirdParty}    enabled=${selectInvoice}
+    Check ElementId    ${btnProForma}    enabled=${selectInvoice}
+    Check ElementId    ${btnAbort}    enabled=true
+
+Select Complete Invoice DBConnection
+    [Documentation]    BILL -> Rechnungsausgabe: Status der Buttons, wenn Rechnung selektiert ist im Status "Veröffentlicht"
+    [Tags]    Action    DBConnection
+    ${langunge_code}=    Get selected LanguageCode
+    ${invoiceIsSelected}    Check List has selection    ${listInvoice}
+    Should Be Equal    ${invoiceIsSelected}    ${FALSE}
+    ${queryResultInvNo}=    DB_Execute_Scalar    ${expectedBills_SQL} AND (Bills.IsComplete = 1) AND (Bills.IsProcessed = 0)
+    Click Element And Wait    ${chkShowOnlyOpenBills}
+    ${InvoiceID}    Get InvoiceID    ${listInvoice}    $invoiceNumber    ${queryResultInvNo}
+    ${selectInvoice}=    Check Invoice is selectable    ${InvoiceID}
+    Run Keyword If    ${selectInvoice}    Select InvoiceID    ${InvoiceID}
+    Run Keyword If    ${selectInvoice}    Element Text Should Be    ${InvoiceID}/$status    &{Dic_IsComplete}[${langunge_code}]
+    Check CheckboxId    ${chkShowOnlyOpenBills}    enabled=true    selected=true
+    Check CheckboxId    ${chkShowProcessedBills}    enabled=true    selected=false
+    Check CheckboxId    ${chkShowProformaBills}    enabled=true    selected=false
+    Check CheckboxId    ${chkPrintLogo}    enabled=true    selected=false
+    Check CheckboxId    ${chkAddCopy}    enabled=true    selected=false
+    Check ElementId    ${btnThirdParty}    enabled=${selectInvoice}
+    Check ElementId    ${btnProForma}    enabled=${selectInvoice}
+    Check ElementId    ${btnAbort}    enabled=true
+
+Select Processed Invoice DBConnection
+    [Documentation]    BILL -> Rechnungsausgabe: Status der Buttons, wenn Rechnung selektiert ist im Status "Verarbeitet"
+    [Tags]    Action    DBConnection
+    ${langunge_code}=    Get selected LanguageCode
+    ${invoiceIsSelected}    Check List has selection    ${listInvoice}
+    Should Be Equal    ${invoiceIsSelected}    ${FALSE}
+    ${queryResultInvNo}=    DB_Execute_Scalar    ${expectedBills_SQL} AND (Bills.IsComplete = 0) AND (Bills.IsProcessed = 1)
+    Click Element And Wait    ${chkShowProcessedBills}
+    ${InvoiceID}    Get InvoiceID    ${listInvoice}    $invoiceNumber    ${queryResultInvNo}
+    ${selectInvoice}=    Check Invoice is selectable    ${InvoiceID}
+    Run Keyword If    ${selectInvoice}    Select InvoiceID    ${InvoiceID}
+    Run Keyword If    ${selectInvoice}    Element Text Should Be    ${InvoiceID}/$status    &{Dic_IsProcessed}[${langunge_code}]
+    Check CheckboxId    ${chkShowOnlyOpenBills}    enabled=true    selected=false
+    Check CheckboxId    ${chkShowProcessedBills}    enabled=true    selected=true
+    Check CheckboxId    ${chkShowProformaBills}    enabled=true    selected=false
+    Check CheckboxId    ${chkPrintLogo}    enabled=true    selected=false
+    Check CheckboxId    ${chkAddCopy}    enabled=true    selected=false
+    Check ElementId    ${btnThirdParty}    enabled=false
+    Check ElementId    ${btnProForma}    enabled=false
+    Check ElementId    ${btnAbort}    enabled=true
+
+Select Processed Closed Invoice DBConnection
+    [Documentation]    BILL -> Rechnungsausgabe: Status der Buttons, wenn Rechnung selektiert ist im Status "Verarbeitet & veröffentlicht"
+    [Tags]    Action    DBConnection
+    ${langunge_code}=    Get selected LanguageCode
+    ${invoiceIsSelected}    Check List has selection    ${listInvoice}
+    Should Be Equal    ${invoiceIsSelected}    ${FALSE}
+    ${queryResultInvNo}=    DB_Execute_Scalar    ${expectedBills_SQL} AND (Bills.IsComplete = 1) AND (Bills.IsProcessed = 1) AND (Bills.IsProformaInvoice = 0)
+    Click Element And Wait    ${chkShowProcessedBills}
+    ${InvoiceID}    Get InvoiceID    ${listInvoice}    $invoiceNumber    ${queryResultInvNo}
+    ${selectInvoice}=    Check Invoice is selectable    ${InvoiceID}
+    Run Keyword If    ${selectInvoice}    Select InvoiceID    ${InvoiceID}
+    Run Keyword If    ${selectInvoice}    Element Text Should Be    ${InvoiceID}/$status    &{Dic_IsCompleteAndProcessed}[${langunge_code}]
+    Check CheckboxId    ${chkShowOnlyOpenBills}    enabled=true    selected=false
+    Check CheckboxId    ${chkShowProcessedBills}    enabled=true    selected=true
+    Check CheckboxId    ${chkShowProformaBills}    enabled=true    selected=false
+    Check CheckboxId    ${chkPrintLogo}    enabled=true    selected=false
+    Check CheckboxId    ${chkAddCopy}    enabled=true    selected=false
+    Check ElementId    ${btnThirdParty}    enabled=false
+    Check ElementId    ${btnProForma}    enabled=false
+    Check ElementId    ${btnAbort}    enabled=true
+
+Select Proforma Invoice DBConnection
+    [Documentation]    BILL -> Rechnungsausgabe: Status der Buttons, wenn auch Profomarechnung anzeigen selektiert ist
+    [Tags]    Action    DBConnection
+    ${langunge_code}=    Get selected LanguageCode
+    ${invoiceIsSelected}    Check List has selection    ${listInvoice}
+    Should Be Equal    ${invoiceIsSelected}    ${FALSE}
+    ${queryResultInvNo}=    DB_Execute_Scalar    ${expectedBills_SQL} AND (Bills.IsComplete = 0) AND (Bills.IsProcessed = 0) AND (Bills.IsProformaInvoice = 1)
+    Click Element And Wait    ${chkShowProformaBills}
+    ${InvoiceID}    Get InvoiceID    ${listInvoice}    $invoiceNumber    ${queryResultInvNo}
+    ${selectInvoice}=    Check Invoice is selectable    ${InvoiceID}
+    Run Keyword If    ${selectInvoice}    Select InvoiceID    ${InvoiceID}
+    Run Keyword If    ${selectInvoice}    Element Text Should Be    ${InvoiceID}/$status    &{Dic_IsOpen}[${langunge_code}]
+    Check CheckboxId    ${chkShowOnlyOpenBills}    enabled=true    selected=false
+    Check CheckboxId    ${chkShowProcessedBills}    enabled=true    selected=false
+    Check CheckboxId    ${chkShowProformaBills}    enabled=true    selected=true
+    Check CheckboxId    ${chkPrintLogo}    enabled=true    selected=false
+    Check CheckboxId    ${chkAddCopy}    enabled=true    selected=false
+    Check ElementId    ${btnThirdParty}    enabled=${selectInvoice}
+    Check ElementId    ${btnProForma}    enabled=${selectInvoice}
+    Check ElementId    ${btnAbort}    enabled=true
+
+Click Logo mit aufdrucken
+    [Tags]    Action
+    ${passed} =    Run Keyword And Return Status    Click Element And Wait    ${chkPrintLogo}
+    Should Be Equal    ${passed}    ${TRUE}
+
+Click Kopie anfügen
+    [Tags]    Action
+    ${passed}    Run Keyword And Return Status    Click Element And Wait    ${chkAddCopy}
+    Should Be Equal    ${passed}    ${TRUE}
+
+Click Button Rechnung mit Positionen
+    [Tags]    Action
+    ${InvoiceID}    Get InvoiceID with Positions    ${listInvoice}
+    Select InvoiceID    ${InvoiceID}
+    ${passed} =    Run Keyword And Return Status    Click Element And Wait    ${btnThirdParty}
+    Should Be Equal    ${passed}    ${TRUE}
+    ${passed} =    Run Keyword And Return Status    Check PageArea is visible    /$flow_main/$popover0    screen look_rlx_screen_alert    visible=true
+    Should Be Equal    ${passed}    ${FALSE}
+
+Click Button Rechnung ohne Positionen
+    [Tags]    Action
+    ${langunge_code}=    Get selected LanguageCode
+    ${InvoiceID}    Get InvoiceID    ${listInvoice}    $items    0
+    Select InvoiceID    ${InvoiceID}
+    ${passed} =    Run Keyword And Return Status    Click Element And Wait    ${btnThirdParty}
+    Should Be Equal    ${passed}    ${TRUE}
+    ${passed} =    Run Keyword And Return Status    Check PageArea is visible    /$flow_main/$popover0    screen look_rlx_screen_alert    visible=true
+    Should Be Equal    ${passed}    ${TRUE}
+    #check text
+    Run Keyword And Continue On Failure    Element Text Should Be    /$flow_main/$popover0/$title    &{Dic_ErrorTitle}[${langunge_code}]
+    Run Keyword And Continue On Failure    Element Text Should Be    /$flow_main/$popover0/msg    &{Dic_ErrorMsg}[${langunge_code}]
+    Run Keyword And Continue On Failure    Element Text Should Be    /$flow_main/$popover0/btn    OK
+    #click close button
+    Run Keyword If    ${passed}    Click Element And Wait    /$flow_main/$popover0/$close
+    Should Be Equal    ${passed}    ${TRUE}
+    ${passed} =    Run Keyword And Return Status    Check PageArea is visible    /$flow_main/$popover0    screen look_rlx_screen_alert    visible=true
+    Should Be Equal    ${passed}    ${FALSE}
+    ${passed} =    Run Keyword And Return Status    Click Element And Wait    ${btnThirdParty}
+    Should Be Equal    ${passed}    ${TRUE}
+    ${passed} =    Run Keyword And Return Status    Check PageArea is visible    /$flow_main/$popover0    screen look_rlx_screen_alert    visible=true
+    Should Be Equal    ${passed}    ${TRUE}
+    #click ok button
+    Run Keyword If    ${passed}    Click Element And Wait    /$flow_main/$popover0/btn
+    Should Be Equal    ${passed}    ${TRUE}
+    ${passed} =    Run Keyword And Return Status    Check PageArea is visible    /$flow_main/$popover0    screen look_rlx_screen_alert    visible=true
+    Should Be Equal    ${passed}    ${FALSE}
+
+Click Button Proformarechnung mit Positionen
+    [Tags]    Action
+    ${InvoiceID}    Get InvoiceID with Positions    ${listInvoice}
+    Select InvoiceID    ${InvoiceID}
+    ${passed} =    Run Keyword And Return Status    Click Element And Wait    ${btnProForma}
+    Should Be Equal    ${passed}    ${TRUE}
+    ${passed} =    Run Keyword And Return Status    Check PageArea is visible    /$flow_main/$popover0    screen look_rlx_screen_alert    visible=true
+    Should Be Equal    ${passed}    ${FALSE}
+
+Click Button Proformarechnung ohne Positionen
+    [Tags]    Action
+    ${langunge_code}=    Get selected LanguageCode
+    ${InvoiceID}    Get InvoiceID    ${listInvoice}    $items    0
+    Select InvoiceID    ${InvoiceID}
+    ${passed} =    Run Keyword And Return Status    Click Element And Wait    ${btnProForma}
+    Should Be Equal    ${passed}    ${TRUE}
+    ${passed} =    Run Keyword And Return Status    Check PageArea is visible    /$flow_main/$popover0    screen look_rlx_screen_alert    visible=true
+    Should Be Equal    ${passed}    ${TRUE}
+    #check text
+    Run Keyword And Continue On Failure    Element Text Should Be    /$flow_main/$popover0/$title    &{Dic_ErrorTitle}[${langunge_code}]
+    Run Keyword And Continue On Failure    Element Text Should Be    /$flow_main/$popover0/msg    &{Dic_ErrorMsg}[${langunge_code}]
+    Run Keyword And Continue On Failure    Element Text Should Be    /$flow_main/$popover0/btn    OK
+    #click close button
+    Run Keyword If    ${passed}    Click Element And Wait    /$flow_main/$popover0/$close
+    Should Be Equal    ${passed}    ${TRUE}
+    ${passed} =    Run Keyword And Return Status    Check PageArea is visible    /$flow_main/$popover0    screen look_rlx_screen_alert    visible=true
+    Should Be Equal    ${passed}    ${FALSE}
+    ${passed} =    Run Keyword And Return Status    Click Element And Wait    ${btnProForma}
+    Should Be Equal    ${passed}    ${TRUE}
+    ${passed} =    Run Keyword And Return Status    Check PageArea is visible    /$flow_main/$popover0    screen look_rlx_screen_alert    visible=true
+    Should Be Equal    ${passed}    ${TRUE}
+    #click ok button
+    Run Keyword If    ${passed}    Click Element And Wait    /$flow_main/$popover0/btn
+    Should Be Equal    ${passed}    ${TRUE}
+    ${passed} =    Run Keyword And Return Status    Check PageArea is visible    /$flow_main/$popover0    screen look_rlx_screen_alert    visible=true
+    Should Be Equal    ${passed}    ${FALSE}
+
+Click Button Zurück zum Hauptmenü
+    [Tags]    Action
+    ${passed} =    Run Keyword And Return Status    Click Element And Wait    ${btnAbort}
+    Should Be Equal    ${passed}    ${TRUE}
+    Check PageArea is visible    ${menu_content}    ${invoice_issue_class}    visible=false
     Check Homescreen is selected

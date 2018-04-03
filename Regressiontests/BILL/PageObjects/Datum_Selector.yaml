@@ -1,0 +1,15 @@
+---
+Dic_NoValue: {D: 'Keine Angabe', E: 'Not specified', F: 'Aucune indication'}
+Dic_January: {D: 'Januar', E: 'January', F: 'Janvier'}
+Dic_February: {D: 'Februar', E: 'February', F: 'Février'}
+Dic_March: {D: 'März', E: 'March', F: 'Mars'}
+Dic_April: {D: 'April', E: 'April', F: 'Avril'}
+Dic_May: {D: 'Mai', E: 'May', F: 'Mai'}
+Dic_June: {D: 'Juni', E: 'June', F: 'Juin'}
+Dic_July: {D: 'Juli', E: 'July', F: 'Juillet'}
+Dic_August: {D: 'August', E: 'August', F: 'Août'}
+Dic_September: {D: 'September', E: 'September', F: 'Septembre'}
+Dic_October: {D: 'Oktober', E: 'October', F: 'Octobre'}
+Dic_November: {D: 'November', E: 'November', F: 'Novembre'}
+Dic_December: {D: 'Dezember', E: 'December', F: 'Décembre'}
+...

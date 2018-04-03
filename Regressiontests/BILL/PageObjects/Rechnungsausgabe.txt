@@ -20,3 +20,35 @@ ${colDescription}    /$flow_main/$flow_content/issue_list/$col_description
 ${colStatus}      /$flow_main/$flow_content/issue_list/$col_status
 ${colCreationDate}    /$flow_main/$flow_content/issue_list/$col_creationDate
 ${colItems}       /$flow_main/$flow_content/issue_list/$col_items
+# ~~~~~~~ sql
+${expectedBills_SQL}    SELECT TOP(1)Bills.BillingNo FROM Bills INNER JOIN Overview_Mandators ON Bills.MandatorID = Overview_Mandators.ConcernID WHERE (Bills.IsDeleted = 0) AND (Overview_Mandators.Mandant = 'Hauptmandant')
+
+*** Keywords ***
+Get InvoiceID
+    [Arguments]    ${Id}    ${Col}    ${Value}=${EMPTY}
+    ${Value}=    Get Stripped String    ${Value}
+    Run Keyword If    '${Value}' == '${EMPTY}'    Log    Es konnte keine entsprechende Rechnung gefunden werden!    WARN
+    ${ElementId}    Get ElementID from List    ${Id}    ${Col}    ${Value}
+    Run Keyword If    '${Value}' != '${EMPTY}' and '${ElementId}' == '${EMPTY}'    Fail    Die Rechnung (${Value}) konnte nicht gefunden werden!
+    [Return]    ${ElementId}
+
+Check Invoice is selectable
+    [Arguments]    ${Id}
+    ${selectInvoice}=    Set Variable if    '${Id}'=='${EMPTY}'    ${FALSE}    ${TRUE}
+    Run Keyword If    '${selectInvoice}' == '${TRUE}'    Log    Eine entsprechende Rechnung wurde gefunden und kann ausgewählt werden    INFO
+    Run Keyword If    '${selectInvoice}' == '${FALSE}'    Log    Eine entsprechende Rechnung wurde nicht gefunden und kann auch nicht ausgewählt werden    WARN
+    [Return]    ${selectInvoice}
+
+Select InvoiceID
+    [Arguments]    ${Id}
+    Click Element And Wait    ${Id}
+    Check List ElementId is selected    ${Id}    sel
+
+Get InvoiceID with Positions
+    [Arguments]    ${element_id}    ${endRange}=999999
+    : FOR    ${index}    IN RANGE    ${endRange}
+    \    ${passed} =    Run Keyword And Return Status    Element Should Be Visible    ${element_id}/${index}
+    \    Return From Keyword If    '${passed}'!='${TRUE}'    ${EMPTY}
+    \    ${colValue} =    Get Text    ${element_id}/${index}/$items
+    \    Return From Keyword If    '${colValue}'>'0'    ${element_id}/${index}
+    [Return]    ${EMPTY}
