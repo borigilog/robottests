@@ -1,7 +1,7 @@
 *** Settings ***
 Suite Setup       Select Auswertung    true
 Suite Teardown    Close Browser
-Test Teardown     Select Auswertung
+Test Teardown     Teardown Auswertung
 Force Tags        Bill    Auswertung
 Default Tags
 Resource          ../../UserKeywords/Common_Resources.html
@@ -125,8 +125,8 @@ Click Button Bericht erstellen Screen2
     [Documentation]    MM 01.04.2018, BILL -> Auswertung: Bericht erstellen
     [Tags]    Action    DatumSelector
     Go To Screen2
-    Set Date In DateSelector    ${selStartDate}    23.01.2018
-    Check Expected DateValue In DateSelector    ${selStartDate}    23.01.2018
+    Set Date In DateSelector    ${selStartDate}    13.01.2018
+    Check Expected DateValue In DateSelector    ${selStartDate}    13.01.2018
     Check Date Is Selected    ${selStartDate}
     Check ElementId    ${btnGenerate}    enabled=false
     Set Date In DateSelector    ${selEndDate}    17.09.2018

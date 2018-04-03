@@ -21,3 +21,9 @@ Select Hauptmandant
 Go To Screen2
     Select Hauptmandant
     Click Element And Wait    ${btnConfirm}
+
+Teardown Auswertung
+    ${passed} =    Run Keyword And Return Status    Select Auswertung
+    Return From Keyword If    ${passed}
+    Close Browser
+    Select Auswertung    true

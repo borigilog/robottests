@@ -1,7 +1,7 @@
 *** Settings ***
 Suite Setup       Select Rechnungsausgabe    true
 Suite Teardown    Close Browser
-Test Teardown     Select Rechnungsausgabe
+Test Teardown     Teardown Rechnungsausgabe
 Force Tags        Bill    Rechnungsausgabe
 Default Tags
 Resource          ../../UserKeywords/Common_Resources.html
