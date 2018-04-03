@@ -262,6 +262,34 @@ td.name, th.name {
 <td></td>
 </tr>
 <tr>
+<td class="name">${MENU_SECTION_COMMON_TEXT_DE}</td>
+<td>Allgemein</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name">${MENUE_TEXT_SEARCH_BILLS_DE}</td>
+<td>Suchen</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name">${BILL_SEARCH_HEADER_DE}</td>
+<td>Recherche</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name">${btnSearch}</td>
+<td>//button[@id="/$flow_main/$flow_content/search"]</td>
+<td># Search Button</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
 <td class="name"></td>
 <td></td>
 <td></td>
@@ -762,6 +790,83 @@ erstellt: 27.03.2018</td>
 <td class="name"></td>
 <td>[Return]</td>
 <td>${LineIndex}</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"><a name="keyword_Prepare For Bill Search Tests">Prepare For Bill Search Tests</a></td>
+<td>[Arguments]</td>
+<td>${Mandant}=Hauptmandant</td>
+<td>${Login}=Y</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Run Keyword If</td>
+<td>'${Login}'=='Y'</td>
+<td>Start Test For Module</td>
+<td>Bill</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>...</td>
+<td>${Mandant}</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Sleep</td>
+<td>2s</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Wait Until Keyword Succeeds</td>
+<td>5</td>
+<td>1 sec</td>
+<td>Element Should Be Visible</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>...</td>
+<td>//div[contains(text(),'${MENU_SECTION_COMMON_TEXT_DE}')]</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Element Text Should Be</td>
+<td>//*[@id="/$flow_main/main_menu/search"]</td>
+<td>${MENUE_TEXT_SEARCH_BILLS_DE}</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Click Element</td>
+<td>//*[@id="/$flow_main/main_menu/search"]</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Wait Until Keyword Succeeds</td>
+<td>5</td>
+<td>1 sec</td>
+<td>Element Should Be Visible</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>...</td>
+<td>//div[contains(text(),'${BILL_SEARCH_HEADER_DE}')]</td>
 <td></td>
 <td></td>
 </tr>
