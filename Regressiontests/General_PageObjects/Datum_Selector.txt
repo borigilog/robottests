@@ -119,9 +119,9 @@ Select Month In DateSelector
     ${target_month_name}=    Convert Month To MonthName    ${datetime.month}
     ${target_year}=    Convert To String    ${datetime.year}
     ${target_month_year}=    Set Variable    ${target_month_name}${SPACE}${target_year}
-    ${range_month}=    Get DateTime Difference in Month    ${datetime}    ${current_datetime}
-    #: FOR    ${index}    IN RANGE    999999
-    : FOR    ${index}    IN RANGE    ${range_month}
+    #${range_month}=    Get DateTime Difference in Month    ${datetime}    ${current_datetime}
+    #: FOR    ${index}    IN RANGE    ${range_month}
+    : FOR    ${index}    IN RANGE    999999
     \    ${current_month_year}    Get Text    ${month_id}
     \    Exit For Loop If    '${current_month_year}'=='${target_month_year}'
     \    Run Keyword If    '${set_next_month}'=='${False}'    Select Previous Month In DateSelector    ${locator}

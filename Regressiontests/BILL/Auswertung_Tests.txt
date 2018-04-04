@@ -8,7 +8,7 @@ Resource          ../../UserKeywords/Common_Resources.html
 Resource          ../../UserKeywords/BILL_Resources.html
 Resource          PageObjects/Menu.txt
 Resource          PageObjects/Auswertung.txt
-Resource          PageObjects/Datum_Selector.txt
+Resource          ../General_PageObjects/Datum_Selector.txt
 Variables         PageObjects/Auswertung.yaml
 
 *** Test Cases ***

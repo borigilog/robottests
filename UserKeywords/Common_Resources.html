@@ -178,6 +178,13 @@ td.name, th.name {
 <td></td>
 </tr>
 <tr>
+<td class="name">${DEFAULT_MANDATOR_NAME}</td>
+<td>Hauptmandant</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
 <td class="name">${DATABASE_NAME}</td>
 <td>Manualguide</td>
 <td></td>
@@ -1893,6 +1900,8 @@ warten bis die seite geladen ist, zB. nach datenabruf\n<br>
 \n<br>
 \n<br>
 \n<br>
+\n<br>
+\n<br>
 </td>
 <td>#${passed} =</td>
 <td>Run Keyword And Return Status</td>
@@ -1993,7 +2002,7 @@ warten bis die seite geladen ist, zB. nach datenabruf\n<br>
 <td></td>
 <td>Sleep</td>
 <td>1</td>
-<td></td>
+<td>Wait &lt;body class='freezed'&gt; is not visible</td>
 </tr>
 <tr>
 <td class="name"></td>

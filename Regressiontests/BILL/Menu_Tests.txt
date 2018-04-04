@@ -43,7 +43,7 @@ Check GUI Elements Menu
     Check ContainsText    &{Dic_Voreinstellungen}[${langunge_id}]
     Check ElementId    ${offsetting_charging}    &{Dic_Verrechnung}[${langunge_id}]    enabled=true
     #Mandant
-    Check ElementId    ${mandatorname}    Hauptmandant    enabled=true
+    Check ElementId    ${mandatorname}    ${DEFAULT_MANDATOR_NAME}    enabled=true
     Check ElementId    ${switchmandator}    enabled=true
     Check ElementId    ${help}    enabled=true
     Check ElementId    ${exit}    enabled=true

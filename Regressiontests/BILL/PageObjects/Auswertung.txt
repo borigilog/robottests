@@ -13,13 +13,15 @@ ${colIntern}      /$flow_main/$flow_content/mandator_list/$col_intName
 ${colExtern}      /$flow_main/$flow_content/mandator_list/$col_extName
 
 *** Keywords ***
-Select Hauptmandant
-    ${ElementId}    Get ElementID from List    ${listMandator}    $intName    Hauptmandant
+Select Mandator in Auswertung
+    ${ElementId}    Get ElementID from List    ${listMandator}    $intName    ${DEFAULT_MANDATOR_NAME}
     Click Element And Wait    ${ElementId}
     Check List ElementId is selected    ${ElementId}    sel
 
 Go To Screen2
-    Select Hauptmandant
+    #Auswertung.Select Mandator
+    #Multiple keywords with name 'Select Mandator' found. Give the full name of the keyword you want to use: Auswertung.Select Mandator or Common_Resources.Select Mandator
+    Select Mandator in Auswertung
     Click Element And Wait    ${btnConfirm}
 
 Teardown Auswertung
