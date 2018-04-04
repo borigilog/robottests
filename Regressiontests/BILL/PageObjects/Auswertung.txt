@@ -27,5 +27,6 @@ Go To Screen2
 Teardown Auswertung
     ${passed} =    Run Keyword And Return Status    Select Auswertung
     Return From Keyword If    ${passed}
+    Log    Die Seite war nicht clickable daher muss der Browser geschlossen und neugestartet werden    WARN
     Close Browser
     Select Auswertung    true

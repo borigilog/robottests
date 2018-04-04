@@ -96,6 +96,34 @@ td.name, th.name {
 <td></td>
 </tr>
 <tr>
+<td class="name">Resource</td>
+<td>../Regressiontests/General_PageObjects/Datum_Selector.txt</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name">Resource</td>
+<td>../Regressiontests/General_PageObjects/Language_Selector.txt</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name">Resource</td>
+<td>../Regressiontests/General_PageObjects/Module_Selector.txt</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name">Resource</td>
+<td>../Regressiontests/General_PageObjects/Menu_Common.txt</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
 <td class="name"></td>
 <td></td>
 <td></td>
@@ -180,6 +208,13 @@ td.name, th.name {
 <tr>
 <td class="name">${DEFAULT_MANDATOR_NAME}</td>
 <td>Hauptmandant</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name">${SQL_QUERIES_PATH}</td>
+<td>C:/SourceCode/robottests/robottests/SQL</td>
 <td></td>
 <td></td>
 <td></td>
@@ -536,46 +571,6 @@ td.name, th.name {
 <td>'${Untermenüpunkt}' != 'None'</td>
 <td>Click Element</td>
 <td>//div[contains(text(),'${Untermenüpunkt}')]</td>
-</tr>
-<tr>
-<td class="name"></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="name"><a name="keyword_Select Menu Content">Select Menu Content</a></td>
-<td>[Arguments]</td>
-<td>${element_id}</td>
-<td>${class}</td>
-<td>${content_id}=/$flow_main/$flow_content</td>
-</tr>
-<tr>
-<td class="name"></td>
-<td>[Documentation]</td>
-<td class="colspan3" colspan="3">MM 22.03.2018, select certain Menu content</td>
-</tr>
-<tr>
-<td class="name"></td>
-<td>Check ElementId</td>
-<td>${element_id}</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="name"></td>
-<td>Click Element And Wait</td>
-<td>${element_id}</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="name"></td>
-<td>Check PageArea is visible</td>
-<td>${content_id}</td>
-<td>${class}</td>
-<td></td>
 </tr>
 <tr>
 <td class="name"></td>
@@ -1031,198 +1026,6 @@ parsing booleans</td>
 <td>${value as bool}</td>
 <td></td>
 <td></td>
-</tr>
-<tr>
-<td class="name"></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="name"><a name="keyword_Get selected LanguageId">Get selected LanguageId</a></td>
-<td>[Documentation]</td>
-<td class="colspan3" colspan="3">MM 22.03.2018\n<br>
-get languageid</td>
-</tr>
-<tr>
-<td class="name"></td>
-<td>[Tags]</td>
-<td>General, Helper, List, Selection, Language</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="name"></td>
-<td>: FOR</td>
-<td>${key}</td>
-<td>IN</td>
-<td>@{AVAILABLE_LANGUAGES.keys()}</td>
-</tr>
-<tr>
-<td class="name"></td>
-<td></td>
-<td>${class} =</td>
-<td>Get Element Attribute</td>
-<td>/$flow_main/menu_bottom/languages:${key}</td>
-</tr>
-<tr>
-<td class="name"></td>
-<td></td>
-<td>...</td>
-<td>class</td>
-<td></td>
-</tr>
-<tr>
-<td class="name"></td>
-<td></td>
-<td>Return From Keyword If</td>
-<td>'${class}'=='selected'</td>
-<td>${key}</td>
-</tr>
-<tr>
-<td class="name"></td>
-<td>[Return]</td>
-<td>-1</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="name"></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="name"><a name="keyword_Get selected LanguageCode">Get selected LanguageCode</a></td>
-<td>[Documentation]</td>
-<td class="colspan3" colspan="3">MM 22.03.2018\n<br>
-get languageid</td>
-</tr>
-<tr>
-<td class="name"></td>
-<td>[Tags]</td>
-<td>General, Helper, List, Selection, Language</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="name"></td>
-<td>: FOR</td>
-<td>${key}</td>
-<td>IN</td>
-<td>@{AVAILABLE_LANGUAGES.keys()}</td>
-</tr>
-<tr>
-<td class="name"></td>
-<td></td>
-<td>${class} =</td>
-<td>Get Element Attribute</td>
-<td>/$flow_main/menu_bottom/languages:${key}</td>
-</tr>
-<tr>
-<td class="name"></td>
-<td></td>
-<td>...</td>
-<td>class</td>
-<td></td>
-</tr>
-<tr>
-<td class="name"></td>
-<td></td>
-<td>${langCode}=</td>
-<td>Get From Dictionary</td>
-<td>${AVAILABLE_LANGUAGES}</td>
-</tr>
-<tr>
-<td class="name"></td>
-<td></td>
-<td>...</td>
-<td>${key}</td>
-<td></td>
-</tr>
-<tr>
-<td class="name"></td>
-<td></td>
-<td>Return From Keyword If</td>
-<td>'${class}'=='selected'</td>
-<td>${langCode}</td>
-</tr>
-<tr>
-<td class="name"></td>
-<td>[Return]</td>
-<td>${EMPTY}</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="name"></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="name"><a name="keyword_Set LanguageId">Set LanguageId</a></td>
-<td>[Arguments]</td>
-<td>${langunge_id}</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="name"></td>
-<td>[Documentation]</td>
-<td class="colspan3" colspan="3">MM 22.03.2018\n<br>
-set languageid</td>
-</tr>
-<tr>
-<td class="name"></td>
-<td>[Tags]</td>
-<td>General, Helper, List, Selection, Language</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="name"></td>
-<td>Click Element And Wait</td>
-<td>/$flow_main/menu_bottom/languages:${langunge_id}</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="name"></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="name"><a name="keyword_Check LanguageId is selected">Check LanguageId is selected</a></td>
-<td>[Arguments]</td>
-<td>${langunge_id}</td>
-<td>${selected}=${TRUE}</td>
-<td></td>
-</tr>
-<tr>
-<td class="name"></td>
-<td>[Documentation]</td>
-<td class="colspan3" colspan="3">MM 22.03.2018\n<br>
-check languageid</td>
-</tr>
-<tr>
-<td class="name"></td>
-<td>[Tags]</td>
-<td>General, Helper, List, Selection, Language</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="name"></td>
-<td>Check List ElementId is selected</td>
-<td>/$flow_main/menu_bottom/languages:${langunge_id}</td>
-<td>selected</td>
-<td>${selected}</td>
 </tr>
 <tr>
 <td class="name"></td>
@@ -1702,7 +1505,7 @@ konfigurierbar in C:\Python27\Lib\site-packages\robotide\lib\robot\running =&gt;
 <tr>
 <td class="name"></td>
 <td>${class} =</td>
-<td>Get Element Attribute</td>
+<td>Selenium2Library.Get Element Attribute</td>
 <td>${element_id}/${index}</td>
 <td>class</td>
 </tr>
@@ -1786,7 +1589,7 @@ finde element einer liste statischer loop</td>
 <td class="name"></td>
 <td></td>
 <td>${class} =</td>
-<td>Get Element Attribute</td>
+<td>Selenium2Library.Get Element Attribute</td>
 <td>${element_id}/${index}</td>
 </tr>
 <tr>
@@ -1854,7 +1657,7 @@ finde element einer liste statischer loop</td>
 <td class="name"></td>
 <td></td>
 <td>${current_class} =</td>
-<td>Get Element Attribute</td>
+<td>Selenium2Library.Get Element Attribute</td>
 <td>${id}</td>
 </tr>
 <tr>
@@ -1897,6 +1700,14 @@ finde element einer liste statischer loop</td>
 <td>[Documentation]</td>
 <td>MM 29.03.2018\n<br>
 warten bis die seite geladen ist, zB. nach datenabruf\n<br>
+\n<br>
+\n<br>
+\n<br>
+\n<br>
+\n<br>
+\n<br>
+\n<br>
+\n<br>
 \n<br>
 \n<br>
 \n<br>
@@ -1980,7 +1791,7 @@ warten bis die seite geladen ist, zB. nach datenabruf\n<br>
 <td class="name"></td>
 <td></td>
 <td>${class} =</td>
-<td>Get Element Attribute</td>
+<td>Selenium2Library.Get Element Attribute</td>
 <td>//body</td>
 </tr>
 <tr>

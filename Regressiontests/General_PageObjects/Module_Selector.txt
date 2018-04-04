@@ -1,0 +1,4 @@
+*** Keywords ***
+Check ModuleSelector Is Avaliable
+    Check ContainsText    Module:
+    Check PageArea is visible    /$flow_main/modsel    screen look_rlx_screen_moduleselector

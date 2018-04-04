@@ -1,7 +1,6 @@
 import pymssql
 import _mssql
 import Global
-
 class DatabaseClass:
 
     ROBOT_LIBRARY_SCOPE = 'GLOBAL'
@@ -45,4 +44,4 @@ class DatabaseClass:
         finally:
             connection.close()
         return result
-
+        

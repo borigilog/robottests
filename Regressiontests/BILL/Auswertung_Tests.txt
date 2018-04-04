@@ -5,10 +5,8 @@ Test Teardown     Teardown Auswertung
 Force Tags        Bill    Auswertung
 Default Tags
 Resource          ../../UserKeywords/Common_Resources.html
-Resource          ../../UserKeywords/BILL_Resources.html
 Resource          PageObjects/Menu.txt
 Resource          PageObjects/Auswertung.txt
-Resource          ../General_PageObjects/Datum_Selector.txt
 Variables         PageObjects/Auswertung.yaml
 
 *** Test Cases ***
@@ -52,7 +50,7 @@ Check No Mandator Selected Screen1
 Click Button Auswahl bestätigen Screen1
     [Documentation]    MM 01.04.2018, BILL -> Auswertung: Status der Buttons, wenn ein Element selektiert ist
     [Tags]    Action
-    Select Hauptmandant
+    Select Mandator in Auswertung
     ${passed} =    Run Keyword And Return Status    Click Element And Wait    ${btnConfirm}
     Should Be Equal    ${passed}    ${TRUE}
     Check PageArea is visible    ${menu_content}    screen look_rlx_screen_bill_generally_evaluation_fromto

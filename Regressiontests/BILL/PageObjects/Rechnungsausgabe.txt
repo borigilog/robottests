@@ -56,5 +56,6 @@ Get InvoiceID with Positions
 Teardown Rechnungsausgabe
     ${passed} =    Run Keyword And Return Status    Select Rechnungsausgabe
     Return From Keyword If    ${passed}
+    Log    Die Seite war nicht clickable daher muss der Browser geschlossen und neugestartet werden    WARN
     Close Browser
     Select Rechnungsausgabe    true
