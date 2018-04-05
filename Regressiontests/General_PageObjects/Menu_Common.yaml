@@ -1,0 +1,6 @@
+---
+Dic_Benutzer: {D: "Benutzer:", E: "User:", F: "Utilisateur:"}
+Dic_Mandantenauswahl: {D: "Aktiven Mandanten wechseln", E: "Change active client", F: "Changer le mandant actif"}
+Dic_Kontakt: {D: "Kontakt", E: "Contact", F: "Contact"}
+Dic_Modul_verlassen: {D: "Modul verlassen", E: "Leave module", F: "Quitter le module"}
+...

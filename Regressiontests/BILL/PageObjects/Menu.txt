@@ -30,15 +30,6 @@ ${shipment_costs}    /$flow_main/main_menu/shipment_costs
 ${shipment_costs_class}    screen look_rlx_screen_bill_cancellation
 ${offsetting_charging}    /$flow_main/main_menu/offsetting_charging
 ${offsetting_charging_class}    screen look_rlx_screen_bill_defaultSettings_offseting_charging
-${mandatorname}    /$flow_main/menu_bottom/mandatorname
-#${mandatorname_class}
-${switchmandator}    /$flow_main/menu_bottom/switchmandator
-#${switchmandator_class}
-${help}           /$flow_main/menu_bottom/help
-#${help_class}
-${exit}           /$flow_main/menu_bottom/exit
-#${exit_class}
-${languages}      /$flow_main/menu_bottom/languages
 # ~~~~~~~~~ Dictionaries
 &{Dic_Storno_Lieferungen}    1=Lieferungen    15=Deliveries    16=Livraisons
 &{Dic_Storno_Retouren}    1=Retouren    15=Returns    16=Retours
@@ -54,22 +45,16 @@ ${languages}      /$flow_main/menu_bottom/languages
 &{Dic_Suchen}     1=Suchen    15=Search    16=Rechercher
 &{Dic_Auswertung}    1=Auswertung    15=Evaluation    16=Évaluation
 &{Dic_Verrechnung}    1=Verrechnung    15=Offsetting/Charging    16=Facturation
-&{Dic_Benutzer}    1=Benutzer:    15=User:    16=Utilisateur:
 &{Dic_Allgemein}    1=Allgemein    15=Generally    16=Général
 &{Dic_Fakturierung}    1=Fakturierung    15=Billing    16=Facturation
 &{Dic_Storno}     1=Storno    15=Cancellation    16=Annulation
 &{Dic_Voreinstellungen}    1=Voreinstellungen    15=Default settings    16=Paramètres prédéfinis
-&{Dic_Sprachauswahl}    1=Sprachauswahl    15=Language selection    16=Sélection de langue
-&{Dic_Mandantenauswahl}    1=Aktiven Mandanten wechseln    15=Change active client    16=Changer le mandant actif
-&{Dic_Kontakt}    1=Kontakt    15=Contact    16=Contact
-&{Dic_Modul_verlassen}    1=Modul verlassen    15=Leave module    16=Quitter le module
-&{Dic_Sprachen_Code}    1=D    15=E    16=F
 
 *** Keywords ***
 Login Select Bill
-    [Arguments]    ${Login}=true
+    [Arguments]    ${login}=true
     [Documentation]    MM 22.03.2018, prepare content for BILL tests
-    ${navigateToBillModule} =    Is Truthy    ${Login}
+    ${navigateToBillModule} =    Is Truthy    ${login}
     #Log To Console    Login Select Bill--->${Login}--->${navigateToBillModule}
     Run Keyword If    ${navigateToBillModule}    Start Test For Module    Bill
     Run Keyword If    ${navigateToBillModule}    Wait until Page is unfreezed
@@ -81,71 +66,71 @@ Check Homescreen is selected
     Check PageArea is visible    ${menu_content}    screen look_rlx_screen_bill_homescreen
 
 Select Rechnungsverwaltung
-    [Arguments]    ${Login}=false
-    Login Select Bill    ${Login}
+    [Arguments]    ${login}=false
+    Login Select Bill    ${login}
     Select Menu Content    ${invoice_management}    ${invoice_management_class}
 
 Select Manuelle Buchungen
-    [Arguments]    ${Login}=false
-    Login Select Bill    ${Login}
+    [Arguments]    ${login}=false
+    Login Select Bill    ${login}
     Select Menu Content    ${manual_booking}    ${manual_booking_class}
 
 Select Rechnungsausgabe
-    [Arguments]    ${Login}=false
-    Login Select Bill    ${Login}
+    [Arguments]    ${login}=false
+    Login Select Bill    ${login}
     Select Menu Content    ${invoice_issue}    ${invoice_issue_class}
 
 Select Suchen
-    [Arguments]    ${Login}=false
-    Login Select Bill    ${Login}
+    [Arguments]    ${login}=false
+    Login Select Bill    ${login}
     Select Menu Content    ${search}    ${search_class}
 
 Select Auswertung
-    [Arguments]    ${Login}=false
-    Login Select Bill    ${Login}
+    [Arguments]    ${login}=false
+    Login Select Bill    ${login}
     Select Menu Content    ${evaluation}    ${evaluation_class}
 
 Select Lieferungen
-    [Arguments]    ${Login}=false
-    Login Select Bill    ${Login}
+    [Arguments]    ${login}=false
+    Login Select Bill    ${login}
     Select Menu Content    ${billing_deliveries}    ${billing_deliveries_class}
 
 Select Retouren
-    [Arguments]    ${Login}=false
-    Login Select Bill    ${Login}
+    [Arguments]    ${login}=false
+    Login Select Bill    ${login}
     Select Menu Content    ${billing_returns}    ${billing_returns_class}
 
 Select Occasionen
-    [Arguments]    ${Login}=false
-    Login Select Bill    ${Login}
+    [Arguments]    ${login}=false
+    Login Select Bill    ${login}
     Select Menu Content    ${billing_second_hand}    ${billing_second_hand_class}
 
 Select Sendungskosten
-    [Arguments]    ${Login}=false
-    Login Select Bill    ${Login}
+    [Arguments]    ${login}=false
+    Login Select Bill    ${login}
     Select Menu Content    ${billing_shipment_costs}    ${billing_shipment_costs_class}
 
 Select Storno Lieferungen
-    [Arguments]    ${Login}=false
-    Login Select Bill    ${Login}
+    [Arguments]    ${login}=false
+    Login Select Bill    ${login}
     Select Menu Content    ${deliveries}    ${deliveries_class}
 
 Select Storno Retouren
-    [Arguments]    ${Login}=false
-    Login Select Bill    ${Login}
+    [Arguments]    ${login}=false
+    Login Select Bill    ${login}
     Select Menu Content    ${returns}    ${returns_class}
 
 Select Storno Occasionen
-    [Arguments]    ${Login}=false
-    Login Select Bill    ${Login}
+    [Arguments]    ${login}=false
+    Login Select Bill    ${login}
     Select Menu Content    ${second_hand}    ${second_hand_class}
 
 Select Storno Sendungskosten
-    [Arguments]    ${Login}=false
-    Login Select Bill    ${Login}
+    [Arguments]    ${login}=false
+    Login Select Bill    ${login}
     Select Menu Content    ${shipment_costs}    ${shipment_costs_class}
 
 Select Verrechnung
-    [Arguments]    ${Login}=false
-    Login Select Bill    ${Login}
+    [Arguments]    ${login}=false
+    Login Select Bill    ${login}
     Select Menu Content    ${offsetting_charging}    ${offsetting_charging_class}

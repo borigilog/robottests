@@ -6,7 +6,8 @@ Variables         Datum_Selector.yaml
 # ~~~~~~~ calendar grid
 ${grdCalendarPopday}    //div[@class='grid look_popcal look_rlx_grid_popcal_calendar']/div[contains(@class,'gridcontainer noscroll')]/table/tbody/tr/td/button
 ${grdCalendarNoSelection}    //div[@class='grid look_popcal look_rlx_grid_popcal_calendar']/div[contains(@class,'gridcontainer noscroll')]/table/tbody/tr/td/div/button
-@{DATE_MonthName}    &{Dic_January}    &{Dic_February}    &{Dic_March}    &{Dic_April}    &{Dic_May}    &{Dic_June}    &{Dic_July}
+# ~~~~~~~ month name
+@{DATE_MONTH_NAME}    &{Dic_January}    &{Dic_February}    &{Dic_March}    &{Dic_April}    &{Dic_May}    &{Dic_June}    &{Dic_July}
 ...               &{Dic_August}    &{Dic_September}    &{Dic_October}    &{Dic_November}    &{Dic_December}
 
 *** Keywords ***
@@ -63,7 +64,7 @@ Check Date Is Selected
     Check DateValue Is Valid    ${locator}    ${selected}
     ${picker_visible} =    Run Keyword And Return Status    Check DateSelector Is Visible    ${locator}
     Run Keyword If    '${picker_visible}' == '${FALSE}'    Log    Der Datumsselektor ist nicht sichtbar und muss daher geöffnet werden!    WARN
-    Run Keyword If    '${picker_visible}' == '${FALSE}'    Select DateSelector Picker PopUp    ${locator}
+    Run Keyword If    '${picker_visible}' == '${FALSE}'    Open DateSelector    ${locator}
     ${passed}=    Check Table Has Selection Class    ${grdCalendarPopday}    look_popday look_sel
     Should Be Equal    ${selected}    ${passed}
     Run Keyword If    '${picker_visible}' == '${FALSE}'    Close DateSelector    ${locator}
@@ -72,12 +73,12 @@ Check Date Is Selectable
     [Arguments]    ${locator}
     [Documentation]    MM 02.04.2018
     [Tags]    General, Helper, DateSelector
-    Select DateSelector Picker PopUp    ${locator}
+    Open DateSelector    ${locator}
     Check DateSelector Is Visible    ${locator}
     Select Previous Month In DateSelector    ${locator}
     Select Next Month In DateSelector    ${locator}
     Select None Date Selection In DateSelector
-    Select DateSelector Picker PopUp    ${locator}
+    Open DateSelector    ${locator}
     Select Day In DateSelector    13
 
 Select None Date Selection In DateSelector
@@ -86,14 +87,6 @@ Select None Date Selection In DateSelector
     ${langunge_code}    Get selected LanguageCode
     ${date_id}    Get ElementId From Table    ${grdCalendarNoSelection}    &{Dic_NoValue}[${langunge_code}]
     ${passed} =    Run Keyword And Return Status    Click Element    ${date_id}
-    Should Be Equal    ${passed}    ${TRUE}
-
-Select DateSelector Picker PopUp
-    [Arguments]    ${locator}
-    [Documentation]    MM 02.04.2018
-    [Tags]    General, Helper, DateSelector
-    ${picker_id}    Set Variable    ${locator}/pick
-    ${passed} =    Run Keyword And Return Status    Click Element    ${picker_id}
     Should Be Equal    ${passed}    ${TRUE}
 
 Select Previous Month In DateSelector
@@ -127,6 +120,8 @@ Select Month In DateSelector
     ${target_month_name}=    Convert Month To MonthName    ${datetime.month}
     ${target_year}=    Convert To String    ${datetime.year}
     ${target_month_year}=    Set Variable    ${target_month_name}${SPACE}${target_year}
+    #${range_month}=    Get DateTime Difference in Month    ${datetime}    ${current_datetime}
+    #: FOR    ${index}    IN RANGE    ${range_month}
     : FOR    ${index}    IN RANGE    999999
     \    ${current_month_year}    Get Text    ${month_id}
     \    Exit For Loop If    '${current_month_year}'=='${target_month_year}'
@@ -140,6 +135,14 @@ Select Day In DateSelector
     ${day}=    Convert To String    ${day}
     ${date_id}    Get ElementId From Table    ${grdCalendarPopday}    ${day}
     ${passed} =    Run Keyword And Return Status    Click Element    ${date_id}
+    Should Be Equal    ${passed}    ${TRUE}
+
+Open DateSelector
+    [Arguments]    ${locator}
+    [Documentation]    MM 02.04.2018
+    [Tags]    General, Helper, DateSelector
+    ${picker_id}    Set Variable    ${locator}/pick
+    ${passed} =    Run Keyword And Return Status    Click Element    ${picker_id}
     Should Be Equal    ${passed}    ${TRUE}
 
 Close DateSelector
@@ -158,7 +161,7 @@ Set Date In DateSelector
     [Documentation]    MM 02.04.2018
     [Tags]    General, Helper, DateSelector
     ${datetime} =    Convert DateString To DateTime    ${datevalue}
-    Select DateSelector Picker PopUp    ${locator}
+    Open DateSelector    ${locator}
     Select Month In DateSelector    ${locator}    ${datetime}
     Select Day In DateSelector    ${datetime.day}
 
@@ -178,6 +181,29 @@ Get Selected Day In DateSelector
     \    Continue For Loop If    '${class}'!='look_popday look_sel'
     \    Return From Keyword    ${element.text}
     [Return]    ${-1}
+
+Get DateTime Now
+    ${datetime}=    Get Current Date    result_format=datetime
+    [Return]    ${datetime}
+
+Get DateString Now
+    ${date}=    Get Current Date    result_format=%d.%m.%Y
+    [Return]    ${date}
+
+Get DateTime Difference in Month
+    [Arguments]    ${datetime1}    ${datetime2}
+    ${time_diff} =    Subtract Date From Date    ${datetime1}    ${datetime2}    verbose
+    #Log To Console    time_diff:->${time_diff}
+    ${time_diff} =    Replace String    ${time_diff}    -    ${EMPTY}    count=1
+    ${time_diff} =    Strip String    ${time_diff}
+    @{time_diff_words} =    Split String    ${time_diff}    ${SPACE}    1
+    ${time_diff_days}=    Get From List    ${time_diff_words}    0
+    ${time_diff_days}=    Convert To Integer    ${time_diff_days}
+    ${time_diff_months}=    Evaluate    (${time_diff_days}/(${7}*${4}))+${1}
+    #Log To Console    time_diff_months:->${time_diff_months}
+    ${result_month} =    Convert To Number    ${time_diff_months}    0
+    #Log To Console    result_month:->${result_month}
+    [Return]    ${result_month}
 
 Convert DateTime To DateString
     [Arguments]    ${datetime}
@@ -202,7 +228,7 @@ Convert Month To MonthName
     ...    get selected month
     [Tags]    General, Helper, DateSelector
     ${index}=    Set Variable    0
-    : FOR    ${monthDic}    IN    @{DATE_MonthName}
+    : FOR    ${monthDic}    IN    @{DATE_MONTH_NAME}
     \    ${index}=    Evaluate    ${index}+1
     \    Continue For Loop If    '${index}'!='${month}'
     \    ${langunge_code}    Get selected LanguageCode
@@ -218,7 +244,7 @@ Convert MonthName To Month
     ${langunge_code}    Get selected LanguageCode
     ${stripped_month_name}    Get Stripped String    ${month_name}
     ${index}=    Set Variable    0
-    : FOR    ${monthDic}    IN    @{DATE_MonthName}
+    : FOR    ${monthDic}    IN    @{DATE_MONTH_NAME}
     \    ${index}=    Evaluate    ${index}+1
     \    ${isMonthName}=    Get From Dictionary    ${monthDic}    ${langunge_code}
     \    Return From Keyword If    '${isMonthName}'=='${stripped_month_name}'    ${index}

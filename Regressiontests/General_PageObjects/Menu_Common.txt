@@ -1,0 +1,48 @@
+*** Settings ***
+Variables         Menu_Common.yaml
+
+*** Variables ***
+${txtMandatorname}    /$flow_main/menu_bottom/mandatorname
+#${mandatorname_class}
+${btnSwitchmandator}    /$flow_main/menu_bottom/switchmandator
+#${switchmandator_class}
+${btnHelp}        /$flow_main/menu_bottom/help
+#${help_class}
+${btnExit}        /$flow_main/menu_bottom/exit
+
+*** Keywords ***
+Check ToolTip SwitchMandator
+    [Tags]    ToolTip    TextLanguagedependent    Action
+    ${langunge_code}=    Get selected LanguageCode
+    Check TooltipId    ${btnSwitchmandator}    &{Dic_Mandantenauswahl}[${langunge_code}]
+
+Check ToolTip Help
+    [Tags]    ToolTip    TextLanguagedependent    Action
+    ${langunge_code}=    Get selected LanguageCode
+    Check TooltipId    ${btnHelp}    &{Dic_Kontakt}[${langunge_code}]
+
+Check ToolTip Exit
+    [Tags]    ToolTip    TextLanguagedependent    Action
+    ${langunge_code}=    Get selected LanguageCode
+    Check TooltipId    ${btnExit}    &{Dic_Modul_verlassen}[${langunge_code}]
+
+Check Toolbox Is Avaliable
+    #Mandant
+    Check ElementId    ${txtMandatorname}    ${DEFAULT_MANDATOR_NAME}    enabled=true
+    Check ElementId    ${btnSwitchmandator}    enabled=true
+    Check ElementId    ${btnHelp}    enabled=true
+    Check ElementId    ${btnExit}    enabled=true
+    #Sprachauswahl
+    Check LanguageSelector
+
+Check Userbox Is Avaliable
+    ${langunge_code}=    Get selected LanguageCode
+    Check ContainsText    &{Dic_Benutzer}[${langunge_code}]
+    Check ElementId    ${user_name}    System Administrator, System Administrator    enabled=true
+
+Select Menu Content
+    [Arguments]    ${element_id}    ${class}    ${content_id}=/$flow_main/$flow_content
+    [Documentation]    MM 22.03.2018, select certain Menu content
+    Check ElementId    ${element_id}
+    Click Element And Wait    ${element_id}
+    Check PageArea is visible    ${content_id}    ${class}

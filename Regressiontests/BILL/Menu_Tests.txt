@@ -4,7 +4,6 @@ Suite Teardown    Close Browser
 Force Tags        Bill    Menu
 Default Tags
 Resource          ../../UserKeywords/Common_Resources.html
-Resource          ../../UserKeywords/BILL_Resources.html
 Resource          PageObjects/Menu.txt
 Variables         PageObjects/customized_menu.yaml
 Variables         PageObjects/Menu.yaml
@@ -15,11 +14,9 @@ Check GUI Elements Menu
     [Tags]    GUI_Elements    TextLanguagedependent
     ${langunge_id}=    Get selected LanguageId
     #Module
-    Check ContainsText    Module:
-    Check PageArea is visible    /$flow_main/modsel    screen look_rlx_screen_moduleselector
+    Check ModuleSelector Is Avaliable
     #Benutzer
-    Check ContainsText    &{Dic_Benutzer}[${langunge_id}]
-    Check ElementId    ${user_name}    System Administrator, System Administrator    enabled=true
+    Check Userbox Is Avaliable
     #Allgemein
     Check ContainsText    &{Dic_Allgemein}[${langunge_id}]
     Check ElementId    ${invoice_management}    &{Dic_Rechnungsverwaltung}[${langunge_id}]    enabled=true
@@ -42,26 +39,11 @@ Check GUI Elements Menu
     #Voreinstellungen
     Check ContainsText    &{Dic_Voreinstellungen}[${langunge_id}]
     Check ElementId    ${offsetting_charging}    &{Dic_Verrechnung}[${langunge_id}]    enabled=true
-    #Mandant
-    Check ElementId    ${mandatorname}    Hauptmandant    enabled=true
-    Check ElementId    ${switchmandator}    enabled=true
-    Check ElementId    ${help}    enabled=true
-    Check ElementId    ${exit}    enabled=true
-    #Sprachauswahl
-    Check ContainsText    &{Dic_Sprachauswahl}[${langunge_id}]
-    Check ElementId    ${languages}
-    : FOR    ${key}    IN    @{AVAILABLE_LANGUAGES.keys()}
-    \    Check ElementId    ${languages}:${key}    &{Dic_Sprachen_Code}[${key}]    enabled=true
+    #Toolbox
+    Check Toolbox Is Avaliable
 
 Check Language Selection
-    [Tags]    Action    ChangeLanguage
-    : FOR    ${key}    IN    @{AVAILABLE_LANGUAGES.keys()}
-    \    Set LanguageId    ${key}
-    \    Check LanguageId is selected    ${key}
-    \    ${langunge_id}=    Get selected LanguageId
-    \    Should Be Equal    ${langunge_id}    ${key}
-    \    Check ContainsText    &{Dic_Sprachauswahl}[${langunge_id}]
-    Set LanguageId    ${DEFAULT_LANGUAGE_ID}
+    Check Languages Are Selectable
 
 Check Text Languagedependent YAML
     [Documentation]    using Variables \ \ \ \ \ \ \ \ menu.yaml
@@ -74,7 +56,6 @@ Check Text Languagedependent YAML
     \    Set LanguageId    ${key}
     \    Check LanguageId is selected    ${key}
     \    ${langunge_code}=    Get selected LanguageCode
-    \    Run Keyword And Continue On Failure    Check ContainsText    &{DicYAML_Benutzer}[${langunge_code}]
     \    Run Keyword And Continue On Failure    Check ContainsText    &{DicYAML_Allgemein}[${langunge_code}]
     \    Run Keyword And Continue On Failure    Element Text Should Be    ${invoice_management}    &{DicYAML_Rechnungsverwaltung}[${langunge_code}]
     \    Run Keyword And Continue On Failure    Element Text Should Be    ${manual_booking}    &{DicYAML_Manuelle_Buchungen}[${langunge_code}]
@@ -93,7 +74,6 @@ Check Text Languagedependent YAML
     \    Run Keyword And Continue On Failure    Element Text Should Be    ${shipment_costs}    &{DicYAML_Storno_Sendungskosten}[${langunge_code}]
     \    Run Keyword And Continue On Failure    Check ContainsText    &{DicYAML_Voreinstellungen}[${langunge_code}]
     \    Run Keyword And Continue On Failure    Element Text Should Be    ${offsetting_charging}    &{DicYAML_Verrechnung}[${langunge_code}]
-    \    Run Keyword And Continue On Failure    Check ContainsText    &{DicYAML_Sprachauswahl}[${langunge_code}]
     Set LanguageId    ${DEFAULT_LANGUAGE_ID}
 
 Check Text Languagedependent YAML customized
@@ -116,7 +96,6 @@ Check Text Languagedependent
     \    Set LanguageId    ${key}
     \    ${langunge_id}=    Get selected LanguageId
     \    Run Keyword And Continue On Failure    Check LanguageId is selected    ${key}
-    \    Run Keyword And Continue On Failure    Check ContainsText    &{Dic_Benutzer}[${langunge_id}]
     \    Run Keyword And Continue On Failure    Check ContainsText    &{Dic_Allgemein}[${langunge_id}]
     \    Run Keyword And Continue On Failure    Element Text Should Be    ${invoice_management}    &{Dic_Rechnungsverwaltung}[${langunge_id}]
     \    Run Keyword And Continue On Failure    Element Text Should Be    ${manual_booking}    &{Dic_Manuelle_Buchungen}[${langunge_id}]
@@ -135,23 +114,16 @@ Check Text Languagedependent
     \    Run Keyword And Continue On Failure    Element Text Should Be    ${shipment_costs}    &{Dic_Storno_Sendungskosten}[${langunge_id}]
     \    Run Keyword And Continue On Failure    Check ContainsText    &{Dic_Voreinstellungen}[${langunge_id}]
     \    Run Keyword And Continue On Failure    Element Text Should Be    ${offsetting_charging}    &{Dic_Verrechnung}[${langunge_id}]
-    \    Run Keyword And Continue On Failure    Check ContainsText    &{Dic_Sprachauswahl}[${langunge_id}]
     Set LanguageId    ${DEFAULT_LANGUAGE_ID}
 
 Check ToolTip Mandantenauswahl
-    [Tags]    ToolTip    TextLanguagedependent    Action
-    ${langunge_id}=    Get selected LanguageId
-    Check TooltipId    ${switchmandator}    &{Dic_Mandantenauswahl}[${langunge_id}]
+    Check ToolTip SwitchMandator
 
 Check ToolTip Kontakt
-    [Tags]    ToolTip    TextLanguagedependent    Action
-    ${langunge_id}=    Get selected LanguageId
-    Check TooltipId    ${help}    &{Dic_Kontakt}[${langunge_id}]
+    Check ToolTip Help
 
 Check ToolTip Module verlassen
-    [Tags]    ToolTip    TextLanguagedependent    Action
-    ${langunge_id}=    Get selected LanguageId
-    Check TooltipId    ${exit}    &{Dic_Modul_verlassen}[${langunge_id}]
+    Check ToolTip Exit
 
 Check Menu Selection
     [Tags]    Action

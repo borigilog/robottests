@@ -1,16 +1,16 @@
 *** Settings ***
 Suite Setup       Select Rechnungsausgabe    true
 Suite Teardown    Close Browser
-Test Teardown     Select Rechnungsausgabe
+Test Teardown     Teardown Rechnungsausgabe
 Force Tags        Bill    Rechnungsausgabe
 Default Tags
 Resource          ../../UserKeywords/Common_Resources.html
-Resource          ../../UserKeywords/BILL_Resources.html
 Resource          PageObjects/Menu.txt
 Resource          PageObjects/Rechnungsausgabe.txt
 Variables         PageObjects/Rechnungsausgabe.yaml
 Library           DatabaseLibrary
 Library           ../../Libs/DatabaseClass.py    database=${DATABASE_NAME}    user=${DATABASE_USER}    password=${DATABASE_PWD}    host=${DATABASE_IP}    port=${DATABASE_PORT}
+Library           XML
 
 *** Test Cases ***
 Check GUI Elements Rechnungsausgabe
@@ -89,7 +89,9 @@ Select Open Invoice DBConnection
     ${langunge_code}=    Get selected LanguageCode
     ${invoiceIsSelected}    Check List has selection    ${listInvoice}
     Should Be Equal    ${invoiceIsSelected}    ${FALSE}
-    ${queryResultInvNo}=    DB_Execute_Scalar    ${expectedBills_SQL} AND (Bills.IsComplete = 0) AND (Bills.IsProcessed = 0)
+    ${xml} =    Parse XML    ${SQL_QUERIES_PATH}/BILL/SQLQueries.resx
+    ${sql} =    Get Element Text    ${xml}    data[@name="Retrieve_OpenBills"]/value
+    ${queryResultInvNo}=    DB_Execute_Scalar    ${sql}
     ${InvoiceID}    Get InvoiceID    ${listInvoice}    $invoiceNumber    ${queryResultInvNo}
     ${selectInvoice}=    Check Invoice is selectable    ${InvoiceID}
     Run Keyword If    ${selectInvoice}    Select InvoiceID    ${InvoiceID}
@@ -151,7 +153,7 @@ Select Processed Closed Invoice DBConnection
     ${langunge_code}=    Get selected LanguageCode
     ${invoiceIsSelected}    Check List has selection    ${listInvoice}
     Should Be Equal    ${invoiceIsSelected}    ${FALSE}
-    ${queryResultInvNo}=    DB_Execute_Scalar    ${expectedBills_SQL} AND (Bills.IsComplete = 1) AND (Bills.IsProcessed = 1) AND (Bills.IsProformaInvoice = 0)
+    ${queryResultInvNo}=    DB_Execute_Scalar    ${expectedBills_SQL} AND (Bills.IsComplete = 1) AND (Bills.IsProcessed = 1)
     Click Element And Wait    ${chkShowProcessedBills}
     ${InvoiceID}    Get InvoiceID    ${listInvoice}    $invoiceNumber    ${queryResultInvNo}
     ${selectInvoice}=    Check Invoice is selectable    ${InvoiceID}
