@@ -7,6 +7,7 @@ Resource          ../../UserKeywords/Common_Resources.html
 Resource          PageObjects/Menu.txt
 Variables         PageObjects/customized_menu.yaml
 Variables         PageObjects/Menu.yaml
+Library           ../../Libs/SettingsDicReader.py
 
 *** Test Cases ***
 Check GUI Elements Menu
@@ -44,6 +45,35 @@ Check GUI Elements Menu
 
 Check Language Selection
     Check Languages Are Selectable
+
+Check Text Languagedependent with SettingsDicReader
+    [Documentation]    using Library ../../Libs/SettingsDicReader.py read dictionaries from file /BILL/Settings_dic.xml
+    [Tags]    TextLanguagedependent    ChangeLanguage
+    Create Menu Dictionaries
+    : FOR    ${key}    IN    @{AVAILABLE_LANGUAGES.keys()}
+    \    Set LanguageId    ${key}
+    \    Check LanguageId is selected    ${key}
+    \    ${langunge_code}=    Get selected LanguageCode
+    \    ${text} =    SettingsDicReader.Get Dic Text    ${SETTINGS_PATH}/BILL/Settings_dic.xml    MainMenu    MG_General    ${langunge_code}
+    \    Run Keyword And Continue On Failure    Check ContainsText    ${text}
+    \    Run Keyword And Continue On Failure    Element Text Should Be    ${invoice_management}    &{MainMenu_MP_Bills_Admin}[${langunge_code}]
+    \    Run Keyword And Continue On Failure    Element Text Should Be    ${manual_booking}    &{MainMenu_MP_Manual_Positions}[${langunge_code}]
+    \    Run Keyword And Continue On Failure    Element Text Should Be    ${invoice_issue}    &{MainMenu_MP_Reports}[${langunge_code}]
+    \    Run Keyword And Continue On Failure    Element Text Should Be    ${search}    &{MainMenu_MP_SearchBills}[${langunge_code}]
+    \    Run Keyword And Continue On Failure    Element Text Should Be    ${evaluation}    &{MainMenu_MP_TotalAcount}[${langunge_code}]
+    \    Run Keyword And Continue On Failure    Check ContainsText    &{MainMenu_MG_Billing}[${langunge_code}]
+    \    Run Keyword And Continue On Failure    Element Text Should Be    ${billing_deliveries}    &{MainMenu_MP_Billing_Shipments}[${langunge_code}]
+    \    Run Keyword And Continue On Failure    Element Text Should Be    ${billing_returns}    &{MainMenu_MP_Billing_Reverse}[${langunge_code}]
+    \    Run Keyword And Continue On Failure    Element Text Should Be    ${billing_second_hand}    &{MainMenu_MP_Billing_SecondHand}[${langunge_code}]
+    \    Run Keyword And Continue On Failure    Element Text Should Be    ${billing_shipment_costs}    &{MainMenu_MP_Billing_DeliveryCost}[${langunge_code}]
+    \    Run Keyword And Continue On Failure    Check ContainsText    &{MainMenu_MG_Cancellation}[${langunge_code}]
+    \    Run Keyword And Continue On Failure    Element Text Should Be    ${deliveries}    &{MainMenu_MP_Billing_Shipments}[${langunge_code}]
+    \    Run Keyword And Continue On Failure    Element Text Should Be    ${returns}    &{MainMenu_MP_Billing_Reverse}[${langunge_code}]
+    \    Run Keyword And Continue On Failure    Element Text Should Be    ${second_hand}    &{MainMenu_MP_Billing_SecondHand}[${langunge_code}]
+    \    Run Keyword And Continue On Failure    Element Text Should Be    ${shipment_costs}    &{MainMenu_MP_Billing_DeliveryCost}[${langunge_code}]
+    \    Run Keyword And Continue On Failure    Check ContainsText    &{MainMenu_MG_Settings}[${langunge_code}]
+    \    Run Keyword And Continue On Failure    Element Text Should Be    ${offsetting_charging}    &{MainMenu_MP_PresettingPricing}[${langunge_code}]
+    Set LanguageId    ${DEFAULT_LANGUAGE_ID}
 
 Check Text Languagedependent YAML
     [Documentation]    using Variables \ \ \ \ \ \ \ \ menu.yaml

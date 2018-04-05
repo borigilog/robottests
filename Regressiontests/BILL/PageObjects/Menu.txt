@@ -1,3 +1,6 @@
+*** Settings ***
+Library           ../../../Libs/SettingsDicReader.py
+
 *** Variables ***
 # ~~~~~~~~~ Menu
 ${menu_content}    /$flow_main/$flow_content
@@ -134,3 +137,41 @@ Select Verrechnung
     [Arguments]    ${login}=false
     Login Select Bill    ${login}
     Select Menu Content    ${offsetting_charging}    ${offsetting_charging_class}
+
+Create SettingsDics
+    [Arguments]    ${region_name}    ${dic_id}    ${enforce_name}=${EMPTY}
+    ${var_name}=    Set Variable If    '${enforce_name}'=='${EMPTY}'    ${region_name}_${dic_id}    ${enforce_name}
+    ${passed} =    Check Variable SettingsDic With Content Exist    ${var_name}
+    Return From Keyword If    '${passed}' == '${TRUE}'
+    &{python_dict} =    SettingsDicReader.Get Dictionary    ${SETTINGS_PATH}/BILL/Settings_dic.xml    ${region_name}    ${dic_id}
+    Set Global Variable    &{${var_name}}    &{python_dict}
+
+Check Variable SettingsDic With Content Exist
+    [Arguments]    ${var_name}
+    ${passed}=    Run Keyword And Return Status    Variable Should Exist    &{${var_name}}
+    Return From Keyword If    '${passed}' == '${FALSE}'    ${FALSE}
+    ${length} =    Get Length    ${${var_name}}
+    Return From Keyword If    ${length} == 0    ${FALSE}
+    Log    Die Variable ${var_name} - &{${var_name}} existiert bereits!    INFO
+    [Return]    ${TRUE}
+
+Create Menu Dictionaries
+    [Documentation]    using Library ../../Libs/SettingsDicReader.py read dictionaries from file /BILL/Settings_dic.xml
+    Create SettingsDics    MainMenu    MG_General
+    Create SettingsDics    MainMenu    MP_Bills_Admin
+    Create SettingsDics    MainMenu    MP_Manual_Positions
+    Create SettingsDics    MainMenu    MP_Reports
+    Create SettingsDics    MainMenu    MP_SearchBills
+    Create SettingsDics    MainMenu    MP_TotalAcount
+    Create SettingsDics    MainMenu    MG_Billing
+    Create SettingsDics    MainMenu    MP_Billing_Shipments
+    Create SettingsDics    MainMenu    MP_Billing_Reverse
+    Create SettingsDics    MainMenu    MP_Billing_SecondHand
+    Create SettingsDics    MainMenu    MP_Billing_DeliveryCost
+    Create SettingsDics    MainMenu    MG_Cancellation
+    Create SettingsDics    MainMenu    MP_Billing_Shipments
+    Create SettingsDics    MainMenu    MP_Billing_Reverse
+    Create SettingsDics    MainMenu    MP_Billing_SecondHand
+    Create SettingsDics    MainMenu    MP_Billing_DeliveryCost
+    Create SettingsDics    MainMenu    MG_Settings
+    Create SettingsDics    MainMenu    MP_PresettingPricing

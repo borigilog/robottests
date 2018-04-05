@@ -10,7 +10,7 @@ Check LanguageSelector
     Run Keyword And Continue On Failure    Check ContainsText    &{Dic_Sprachauswahl}[${langunge_code}]
     Check ElementId    ${listLanguageSelection}
     : FOR    ${key}    IN    @{AVAILABLE_LANGUAGES.keys()}
-    \    ${class} =    Selenium2Library.Get Element Attribute    ${listLanguageSelection}:${key}    class
+    \    ${class} =    Get Element Attribute    ${listLanguageSelection}:${key}    class
     \    ${langCode}=    Get From Dictionary    ${AVAILABLE_LANGUAGES}    ${key}
     \    Check ElementId    ${listLanguageSelection}:${key}    &{Dic_Sprachen_Code}[${langCode}]    enabled=true
 
@@ -21,7 +21,7 @@ Check Languages Are Selectable
     \    Check LanguageId is selected    ${key}
     \    ${langunge_id}=    Get selected LanguageId
     \    Should Be Equal    ${langunge_id}    ${key}
-    \    ${class} =    Selenium2Library.Get Element Attribute    ${listLanguageSelection}:${key}    class
+    \    ${class} =    Get Element Attribute    ${listLanguageSelection}:${key}    class
     \    ${langCode}=    Get From Dictionary    ${AVAILABLE_LANGUAGES}    ${key}
     \    Run Keyword And Continue On Failure    Check ContainsText    &{Dic_Sprachauswahl}[${langCode}]
     Set Default LanguageId
@@ -31,7 +31,7 @@ Get selected LanguageId
     ...    get languageid
     [Tags]    General, Helper, List, Selection, Language
     : FOR    ${key}    IN    @{AVAILABLE_LANGUAGES.keys()}
-    \    ${class} =    Selenium2Library.Get Element Attribute    ${listLanguageSelection}:${key}    class
+    \    ${class} =    Get Element Attribute    ${listLanguageSelection}:${key}    class
     \    Return From Keyword If    '${class}'=='selected'    ${key}
     [Return]    -1
 
@@ -40,7 +40,7 @@ Get selected LanguageCode
     ...    get languageid
     [Tags]    General, Helper, List, Selection, Language
     : FOR    ${key}    IN    @{AVAILABLE_LANGUAGES.keys()}
-    \    ${class} =    Selenium2Library.Get Element Attribute    ${listLanguageSelection}:${key}    class
+    \    ${class} =    Get Element Attribute    ${listLanguageSelection}:${key}    class
     \    ${langCode}=    Get From Dictionary    ${AVAILABLE_LANGUAGES}    ${key}
     \    Return From Keyword If    '${class}'=='selected'    ${langCode}
     [Return]    ${EMPTY}

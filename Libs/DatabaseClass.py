@@ -14,7 +14,7 @@ class DatabaseClass:
         self.port = port
         self.database = database
 
-    def DB_Execute_Querry(self, sql):
+    def db_execute_querry(self, sql):
         connection = pymssql.connect(server=self.server,
                                 user=self.user,
                                 password=self.password,
@@ -31,7 +31,7 @@ class DatabaseClass:
             connection.close()
         return result
 
-    def DB_Execute_Scalar(self, sql):
+    def db_execute_scalar(self, sql):
         connection = _mssql.connect(server=self.server,
                                 user=self.user,
                                 password=self.password,
@@ -44,4 +44,34 @@ class DatabaseClass:
         finally:
             connection.close()
         return result
-        
+
+    def db_execute_querry_with_parameter(self, sql, parameter):
+        connection = pymssql.connect(server=self.server,
+                                user=self.user,
+                                password=self.password,
+                                port=self.port,
+                                database=self.database)
+        try:
+                cursor = connection.cursor()
+                cursor.execute(sql, parameter)
+                result = cursor.fetchall()
+                #connection.commit()   # commit transaction
+                print "DB_Execute_Querry"
+                print  result  # shows result from query!
+        finally:
+            connection.close()
+        return result
+    def db_execute_scalar_with_parameter(self, sql, parameter):
+        connection = _mssql.connect(server=self.server,
+                                user=self.user,
+                                password=self.password,
+                                port=self.port,
+                                database=self.database)
+        try:
+                result = connection.execute_scalar(sql, parameter)
+                print "DB_Execute_Scalar"
+                print  result  # shows result from query!
+        finally:
+            connection.close()
+        return result
+

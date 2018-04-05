@@ -214,7 +214,14 @@ td.name, th.name {
 </tr>
 <tr>
 <td class="name">${SQL_QUERIES_PATH}</td>
-<td>C:/SourceCode/robottests/robottests/SQL</td>
+<td>../SQL</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name">${SETTINGS_PATH}</td>
+<td>../Settings</td>
 <td></td>
 <td></td>
 <td></td>
@@ -1145,7 +1152,7 @@ list elemnet is selected</td>
 <td></td>
 </tr>
 <tr>
-<td class="name"><a name="keyword_Get ElementID from List Rekursion is BAD">Get ElementID from List Rekursion is BAD</a></td>
+<td class="name"><a name="keyword_Get ElementID from List">Get ElementID from List</a></td>
 <td>[Arguments]</td>
 <td>${element_id}</td>
 <td>${col_name}</td>
@@ -1153,101 +1160,84 @@ list elemnet is selected</td>
 </tr>
 <tr>
 <td class="name"></td>
-<td>...</td>
-<td>${index}=0</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="name"></td>
 <td>[Documentation]</td>
 <td class="colspan3" colspan="3">MM 29.03.2018\n<br>
-finde element einer liste rekursiv\n<br>
-The limit is somewhat low, 42 keywords, because on some\n<br>
-operating system and Python interpreter combinations problems occur pretty easily.\n<br>
-konfigurierbar in C:\Python27\Lib\site-packages\robotide\lib\robot\running =&gt; context.py =&gt; _started_keywords_threshold</td>
+finde element einer liste statischer loop</td>
 </tr>
 <tr>
 <td class="name"></td>
-<td>[Tags]</td>
-<td>Versuch</td>
-<td>Temporary</td>
+<td>${locator}</td>
+<td>Set Variable</td>
+<td>//div[contains(@id,'${element_id}')][contains(@id,'${col_name}')][contains(text(),'${value}')]</td>
 <td></td>
 </tr>
 <tr>
 <td class="name"></td>
-<td>${strippedValue}</td>
+<td>#${strippedValue}</td>
 <td>Get Stripped String</td>
 <td>${value}</td>
 <td></td>
 </tr>
 <tr>
 <td class="name"></td>
-<td>${passed} =</td>
-<td>Run Keyword And Return Status</td>
-<td>Element Should Be Visible</td>
-<td>${element_id}/${index}</td>
+<td>@{webelements} =</td>
+<td>Get WebElements</td>
+<td>${locator}</td>
+<td></td>
 </tr>
 <tr>
 <td class="name"></td>
-<td>Return From Keyword If</td>
-<td>'${passed}'!='${TRUE}'</td>
+<td>: FOR</td>
+<td>${element}</td>
+<td>IN</td>
+<td>@{webelements}</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td>Continue For Loop If</td>
+<td>'${value}'!='${element.text}'</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td>${id}=</td>
+<td>Set Variable</td>
+<td>${element.get_attribute('id')}</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td>${id}=</td>
+<td>Replace String</td>
+<td>${id}</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td>...</td>
+<td>/${col_name}</td>
 <td>${EMPTY}</td>
+</tr>
+<tr>
+<td class="name"></td>
 <td></td>
-</tr>
-<tr>
-<td class="name"></td>
-<td>${colValue} =</td>
-<td>Get Text</td>
-<td>${element_id}/${index}/${col_name}</td>
-<td></td>
-</tr>
-<tr>
-<td class="name"></td>
-<td>${passed} =</td>
-<td>Run Keyword And Return Status</td>
-<td>Should Be Equal</td>
-<td>${strippedValue}</td>
-</tr>
-<tr>
-<td class="name"></td>
 <td>...</td>
-<td>${colValue}</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="name"></td>
-<td>Return From Keyword If</td>
-<td>'${passed}'=='${TRUE}'</td>
-<td>${element_id}/${index}</td>
+<td>count=1</td>
 <td></td>
 </tr>
 <tr>
 <td class="name"></td>
-<td>${index}=</td>
-<td>Evaluate</td>
-<td>${index}+1</td>
 <td></td>
-</tr>
-<tr>
-<td class="name"></td>
-<td>${passed} =</td>
-<td>Get ElementID from List</td>
-<td>${element_id}</td>
-<td>${col_name}</td>
-</tr>
-<tr>
-<td class="name"></td>
-<td>...</td>
-<td>${value}</td>
-<td>${index}</td>
+<td>Return From Keyword</td>
+<td>${id}</td>
 <td></td>
 </tr>
 <tr>
 <td class="name"></td>
 <td>[Return]</td>
-<td>${passed}</td>
+<td>${EMPTY}</td>
 <td></td>
 <td></td>
 </tr>
@@ -1259,7 +1249,7 @@ konfigurierbar in C:\Python27\Lib\site-packages\robotide\lib\robot\running =&gt;
 <td></td>
 </tr>
 <tr>
-<td class="name"><a name="keyword_Get ElementID from List">Get ElementID from List</a></td>
+<td class="name"><a name="keyword_Get ElementID from ListOLD">Get ElementID from ListOLD</a></td>
 <td>[Arguments]</td>
 <td>${element_id}</td>
 <td>${col_name}</td>
@@ -1369,7 +1359,7 @@ finde element einer liste statischer loop</td>
 </tr>
 <tr>
 <td class="name"></td>
-<td>${strippedValue}</td>
+<td>#${strippedValue}</td>
 <td>Get Stripped String</td>
 <td>${value}</td>
 <td></td>
@@ -1392,7 +1382,7 @@ finde element einer liste statischer loop</td>
 <td class="name"></td>
 <td></td>
 <td>Continue For Loop If</td>
-<td>'${strippedValue}'!='${element.text}'</td>
+<td>'${value}'!='${element.text}'</td>
 <td></td>
 </tr>
 <tr>
@@ -1466,86 +1456,7 @@ finde element einer liste statischer loop</td>
 <td></td>
 </tr>
 <tr>
-<td class="name"><a name="keyword_Check List has selection Rekursion is BAD">Check List has selection Rekursion is BAD</a></td>
-<td>[Arguments]</td>
-<td>${element_id}</td>
-<td>${index}=0</td>
-<td></td>
-</tr>
-<tr>
-<td class="name"></td>
-<td>[Documentation]</td>
-<td class="colspan3" colspan="3">MM 29.03.2018\n<br>
-finde element einer liste rekursiv.\n<br>
-The limit is somewhat low, 42 keywords, because on some\n<br>
-operating system and Python interpreter combinations problems occur pretty easily.\n<br>
-konfigurierbar in C:\Python27\Lib\site-packages\robotide\lib\robot\running =&gt; context.py =&gt; _started_keywords_threshold</td>
-</tr>
-<tr>
-<td class="name"></td>
-<td>[Tags]</td>
-<td>Versuch</td>
-<td>Temporary</td>
-<td></td>
-</tr>
-<tr>
-<td class="name"></td>
-<td>${passed} =</td>
-<td>Run Keyword And Return Status</td>
-<td>Element Should Be Visible</td>
-<td>${element_id}/${index}</td>
-</tr>
-<tr>
-<td class="name"></td>
-<td>Return From Keyword If</td>
-<td>'${passed}'!='${TRUE}'</td>
-<td>${FALSE}</td>
-<td></td>
-</tr>
-<tr>
-<td class="name"></td>
-<td>${class} =</td>
-<td>Selenium2Library.Get Element Attribute</td>
-<td>${element_id}/${index}</td>
-<td>class</td>
-</tr>
-<tr>
-<td class="name"></td>
-<td>Return From Keyword If</td>
-<td>'${class}'!='${EMPTY}'</td>
-<td>${TRUE}</td>
-<td></td>
-</tr>
-<tr>
-<td class="name"></td>
-<td>${index}=</td>
-<td>Evaluate</td>
-<td>${index}+1</td>
-<td></td>
-</tr>
-<tr>
-<td class="name"></td>
-<td>${passed} =</td>
-<td>Check List has selection</td>
-<td>${element_id}</td>
-<td>${index}</td>
-</tr>
-<tr>
-<td class="name"></td>
-<td>[Return]</td>
-<td>${passed}</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="name"></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="name"><a name="keyword_Check List has selection">Check List has selection</a></td>
+<td class="name"><a name="keyword_Check List has selectionOLD">Check List has selectionOLD</a></td>
 <td>[Arguments]</td>
 <td>${element_id}</td>
 <td>${endRange}=999999</td>
@@ -1589,8 +1500,84 @@ finde element einer liste statischer loop</td>
 <td class="name"></td>
 <td></td>
 <td>${class} =</td>
-<td>Selenium2Library.Get Element Attribute</td>
+<td>Get Element Attribute</td>
 <td>${element_id}/${index}</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td>...</td>
+<td>class</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td>Return From Keyword If</td>
+<td>'${class}'!='${EMPTY}'</td>
+<td>${TRUE}</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>[Return]</td>
+<td>${FALSE}</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"><a name="keyword_Check List has selection">Check List has selection</a></td>
+<td>[Arguments]</td>
+<td>${element_id}</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>[Documentation]</td>
+<td class="colspan3" colspan="3">MM 29.03.2018\n<br>
+finde element einer liste statischer loop</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>${locator}</td>
+<td>Set Variable</td>
+<td>//tr[contains(@id,'${element_id}')]</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>@{webelements} =</td>
+<td>Get WebElements</td>
+<td>${locator}</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>: FOR</td>
+<td>${element}</td>
+<td>IN</td>
+<td>@{webelements}</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td>${id}=</td>
+<td>Set Variable</td>
+<td>${element.get_attribute('id')}</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td>${class} =</td>
+<td>Get Element Attribute</td>
+<td>${id}</td>
 </tr>
 <tr>
 <td class="name"></td>
@@ -1657,7 +1644,7 @@ finde element einer liste statischer loop</td>
 <td class="name"></td>
 <td></td>
 <td>${current_class} =</td>
-<td>Selenium2Library.Get Element Attribute</td>
+<td>Get Element Attribute</td>
 <td>${id}</td>
 </tr>
 <tr>
@@ -1698,80 +1685,8 @@ finde element einer liste statischer loop</td>
 <tr>
 <td class="name"><a name="keyword_Wait until Page is unfreezed">Wait until Page is unfreezed</a></td>
 <td>[Documentation]</td>
-<td>MM 29.03.2018\n<br>
-warten bis die seite geladen ist, zB. nach datenabruf\n<br>
-\n<br>
-\n<br>
-\n<br>
-\n<br>
-\n<br>
-\n<br>
-\n<br>
-\n<br>
-\n<br>
-\n<br>
-\n<br>
-\n<br>
-\n<br>
-</td>
-<td>#${passed} =</td>
-<td>Run Keyword And Return Status</td>
-</tr>
-<tr>
-<td class="name"></td>
-<td>...</td>
-<td># Element Should Be Visible</td>
-<td>//body[contains(@class,'freezed')]</td>
-<td>#Log To Console</td>
-</tr>
-<tr>
-<td class="name"></td>
-<td>...</td>
-<td># freezed exist----&gt;${passed}</td>
-<td>#Run Keyword If</td>
-<td>'${passed}'=='${TRUE}'</td>
-</tr>
-<tr>
-<td class="name"></td>
-<td>...</td>
-<td># Wait Until Page Does Not Contain Element</td>
-<td>//body[contains(@class,'freezed')]</td>
-<td># 10 sec</td>
-</tr>
-<tr>
-<td class="name"></td>
-<td>...</td>
-<td>#Wait Until Keyword Succeeds</td>
-<td>5 min</td>
-<td>1 sec</td>
-</tr>
-<tr>
-<td class="name"></td>
-<td>...</td>
-<td># Page Should Not Contain Element</td>
-<td># //body[contains(@class,'freezed')]</td>
-<td></td>
-</tr>
-<tr>
-<td class="name"></td>
-<td>#${passed} =</td>
-<td>Run Keyword And Return Status</td>
-<td>Element Should Be Visible</td>
-<td>//body[contains(@class,'freezed')]</td>
-</tr>
-<tr>
-<td class="name"></td>
-<td>#Log To Console</td>
-<td>freezed visible----&gt;${passed}</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td class="name"></td>
-<td>#MM Hinweis nach Elemente zu suchen die nicht vorhanden sind dauert immer ca 10 sec</td>
-<td></td>
-<td></td>
-<td></td>
+<td class="colspan3" colspan="3">MM 29.03.2018\n<br>
+warten bis die seite geladen ist, zB. nach datenabruf</td>
 </tr>
 <tr>
 <td class="name"></td>
@@ -1791,7 +1706,7 @@ warten bis die seite geladen ist, zB. nach datenabruf\n<br>
 <td class="name"></td>
 <td></td>
 <td>${class} =</td>
-<td>Selenium2Library.Get Element Attribute</td>
+<td>Get Element Attribute</td>
 <td>//body</td>
 </tr>
 <tr>

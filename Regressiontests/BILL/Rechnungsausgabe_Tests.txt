@@ -10,7 +10,7 @@ Resource          PageObjects/Rechnungsausgabe.txt
 Variables         PageObjects/Rechnungsausgabe.yaml
 Library           DatabaseLibrary
 Library           ../../Libs/DatabaseClass.py    database=${DATABASE_NAME}    user=${DATABASE_USER}    password=${DATABASE_PWD}    host=${DATABASE_IP}    port=${DATABASE_PORT}
-Library           XML
+Library           ../../Libs/SQLQueryReader.py
 
 *** Test Cases ***
 Check GUI Elements Rechnungsausgabe
@@ -89,9 +89,8 @@ Select Open Invoice DBConnection
     ${langunge_code}=    Get selected LanguageCode
     ${invoiceIsSelected}    Check List has selection    ${listInvoice}
     Should Be Equal    ${invoiceIsSelected}    ${FALSE}
-    ${xml} =    Parse XML    ${SQL_QUERIES_PATH}/BILL/SQLQueries.resx
-    ${sql} =    Get Element Text    ${xml}    data[@name="Retrieve_OpenBills"]/value
-    ${queryResultInvNo}=    DB_Execute_Scalar    ${sql}
+    ${sql} =    SQLQueryReader.Get Query By Name    ${SQL_QUERIES_PATH}/BILL/SQLQueries.resx    Retrieve_OpenBills
+    ${queryResultInvNo}=    DatabaseClass.DB Execute Scalar With Parameter    ${sql}    ${DEFAULT_MANDATOR_NAME}
     ${InvoiceID}    Get InvoiceID    ${listInvoice}    $invoiceNumber    ${queryResultInvNo}
     ${selectInvoice}=    Check Invoice is selectable    ${InvoiceID}
     Run Keyword If    ${selectInvoice}    Select InvoiceID    ${InvoiceID}
@@ -111,7 +110,8 @@ Select Complete Invoice DBConnection
     ${langunge_code}=    Get selected LanguageCode
     ${invoiceIsSelected}    Check List has selection    ${listInvoice}
     Should Be Equal    ${invoiceIsSelected}    ${FALSE}
-    ${queryResultInvNo}=    DB_Execute_Scalar    ${expectedBills_SQL} AND (Bills.IsComplete = 1) AND (Bills.IsProcessed = 0)
+    ${sql} =    SQLQueryReader.Get Query By Name    ${SQL_QUERIES_PATH}/BILL/SQLQueries.resx    Retrieve_CompleteBills
+    ${queryResultInvNo}=    DatabaseClass.DB Execute Scalar With Parameter    ${sql}    ${DEFAULT_MANDATOR_NAME}
     Click Element And Wait    ${chkShowOnlyOpenBills}
     ${InvoiceID}    Get InvoiceID    ${listInvoice}    $invoiceNumber    ${queryResultInvNo}
     ${selectInvoice}=    Check Invoice is selectable    ${InvoiceID}
@@ -132,7 +132,8 @@ Select Processed Invoice DBConnection
     ${langunge_code}=    Get selected LanguageCode
     ${invoiceIsSelected}    Check List has selection    ${listInvoice}
     Should Be Equal    ${invoiceIsSelected}    ${FALSE}
-    ${queryResultInvNo}=    DB_Execute_Scalar    ${expectedBills_SQL} AND (Bills.IsComplete = 0) AND (Bills.IsProcessed = 1)
+    ${sql} =    SQLQueryReader.Get Query By Name    ${SQL_QUERIES_PATH}/BILL/SQLQueries.resx    Retrieve_ProcessedBills
+    ${queryResultInvNo}=    DatabaseClass.DB Execute Scalar With Parameter    ${sql}    ${DEFAULT_MANDATOR_NAME}
     Click Element And Wait    ${chkShowProcessedBills}
     ${InvoiceID}    Get InvoiceID    ${listInvoice}    $invoiceNumber    ${queryResultInvNo}
     ${selectInvoice}=    Check Invoice is selectable    ${InvoiceID}
@@ -153,7 +154,8 @@ Select Processed Closed Invoice DBConnection
     ${langunge_code}=    Get selected LanguageCode
     ${invoiceIsSelected}    Check List has selection    ${listInvoice}
     Should Be Equal    ${invoiceIsSelected}    ${FALSE}
-    ${queryResultInvNo}=    DB_Execute_Scalar    ${expectedBills_SQL} AND (Bills.IsComplete = 1) AND (Bills.IsProcessed = 1)
+    ${sql} =    SQLQueryReader.Get Query By Name    ${SQL_QUERIES_PATH}/BILL/SQLQueries.resx    Retrieve_CompleteAndProcessedBills
+    ${queryResultInvNo}=    DatabaseClass.DB Execute Scalar With Parameter    ${sql}    ${DEFAULT_MANDATOR_NAME}
     Click Element And Wait    ${chkShowProcessedBills}
     ${InvoiceID}    Get InvoiceID    ${listInvoice}    $invoiceNumber    ${queryResultInvNo}
     ${selectInvoice}=    Check Invoice is selectable    ${InvoiceID}
@@ -174,7 +176,8 @@ Select Proforma Invoice DBConnection
     ${langunge_code}=    Get selected LanguageCode
     ${invoiceIsSelected}    Check List has selection    ${listInvoice}
     Should Be Equal    ${invoiceIsSelected}    ${FALSE}
-    ${queryResultInvNo}=    DB_Execute_Scalar    ${expectedBills_SQL} AND (Bills.IsComplete = 0) AND (Bills.IsProcessed = 0) AND (Bills.IsProformaInvoice = 1)
+    ${sql} =    SQLQueryReader.Get Query By Name    ${SQL_QUERIES_PATH}/BILL/SQLQueries.resx    Retrieve_OpenProformaBills
+    ${queryResultInvNo}=    DatabaseClass.DB Execute Scalar With Parameter    ${sql}    ${DEFAULT_MANDATOR_NAME}
     Click Element And Wait    ${chkShowProformaBills}
     ${InvoiceID}    Get InvoiceID    ${listInvoice}    $invoiceNumber    ${queryResultInvNo}
     ${selectInvoice}=    Check Invoice is selectable    ${InvoiceID}

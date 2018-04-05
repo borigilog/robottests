@@ -20,8 +20,6 @@ ${colDescription}    /$flow_main/$flow_content/issue_list/$col_description
 ${colStatus}      /$flow_main/$flow_content/issue_list/$col_status
 ${colCreationDate}    /$flow_main/$flow_content/issue_list/$col_creationDate
 ${colItems}       /$flow_main/$flow_content/issue_list/$col_items
-# ~~~~~~~ sql
-${expectedBills_SQL}    SELECT TOP(1)Bills.BillingNo FROM Bills INNER JOIN Overview_Mandators ON Bills.MandatorID = Overview_Mandators.ConcernID WHERE (Bills.IsDeleted = 0) AND (Overview_Mandators.Mandant = 'Hauptmandant')
 
 *** Keywords ***
 Get InvoiceID

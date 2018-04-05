@@ -123,7 +123,7 @@
         FROM    Bills 
         INNER   JOIN Overview_Mandators ON Bills.MandatorID = Overview_Mandators.ConcernID 
         WHERE   (Bills.IsDeleted = 0) 
-                AND (Overview_Mandators.Mandant = 'Hauptmandant')
+                AND (Overview_Mandators.Mandant = %s)
                 AND (Bills.IsComplete = 0) 
                 AND (Bills.IsProcessed = 0)
 	</value>
@@ -135,7 +135,7 @@
         FROM    Bills 
         INNER   JOIN Overview_Mandators ON Bills.MandatorID = Overview_Mandators.ConcernID 
         WHERE   (Bills.IsDeleted = 0) 
-                AND (Overview_Mandators.Mandant = 'Hauptmandant')
+                AND (Overview_Mandators.Mandant = %s)
                 AND (Bills.IsComplete = 1) 
                 AND (Bills.IsProcessed = 0)
 	</value>
@@ -147,7 +147,7 @@
         FROM    Bills 
         INNER   JOIN Overview_Mandators ON Bills.MandatorID = Overview_Mandators.ConcernID 
         WHERE   (Bills.IsDeleted = 0) 
-                AND (Overview_Mandators.Mandant = 'Hauptmandant')
+                AND (Overview_Mandators.Mandant = %s)
                 AND (Bills.IsComplete = 0) 
                 AND (Bills.IsProcessed = 1)
 	</value>
@@ -159,7 +159,7 @@
         FROM    Bills 
         INNER   JOIN Overview_Mandators ON Bills.MandatorID = Overview_Mandators.ConcernID 
         WHERE   (Bills.IsDeleted = 0) 
-                AND (Overview_Mandators.Mandant = 'Hauptmandant')
+                AND (Overview_Mandators.Mandant = %s)
                 AND (Bills.IsComplete = 1) 
                 AND (Bills.IsProcessed = 1)
 	</value>
@@ -171,7 +171,7 @@
         FROM    Bills 
         INNER   JOIN Overview_Mandators ON Bills.MandatorID = Overview_Mandators.ConcernID 
         WHERE   (Bills.IsDeleted = 0) 
-                AND (Overview_Mandators.Mandant = 'Hauptmandant')
+                AND (Overview_Mandators.Mandant = %s)
                 AND (Bills.IsComplete = 0) 
                 AND (Bills.IsProcessed = 0) 
                 AND (Bills.IsProformaInvoice = 1)
