@@ -213,6 +213,20 @@ td.name, th.name {
 <td></td>
 </tr>
 <tr>
+<td class="name">${ElementMandatorChange}</td>
+<td>//*[@id="/$flow_main/menu_bottom/switchmandator"]</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name">${btnChoose}</td>
+<td>//button[contains(@id,'/btn_choose')]</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
 <td class="name"></td>
 <td></td>
 <td></td>
@@ -338,8 +352,15 @@ td.name, th.name {
 </tr>
 <tr>
 <td class="name"></td>
+<td>Comment</td>
 <td>Click Element</td>
 <td>//button//div[contains(text(), 'Mandanten auswählen')]</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Click Button</td>
+<td>${btnChoose}</td>
 <td></td>
 <td></td>
 </tr>
@@ -1893,6 +1914,14 @@ warten bis die seite geladen ist, zB. nach datenabruf\n<br>
 \n<br>
 \n<br>
 \n<br>
+\n<br>
+\n<br>
+\n<br>
+\n<br>
+\n<br>
+\n<br>
+\n<br>
+\n<br>
 </td>
 <td>#${passed} =</td>
 <td>Run Keyword And Return Status</td>
@@ -2217,10 +2246,17 @@ warten bis die seite geladen ist, zB. nach datenabruf\n<br>
 </tr>
 <tr>
 <td class="name"></td>
+<td>${Row}=</td>
+<td>Evaluate</td>
+<td>${Day}/7</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
 <td>: FOR</td>
 <td>${LineIndex}</td>
 <td>IN RANGE</td>
-<td>0</td>
+<td>${Row}</td>
 </tr>
 <tr>
 <td class="name"></td>
@@ -2247,7 +2283,7 @@ warten bis die seite geladen ist, zB. nach datenabruf\n<br>
 <td class="name"></td>
 <td></td>
 <td>...</td>
-<td> ${btnStartDay}</td>
+<td>${btnStartDay}</td>
 <td>${btnEndDay}</td>
 </tr>
 <tr>
@@ -2274,27 +2310,6 @@ warten bis die seite geladen ist, zB. nach datenabruf\n<br>
 <td>${monthyear}=</td>
 <td>Get Text</td>
 <td>//div[contains(@id,'/$popover0/month')]</td>
-<td></td>
-</tr>
-<tr>
-<td class="name"></td>
-<td>Comment</td>
-<td>${year}=</td>
-<td>Get Element Text</td>
-<td>//*/div[@id='ui-datepicker-div']//*/div[@class='ui-datepicker-title']/span[@class='ui-datepicker-year']</td>
-</tr>
-<tr>
-<td class="name"></td>
-<td>Comment</td>
-<td>${monthyear}=</td>
-<td>Catenate</td>
-<td>${month}</td>
-</tr>
-<tr>
-<td class="name"></td>
-<td>...</td>
-<td>${year}</td>
-<td></td>
 <td></td>
 </tr>
 <tr>
@@ -2392,8 +2407,22 @@ warten bis die seite geladen ist, zB. nach datenabruf\n<br>
 <td class="name"></td>
 <td>${xPath}=</td>
 <td>Catenate</td>
+<td>SEPARATOR=</td>
 <td>${btnXPath}</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>...</td>
 <td>/div</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>${xPath}=</td>
+<td>Set Variable</td>
+<td>${btnXPath}</td>
+<td></td>
 </tr>
 <tr>
 <td class="name"></td>
@@ -2443,27 +2472,6 @@ warten bis die seite geladen ist, zB. nach datenabruf\n<br>
 <td>...</td>
 <td>/Daten</td>
 <td>/${Row}/${Index3}</td>
-</tr>
-<tr>
-<td class="name"></td>
-<td></td>
-<td>Comment</td>
-<td>${Result}</td>
-<td>${msg}=</td>
-</tr>
-<tr>
-<td class="name"></td>
-<td></td>
-<td>...</td>
-<td>Run Keyword And Ignore Error</td>
-<td>Mouse Over</td>
-</tr>
-<tr>
-<td class="name"></td>
-<td></td>
-<td>...</td>
-<td>${btnXPath}</td>
-<td></td>
 </tr>
 <tr>
 <td class="name"></td>
@@ -2609,8 +2617,15 @@ warten bis die seite geladen ist, zB. nach datenabruf\n<br>
 <td class="name"></td>
 <td></td>
 <td>...</td>
-<td>Element Should Be Visible</td>
+<td>Element Text Should Not Be</td>
 <td>${xPath}</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td>...</td>
+<td>${EMPTY}</td>
+<td></td>
 </tr>
 <tr>
 <td class="name"></td>
