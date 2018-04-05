@@ -1,0 +1,25 @@
+*** Settings ***
+Resource          ../../UserKeywords/Common_Resources.html
+Resource          ../../UserKeywords/BILL_Resources.html
+
+*** Test Cases ***
+Invoice Delivery Costs
+    [Setup]    Prepare For Billing Shipment Costs Test    Hauptmandant
+    Wait Until Keyword Succeeds    3    1 sec    Click Element    //input[@id="/$flow_main/$flow_content/allWarehouses"]
+    Click Button    ${btnNext}
+    Wait Until Keyword Succeeds    3    1 sec    Element Should be Visible    //input[@id="/$flow_main/$flow_content/SubOrinatedUnits"]
+    Click Element    //*[@id="/$flow_main/$flow_content/orgtree/1/$txt"]
+    ${value}=    Get Value    //input[@id="/$flow_main/$flow_content/SubOrinatedUnits"]
+    ${value}=    Convert To String    ${value}
+    Run Keyword If    '${value}'!='on'    Click Element    //input[@id="/$flow_main/$flow_content/SubOrinatedUnits"]
+    Click Button    ${btnBilling}
+    Wait Until Keyword Succeeds    3    1 sec    Element Should Be Visible    //*[@id="/$flow_main/$flow_content/list_deliveries_from_shipments/$col_shipment_no"]
+    ${Line}=    Get Entry From Delivery Table    DH1067851
+    Run Keyword If    '${Line}'=='${Empty}'    Fail    Entsprechende Sendung DH1067851 nicht gefunden und kann nicht genutzt werden
+    Click Element    //*[@id="/$flow_main/$flow_content/list_deliveries_from_shipments/${Line}/$shipment_no"]
+    Click Button    ${btnInvoice}
+    Wait Until Keyword Succeeds    5    1 sec    Element Should be Visible    //*[@id="/$flow_main/$flow_content/invoices/list_invoices/$col_invoiceNumber"]
+    ${Line}=    Get Entry From Bill Table    B00000116
+    Run Keyword If    '${Line}'=='${Empty}'    Fail    gesuchte Rechnung wurde nicht gefunden    Prepare For Storno Sendungskosten Test    Hauptmandant    N
+    Click Element    //*[@id="/$flow_main/$flow_content/invoices/list_invoices/${Line}/$invoiceNumber"]
+    Click Button    ${btnSelect}    # erster Test scheitert heir wegen fehlender Funktionalität ... wenn dieser Button funktioniert, muss der test noch etwas fortgeschrieben werden
