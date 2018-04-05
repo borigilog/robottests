@@ -56,6 +56,7 @@ td.name, th.name {
 <tr>
 <td class="name">Library</td>
 <td>Selenium2Library</td>
+<td>run_on_failure=Nothing</td>
 <td></td>
 <td></td>
 <td></td>
@@ -262,6 +263,20 @@ td.name, th.name {
 <td></td>
 </tr>
 <tr>
+<td class="name">${ElementMandatorChange}</td>
+<td>//*[@id="/$flow_main/menu_bottom/switchmandator"]</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name">${btnChoose}</td>
+<td>//button[contains(@id,'/btn_choose')]</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
 <td class="name"></td>
 <td></td>
 <td></td>
@@ -387,8 +402,15 @@ td.name, th.name {
 </tr>
 <tr>
 <td class="name"></td>
+<td>Comment</td>
 <td>Click Element</td>
 <td>//button//div[contains(text(), 'Mandanten auswählen')]</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Click Button</td>
+<td>${btnChoose}</td>
 <td></td>
 <td></td>
 </tr>
@@ -1867,6 +1889,485 @@ warten bis die seite geladen ist, zB. nach datenabruf</td>
 <td>${lastVal} =</td>
 <td>Set Variable</td>
 <td>${el}</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"><a name="keyword_Select Datepicker Date">Select Datepicker Date</a></td>
+<td>[Arguments]</td>
+<td>${dateElem}</td>
+<td>${expectedMonthYear}</td>
+<td>${Day}</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>...</td>
+<td>${btnStartDay}</td>
+<td>${btnEndDay}</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>[Documentation]</td>
+<td class="colspan3" colspan="3">Select given day from datepicker</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>[Timeout]</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Click Element</td>
+<td>${dateElem}</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>${monthyear}=</td>
+<td>Get Datepicker MonthYear</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>: FOR</td>
+<td>${Index}</td>
+<td>IN RANGE</td>
+<td>1</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>...</td>
+<td>24</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td>Run Keyword If</td>
+<td>'${monthyear}' == '${expectedMonthYear}'</td>
+<td>Exit For Loop</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td>Click Element</td>
+<td>//div[contains(@id,'/$popover0/prev')]</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td>${monthyear}=</td>
+<td>Get Datepicker MonthYear</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>${Row}=</td>
+<td>Evaluate</td>
+<td>${Day}/7</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>: FOR</td>
+<td>${LineIndex}</td>
+<td>IN RANGE</td>
+<td>${Row}</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>...</td>
+<td>5</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td>${DayFound}=</td>
+<td>Scan Datepicker Row For Day</td>
+<td>${LineIndex}</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td>...</td>
+<td>${Day}</td>
+<td>${dateElem}</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td>...</td>
+<td>${btnStartDay}</td>
+<td>${btnEndDay}</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td>Run Keyword If</td>
+<td>'${DayFound}'=='PASS'</td>
+<td>Exit For Loop</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"><a name="keyword_Get Datepicker MonthYear">Get Datepicker MonthYear</a></td>
+<td>[Documentation]</td>
+<td class="colspan3" colspan="3">Return current month + year from datepicker</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>${monthyear}=</td>
+<td>Get Text</td>
+<td>//div[contains(@id,'/$popover0/month')]</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>[Return]</td>
+<td>${monthyear}</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"><a name="keyword_Scan Datepicker Row For Day">Scan Datepicker Row For Day</a></td>
+<td>[Arguments]</td>
+<td>${Row}</td>
+<td>${DayToFind}</td>
+<td>${dayElem}</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>...</td>
+<td>${btnStartDay}</td>
+<td>${btnEndDay}</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>[Timeout]</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>${sep}=</td>
+<td>Set Variable</td>
+<td>/</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>${xPath}=</td>
+<td>Split String</td>
+<td>${dayElem}</td>
+<td>${sep}</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>${Result}</td>
+<td>${msg}=</td>
+<td>Run Keyword And Ignore Error</td>
+<td>List Should Contain Value</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>...</td>
+<td>${xPath}</td>
+<td>startdate</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>${btnXPath}=</td>
+<td>Set Variable If</td>
+<td>'${Result}'=='PASS'</td>
+<td>${btnStartDay}</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>...</td>
+<td>${btnEndDay}</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>${startOrEnd}=</td>
+<td>Set Variable If</td>
+<td>'${Result}'=='PASS'</td>
+<td>start</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>...</td>
+<td>end</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>${xPath}=</td>
+<td>Catenate</td>
+<td>SEPARATOR=</td>
+<td>${btnXPath}</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>...</td>
+<td>/div</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>${xPath}=</td>
+<td>Set Variable</td>
+<td>${btnXPath}</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>${Index1}=</td>
+<td>Skip Empty Entries</td>
+<td>${Row}</td>
+<td>${startOrEnd}</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>: FOR</td>
+<td>${Index}</td>
+<td>IN RANGE</td>
+<td>${Index1}</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>...</td>
+<td>6</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td>${Index3}=</td>
+<td>Catenate</td>
+<td>SEPARATOR=</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td>...</td>
+<td>f</td>
+<td>${Index}</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td>${xPath1}=</td>
+<td>Replace String</td>
+<td>${xPath}</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td>...</td>
+<td>/Daten</td>
+<td>/${Row}/${Index3}</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td>${Result}</td>
+<td>${msg}=</td>
+<td>Run Keyword And Ignore Error</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td>...</td>
+<td>Element Text Should Be</td>
+<td>${xPath1}</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td>...</td>
+<td>${DayToFind}</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td>Exit For Loop If</td>
+<td>'${Result}'=='PASS'</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>${btnXPath}=</td>
+<td>Replace String</td>
+<td>${btnXPath}</td>
+<td>/Daten</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>...</td>
+<td>/${Row}/${Index3}</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>Run Keyword If</td>
+<td>'${Result}'=='PASS'</td>
+<td>Click Button</td>
+<td>${btnXPath}</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>[Return]</td>
+<td>${Result}</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"><a name="keyword_Skip Empty Entries">Skip Empty Entries</a></td>
+<td>[Arguments]</td>
+<td>${Row}</td>
+<td>${startOrEnd}</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>: FOR</td>
+<td>${Index1}</td>
+<td>IN RANGE</td>
+<td>0</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>...</td>
+<td>6</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td>Run Keyword If</td>
+<td>'${Row}'=='1'</td>
+<td>Exit For Loop</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td>Run Keyword If</td>
+<td>'${Row}'=='2'</td>
+<td>Exit For Loop</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td>Run Keyword If</td>
+<td>'${Row}'=='3'</td>
+<td>Exit For Loop</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td>Run Keyword If</td>
+<td>'${Row}'=='4'</td>
+<td>Exit For Loop</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td>Run Keyword If</td>
+<td>'${Row}'=='5'</td>
+<td>Exit For Loop</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td>${xPath}=</td>
+<td>Set Variable If</td>
+<td>'${startOrEnd}'=='start'</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td>...</td>
+<td>//tr[@id="/$flow_main/$flow_content/startdate/$popover0/calendar/${Row}"]/td[@data-colindex='${Index1}']/button</td>
+<td>//tr[@id="/$flow_main/$flow_content/enddate/$popover0/calendar/${Row}"]/td[@data-colindex='${Index1}']/button</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td>${Result}</td>
+<td>${msg}=</td>
+<td>Run Keyword And Ignore Error</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td>...</td>
+<td>Element Text Should Not Be</td>
+<td>${xPath}</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td>...</td>
+<td>${EMPTY}</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td>Run Keyword If</td>
+<td>'${Result}'=='PASS'</td>
+<td>Exit For Loop</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>[Return]</td>
+<td>${Index1}</td>
+<td></td>
+<td></td>
 </tr>
 </table>
 </body>
