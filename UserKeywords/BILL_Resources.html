@@ -950,7 +950,7 @@ erstellt: 27.03.2018</td>
 <tr>
 <td class="name"><a name="keyword_Clear All Search Options">Clear All Search Options</a></td>
 <td>[Documentation]</td>
-<td class="colspan3" colspan="3">Keyword clears all Search Options, Errors will be caught in case of a smaller number of Options on a particular page \n<br>
+<td class="colspan3" colspan="3">Keyword clears all Search Options, Errors will be caught in case of a smaller number of Options on a particular page\n<br>
 \n<br>
 Ersteller: O. Baeker\n<br>
 \n<br>
@@ -1130,6 +1130,129 @@ erstellt am: 04.04.2018</td>
 <td>[Return]</td>
 <td>${NoOfResults}</td>
 <td># Suchergebnisse entsprechend dem angegebenen Status der Rechnungen</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"><a name="keyword_Check Proforma Rechnung Marker">Check Proforma Rechnung Marker</a></td>
+<td>[Arguments]</td>
+<td>${NoOfProformaBills}</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>[Documentation]</td>
+<td class="colspan3" colspan="3">This user keyword verifies whether for the number of Proforma Bills the Markers are set within the table of search results.\n<br>
+It returns the verification result.\n<br>
+\n<br>
+Ersteller: O. Baeker\n<br>
+\n<br>
+IN:\n<br>
+- NoOfProformaBills - number of Proforma Bills found, that should be marked appropriately\n<br>
+\n<br>
+OUT:\n<br>
+- VerificationResult\n<br>
+FAIL - if not for all Proforma Bills the marker ist set\n<br>
+PASS - if the number of markers matches the number of proforma Bills\n<br>
+\n<br>
+erstellt am: 06.04.2018</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>${MarkerSetFound}=</td>
+<td>Set Variable</td>
+<td>0</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>: FOR</td>
+<td>${Index}</td>
+<td>IN RANGE</td>
+<td>0</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>...</td>
+<td>50</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td>${Result}</td>
+<td>${msg}=</td>
+<td>Run Keyword And Ignore Error</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td>...</td>
+<td>Click Element</td>
+<td>//*[@id="/$flow_main/$flow_content/invoice_list/${Index}/$invoiceNumber"]</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td>Run Keyword If</td>
+<td>'${Result}'=='FAIL'</td>
+<td>Exit For Loop</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td>${Result}</td>
+<td>${msg}=</td>
+<td>Run Keyword And Ignore Error</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td>...</td>
+<td>Checkbox Should Not Be Selected</td>
+<td>//input[@id="/$flow_main/$flow_content/invoice_list/0/checkThat"]</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td>Run Keyword If</td>
+<td>'${Result}'=='PASS'</td>
+<td>Continue For Loop</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td>${MarkerSetFound}=</td>
+<td>Evaluate</td>
+<td>${MarkerSetFound}+1</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>${VerificationResult}</td>
+<td>Set Variable If</td>
+<td>'${MarkerSetFound}'=='${NoOfProformaBills}'</td>
+<td>Ok</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>...</td>
+<td>Error</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>[Return]</td>
+<td>${VerificationResult}</td>
+<td></td>
 <td></td>
 </tr>
 </table>

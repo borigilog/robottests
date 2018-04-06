@@ -158,6 +158,32 @@ Suchen und Anzeigen Rechnungen anderer SubMandanten
     Run Keyword If    '${Gesamt}'!='${SearchResults2}'    Fail    Rechnungen vom Mandanten DB Cargo werden nicht korrekt mit ausgegeben
     [Teardown]    Close Browser
 
+Suchen und Anzeigen von Proforma-Rechnungen
+    [Setup]    Prepare For Bill Search Tests    Hauptmandant
+    [Timeout]
+    Element Should Be Visible    ${btnSearch}
+    Wait Until Keyword Succeeds    3    1 sec    Clear All Search Options
+    Select Datepicker Date    ${PickerStartDate}    Juli 2016    5    ${btnStartDay}    ${btnEndDay}
+    Select Datepicker Date    ${PickerEndDate}    März 2018    31    ${btnStartDay}    ${btnEndDay}
+    Click Button    ${btnSearch}
+    Wait Until Page Contains    Rechnungsverwaltung    timeout=3
+    ${SearchResults1}=    Get Number of Bill Search Results
+    Sleep    1s
+    Click Button    ${btnSearch}
+    Sleep    1s
+    Select Datepicker Date    ${PickerStartDate}    Juli 2016    5    ${btnStartDay}    ${btnEndDay}
+    Select Datepicker Date    ${PickerEndDate}    März 2018    31    ${btnStartDay}    ${btnEndDay}
+    Select Checkbox    ${OptionIncludeProformaBiills}
+    Click Button    ${btnSearch}
+    Wait Until Page Contains    Rechnungsverwaltung    timeout=3
+    Sleep    1s
+    ${SearchResults2}=    Get Number of Bill Search Results
+    Run Keyword If    '${SearchResults1}'=='${SearchResults2}'    Fail    Keine Proforma-Rechnung gefunden und zusätzlich ausgegeben
+    ${NoOfProformaRechnugnen}=    Evaluate    ${SearchResults2}-${SearchResults1}
+    ${VerificationResult}=    Check Proforma Rechnung Marker    ${NoOfProformaRechnugnen}
+    Run Keyword If    '${VerificationResult}'=='Error'    Fail    Marker für Proforma Rechnungen ist nicht gesetzt
+    [Teardown]    Close Browser
+
 Suchen von Rechnungen nach Name oder Nummer
     [Setup]    Prepare For Bill Search Tests    Hauptmandant
     [Timeout]
@@ -192,6 +218,6 @@ Suchen von Rechnungen nach Name oder Nummer
     Wait Until Page Contains    Rechnungsverwaltung    timeout=3
     Sleep    1s
     ${SearchResultsBillName}=    Get Number of Bill Search Results
-    Run Keyword If    '${SearchResultsBillName}'!='1'    Fail     Suchergebnisse bei der Suche nach Rechnungsname entsprechen nicht den erteten Ergebnissen, es wurde nicht genau eine Rechnung gefunden
+    Run Keyword If    '${SearchResultsBillName}'!='1'    Fail    Suchergebnisse bei der Suche nach Rechnungsname entsprechen nicht den erteten Ergebnissen, es wurde nicht genau eine Rechnung gefunden
     Click Button    ${btnSearch}
     [Teardown]    Close Browser
