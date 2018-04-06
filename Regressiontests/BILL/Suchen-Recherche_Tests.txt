@@ -49,6 +49,89 @@ Verify initial GUI Settings for Bill Search
     Click Button    ${btnAbort}
     [Teardown]    Close Browser
 
+Verify PopOver Button Position
+    [Documentation]    Test verifies the position of the buttons on the pop-over that is shown in case the search was initiated without any restricting parameter set.
+    ...
+    ...    Ersteller: O. Baeker
+    ...
+    ...    erstellt am: 06.04.2018
+    [Setup]    Prepare For Bill Search Tests    Hauptmandant
+    [Timeout]
+    Element Should Be Visible    ${btnSearch}
+    Wait Until Keyword Succeeds    3    1 sec    Clear All Search Options
+    Click Button    ${btnSearch}
+    Sleep    2s
+    Wait Until Keyword Succeeds    3    1 sec    Element Should Be Visible    //*[@id="/$flow_main/$popover0"]
+    Element Should Be Visible    ${btnPopOverAbort}
+    Element Should Be Visible    ${btnPopOverOk}
+    Element Text Should Be    ${btnPopOverOk}    Suche ausführen!
+    Click Button    ${btnPopOverOk}    # Definition ist ausgelegt auf falsche Position des "Suche ausführen!" Buttons, muss dann angepasst werden, wenn korrigiert
+    Sleep    2s
+    Wait Until Page Contains    Rechnungsverwaltung    timeout=3
+    Click Button    ${btnAbort}
+    [Teardown]    Close Browser
+
+Verify GUI For Search Results
+    [Setup]    Prepare For Bill Search Tests    Hauptmandant
+    [Timeout]
+    Element Should Be Visible    ${btnSearch}
+    Wait Until Keyword Succeeds    3    1 sec    Clear All Search Options
+    Click Button    ${btnSearch}
+    Sleep    2s
+    Wait Until Keyword Succeeds    3    1 sec    Element Should Be Visible    //*[@id="/$flow_main/$popover0"]
+    Element Should Be Visible    ${btnPopoOverAbort}
+    Element Should Be Visible    ${btnPopOverOk}
+    Element Text Should Be    ${btnPopOverOk}    Suche ausführen!
+    Click Button    ${btnPopOverAbort}    # Definition ist ausgelegt auf falsche Position des "Suche ausführen!" Buttons, muss dann angepasst werden, wenn korrigiert
+    Sleep    2s
+    Wait Until Page Contains    Rechnungsverwaltung    timeout=3
+    Wait Until Keyword Succeeds    3    1 sec    Clear All Search Options
+    Element Should Be Visible    ${OptionIncludePublishedBills}
+    Element Should Be Visible    ${OptionIncludeProcessedBills}
+    Element Should Be Visible    ${OptionIncludeProformaBills}
+    Element Should Be Enabled    ${btnSearch}
+    Element Should Be Enabled    ${btnCreateBill}
+    Element Should Be Enabled    ${btnAbort}
+    Element Should Be Disabled    ${btnEditBill}
+    Element Should Be Disabled    ${btnViewBill}
+    Element Should Be Disabled    ${btnDeleteBill}
+    Element Should Be Disabled    ${btnIsProcessedBill}
+    Element Should Be Disabled    ${btnRecalculate}
+    ${SearchResults1}=    Get Number of Bill Search Results
+    Sleep    1s
+    Run Keyword If    '${SearchResults1}'!='0'    Click Element    //*[@id="/$flow_main/$flow_content/invoice_list/0/$invoiceNumber"]
+    Sleep    1s
+    Element Should Be Enabled    ${btnEditBill}
+    Element Should Be Enabled    ${btnViewBill}
+    Element Should Be Enabled    ${btnDeleteBill}
+    Element Should Be Enabled    ${btnIsProcessedBill}
+    Element Should Be Enabled    ${btnRecalculate}
+    Wait Until Keyword Succeeds    3    1 sec    Select Checkbox    ${OptionIncludePublishedBills}
+    Sleep    2s
+    ${SearchResultsWithPublished}=    Get Number of Bill Search Results
+    Run Keyword If    ${SearchResultsWithPublished}<=${SearchResults1}    Fail    Die veröffentlichten Rechnungen werden nicht angezeigt
+    Wait Until Keyword Succeeds    3    1 sec    Unselect Checkbox    ${OptionIncludePublishedBills}
+    ${SearchResults2}=    Get Number of Bill Search Results
+    Run Keyword If    ${SearchResults2}!=${SearchResults1}    Fail    Anzahl der angezeigten Rechnungen entspricht nicht der ursprünglich angezeigten Anzahl der rechnungen
+    Wait Until Keyword Succeeds    3    1 sec    Select Checkbox    ${OptionIncludeProcessedBills}
+    Sleep    2s
+    ${SearchResultsWithProcessed}=    Get Number of Bill Search Results
+    Run Keyword If    ${SearchResultsWithProcessed}<=${SearchResults1}    Fail    Die verarbeiteten Rechnungen werden nicht zusätzlich angezeigt
+    Wait Until Keyword Succeeds    3    1 sec    Unselect Checkbox    ${OptionIncludeProcessedBills}
+    Sleep    2s
+    ${SearchResults3}=    Get Number of Bill Search Results
+    Run Keyword If    ${SearchResults3}!=${SearchResults1}    Fail    Anzahl der angezeigten Rechnungen entspricht nicht der ursprünglich angezeigten Anzahl der rechnungen
+    Wait Until Keyword Succeeds    3    1 sec    Select Checkbox    ${OptionIncludeProformaBills}
+    Sleep    2s
+    ${SearchResultsWithProforma}=    Get Number of Bill Search Results
+    Run Keyword If    ${SearchResultsWithProforma}<=${SearchResults1}    Fail    Zusätzliche Proforma rechnungen werden nicht angezeigt
+    Wait Until Keyword Succeeds    3    1 sec    Unselect Checkbox    ${OptionIncludeProformaBills}
+    Sleep    2s
+    ${SearchResults4}=    Get Number of Bill Search Results
+    Run Keyword If    ${SearchResults4}!=${SearchResults1}    Fail    Anzahl der angezeigten Rechnungen entspricht nicht der ursprünglich angezeigten Anzahl der rechnungen
+    Click Button    ${btnAbort}
+    [Teardown]    Close Browser
+
 Suchen und Anzeigen gelöschter Rechnungen
     [Setup]    Prepare For Bill Search Tests    Hauptmandant
     [Timeout]
@@ -175,7 +258,7 @@ Suchen und Anzeigen von Proforma-Rechnungen
     Sleep    1s
     Select Datepicker Date    ${PickerStartDate}    Juli 2016    5    ${btnStartDay}    ${btnEndDay}
     Select Datepicker Date    ${PickerEndDate}    März 2018    31    ${btnStartDay}    ${btnEndDay}
-    Select Checkbox    ${OptionIncludeProformaBiills}
+    Select Checkbox    ${OptionIncludeProformaBills}
     Click Button    ${btnSearch}
     Wait Until Page Contains    Rechnungsverwaltung    timeout=3
     Sleep    1s
