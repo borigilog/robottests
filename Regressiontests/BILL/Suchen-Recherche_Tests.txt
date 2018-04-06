@@ -78,7 +78,7 @@ Suchen und Anzeigen veröffentlichter Rechnungen
     [Timeout]
     Element Should Be Visible    ${btnSearch}
     Wait Until Keyword Succeeds    3    1 sec    Clear All Search Options
-    Select Datepicker Date    ${PickerStartDate}    Januar 2018    1    ${btnStartDay}    ${btnEndDay}
+    Select Datepicker Date    ${PickerStartDate}    Januar 2018    10    ${btnStartDay}    ${btnEndDay}
     Select Datepicker Date    ${PickerEndDate}    März 2018    31    ${btnStartDay}    ${btnEndDay}
     Click Button    ${btnSearch}
     Wait Until Page Contains    Rechnungsverwaltung    timeout=3
@@ -86,14 +86,15 @@ Suchen und Anzeigen veröffentlichter Rechnungen
     Sleep    1s
     Click Button    ${btnSearch}
     Sleep    1s
-    Select Datepicker Date    ${PickerStartDate}    Januar 2018    1    ${btnStartDay}    ${btnEndDay}
+    Select Datepicker Date    ${PickerStartDate}    Januar 2018    10    ${btnStartDay}    ${btnEndDay}
     Select Datepicker Date    ${PickerEndDate}    März 2018    31    ${btnStartDay}    ${btnEndDay}
-    Wait Until Keyword Succeeds    3    1 sec    Select Checkbox    ${OptionIncludeDeletedBills}
+    Wait Until Keyword Succeeds    3    1 sec    Select Checkbox    ${OptionIncludePublishedBills}
     Click Button    ${btnSearch}
     Wait Until Page Contains    Rechnungsverwaltung    timeout=3
     Sleep    1s
-    ${SearchResults2}=    Get Number of Bill Search Results    ${STATUS_IN_BEARBEITUNG}
+    ${SearchResults2}=    Get Number of Bill Search Results
     ${SearchResults3}=    Get Number of Bill Search Results    ${STATUS_VERÖFFENTLICHT}
+    Run Keyword If    '${SearchResults1}'=='${SearchResults2}'    Fail    Keine Rechnungen im angegebenen Zeitraum im Status "Veröffentlicht" gefunden
     Run Keyword If    '${SearchResults1}'!='${SearchResults2}'    Run Keyword If    '${SearchResults3}'=='0'    Fail    Rechnungen werden mit dem falschen Status ausgegeben
     [Teardown]    Close Browser
 
@@ -103,7 +104,7 @@ Suchen und Anzeigen verarbeiteter Rechnungen
     Element Should Be Visible    ${btnSearch}
     Wait Until Keyword Succeeds    3    1 sec    Clear All Search Options
     Select Datepicker Date    ${PickerStartDate}    Januar 2018    1    ${btnStartDay}    ${btnEndDay}
-    Select Datepicker Date    ${PickerEndDate}    Februar 2018    26    ${btnStartDay}    ${btnEndDay}
+    Select Datepicker Date    ${PickerEndDate}    März 2018    26    ${btnStartDay}    ${btnEndDay}
     Click Button    ${btnSearch}
     Wait Until Page Contains    Rechnungsverwaltung    timeout=3
     ${SearchResults1}=    Get Number of Bill Search Results    ${STATUS_IN_BEARBEITUNG}
@@ -111,13 +112,14 @@ Suchen und Anzeigen verarbeiteter Rechnungen
     Click Button    ${btnSearch}
     Sleep    1s
     Select Datepicker Date    ${PickerStartDate}    Januar 2018    1    ${btnStartDay}    ${btnEndDay}
-    Select Datepicker Date    ${PickerEndDate}    Februar 2018    26    ${btnStartDay}    ${btnEndDay}
-    Wait Until Keyword Succeeds    3    1 sec    Select Checkbox    ${OptionIncludeDeletedBills}
+    Select Datepicker Date    ${PickerEndDate}    März 2018    26    ${btnStartDay}    ${btnEndDay}
+    Wait Until Keyword Succeeds    3    1 sec    Select Checkbox    ${OptionIncludeProcessedBills}
     Click Button    ${btnSearch}
     Wait Until Page Contains    Rechnungsverwaltung    timeout=3
     Sleep    1s
     ${SearchResults2}=    Get Number of Bill Search Results    ${STATUS_IN_BEARBEITUNG}
     ${SearchResults3}=    Get Number of Bill Search Results    ${STATUS_VERARBEITET}
+    Run Keyword If    '${SearchResults1}'=='${SearchResults2}'    Fail    Keine Rechnungen im gewählten Zeitinterval mit dem Status "Verarbeitet & Veröffentlicht" gefunden
     Run Keyword If    '${SearchResults1}'!='${SearchResults2}'    Run Keyword If    '${SearchResults3}'=='0'    Fail    Rechnungen werden mit dem falschen Status ausgegeben
     [Teardown]    Close Browser
 
