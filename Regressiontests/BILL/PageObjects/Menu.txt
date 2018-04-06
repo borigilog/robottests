@@ -58,7 +58,6 @@ Login Select Bill
     [Arguments]    ${login}=true
     [Documentation]    MM 22.03.2018, prepare content for BILL tests
     ${navigateToBillModule} =    Is Truthy    ${login}
-    #Log To Console    Login Select Bill--->${Login}--->${navigateToBillModule}
     Run Keyword If    ${navigateToBillModule}    Start Test For Module    Bill
     Run Keyword If    ${navigateToBillModule}    Wait until Page is unfreezed
     Run Keyword If    ${navigateToBillModule}    Check Homescreen is selected
@@ -138,12 +137,27 @@ Select Verrechnung
     Login Select Bill    ${login}
     Select Menu Content    ${offsetting_charging}    ${offsetting_charging_class}
 
+Select Mandaten wechseln
+    [Arguments]    ${login}=false
+    Login Select Bill    ${login}
+    Select Switchmandator
+
+Select Kontakt
+    [Arguments]    ${login}=false
+    Login Select Bill    ${login}
+    Select Help
+
+Select Module verlassen
+    [Arguments]    ${login}=false
+    Login Select Bill    ${login}
+    Select Exit
+
 Create SettingsDics
-    [Arguments]    ${region_name}    ${dic_id}    ${enforce_name}=${EMPTY}
+    [Arguments]    ${region_name}    ${dic_id}    ${enforce_name}=${EMPTY}    ${module}=BILL
     ${var_name}=    Set Variable If    '${enforce_name}'=='${EMPTY}'    ${region_name}_${dic_id}    ${enforce_name}
     ${passed} =    Check Variable SettingsDic With Content Exist    ${var_name}
     Return From Keyword If    '${passed}' == '${TRUE}'
-    &{python_dict} =    SettingsDicReader.Get Dictionary    ${SETTINGS_PATH}/BILL/Settings_dic.xml    ${region_name}    ${dic_id}
+    &{python_dict} =    SettingsDicReader.Get Dictionary    ${SETTINGS_PATH}/${module}/Settings_dic.xml    ${region_name}    ${dic_id}
     Set Global Variable    &{${var_name}}    &{python_dict}
 
 Check Variable SettingsDic With Content Exist

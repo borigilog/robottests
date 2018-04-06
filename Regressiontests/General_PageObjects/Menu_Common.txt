@@ -3,12 +3,12 @@ Variables         Menu_Common.yaml
 
 *** Variables ***
 ${txtMandatorname}    /$flow_main/menu_bottom/mandatorname
-#${mandatorname_class}
 ${btnSwitchmandator}    /$flow_main/menu_bottom/switchmandator
-#${switchmandator_class}
+${switchmandator_class}    screen look_rlx_screen_switch_mandator
 ${btnHelp}        /$flow_main/menu_bottom/help
-#${help_class}
+${help_class}     screen look_rlx_screen_contact_info
 ${btnExit}        /$flow_main/menu_bottom/exit
+${exit_class}     screen look_rlx_screen_login
 
 *** Keywords ***
 Check ToolTip SwitchMandator
@@ -38,7 +38,16 @@ Check Toolbox Is Avaliable
 Check Userbox Is Avaliable
     ${langunge_code}=    Get selected LanguageCode
     Check ContainsText    &{Dic_Benutzer}[${langunge_code}]
-    Check ElementId    ${user_name}    System Administrator, System Administrator    enabled=true
+    Check ElementId    ${user_name}    ${DEFAULT_USER_NAME}    enabled=true
+
+Select Switchmandator
+    Select Menu Content    ${btnSwitchmandator}    ${switchmandator_class}
+
+Select Help
+    Select Menu Content    ${btnHelp}    ${help_class}
+
+Select Exit
+    Select Menu Content    ${btnExit}    ${exit_class}    content_id=/$flow_main
 
 Select Menu Content
     [Arguments]    ${element_id}    ${class}    ${content_id}=/$flow_main/$flow_content

@@ -39,6 +39,16 @@ Check Text Languagedependent Screen1
     \    Run Keyword And Continue On Failure    Element Text Should Be    ${btnAbort}    &{Dic_btnAbort}[${langunge_code}]
     Set LanguageId    ${DEFAULT_LANGUAGE_ID}
 
+Check Sort By Mandant-intern
+    [Documentation]    BILL -> Auswertung -> listMandator: Sortierung nach Spalte "Mandant-intern."
+    [Tags]    Sorting
+    Check Sorting Table By Columnname    ${listMandator}    $intName
+
+Check Sort By Mandant-extern
+    [Documentation]    BILL -> Auswertung -> Übersicht: Sortierung nach Spalte "Mandant-extern."
+    [Tags]    Sorting
+    Check Sorting Table By Columnname    ${listMandator}    $extName
+
 Check No Mandator Selected Screen1
     [Documentation]    MM 01.04.2018, BILL -> Auswertung: Status der Buttons, wenn kein Element selektiert ist
     [Tags]    Action

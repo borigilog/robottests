@@ -15,11 +15,11 @@ ${btnProForma}    /$flow_main/$flow_content/proForma
 # ~~~~~~~ invoices list
 ${listInvoice}    /$flow_main/$flow_content/issue_list
 # ~~~~~~~ invoices col
-${colInvoiceNumber}    /$flow_main/$flow_content/issue_list/$col_invoiceNumber
-${colDescription}    /$flow_main/$flow_content/issue_list/$col_description
-${colStatus}      /$flow_main/$flow_content/issue_list/$col_status
-${colCreationDate}    /$flow_main/$flow_content/issue_list/$col_creationDate
-${colItems}       /$flow_main/$flow_content/issue_list/$col_items
+${colInvoiceNumber}    ${listInvoice}/$col_invoiceNumber
+${colDescription}    ${listInvoice}/$col_description
+${colStatus}      ${listInvoice}/$col_status
+${colCreationDate}    ${listInvoice}/$col_creationDate
+${colItems}       ${listInvoice}/$col_items
 
 *** Keywords ***
 Get InvoiceID

@@ -9,8 +9,8 @@ ${btnGenerate}    /$flow_main/$flow_content/generate
 # ~~~~~~~ mandator list
 ${listMandator}    /$flow_main/$flow_content/mandator_list
 # ~~~~~~~ mandator col
-${colIntern}      /$flow_main/$flow_content/mandator_list/$col_intName
-${colExtern}      /$flow_main/$flow_content/mandator_list/$col_extName
+${colIntern}      ${listMandator}/$col_intName
+${colExtern}      ${listMandator}/$col_extName
 
 *** Keywords ***
 Select Mandator in Auswertung

@@ -5,7 +5,6 @@ Force Tags        Bill    Menu
 Default Tags
 Resource          ../../UserKeywords/Common_Resources.html
 Resource          PageObjects/Menu.txt
-Variables         PageObjects/customized_menu.yaml
 Variables         PageObjects/Menu.yaml
 Library           ../../Libs/SettingsDicReader.py
 
@@ -106,20 +105,6 @@ Check Text Languagedependent YAML
     \    Run Keyword And Continue On Failure    Element Text Should Be    ${offsetting_charging}    &{DicYAML_Verrechnung}[${langunge_code}]
     Set LanguageId    ${DEFAULT_LANGUAGE_ID}
 
-Check Text Languagedependent YAML customized
-    [Documentation]    customized muss zuerst eingelesen werden, einlesen erfolgt nach fifo
-    ...    siehe:
-    ...    Variables \ \ \ \ \ \ \ \ customized_menu.yaml
-    ...    Variables \ \ \ \ \ \ \ \ menu.yaml
-    [Tags]    Versuch    Temporary
-    Log To Console    &{DicYAML_RechnungsverwaltungCustomizesTest}[D]
-    Log To Console    &{DicYAML_RechnungsverwaltungCustomizesTest}[E]
-    Log To Console    &{DicYAML_RechnungsverwaltungCustomizesTest}[F]
-    Log To Console    &{DicYAML_BenutzerCustomizesTest}[1]
-    ${langE_Id}=    Convert To Integer    15
-    Log To Console    &{DicYAML_BenutzerCustomizesTest}[${langE_Id}]
-    Log To Console    &{DicYAML_BenutzerCustomizesTest}[16]
-
 Check Text Languagedependent
     [Tags]    TextLanguagedependent    ChangeLanguage
     : FOR    ${key}    IN    @{AVAILABLE_LANGUAGES.keys()}
@@ -147,12 +132,15 @@ Check Text Languagedependent
     Set LanguageId    ${DEFAULT_LANGUAGE_ID}
 
 Check ToolTip Mandantenauswahl
+    [Tags]    Action    TextLanguagedependent    ChangeLanguage
     Check ToolTip SwitchMandator
 
 Check ToolTip Kontakt
+    [Tags]    Action    TextLanguagedependent    ChangeLanguage
     Check ToolTip Help
 
 Check ToolTip Module verlassen
+    [Tags]    Action    TextLanguagedependent    ChangeLanguage
     Check ToolTip Exit
 
 Check Menu Selection
@@ -171,3 +159,8 @@ Check Menu Selection
     Select Storno Occasionen
     Select Storno Sendungskosten
     Select Verrechnung
+    Select Mandaten wechseln
+    Select Kontakt
+    Select Module verlassen
+    Close Browser
+    [Teardown]    Login Select Bill

@@ -69,6 +69,31 @@ Check Valid Email
     Input Text    ${txtEmail}    support@rigilog
     Check ElementId with class is visible    ${txtEmail}    invalid    visible=true
 
+Check Sort By Rechnungs-Nr
+    [Documentation]    BILL -> Rechnungsausgabe -> Übersicht: Sortierung nach Spalte "Rechnungs-Nr."
+    [Tags]    Sorting
+    Check Sorting Table By Columnname    ${listInvoice}    $invoiceNumber
+
+Check Sort By Rechnungsbezeichnung
+    [Documentation]    BILL -> Rechnungsausgabe -> Übersicht: Sortierung nach Spalte "Rechnungsbezeichnung."
+    [Tags]    Sorting
+    Check Sorting Table By Columnname    ${listInvoice}    $description
+
+Check Sort By Status
+    [Documentation]    BILL -> Rechnungsausgabe -> Übersicht: Sortierung nach Spalte "Status."
+    [Tags]    Sorting
+    Check Sorting Table By Columnname    ${listInvoice}    $status
+
+Check Sort By Erstellt am
+    [Documentation]    BILL -> Rechnungsausgabe -> Übersicht: Sortierung nach Spalte "Erstellt am."
+    [Tags]    Sorting
+    Check Sorting Table By Columnname    ${listInvoice}    $creationDate    data_type=datetime
+
+Check Sort By Positionen
+    [Documentation]    BILL -> Rechnungsausgabe -> Übersicht: Sortierung nach Spalte "Positionen."
+    [Tags]    Sorting
+    Check Sorting Table By Columnname    ${listInvoice}    $items    data_type=int
+
 Check No Invoice Selected
     [Documentation]    BILL -> Rechnungsausgabe: Status der Buttons, wenn kein Element selektiert ist
     [Tags]    Action
@@ -282,3 +307,5 @@ Click Button Zurück zum Hauptmenü
     Should Be Equal    ${passed}    ${TRUE}
     Check PageArea is visible    ${menu_content}    ${invoice_issue_class}    visible=false
     Check Homescreen is selected
+
+*** Keywords ***
