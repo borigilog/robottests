@@ -103,7 +103,7 @@ Closed Bill Selected
 Multiple Bills selected
     [Documentation]    BILL -> Rechnungsverwaltung -> Übersicht: Status der Buttons, wenn mehrere Elemente selektiert sind
     [Tags]    BillSelection
-    ${ids}    Create List    ${invProcessed}    ${invProcessedClosed}/$BillNumber
+    ${ids}    Create List    ${invProcessed}    ${invProcessedClosed}
     Select Elements With CONTROL    ${ids}
     Run Keyword And Continue On Failure    Bill Should Be Selected    ${invProcessed}
     Run Keyword And Continue On Failure    Bill Should Be Selected    ${invProcessedClosed}
@@ -158,8 +158,30 @@ Check Sort By Rechnungs-Nr
     [Tags]    Sorting
     Sleep    1
     Click Element    ${colBillNo}
-    @{billNumbers} =    Get Elements Texts    ${grdBills}/div[contains(@class,'gridcontainer')]/table/tbody/tr/td[2]/div
-    List Of Strings Should Be Ordered ASC    @{billNumbers}
+    ${billNumbers} =    Get Elements Texts    ${grdBills}/div[contains(@class,'gridcontainer')]/table/tbody/tr/td[2]/div
+    List Of Strings Should Be Ordered ASC    ${billNumbers}
     Click Element    ${colBillNo}
-    @{billNumbers} =    Get Elements Texts    ${grdBills}/div[contains(@class,'gridcontainer')]/table/tbody/tr/td[2]/div
-    List Of Strings Should Be Ordered DESC    @{billNumbers}
+    ${billNumbers} =    Get Elements Texts    ${grdBills}/div[contains(@class,'gridcontainer')]/table/tbody/tr/td[2]/div
+    List Of Strings Should Be Ordered DESC    ${billNumbers}
+
+Check Sort By Rechnungsbezeichnung
+    [Documentation]    BILL -> Rechnungsverwaltung -> Übersicht: Sortierung nach Spalte "Rechnungsbezeichnung"
+    [Tags]    Sorting
+    Sleep    1
+    Click Element    ${colBillName}
+    ${billNames} =    Get Elements Texts    ${grdBills}/div[contains(@class,'gridcontainer')]/table/tbody/tr/td[3]/div
+    List Of Strings Should Be Ordered ASC    ${billNames}    ${TRUE}
+    Click Element    ${colBillName}
+    ${billNames} =    Get Elements Texts    ${grdBills}/div[contains(@class,'gridcontainer')]/table/tbody/tr/td[3]/div
+    List Of Strings Should Be Ordered DESC    ${billNames}    ${TRUE}
+
+Check Sort By Status
+    [Documentation]    BILL -> Rechnungsverwaltung -> Übersicht: Sortierung nach Spalte "Status"
+    [Tags]    Sorting
+    Sleep    1
+    Click Element    ${colStatus}
+    ${billStatus} =    Get Elements Texts    ${grdBills}/div[contains(@class,'gridcontainer')]/table/tbody/tr/td[4]/div
+    List Of Strings Should Be Ordered ASC    ${billStatus}
+    Click Element    ${colStatus}
+    ${billStatus} =    Get Elements Texts    ${grdBills}/div[contains(@class,'gridcontainer')]/table/tbody/tr/td[4]/div
+    List Of Strings Should Be Ordered DESC    ${billStatus}
