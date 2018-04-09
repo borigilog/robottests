@@ -61,15 +61,13 @@ Click Button Auswahl bestätigen Screen1
     [Documentation]    MM 01.04.2018, BILL -> Auswertung: Status der Buttons, wenn ein Element selektiert ist
     [Tags]    Action
     Select Mandator in Auswertung
-    ${passed} =    Run Keyword And Return Status    Click Element And Wait    ${btnConfirm}
-    Should Be Equal    ${passed}    ${TRUE}
+    Click Element And Wait    ${btnConfirm}
     Check PageArea is visible    ${menu_content}    screen look_rlx_screen_bill_generally_evaluation_fromto
 
 Click Button Abbruch Screen1
     [Documentation]    MM 01.04.2018, BILL -> Auswertung abbrechen
     [Tags]    Action
-    ${passed} =    Run Keyword And Return Status    Click Element And Wait    ${btnAbort}
-    Should Be Equal    ${passed}    ${TRUE}
+    Click Element And Wait    ${btnAbort}
     Check PageArea is visible    ${menu_content}    ${evaluation_class}    visible=false
     Check Homescreen is selected
 
@@ -141,8 +139,7 @@ Click Button Bericht erstellen Screen2
     Check Expected DateValue In DateSelector    ${selEndDate}    17.09.2018
     Check Date Is Selected    ${selEndDate}
     Check ElementId    ${btnGenerate}    enabled=true
-    ${passed} =    Run Keyword And Return Status    Click Element And Wait    ${btnGenerate}
-    Should Be Equal    ${passed}    ${TRUE}
+    Click Element And Wait    ${btnGenerate}
     Check PageArea is visible    ${menu_content}    ${evaluation_class}    visible=false
     Check Homescreen is selected
 
@@ -150,7 +147,6 @@ Click Button Abbruch Screen2
     [Documentation]    MM 01.04.2018, BILL -> Auswertung abbrechen
     [Tags]    Action    Fehlerhaft
     Go To Screen2
-    ${passed} =    Run Keyword And Return Status    Click Element And Wait    ${btnAbort}
-    Should Be Equal    ${passed}    ${TRUE}
+    Click Element And Wait    ${btnAbort}
     Check PageArea is visible    ${menu_content}    ${evaluation_class}    visible=false
     Check Homescreen is selected

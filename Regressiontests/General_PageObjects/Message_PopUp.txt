@@ -1,0 +1,23 @@
+*** Settings ***
+Variables         Message_PopUp.yaml
+
+*** Variables ***
+${MESSAGE_POPUP}    /$flow_main/$popover0
+
+*** Keywords ***
+Check Error Message PopUp
+    [Arguments]    &{dic_message}
+    ${langunge_code}=    Get selected LanguageCode
+    Run Keyword And Continue On Failure    Element Text Should Be    ${MESSAGE_POPUP}/$title    &{Dic_ErrorTitle}[${langunge_code}]
+    Run Keyword And Continue On Failure    Element Text Should Be    ${MESSAGE_POPUP}/msg    &{dic_message}[${langunge_code}]
+    Run Keyword And Continue On Failure    Element Text Should Be    ${MESSAGE_POPUP}/btn    OK
+
+Click Close Button
+    Click Element And Wait    ${MESSAGE_POPUP}/$close
+
+Click OK Button
+    Click Element    ${MESSAGE_POPUP}/btn
+
+Check Message PopUp Is Visible
+    [Arguments]    ${visible}
+    Check PageArea is visible    ${MESSAGE_POPUP}    screen look_rlx_screen_alert    visible=${visible}
