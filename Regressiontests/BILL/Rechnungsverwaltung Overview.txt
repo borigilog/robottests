@@ -12,7 +12,7 @@ Library           ../../Libs/ActionChainsExtension.py
 Variables         PageObjects/Rechnungsverwaltung_Overview.yaml
 
 *** Test Cases ***
-No Bill Selected
+Select no Bill
     [Documentation]    BILL -> Rechnungsverwaltung -> Übersicht: Status der Buttons, wenn kein Element selektiert ist
     [Tags]    BillSelection
     Element Should Be Enabled    ${chkShowClosedBills}
@@ -28,7 +28,7 @@ No Bill Selected
     Element Should Be Disabled    ${btnProcessBill}
     Element Should Be Disabled    ${btnExportBills}
 
-Open Bill Selected
+Select Bill in Status "In Bearbeitung"
     [Documentation]    BILL -> Rechnungsverwaltung -> Übersicht: Status der Buttons, wenn Rechnung selektiert ist im Status "In Bearbeitung"
     [Tags]    BillSelection
     Click Element    ${invOpen}
@@ -46,7 +46,7 @@ Open Bill Selected
     Element Should Be Enabled    ${btnProcessBill}
     Element Should Be Enabled    ${btnExportBills}
 
-Processed Bill Selected
+Select Bill in Status "Verarbeitet"
     [Documentation]    BILL -> Rechnungsverwaltung -> Übersicht: Status der Buttons, wenn Rechnung selektiert ist im Status "Verarbeitet"
     [Tags]    BillSelection
     Click Element    ${invProcessed}
@@ -64,7 +64,7 @@ Processed Bill Selected
     Element Should Be Disabled    ${btnProcessBill}
     Element Should Be Enabled    ${btnExportBills}
 
-Processed Closed Bill Selected
+Select Bill in Status "Verarbeitet & veröffentlicht"
     [Documentation]    BILL -> Rechnungsverwaltung -> Übersicht: Status der Buttons, wenn Rechnung selektiert ist im Status "Verarbeitet"
     [Tags]    BillSelection
     Click Element    ${invProcessedClosed}
@@ -82,7 +82,7 @@ Processed Closed Bill Selected
     Element Should Be Disabled    ${btnProcessBill}
     Element Should Be Enabled    ${btnExportBills}
 
-Closed Bill Selected
+Select Bill in Status "Veröffentlicht"
     [Documentation]    BILL -> Rechnungsverwaltung -> Übersicht: Status der Buttons, wenn Rechnung selektiert ist im Status "Veröffentlicht"
     [Tags]    BillSelection
     Click Element    ${invClosed}
@@ -100,7 +100,7 @@ Closed Bill Selected
     Element Should Be Enabled    ${btnProcessBill}
     Element Should Be Enabled    ${btnExportBills}
 
-Multiple Bills selected
+Select Multiple Bills
     [Documentation]    BILL -> Rechnungsverwaltung -> Übersicht: Status der Buttons, wenn mehrere Elemente selektiert sind
     [Tags]    BillSelection
     ${ids}    Create List    ${invProcessed}    ${invProcessedClosed}
@@ -127,6 +127,10 @@ Check Languagedependent Text Content
     [Documentation]    Bill -> Rechnungsverwaltung -> Übersicht: Prüft, ob pro Sprache die richtigen Texte der (statischen) Modul-Dictionaries angezeigt werden
     [Tags]    Languagedependent
     Sleep    1
+    Create SettingsDics    Bills    State_InProgress
+    Create SettingsDics    Bills    State_IsProcessed
+    Create SettingsDics    Bills    State_IsProcessed_and_Published
+    Create SettingsDics    Bills    State_Published
     : FOR    ${key}    IN    @{AVAILABLE_LANGUAGES.keys()}
     \    Set LanguageId    ${key}
     \    Sleep    1
@@ -151,9 +155,13 @@ Check Languagedependent Text Content
     \    Run Keyword And Continue On Failure    Element Text Should Be    ${btnRecalculate}    &{DicYAML_Preise erneut berechnen}[${language_code}]
     \    Run Keyword And Continue On Failure    Element Text Should Be    ${btnAbort}    &{DicYAML_Vorgang abbrechen}[${language_code}]
     \    Run Keyword And Continue On Failure    Element Text Should Be    ${btnExportBills}    &{DicYAML_Rechnungsexport}[${language_code}]
+    \    Run Keyword And Continue On Failure    Status of Bill Should Be    ${invOpen}    &{Bills_State_InProgress}[${language_code}]
+    \    Run Keyword And Continue On Failure    Status of Bill Should Be    ${invProcessed}    &{Bills_State_IsProcessed}[${language_code}]
+    \    Run Keyword And Continue On Failure    Status of Bill Should Be    ${invClosed}    &{Bills_State_Published}[${language_code}]
+    \    Run Keyword And Continue On Failure    Status of Bill Should Be    ${invProcessedClosed}    &{Bills_State_IsProcessed_and_Published}[${language_code}]
     \    Sleep    1
 
-Check Sort By Rechnungs-Nr
+Sort By Rechnungs-Nr
     [Documentation]    BILL -> Rechnungsverwaltung -> Übersicht: Sortierung nach Spalte "Rechnungs-Nr."
     [Tags]    Sorting
     Sleep    1
@@ -164,7 +172,7 @@ Check Sort By Rechnungs-Nr
     ${billNumbers} =    Get Elements Texts    ${grdBills}/div[contains(@class,'gridcontainer')]/table/tbody/tr/td[2]/div
     List Of Strings Should Be Ordered DESC    ${billNumbers}
 
-Check Sort By Rechnungsbezeichnung
+Sort By Rechnungsbezeichnung
     [Documentation]    BILL -> Rechnungsverwaltung -> Übersicht: Sortierung nach Spalte "Rechnungsbezeichnung"
     [Tags]    Sorting
     Sleep    1
@@ -175,7 +183,7 @@ Check Sort By Rechnungsbezeichnung
     ${billNames} =    Get Elements Texts    ${grdBills}/div[contains(@class,'gridcontainer')]/table/tbody/tr/td[3]/div
     List Of Strings Should Be Ordered DESC    ${billNames}    ${TRUE}
 
-Check Sort By Status
+Sort By Status
     [Documentation]    BILL -> Rechnungsverwaltung -> Übersicht: Sortierung nach Spalte "Status"
     [Tags]    Sorting
     Sleep    1
@@ -185,3 +193,35 @@ Check Sort By Status
     Click Element    ${colStatus}
     ${billStatus} =    Get Elements Texts    ${grdBills}/div[contains(@class,'gridcontainer')]/table/tbody/tr/td[4]/div
     List Of Strings Should Be Ordered DESC    ${billStatus}
+
+Check Sort By Erstellt am
+    [Documentation]    BILL -> Rechnungsverwaltung -> Übersicht: Sortierung nach Spalte "Erstellt am"
+    [Tags]    Sorting
+    Sleep    1
+    Click Element    ${colDateOfCreation}
+    ${billDOC} =    Get List Elements Column Data    ${grdBills}/div[contains(@class,'gridcontainer')]/table/tbody/tr/td[5]/div    datetime
+    List Should Be Ordered    ${billDOC}
+    Click Element    ${colDateOfCreation}
+    ${billDOC} =    Get List Elements Column Data    ${grdBills}/div[contains(@class,'gridcontainer')]/table/tbody/tr/td[5]/div    datetime
+    List Should Be Ordered    ${billDOC}    ${TRUE}
+
+Check Sort By Positionen
+    [Documentation]    BILL -> Rechnungsverwaltung -> Übersicht: Sortierung nach Spalte "Positionen"
+    [Tags]    Sorting
+    Sleep    1
+    Click Element    ${colPositionCount}
+    ${billPositions} =    Get List Elements Column Data    ${grdBills}/div[contains(@class,'gridcontainer')]/table/tbody/tr/td[6]/div    int
+    List Should Be Ordered    ${billPositions}
+    Click Element    ${colPositionCount}
+    ${billPositions} =    Get List Elements Column Data    ${grdBills}/div[contains(@class,'gridcontainer')]/table/tbody/tr/td[6]/div    int
+    List Should Be Ordered    ${billPositions}    ${TRUE}
+    #Check Sort By Proforma
+    #    [Documentation]    BILL -> Rechnungsverwaltung -> Übersicht: Sortierung nach Spalte "Erstellt am"
+    #    [Tags]    Sorting
+    #    Sleep    1
+    #    Click Element    ${colProforma}
+    #    ${billStatus} =    Get Elements Texts    ${grdBills}/div[contains(@class,'gridcontainer')]/table/tbody/tr/td[1]/div
+    #    List Of Strings Should Be Ordered ASC    ${billStatus}
+    #    Click Element    ${colProforma}
+    #    ${billStatus} =    Get Elements Texts    ${grdBills}/div[contains(@class,'gridcontainer')]/table/tbody/tr/td[1]/div
+    #    List Of Strings Should Be Ordered DESC    ${billStatus}
