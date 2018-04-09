@@ -1694,6 +1694,55 @@ warten bis die seite geladen ist, zB. nach datenabruf</td>
 <td></td>
 </tr>
 <tr>
+<td class="name"><a name="keyword_Get Content Of Table Column">Get Content Of Table Column</a></td>
+<td>[Arguments]</td>
+<td>${table_id}</td>
+<td>${col_name}</td>
+<td>${data_type}=string</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>${locator}=</td>
+<td>Set Variable</td>
+<td>//div[contains(@class,'gridcontainer')]/table/tbody/tr/td/div[contains(@id,'${table_id}')][contains(@id,'${col_name}')]</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>${col_name}=</td>
+<td>Replace String</td>
+<td>${col_name}</td>
+<td>$</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>...</td>
+<td>${EMPTY}</td>
+<td>count=1</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>${content_list} =</td>
+<td>Get List Elements Column Data</td>
+<td>${locator}</td>
+<td>${data_type}</td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>[Return]</td>
+<td>${content_list}</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
 <td class="name"><a name="keyword_Convert Text To Data Type">Convert Text To Data Type</a></td>
 <td>[Arguments]</td>
 <td>${value}</td>

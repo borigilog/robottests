@@ -41,3 +41,24 @@ Bill Should Be Selected
     [Arguments]    ${id}
     ${cls} =    Get Element Attribute    ${id}    class
     Should Be Equal    ${cls}    sel
+
+Init Status Dictionaries
+    Create SettingsDics    Bills    State_InProgress
+    Create SettingsDics    Bills    State_IsProcessed
+    Create SettingsDics    Bills    State_IsProcessed_and_Published
+    Create SettingsDics    Bills    State_Published
+
+Apply Filter
+    [Arguments]    ${showClosedBills}=${TRUE}    ${showProcessedBills}=${TRUE}    ${showProformaBills}=${TRUE}
+    ${showClosedBills} =    Is Truthy    ${showClosedBills}
+    ${showProcessedBills} =    Is Truthy    ${showProcessedBills}
+    ${showProformaBills} =    Is Truthy    ${showProformaBills}
+    Run KeyWord If    ${showClosedBills}    Select Checkbox    ${chkShowClosedBills}
+    ...    ELSE    Unselect Checkbox    ${chkShowClosedBills}
+    Wait Until Page is unfreezed
+    Run KeyWord If    ${showProcessedBills}    Select Checkbox    ${chkShowProcessedBills}
+    ...    ELSE    Unselect Checkbox    ${chkShowProcessedBills}
+    Wait Until Page is unfreezed
+    Run KeyWord If    ${showProcessedBills}    Select Checkbox    ${chkShowProformaBills}
+    ...    ELSE    Unselect Checkbox    ${chkShowProformaBills}
+    Wait Until Page is unfreezed
