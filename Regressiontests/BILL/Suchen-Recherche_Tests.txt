@@ -79,9 +79,8 @@ Verify GUI For Search Results
     Click Button    ${btnSearch}
     Sleep    2s
     Wait Until Keyword Succeeds    3    1 sec    Element Should Be Visible    //*[@id="/$flow_main/$popover0"]
-    Element Should Be Visible    ${btnPopoOverAbort}
+    Element Should Be Visible    ${btnPopOverAbort}
     Element Should Be Visible    ${btnPopOverOk}
-    Element Text Should Be    ${btnPopOverOk}    Suche ausführen!
     Click Button    ${btnPopOverAbort}    # Definition ist ausgelegt auf falsche Position des "Suche ausführen!" Buttons, muss dann angepasst werden, wenn korrigiert
     Sleep    2s
     Wait Until Page Contains    Rechnungsverwaltung    timeout=3
@@ -111,8 +110,9 @@ Verify GUI For Search Results
     ${SearchResultsWithPublished}=    Get Number of Bill Search Results
     Run Keyword If    ${SearchResultsWithPublished}<=${SearchResults1}    Fail    Die veröffentlichten Rechnungen werden nicht angezeigt
     Wait Until Keyword Succeeds    3    1 sec    Unselect Checkbox    ${OptionIncludePublishedBills}
+    Sleep    1s
     ${SearchResults2}=    Get Number of Bill Search Results
-    Run Keyword If    ${SearchResults2}!=${SearchResults1}    Fail    Anzahl der angezeigten Rechnungen entspricht nicht der ursprünglich angezeigten Anzahl der rechnungen
+    Run Keyword If    ${SearchResults2}!=${SearchResults1}    Fail    Anzahl der angezeigten Rechnungen nach dem entfernen der Option Published Rechnungen entfernen, entspricht nicht der ursprünglich angezeigten Anzahl der Rechnungen
     Wait Until Keyword Succeeds    3    1 sec    Select Checkbox    ${OptionIncludeProcessedBills}
     Sleep    2s
     ${SearchResultsWithProcessed}=    Get Number of Bill Search Results
@@ -120,7 +120,7 @@ Verify GUI For Search Results
     Wait Until Keyword Succeeds    3    1 sec    Unselect Checkbox    ${OptionIncludeProcessedBills}
     Sleep    2s
     ${SearchResults3}=    Get Number of Bill Search Results
-    Run Keyword If    ${SearchResults3}!=${SearchResults1}    Fail    Anzahl der angezeigten Rechnungen entspricht nicht der ursprünglich angezeigten Anzahl der rechnungen
+    Run Keyword If    ${SearchResults3}!=${SearchResults1}    Fail    Anzahl der angezeigten Rechnungen nach entfernen der Option Processed Bills einschliessen, entspricht nicht der ursprünglich angezeigten Anzahl der Rechnungen
     Wait Until Keyword Succeeds    3    1 sec    Select Checkbox    ${OptionIncludeProformaBills}
     Sleep    2s
     ${SearchResultsWithProforma}=    Get Number of Bill Search Results
@@ -128,7 +128,7 @@ Verify GUI For Search Results
     Wait Until Keyword Succeeds    3    1 sec    Unselect Checkbox    ${OptionIncludeProformaBills}
     Sleep    2s
     ${SearchResults4}=    Get Number of Bill Search Results
-    Run Keyword If    ${SearchResults4}!=${SearchResults1}    Fail    Anzahl der angezeigten Rechnungen entspricht nicht der ursprünglich angezeigten Anzahl der rechnungen
+    Run Keyword If    ${SearchResults4}!=${SearchResults1}    Fail    Anzahl der angezeigten Rechnungen nach dem entfernen der Option Proforma Bills einschliessen, entspricht nicht der ursprünglich angezeigten Anzahl der Rechnungen
     Click Button    ${btnAbort}
     [Teardown]    Close Browser
 
