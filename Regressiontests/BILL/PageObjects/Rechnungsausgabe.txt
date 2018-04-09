@@ -1,3 +1,7 @@
+*** Settings ***
+Library           ../../Libs/DatabaseClass.py    database=${DATABASE_NAME}    user=${DATABASE_USER}    password=${DATABASE_PWD}    host=${DATABASE_IP}    port=${DATABASE_PORT}
+Library           ../../Libs/SQLQueryReader.py
+
 *** Variables ***
 # ~~~~~~~~~ checkboxes
 ${chkShowOnlyOpenBills}    /$flow_main/$flow_content/ShowOnlyOpenBills
@@ -50,6 +54,12 @@ Get InvoiceID with Positions
     \    ${colValue} =    Get Text    ${element_id}/${index}/$items
     \    Return From Keyword If    '${colValue}'>'0'    ${element_id}/${index}
     [Return]    ${EMPTY}
+
+Get InvoiceNo From Database
+    [Arguments]    ${query_name}
+    ${sql} =    SQLQueryReader.Get Query By Name    ${SQL_QUERIES_PATH}/BILL/SQLQueries.resx    ${query_name}
+    ${queryResult}=    DatabaseClass.DB Execute Scalar With Parameter    ${sql}    ${DEFAULT_MANDATOR_NAME}
+    [Return]    ${queryResult}
 
 Teardown Rechnungsausgabe
     ${passed} =    Run Keyword And Return Status    Select Rechnungsausgabe

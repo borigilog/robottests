@@ -6,11 +6,9 @@ Force Tags        Bill    Rechnungsausgabe
 Default Tags
 Resource          ../../UserKeywords/Common_Resources.html
 Resource          PageObjects/Menu.txt
+Resource          ../General_PageObjects/Message_PopUp.txt
 Resource          PageObjects/Rechnungsausgabe.txt
 Variables         PageObjects/Rechnungsausgabe.yaml
-Library           DatabaseLibrary
-Library           ../../Libs/DatabaseClass.py    database=${DATABASE_NAME}    user=${DATABASE_USER}    password=${DATABASE_PWD}    host=${DATABASE_IP}    port=${DATABASE_PORT}
-Library           ../../Libs/SQLQueryReader.py
 
 *** Test Cases ***
 Check GUI Elements Rechnungsausgabe
@@ -32,7 +30,7 @@ Check GUI Elements Rechnungsausgabe
     Check CheckboxId    ${chkPrintLogo}    &{Dic_chkPrintLogo}[${langunge_code}]    enabled=true    selected=false
     Check CheckboxId    ${chkAddCopy}    &{Dic_chkAddCopy}[${langunge_code}]    enabled=true    selected=false
     #textfield
-    Check TextfieldId    ${txtEmail}    support@rigilog.com    enabled=true    labeltext=&{Dic_txtEmail}[${langunge_code}]
+    Check TextfieldId    ${txtEmail}    ${DEFAULT_EMAIL_ADRESS}    enabled=true    labeltext=&{Dic_txtEmail}[${langunge_code}]
     #buttons
     Check ElementId    ${btnThirdParty}    &{Dic_btnThirdParty}[${langunge_code}]    enabled=false
     Check ElementId    ${btnProForma}    &{Dic_btnProForma}[${langunge_code}]    enabled=false
@@ -63,10 +61,11 @@ Check Text Languagedependent
 
 Check Valid Email
     [Tags]    Action
-    #Clear Element Text
     Input Text    ${txtEmail}    support@rigilog.com
     Check ElementId with class is visible    ${txtEmail}    invalid    visible=false
     Input Text    ${txtEmail}    support@rigilog
+    Check ElementId with class is visible    ${txtEmail}    invalid    visible=true
+    Input Text    ${txtEmail}    ''
     Check ElementId with class is visible    ${txtEmail}    invalid    visible=true
 
 Check Sort By Rechnungs-Nr
@@ -114,8 +113,7 @@ Select Open Invoice DBConnection
     ${langunge_code}=    Get selected LanguageCode
     ${invoiceIsSelected}    Check List has selection    ${listInvoice}
     Should Be Equal    ${invoiceIsSelected}    ${FALSE}
-    ${sql} =    SQLQueryReader.Get Query By Name    ${SQL_QUERIES_PATH}/BILL/SQLQueries.resx    Retrieve_OpenBills
-    ${queryResultInvNo}=    DatabaseClass.DB Execute Scalar With Parameter    ${sql}    ${DEFAULT_MANDATOR_NAME}
+    ${queryResultInvNo}=    Get InvoiceNo From Database    Retrieve_OpenBills
     ${InvoiceID}    Get InvoiceID    ${listInvoice}    $invoiceNumber    ${queryResultInvNo}
     ${selectInvoice}=    Check Invoice is selectable    ${InvoiceID}
     Run Keyword If    ${selectInvoice}    Select InvoiceID    ${InvoiceID}
@@ -135,9 +133,8 @@ Select Complete Invoice DBConnection
     ${langunge_code}=    Get selected LanguageCode
     ${invoiceIsSelected}    Check List has selection    ${listInvoice}
     Should Be Equal    ${invoiceIsSelected}    ${FALSE}
-    ${sql} =    SQLQueryReader.Get Query By Name    ${SQL_QUERIES_PATH}/BILL/SQLQueries.resx    Retrieve_CompleteBills
-    ${queryResultInvNo}=    DatabaseClass.DB Execute Scalar With Parameter    ${sql}    ${DEFAULT_MANDATOR_NAME}
     Click Element And Wait    ${chkShowOnlyOpenBills}
+    ${queryResultInvNo}=    Get InvoiceNo From Database    Retrieve_CompleteBills
     ${InvoiceID}    Get InvoiceID    ${listInvoice}    $invoiceNumber    ${queryResultInvNo}
     ${selectInvoice}=    Check Invoice is selectable    ${InvoiceID}
     Run Keyword If    ${selectInvoice}    Select InvoiceID    ${InvoiceID}
@@ -157,9 +154,8 @@ Select Processed Invoice DBConnection
     ${langunge_code}=    Get selected LanguageCode
     ${invoiceIsSelected}    Check List has selection    ${listInvoice}
     Should Be Equal    ${invoiceIsSelected}    ${FALSE}
-    ${sql} =    SQLQueryReader.Get Query By Name    ${SQL_QUERIES_PATH}/BILL/SQLQueries.resx    Retrieve_ProcessedBills
-    ${queryResultInvNo}=    DatabaseClass.DB Execute Scalar With Parameter    ${sql}    ${DEFAULT_MANDATOR_NAME}
     Click Element And Wait    ${chkShowProcessedBills}
+    ${queryResultInvNo}=    Get InvoiceNo From Database    Retrieve_ProcessedBills
     ${InvoiceID}    Get InvoiceID    ${listInvoice}    $invoiceNumber    ${queryResultInvNo}
     ${selectInvoice}=    Check Invoice is selectable    ${InvoiceID}
     Run Keyword If    ${selectInvoice}    Select InvoiceID    ${InvoiceID}
@@ -179,9 +175,8 @@ Select Processed Closed Invoice DBConnection
     ${langunge_code}=    Get selected LanguageCode
     ${invoiceIsSelected}    Check List has selection    ${listInvoice}
     Should Be Equal    ${invoiceIsSelected}    ${FALSE}
-    ${sql} =    SQLQueryReader.Get Query By Name    ${SQL_QUERIES_PATH}/BILL/SQLQueries.resx    Retrieve_CompleteAndProcessedBills
-    ${queryResultInvNo}=    DatabaseClass.DB Execute Scalar With Parameter    ${sql}    ${DEFAULT_MANDATOR_NAME}
     Click Element And Wait    ${chkShowProcessedBills}
+    ${queryResultInvNo}=    Get InvoiceNo From Database    Retrieve_CompleteAndProcessedBills
     ${InvoiceID}    Get InvoiceID    ${listInvoice}    $invoiceNumber    ${queryResultInvNo}
     ${selectInvoice}=    Check Invoice is selectable    ${InvoiceID}
     Run Keyword If    ${selectInvoice}    Select InvoiceID    ${InvoiceID}
@@ -201,9 +196,8 @@ Select Proforma Invoice DBConnection
     ${langunge_code}=    Get selected LanguageCode
     ${invoiceIsSelected}    Check List has selection    ${listInvoice}
     Should Be Equal    ${invoiceIsSelected}    ${FALSE}
-    ${sql} =    SQLQueryReader.Get Query By Name    ${SQL_QUERIES_PATH}/BILL/SQLQueries.resx    Retrieve_OpenProformaBills
-    ${queryResultInvNo}=    DatabaseClass.DB Execute Scalar With Parameter    ${sql}    ${DEFAULT_MANDATOR_NAME}
     Click Element And Wait    ${chkShowProformaBills}
+    ${queryResultInvNo}=    Get InvoiceNo From Database    Retrieve_OpenProformaBills
     ${InvoiceID}    Get InvoiceID    ${listInvoice}    $invoiceNumber    ${queryResultInvNo}
     ${selectInvoice}=    Check Invoice is selectable    ${InvoiceID}
     Run Keyword If    ${selectInvoice}    Select InvoiceID    ${InvoiceID}
@@ -231,81 +225,46 @@ Click Button Rechnung mit Positionen
     [Tags]    Action
     ${InvoiceID}    Get InvoiceID with Positions    ${listInvoice}
     Select InvoiceID    ${InvoiceID}
-    ${passed} =    Run Keyword And Return Status    Click Element And Wait    ${btnThirdParty}
-    Should Be Equal    ${passed}    ${TRUE}
-    ${passed} =    Run Keyword And Return Status    Check PageArea is visible    /$flow_main/$popover0    screen look_rlx_screen_alert    visible=true
-    Should Be Equal    ${passed}    ${FALSE}
+    Click Element And Wait    ${btnThirdParty}
+    Message_PopUp.Check Message PopUp Is Visible    visible=false
 
 Click Button Rechnung ohne Positionen
     [Tags]    Action
-    ${langunge_code}=    Get selected LanguageCode
     ${InvoiceID}    Get InvoiceID    ${listInvoice}    $items    0
     Select InvoiceID    ${InvoiceID}
-    ${passed} =    Run Keyword And Return Status    Click Element And Wait    ${btnThirdParty}
-    Should Be Equal    ${passed}    ${TRUE}
-    ${passed} =    Run Keyword And Return Status    Check PageArea is visible    /$flow_main/$popover0    screen look_rlx_screen_alert    visible=true
-    Should Be Equal    ${passed}    ${TRUE}
-    #check text
-    Run Keyword And Continue On Failure    Element Text Should Be    /$flow_main/$popover0/$title    &{Dic_ErrorTitle}[${langunge_code}]
-    Run Keyword And Continue On Failure    Element Text Should Be    /$flow_main/$popover0/msg    &{Dic_ErrorMsg}[${langunge_code}]
-    Run Keyword And Continue On Failure    Element Text Should Be    /$flow_main/$popover0/btn    OK
-    #click close button
-    Run Keyword If    ${passed}    Click Element And Wait    /$flow_main/$popover0/$close
-    Should Be Equal    ${passed}    ${TRUE}
-    ${passed} =    Run Keyword And Return Status    Check PageArea is visible    /$flow_main/$popover0    screen look_rlx_screen_alert    visible=true
-    Should Be Equal    ${passed}    ${FALSE}
-    ${passed} =    Run Keyword And Return Status    Click Element And Wait    ${btnThirdParty}
-    Should Be Equal    ${passed}    ${TRUE}
-    ${passed} =    Run Keyword And Return Status    Check PageArea is visible    /$flow_main/$popover0    screen look_rlx_screen_alert    visible=true
-    Should Be Equal    ${passed}    ${TRUE}
-    #click ok button
-    Run Keyword If    ${passed}    Click Element And Wait    /$flow_main/$popover0/btn
-    Should Be Equal    ${passed}    ${TRUE}
-    ${passed} =    Run Keyword And Return Status    Check PageArea is visible    /$flow_main/$popover0    screen look_rlx_screen_alert    visible=true
-    Should Be Equal    ${passed}    ${FALSE}
+    Click Element And Wait    ${btnThirdParty}
+    Message_PopUp.Check Message PopUp Is Visible    visible=true
+    Message_PopUp.Check Error Message PopUp    &{Dic_ErrorMsg}
+    Message_PopUp.Click Close Button
+    Message_PopUp.Check Message PopUp Is Visible    visible=false
+    Click Element And Wait    ${btnThirdParty}
+    Message_PopUp.Check Message PopUp Is Visible    visible=true
+    Message_PopUp.Click OK Button
+    Message_PopUp.Check Message PopUp Is Visible    visible=false
 
 Click Button Proformarechnung mit Positionen
     [Tags]    Action
     ${InvoiceID}    Get InvoiceID with Positions    ${listInvoice}
     Select InvoiceID    ${InvoiceID}
-    ${passed} =    Run Keyword And Return Status    Click Element And Wait    ${btnProForma}
-    Should Be Equal    ${passed}    ${TRUE}
-    ${passed} =    Run Keyword And Return Status    Check PageArea is visible    /$flow_main/$popover0    screen look_rlx_screen_alert    visible=true
-    Should Be Equal    ${passed}    ${FALSE}
+    Click Element And Wait    ${btnThirdParty}
+    Message_PopUp.Check Message PopUp Is Visible    visible=false
 
 Click Button Proformarechnung ohne Positionen
     [Tags]    Action
-    ${langunge_code}=    Get selected LanguageCode
     ${InvoiceID}    Get InvoiceID    ${listInvoice}    $items    0
     Select InvoiceID    ${InvoiceID}
-    ${passed} =    Run Keyword And Return Status    Click Element And Wait    ${btnProForma}
-    Should Be Equal    ${passed}    ${TRUE}
-    ${passed} =    Run Keyword And Return Status    Check PageArea is visible    /$flow_main/$popover0    screen look_rlx_screen_alert    visible=true
-    Should Be Equal    ${passed}    ${TRUE}
-    #check text
-    Run Keyword And Continue On Failure    Element Text Should Be    /$flow_main/$popover0/$title    &{Dic_ErrorTitle}[${langunge_code}]
-    Run Keyword And Continue On Failure    Element Text Should Be    /$flow_main/$popover0/msg    &{Dic_ErrorMsg}[${langunge_code}]
-    Run Keyword And Continue On Failure    Element Text Should Be    /$flow_main/$popover0/btn    OK
-    #click close button
-    Run Keyword If    ${passed}    Click Element And Wait    /$flow_main/$popover0/$close
-    Should Be Equal    ${passed}    ${TRUE}
-    ${passed} =    Run Keyword And Return Status    Check PageArea is visible    /$flow_main/$popover0    screen look_rlx_screen_alert    visible=true
-    Should Be Equal    ${passed}    ${FALSE}
-    ${passed} =    Run Keyword And Return Status    Click Element And Wait    ${btnProForma}
-    Should Be Equal    ${passed}    ${TRUE}
-    ${passed} =    Run Keyword And Return Status    Check PageArea is visible    /$flow_main/$popover0    screen look_rlx_screen_alert    visible=true
-    Should Be Equal    ${passed}    ${TRUE}
-    #click ok button
-    Run Keyword If    ${passed}    Click Element And Wait    /$flow_main/$popover0/btn
-    Should Be Equal    ${passed}    ${TRUE}
-    ${passed} =    Run Keyword And Return Status    Check PageArea is visible    /$flow_main/$popover0    screen look_rlx_screen_alert    visible=true
-    Should Be Equal    ${passed}    ${FALSE}
+    Click Element And Wait    ${btnProForma}
+    Message_PopUp.Check Message PopUp Is Visible    visible=true
+    Message_PopUp.Check Error Message PopUp    &{Dic_ErrorMsg}
+    Message_PopUp.Click Close Button
+    Message_PopUp.Check Message PopUp Is Visible    visible=false
+    Click Element And Wait    ${btnProForma}
+    Message_PopUp.Check Message PopUp Is Visible    visible=true
+    Message_PopUp.Click OK Button
+    Message_PopUp.Check Message PopUp Is Visible    visible=false
 
 Click Button Zurück zum Hauptmenü
     [Tags]    Action
-    ${passed} =    Run Keyword And Return Status    Click Element And Wait    ${btnAbort}
-    Should Be Equal    ${passed}    ${TRUE}
+    Click Element And Wait    ${btnAbort}
     Check PageArea is visible    ${menu_content}    ${invoice_issue_class}    visible=false
     Check Homescreen is selected
-
-*** Keywords ***
