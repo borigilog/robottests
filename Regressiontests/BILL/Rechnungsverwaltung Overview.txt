@@ -167,10 +167,10 @@ Sort By Rechnungs-Nr
     Sleep    1
     Click Element    ${colBillNo}
     ${billNumbers} =    Get Elements Texts    ${grdBills}/div[contains(@class,'gridcontainer')]/table/tbody/tr/td[2]/div
-    List Of Strings Should Be Ordered ASC    ${billNumbers}
+    List Should Be Ordered    ${billNumbers}
     Click Element    ${colBillNo}
     ${billNumbers} =    Get Elements Texts    ${grdBills}/div[contains(@class,'gridcontainer')]/table/tbody/tr/td[2]/div
-    List Of Strings Should Be Ordered DESC    ${billNumbers}
+    List Should Be Ordered    ${billNumbers}    desc=${TRUE}
 
 Sort By Rechnungsbezeichnung
     [Documentation]    BILL -> Rechnungsverwaltung -> Übersicht: Sortierung nach Spalte "Rechnungsbezeichnung"
@@ -178,10 +178,10 @@ Sort By Rechnungsbezeichnung
     Sleep    1
     Click Element    ${colBillName}
     ${billNames} =    Get Elements Texts    ${grdBills}/div[contains(@class,'gridcontainer')]/table/tbody/tr/td[3]/div
-    List Of Strings Should Be Ordered ASC    ${billNames}    ${TRUE}
+    List Should Be Ordered    ${billNames}    caseinsensitive=${TRUE}
     Click Element    ${colBillName}
     ${billNames} =    Get Elements Texts    ${grdBills}/div[contains(@class,'gridcontainer')]/table/tbody/tr/td[3]/div
-    List Of Strings Should Be Ordered DESC    ${billNames}    ${TRUE}
+    List Should Be Ordered    ${billNames}    desc=${TRUE}    caseinsensitive=${TRUE}
 
 Sort By Status
     [Documentation]    BILL -> Rechnungsverwaltung -> Übersicht: Sortierung nach Spalte "Status"
@@ -189,10 +189,10 @@ Sort By Status
     Sleep    1
     Click Element    ${colStatus}
     ${billStatus} =    Get Elements Texts    ${grdBills}/div[contains(@class,'gridcontainer')]/table/tbody/tr/td[4]/div
-    List Of Strings Should Be Ordered ASC    ${billStatus}
+    List Should Be Ordered    ${billStatus}
     Click Element    ${colStatus}
     ${billStatus} =    Get Elements Texts    ${grdBills}/div[contains(@class,'gridcontainer')]/table/tbody/tr/td[4]/div
-    List Of Strings Should Be Ordered DESC    ${billStatus}
+    List Should Be Ordered    ${billStatus}    desc=${TRUE}
 
 Check Sort By Erstellt am
     [Documentation]    BILL -> Rechnungsverwaltung -> Übersicht: Sortierung nach Spalte "Erstellt am"
@@ -203,7 +203,7 @@ Check Sort By Erstellt am
     List Should Be Ordered    ${billDOC}
     Click Element    ${colDateOfCreation}
     ${billDOC} =    Get List Elements Column Data    ${grdBills}/div[contains(@class,'gridcontainer')]/table/tbody/tr/td[5]/div    datetime
-    List Should Be Ordered    ${billDOC}    ${TRUE}
+    List Should Be Ordered    ${billDOC}    desc=${TRUE}
 
 Check Sort By Positionen
     [Documentation]    BILL -> Rechnungsverwaltung -> Übersicht: Sortierung nach Spalte "Positionen"
@@ -214,7 +214,7 @@ Check Sort By Positionen
     List Should Be Ordered    ${billPositions}
     Click Element    ${colPositionCount}
     ${billPositions} =    Get List Elements Column Data    ${grdBills}/div[contains(@class,'gridcontainer')]/table/tbody/tr/td[6]/div    int
-    List Should Be Ordered    ${billPositions}    ${TRUE}
+    List Should Be Ordered    ${billPositions}    desc=${TRUE}
     #Check Sort By Proforma
     #    [Documentation]    BILL -> Rechnungsverwaltung -> Übersicht: Sortierung nach Spalte "Erstellt am"
     #    [Tags]    Sorting
