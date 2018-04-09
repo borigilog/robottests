@@ -165,56 +165,31 @@ Sort By Rechnungs-Nr
     [Documentation]    BILL -> Rechnungsverwaltung -> Übersicht: Sortierung nach Spalte "Rechnungs-Nr."
     [Tags]    Sorting
     Sleep    1
-    Click Element    ${colBillNo}
-    ${billNumbers} =    Get Elements Texts    ${grdBills}/div[contains(@class,'gridcontainer')]/table/tbody/tr/td[2]/div
-    List Should Be Ordered    ${billNumbers}
-    Click Element    ${colBillNo}
-    ${billNumbers} =    Get Elements Texts    ${grdBills}/div[contains(@class,'gridcontainer')]/table/tbody/tr/td[2]/div
-    List Should Be Ordered    ${billNumbers}    desc=${TRUE}
+    Check Sorting Table By Columnname    ${grdBillsPrefix}    invoiceNumber
 
 Sort By Rechnungsbezeichnung
     [Documentation]    BILL -> Rechnungsverwaltung -> Übersicht: Sortierung nach Spalte "Rechnungsbezeichnung"
     [Tags]    Sorting
     Sleep    1
-    Click Element    ${colBillName}
-    ${billNames} =    Get Elements Texts    ${grdBills}/div[contains(@class,'gridcontainer')]/table/tbody/tr/td[3]/div
-    List Should Be Ordered    ${billNames}    caseinsensitive=${TRUE}
-    Click Element    ${colBillName}
-    ${billNames} =    Get Elements Texts    ${grdBills}/div[contains(@class,'gridcontainer')]/table/tbody/tr/td[3]/div
-    List Should Be Ordered    ${billNames}    desc=${TRUE}    caseinsensitive=${TRUE}
+    Check Sorting Table By Columnname    ${grdBillsPrefix}    description    caseinsensitive=${TRUE}
 
 Sort By Status
     [Documentation]    BILL -> Rechnungsverwaltung -> Übersicht: Sortierung nach Spalte "Status"
     [Tags]    Sorting
     Sleep    1
-    Click Element    ${colStatus}
-    ${billStatus} =    Get Elements Texts    ${grdBills}/div[contains(@class,'gridcontainer')]/table/tbody/tr/td[4]/div
-    List Should Be Ordered    ${billStatus}
-    Click Element    ${colStatus}
-    ${billStatus} =    Get Elements Texts    ${grdBills}/div[contains(@class,'gridcontainer')]/table/tbody/tr/td[4]/div
-    List Should Be Ordered    ${billStatus}    desc=${TRUE}
+    Check Sorting Table By Columnname    ${grdBillsPrefix}    status    caseinsensitive=${TRUE}
 
 Check Sort By Erstellt am
     [Documentation]    BILL -> Rechnungsverwaltung -> Übersicht: Sortierung nach Spalte "Erstellt am"
     [Tags]    Sorting
     Sleep    1
-    Click Element    ${colDateOfCreation}
-    ${billDOC} =    Get List Elements Column Data    ${grdBills}/div[contains(@class,'gridcontainer')]/table/tbody/tr/td[5]/div    datetime
-    List Should Be Ordered    ${billDOC}
-    Click Element    ${colDateOfCreation}
-    ${billDOC} =    Get List Elements Column Data    ${grdBills}/div[contains(@class,'gridcontainer')]/table/tbody/tr/td[5]/div    datetime
-    List Should Be Ordered    ${billDOC}    desc=${TRUE}
+    Check Sorting Table By Columnname    ${grdBillsPrefix}    creationDate    data_type=datetime
 
 Check Sort By Positionen
     [Documentation]    BILL -> Rechnungsverwaltung -> Übersicht: Sortierung nach Spalte "Positionen"
     [Tags]    Sorting
     Sleep    1
-    Click Element    ${colPositionCount}
-    ${billPositions} =    Get List Elements Column Data    ${grdBills}/div[contains(@class,'gridcontainer')]/table/tbody/tr/td[6]/div    int
-    List Should Be Ordered    ${billPositions}
-    Click Element    ${colPositionCount}
-    ${billPositions} =    Get List Elements Column Data    ${grdBills}/div[contains(@class,'gridcontainer')]/table/tbody/tr/td[6]/div    int
-    List Should Be Ordered    ${billPositions}    desc=${TRUE}
+    Check Sorting Table By Columnname    ${grdBillsPrefix}    items    data_type=int
     #Check Sort By Proforma
     #    [Documentation]    BILL -> Rechnungsverwaltung -> Übersicht: Sortierung nach Spalte "Erstellt am"
     #    [Tags]    Sorting
