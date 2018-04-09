@@ -130,6 +130,7 @@ Check Languagedependent Text Content
     Create SettingsDics    Bills    State_InProgress
     Create SettingsDics    Bills    State_IsProcessed
     Create SettingsDics    Bills    State_IsProcessed_and_Published
+    Create SettingsDics    Bills    State_Published
     : FOR    ${key}    IN    @{AVAILABLE_LANGUAGES.keys()}
     \    Set LanguageId    ${key}
     \    Sleep    1
@@ -154,7 +155,10 @@ Check Languagedependent Text Content
     \    Run Keyword And Continue On Failure    Element Text Should Be    ${btnRecalculate}    &{DicYAML_Preise erneut berechnen}[${language_code}]
     \    Run Keyword And Continue On Failure    Element Text Should Be    ${btnAbort}    &{DicYAML_Vorgang abbrechen}[${language_code}]
     \    Run Keyword And Continue On Failure    Element Text Should Be    ${btnExportBills}    &{DicYAML_Rechnungsexport}[${language_code}]
-    \    Run Keyword And Continue On Failure    Status of Bill Should Be    ${invClosed}    Veröffentlicht
+    \    Run Keyword And Continue On Failure    Status of Bill Should Be    ${invOpen}    &{Bills_State_InProgress}[${language_code}]
+    \    Run Keyword And Continue On Failure    Status of Bill Should Be    ${invProcessed}    &{Bills_State_IsProcessed}[${language_code}]
+    \    Run Keyword And Continue On Failure    Status of Bill Should Be    ${invClosed}    &{Bills_State_Published}[${language_code}]
+    \    Run Keyword And Continue On Failure    Status of Bill Should Be    ${invProcessedClosed}    &{Bills_State_IsProcessed_and_Published}[${language_code}]
     \    Sleep    1
 
 Sort By Rechnungs-Nr
@@ -189,33 +193,35 @@ Sort By Status
     Click Element    ${colStatus}
     ${billStatus} =    Get Elements Texts    ${grdBills}/div[contains(@class,'gridcontainer')]/table/tbody/tr/td[4]/div
     List Of Strings Should Be Ordered DESC    ${billStatus}
-    # Check Sort By Erstellt am
-    #    [Documentation]    BILL -> Rechnungsverwaltung -> Übersicht: Sortierung nach Spalte "Erstellt am"
-    #    [Tags]    Sorting
-    #    Sleep    1
-    #    Click Element    ${colDateOfCreation}
-    #    ${billStatus} =    Get Elements Texts    ${grdBills}/div[contains(@class,'gridcontainer')]/table/tbody/tr/td[5]/div
-    #    List Of Strings Should Be Ordered ASC    ${billStatus}
-    #    Click Element    ${colDateOfCreation}
-    #    ${billStatus} =    Get Elements Texts    ${grdBills}/div[contains(@class,'gridcontainer')]/table/tbody/tr/td[5]/div
-    #    List Of Strings Should Be Ordered DESC    ${billStatus}
-    # Check Sort By Positionen
-    #    [Documentation]    BILL -> Rechnungsverwaltung -> Übersicht: Sortierung nach Spalte "Erstellt am"
-    #    [Tags]    Sorting
-    #    Sleep    1
-    #    Click Element    ${colPositionCount}
-    #    ${billStatus} =    Get Elements Texts    ${grdBills}/div[contains(@class,'gridcontainer')]/table/tbody/tr/td[6]/div
-    #    List Of Strings Should Be Ordered ASC    ${billStatus}
-    #    Click Element    ${colPositionCount}
-    #    ${billStatus} =    Get Elements Texts    ${grdBills}/div[contains(@class,'gridcontainer')]/table/tbody/tr/td[6]/div
-    #    List Of Strings Should Be Ordered DESC    ${billStatus}
-    # Check Sort By Proforma
+
+Check Sort By Erstellt am
+    [Documentation]    BILL -> Rechnungsverwaltung -> Übersicht: Sortierung nach Spalte "Erstellt am"
+    [Tags]    Sorting
+    Sleep    1
+    Click Element    ${colDateOfCreation}
+    ${billDOC} =    Get List Elements Column Data    ${grdBills}/div[contains(@class,'gridcontainer')]/table/tbody/tr/td[5]/div    datetime
+    List Should Be Ordered    ${billDOC}
+    Click Element    ${colDateOfCreation}
+    ${billDOC} =    Get List Elements Column Data    ${grdBills}/div[contains(@class,'gridcontainer')]/table/tbody/tr/td[5]/div    datetime
+    List Should Be Ordered    ${billDOC}    ${TRUE}
+
+Check Sort By Positionen
+    [Documentation]    BILL -> Rechnungsverwaltung -> Übersicht: Sortierung nach Spalte "Positionen"
+    [Tags]    Sorting
+    Sleep    1
+    Click Element    ${colPositionCount}
+    ${billPositions} =    Get List Elements Column Data    ${grdBills}/div[contains(@class,'gridcontainer')]/table/tbody/tr/td[6]/div    int
+    List Should Be Ordered    ${billPositions}
+    Click Element    ${colPositionCount}
+    ${billPositions} =    Get List Elements Column Data    ${grdBills}/div[contains(@class,'gridcontainer')]/table/tbody/tr/td[6]/div    int
+    List Should Be Ordered    ${billPositions}    ${TRUE}
+    #Check Sort By Proforma
     #    [Documentation]    BILL -> Rechnungsverwaltung -> Übersicht: Sortierung nach Spalte "Erstellt am"
     #    [Tags]    Sorting
     #    Sleep    1
     #    Click Element    ${colProforma}
-    #    ${billStatus} =    Get Elements Texts    ${grdBills}/div[contains(@class,'gridcontainer')]/table/tbody/tr/td[6]/div
+    #    ${billStatus} =    Get Elements Texts    ${grdBills}/div[contains(@class,'gridcontainer')]/table/tbody/tr/td[1]/div
     #    List Of Strings Should Be Ordered ASC    ${billStatus}
     #    Click Element    ${colProforma}
-    #    ${billStatus} =    Get Elements Texts    ${grdBills}/div[contains(@class,'gridcontainer')]/table/tbody/tr/td[6]/div
+    #    ${billStatus} =    Get Elements Texts    ${grdBills}/div[contains(@class,'gridcontainer')]/table/tbody/tr/td[1]/div
     #    List Of Strings Should Be Ordered DESC    ${billStatus}
