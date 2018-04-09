@@ -1,4 +1,18 @@
+*** Variables ***
+${MODULE_SELECTOR}    /$flow_main/modsel/modules
+
 *** Keywords ***
+Select Module By Name
+    [Arguments]    ${module}
+    #${labels}=    Get List Items    //select[contains(@id,'modules')]
+    #${selected_label}=    Get Selected List Label    //select[contains(@id,'${MODULE_SELECTOR}')]
+    Select From List By Label    //select[contains(@id,'${MODULE_SELECTOR}')]    ${module}
+    Wait until Page is unfreezed
+
+Get Selected Module
+    ${module}=    Get Selected List Label    //select[contains(@id,'${MODULE_SELECTOR}')]
+    [Return]    ${module}
+
 Check ModuleSelector Is Avaliable
     Check ContainsText    Module:
     Check PageArea is visible    /$flow_main/modsel    screen look_rlx_screen_moduleselector

@@ -208,7 +208,7 @@ Convert Month To MonthName
     ${month}=    Evaluate    ${month}-1
     ${month_dic}=    Get From List    ${DATE_MONTH_NAME}    ${month}
     ${length} =    Get Length    ${month_dic}
-    Return From Keyword If    '${length}'=='{0}'    Fail    Der Monat (${month}) konnte nicht gefunden werden
+    Return From Keyword If    '${length}'=='${0}'    Fail    Der Monat (${month}) konnte nicht gefunden werden
     ${langunge_code}    Get selected LanguageCode
     ${monthName}=    Get From Dictionary    ${monthDic}    ${langunge_code}
     [Return]    ${monthName}
