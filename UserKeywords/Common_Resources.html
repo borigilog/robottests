@@ -1618,13 +1618,6 @@ warten bis die seite geladen ist, zB. nach datenabruf</td>
 </tr>
 <tr>
 <td class="name"></td>
-<td>${locator}=</td>
-<td>Set Variable</td>
-<td>//div[contains(@class,'gridcontainer')]/table/tbody/tr/td/div[contains(@id,'${table_id}')][contains(@id,'${col_name}')]</td>
-<td></td>
-</tr>
-<tr>
-<td class="name"></td>
 <td>${col_name}=</td>
 <td>Replace String</td>
 <td>${col_name}</td>
@@ -1635,6 +1628,13 @@ warten bis die seite geladen ist, zB. nach datenabruf</td>
 <td>...</td>
 <td>${EMPTY}</td>
 <td>count=1</td>
+<td></td>
+</tr>
+<tr>
+<td class="name"></td>
+<td>${locator}=</td>
+<td>Set Variable</td>
+<td>//div[contains(@class,'gridcontainer')]/table/tbody/tr/td/div[contains(@id,'${table_id}')][contains(@id,'${col_name}')]</td>
 <td></td>
 </tr>
 <tr>

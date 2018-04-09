@@ -6,61 +6,69 @@ ${LANGUAGE_SELECTOR}    /$flow_main/menu_bottom/languages
 
 *** Keywords ***
 Check LanguageSelector
-    ${langunge_code}=    Get selected LanguageCode
-    Run Keyword And Continue On Failure    Check ContainsText    &{Dic_Sprachauswahl}[${langunge_code}]
-    Check ElementId    ${LANGUAGE_SELECTOR}
+    [Arguments]    ${locator}=${LANGUAGE_SELECTOR}
+    ${langunge_code}=    Get selected LanguageCode    ${locator}
+    Check ElementId    ${locator}
     : FOR    ${key}    IN    @{AVAILABLE_LANGUAGES.keys()}
-    \    ${class} =    Get Element Attribute    ${LANGUAGE_SELECTOR}:${key}    class
+    \    ${class} =    Get Element Attribute    ${locator}:${key}    class
     \    ${langCode}=    Get From Dictionary    ${AVAILABLE_LANGUAGES}    ${key}
-    \    Check ElementId    ${LANGUAGE_SELECTOR}:${key}    &{Dic_Sprachen_Code}[${langCode}]    enabled=true
+    \    Check ElementId    ${locator}:${key}    &{Dic_Sprachen_Code}[${langCode}]    enabled=true
+
+Check LanguageSelector Title
+    [Arguments]    ${locator}=${LANGUAGE_SELECTOR}
+    ${langunge_code}=    Get selected LanguageCode    ${locator}
+    Run Keyword And Continue On Failure    Check ContainsText    &{Dic_Sprachauswahl}[${langunge_code}]
 
 Check Languages Are Selectable
+    [Arguments]    ${locator}=${LANGUAGE_SELECTOR}
     [Tags]    Action    ChangeLanguage
     : FOR    ${key}    IN    @{AVAILABLE_LANGUAGES.keys()}
-    \    Set LanguageId    ${key}
-    \    Check LanguageId is selected    ${key}
-    \    ${langunge_id}=    Get selected LanguageId
+    \    Set LanguageId    ${key}    ${locator}
+    \    Check LanguageId is selected    ${key}    ${locator}
+    \    ${langunge_id}=    Get selected LanguageId    ${locator}
     \    Should Be Equal    ${langunge_id}    ${key}
-    \    ${class} =    Get Element Attribute    ${LANGUAGE_SELECTOR}:${key}    class
+    \    ${class} =    Get Element Attribute    ${locator}:${key}    class
     \    ${langCode}=    Get From Dictionary    ${AVAILABLE_LANGUAGES}    ${key}
-    \    Run Keyword And Continue On Failure    Check ContainsText    &{Dic_Sprachauswahl}[${langCode}]
-    Set Default LanguageId
+    Set Default LanguageId    ${locator}
 
 Get selected LanguageId
+    [Arguments]    ${locator}=${LANGUAGE_SELECTOR}
     [Documentation]    MM 22.03.2018
     ...    get languageid
     [Tags]    General, Helper, List, Selection, Language
     : FOR    ${key}    IN    @{AVAILABLE_LANGUAGES.keys()}
-    \    ${class} =    Get Element Attribute    ${LANGUAGE_SELECTOR}:${key}    class
+    \    ${class} =    Get Element Attribute    ${locator}:${key}    class
     \    Return From Keyword If    '${class}'=='selected'    ${key}
     [Return]    -1
 
 Get selected LanguageCode
+    [Arguments]    ${locator}=${LANGUAGE_SELECTOR}
     [Documentation]    MM 22.03.2018
     ...    get languageid
     [Tags]    General, Helper, List, Selection, Language
     : FOR    ${key}    IN    @{AVAILABLE_LANGUAGES.keys()}
-    \    ${class} =    Get Element Attribute    ${LANGUAGE_SELECTOR}:${key}    class
+    \    ${class} =    Get Element Attribute    ${locator}:${key}    class
     \    ${langCode}=    Get From Dictionary    ${AVAILABLE_LANGUAGES}    ${key}
     \    Return From Keyword If    '${class}'=='selected'    ${langCode}
     [Return]    ${EMPTY}
 
 Set Default LanguageId
+    [Arguments]    ${locator}=${LANGUAGE_SELECTOR}
     [Documentation]    MM 04.04.2018
     ...    set default languageid
     [Tags]    General, Helper, List, Selection, Language
-    Set LanguageId    ${DEFAULT_LANGUAGE_ID}
+    Set LanguageId    ${DEFAULT_LANGUAGE_ID}    ${locator}
 
 Set LanguageId
-    [Arguments]    ${langunge_id}
+    [Arguments]    ${langunge_id}    ${locator}=${LANGUAGE_SELECTOR}
     [Documentation]    MM 22.03.2018
     ...    set languageid
     [Tags]    General, Helper, List, Selection, Language
-    Click Element And Wait    ${LANGUAGE_SELECTOR}:${langunge_id}
+    Click Element And Wait    ${locator}:${langunge_id}
 
 Check LanguageId is selected
-    [Arguments]    ${langunge_id}    ${selected}=${TRUE}
+    [Arguments]    ${langunge_id}    ${selected}=${TRUE}    ${locator}=${LANGUAGE_SELECTOR}
     [Documentation]    MM 22.03.2018
     ...    check languageid
     [Tags]    General, Helper, List, Selection, Language
-    Check List ElementId is selected    ${LANGUAGE_SELECTOR}:${langunge_id}    selected    ${selected}
+    Check List ElementId is selected    ${locator}:${langunge_id}    selected    ${selected}

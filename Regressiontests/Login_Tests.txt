@@ -1,0 +1,120 @@
+*** Settings ***
+Documentation     https://github.com/robotframework/HowToWriteGoodTestCases/blob/master/HowToWriteGoodTestCases.rst
+Force Tags        General    Login
+Resource          ../UserKeywords/Common_Resources.html
+Resource          General_PageObjects/Message_PopUp.txt
+
+*** Test Cases ***
+All Elements Are Available
+    Open Login Page
+    Language Selector Is Available
+    Inputfield Username Is Available
+    Inputfield Password Is Available
+    Button Submit Credentials Is Available
+    Texts Are Available
+    Copyright Is Available
+    Links Are Available
+    Links Are Clickable
+    [Teardown]    Close Browser
+
+Valid Login
+    Open Login Page
+    Input Username    ${RLX_USER}
+    Input Password    ${RLX_PWD}
+    Submit Credentials
+    Mandator Selection Page Should Be Open
+    Submit Mandator Selection    ${DEFAULT_MANDATOR_NAME}
+    Main Page Should Be Open
+    [Teardown]    Close Browser
+
+Invalid Login
+    Open Login Page
+    Input Username    Tom
+    Input Password    Taylor
+    Submit Credentials
+    Error Page Should Be Open
+    [Teardown]    Close Browser
+
+Empty Login
+    Open Login Page
+    Clear Input Username
+    Clear Input Password
+    Submit Credentials
+    Error Page Should Be Open
+    [Teardown]    Close Browser
+
+*** Keywords ***
+Open Login Page
+    Open Browser    ${RLX_LOGIN_URL}    ${BROWSER}
+    Maximize Browser Window
+    Wait until Page is unfreezed
+    Check PageArea is visible    /$flow_main    screen look_rlx_screen_login
+    Title Should Be    Rigilog: OAC
+
+Input Username
+    [Arguments]    ${username}=${EMPTY}
+    Input Text    //input[contains(@id,'/$flow_main/login_username')]    ${username}
+
+Clear Input Username
+    Input Text    //input[contains(@id,'/$flow_main/login_username')]    ${SPACE}
+    Clear Element Text    //input[contains(@id,'/$flow_main/login_username')]
+
+Input Password
+    [Arguments]    ${password}=${EMPTY}
+    Input Text    //input[contains(@id,'/$flow_main/login_password')]    ${password}
+
+Clear Input Password
+    Input Text    //input[contains(@id,'/$flow_main/login_password')]    ${SPACE}
+    Clear Element Text    //input[contains(@id,'/$flow_main/login_password')]
+
+Submit Credentials
+    Click Element And Wait    /$flow_main/login
+
+Error Page Should Be Open
+    Message_PopUp.Check Message PopUp Is Visible    visible=true
+    Check PageArea is visible    /$flow_main    screen look_rlx_screen_choose_mandator    visible=false
+
+Mandator Selection Page Should Be Open
+    Check PageArea is visible    /$flow_main    screen look_rlx_screen_choose_mandator
+
+Submit Mandator Selection
+    [Arguments]    ${mandator}
+    Click Element    //div[contains(text(), '${mandator}')]
+    Click Element And Wait    ${btnChoose}
+
+Main Page Should Be Open
+    Check PageArea is visible    /$flow_main    screen look_rlx_screen_main_screen
+
+Language Selector Is Available
+    Check LanguageSelector    /$flow_main/languages
+
+Inputfield Username Is Available
+    Check ElementId    /$flow_main/login_username    enabled=true
+    Check LabelText    /$flow_main/login_username    Benutzername
+    Textfield Value Should Be    /$flow_main/login_username    Testadmin
+
+Inputfield Password Is Available
+    Check ElementId    /$flow_main/login_password    enabled=true
+    Check LabelText    /$flow_main/login_password    Passwort
+    Textfield Value Should Be    /$flow_main/login_password    Tester
+
+Button Submit Credentials Is Available
+    Check ElementId    /$flow_main/login    Anmelden    enabled=true
+
+Texts Are Available
+    Check ContainsText    Login
+    Check ContainsText    OAC
+    Check ContainsText    Bestell- und Kommunikationsplattform für persönliche Unternehmens- und Arbeitsschutzbekleidung
+
+Copyright Is Available
+    Check ElementId    /$flow_main/copy    © Rigilog AG    enabled=true
+
+Links Are Available
+    Check ElementId    /$flow_main/link1    Rechtliches    enabled=true
+    Check ElementId    /$flow_main/link2    Kontakt    enabled=true
+    Check ElementId    /$flow_main/link3    http://www.katagprofession.com    enabled=true
+
+Links Are Clickable
+    Click Link    /$flow_main/link1
+    Click Link    /$flow_main/link2
+    Click Link    /$flow_main/link3

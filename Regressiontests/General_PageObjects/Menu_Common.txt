@@ -33,6 +33,7 @@ Check Toolbox Is Avaliable
     Check ElementId    ${btnHelp}    enabled=true
     Check ElementId    ${btnExit}    enabled=true
     #Sprachauswahl
+    Check LanguageSelector Title
     Check LanguageSelector
 
 Check Userbox Is Avaliable
