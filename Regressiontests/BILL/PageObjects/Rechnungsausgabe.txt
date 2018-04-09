@@ -1,6 +1,6 @@
 *** Settings ***
-Library           ../../Libs/DatabaseClass.py    database=${DATABASE_NAME}    user=${DATABASE_USER}    password=${DATABASE_PWD}    host=${DATABASE_IP}    port=${DATABASE_PORT}
-Library           ../../Libs/SQLQueryReader.py
+Library           ../../../Libs/DatabaseClass.py    database=${DATABASE_NAME}    user=${DATABASE_USER}    password=${DATABASE_PWD}    host=${DATABASE_IP}    port=${DATABASE_PORT}
+Library           ../../../Libs/SQLQueryReader.py
 
 *** Variables ***
 # ~~~~~~~~~ checkboxes
