@@ -27,7 +27,23 @@ Valid Login
     Main Page Should Be Open
     [Teardown]    Close Browser
 
-Invalid Login
+Invalid Username
+    Open Login Page
+    Input Username    Tom
+    Input Password    ${RLX_PWD}
+    Submit Credentials
+    Error Page Should Be Open
+    [Teardown]    Close Browser
+
+Invalid Password
+    Open Login Page
+    Input Username    ${RLX_USER}
+    Input Password    Taylor
+    Submit Credentials
+    Error Page Should Be Open
+    [Teardown]    Close Browser
+
+Invalid Username And Password
     Open Login Page
     Input Username    Tom
     Input Password    Taylor
@@ -35,7 +51,23 @@ Invalid Login
     Error Page Should Be Open
     [Teardown]    Close Browser
 
-Empty Login
+Empty Username
+    Open Login Page
+    Clear Input Username
+    Input Password    ${RLX_PWD}
+    Submit Credentials
+    Error Page Should Be Open
+    [Teardown]    Close Browser
+
+Empty Password
+    Open Login Page
+    Input Username    ${RLX_USER}
+    Clear Input Password
+    Submit Credentials
+    Error Page Should Be Open
+    [Teardown]    Close Browser
+
+Empty Username And Password
     Open Login Page
     Clear Input Username
     Clear Input Password
@@ -48,7 +80,7 @@ Open Login Page
     Open Browser    ${RLX_LOGIN_URL}    ${BROWSER}
     Maximize Browser Window
     Wait until Page is unfreezed
-    Check PageArea is visible    /$flow_main    screen look_rlx_screen_login
+    Wait Until Page Contains Element    //*[@id="/$flow_main"][contains(@class, 'screen look_rlx_screen_login')]
     Title Should Be    Rigilog: OAC
 
 Input Username
