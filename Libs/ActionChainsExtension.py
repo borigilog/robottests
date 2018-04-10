@@ -6,7 +6,7 @@ from selenium.webdriver.common.keys import Keys
 class ActionChainsExtension:
 	ROBOT_LIBRARY_SCOPE = 'GLOBAL'
 
-	def select_elements_with_CONTROL(self, ids):
+	def select_elements_with_CONTROL(self, *ids):
 		selenium2lib = BuiltIn().get_library_instance('Selenium2Library')
 		driver = selenium2lib._current_browser()
 		

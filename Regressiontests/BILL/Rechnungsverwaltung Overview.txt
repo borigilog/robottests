@@ -15,9 +15,7 @@ Variables         PageObjects/Rechnungsverwaltung_Overview.yaml
 Select no Bill
     [Documentation]    BILL -> Rechnungsverwaltung -> Übersicht: Status der Buttons, wenn kein Element selektiert ist
     [Tags]    BillSelection
-    Element Should Be Enabled    ${chkShowClosedBills}
-    Element Should Be Enabled    ${chkShowProcessedBills}
-    Element Should Be Enabled    ${chkShowProformaBills}
+    Filters Should Be Enabled
     Element Should Be Enabled    ${btnCreateBill}
     Element Should Be Enabled    ${btnAbort}
     Element Should Be Disabled    ${btnRecalculate}
@@ -31,11 +29,8 @@ Select no Bill
 Select Bill in Status "In Bearbeitung"
     [Documentation]    BILL -> Rechnungsverwaltung -> Übersicht: Status der Buttons, wenn Rechnung selektiert ist im Status "In Bearbeitung"
     [Tags]    BillSelection
-    Click Element    ${invOpen}
-    Status of Bill Should Be    ${invOpen}    In Bearbeitung
-    Element Should Be Enabled    ${chkShowClosedBills}
-    Element Should Be Enabled    ${chkShowProcessedBills}
-    Element Should Be Enabled    ${chkShowProformaBills}
+    Click Element    ${billOpen}
+    Filters Should Be Enabled
     Element Should Be Enabled    ${btnCreateBill}
     Element Should Be Enabled    ${btnAbort}
     Element Should Be Enabled    ${btnRecalculate}
@@ -49,11 +44,8 @@ Select Bill in Status "In Bearbeitung"
 Select Bill in Status "Verarbeitet"
     [Documentation]    BILL -> Rechnungsverwaltung -> Übersicht: Status der Buttons, wenn Rechnung selektiert ist im Status "Verarbeitet"
     [Tags]    BillSelection
-    Click Element    ${invProcessed}
-    Status of Bill Should Be    ${invProcessed}    Verarbeitet
-    Element Should Be Enabled    ${chkShowClosedBills}
-    Element Should Be Enabled    ${chkShowProcessedBills}
-    Element Should Be Enabled    ${chkShowProformaBills}
+    Click Element    ${billProcessed}
+    Filters Should Be Enabled
     Element Should Be Enabled    ${btnCreateBill}
     Element Should Be Enabled    ${btnAbort}
     Element Should Be Disabled    ${btnRecalculate}
@@ -67,11 +59,8 @@ Select Bill in Status "Verarbeitet"
 Select Bill in Status "Verarbeitet & veröffentlicht"
     [Documentation]    BILL -> Rechnungsverwaltung -> Übersicht: Status der Buttons, wenn Rechnung selektiert ist im Status "Verarbeitet"
     [Tags]    BillSelection
-    Click Element    ${invProcessedClosed}
-    Status of Bill Should Be    ${invProcessedClosed}    Verarbeitet & veröffentlicht
-    Element Should Be Enabled    ${chkShowClosedBills}
-    Element Should Be Enabled    ${chkShowProcessedBills}
-    Element Should Be Enabled    ${chkShowProformaBills}
+    Click Element    ${billProcessedClosed}
+    Filters Should Be Enabled
     Element Should Be Enabled    ${btnCreateBill}
     Element Should Be Enabled    ${btnAbort}
     Element Should Be Disabled    ${btnRecalculate}
@@ -85,11 +74,8 @@ Select Bill in Status "Verarbeitet & veröffentlicht"
 Select Bill in Status "Veröffentlicht"
     [Documentation]    BILL -> Rechnungsverwaltung -> Übersicht: Status der Buttons, wenn Rechnung selektiert ist im Status "Veröffentlicht"
     [Tags]    BillSelection
-    Click Element    ${invClosed}
-    Status of Bill Should Be    ${invClosed}    Veröffentlicht
-    Element Should Be Enabled    ${chkShowClosedBills}
-    Element Should Be Enabled    ${chkShowProcessedBills}
-    Element Should Be Enabled    ${chkShowProformaBills}
+    Click Element    ${billClosed}
+    Filters Should Be Enabled
     Element Should Be Enabled    ${btnCreateBill}
     Element Should Be Enabled    ${btnAbort}
     Element Should Be Disabled    ${btnRecalculate}
@@ -100,28 +86,21 @@ Select Bill in Status "Veröffentlicht"
     Element Should Be Enabled    ${btnProcessBill}
     Element Should Be Enabled    ${btnExportBills}
 
-Select Multiple Bills
-    [Documentation]    BILL -> Rechnungsverwaltung -> Übersicht: Status der Buttons, wenn mehrere Elemente selektiert sind
+Select Multiple Bills Via CONTROL
+    [Documentation]    BILL -> Rechnungsverwaltung -> Übersicht: Status der Buttons, wenn mehrere Elemente selektiert sind mit CONTROL (STRG)
     [Tags]    BillSelection
-    ${ids}    Create List    ${invProcessed}    ${invProcessedClosed}
-    Select Elements With CONTROL    ${ids}
-    Run Keyword And Continue On Failure    Bill Should Be Selected    ${invProcessed}
-    Run Keyword And Continue On Failure    Bill Should Be Selected    ${invProcessedClosed}
-    Select Elements With SHIFT    ${invProcessed}    ${invProcessedClosed}
-    Bill Should Be Selected    ${invProcessed}
-    Bill Should Be Selected    ${invProcessedClosed}
-    Element Should Be Enabled    ${chkShowClosedBills}
-    Element Should Be Enabled    ${chkShowProcessedBills}
-    Element Should Be Enabled    ${chkShowProformaBills}
-    Element Should Be Enabled    ${btnCreateBill}
-    Element Should Be Enabled    ${btnAbort}
-    Element Should Be Disabled    ${btnRecalculate}
-    Element Should Be Disabled    ${btnEditBill}
-    Element Should Be Disabled    ${btnDeleteBill}
-    Element Should Be Disabled    ${btnReopenBill}
-    Element Should Be Disabled    ${btnCloseBill}
-    Element Should Be Disabled    ${btnProcessBill}
-    Element Should Be Disabled    ${btnExportBills}
+    Select Elements With CONTROL    ${billProcessed}    ${billProcessedClosed}
+    Bill Should Be Selected    ${billProcessed}
+    Bill Should Be Selected    ${billProcessedClosed}
+    Check Buttons Enabled For Multiple Bills
+
+Select Multiple Bills Via SHIFT
+    [Documentation]    BILL -> Rechnungsverwaltung -> Übersicht: Status der Buttons, wenn mehrere Elemente selektiert sind mit SHIFT
+    [Tags]    BillSelection
+    Select Elements With SHIFT    ${billProcessed}    ${billProcessedClosed}
+    Bill Should Be Selected    ${billProcessed}
+    Bill Should Be Selected    ${billProcessedClosed}
+    Check Buttons Enabled For Multiple Bills
 
 Check Languagedependent Text Content
     [Documentation]    Bill -> Rechnungsverwaltung -> Übersicht: Prüft, ob pro Sprache die richtigen Texte der (statischen) Modul-Dictionaries angezeigt werden
@@ -168,7 +147,7 @@ Sort By Positionen
 
 Filter Bills
     [Tags]    Filter
-    [Setup]    Setup Filter Tests
+    [Setup]    Create Bill Status Test Variables
     [Template]    Test Filter
     showClosedBills=${TRUE}    showProcessedBills=${TRUE}    showProformaBills=${TRUE}
     showClosedBills=${TRUE}    showProcessedBills=${TRUE}    showProformaBills=${FALSE}
@@ -180,6 +159,28 @@ Filter Bills
     showClosedBills=${FALSE}    showProcessedBills=${FALSE}    showProformaBills=${FALSE}
 
 *** KeyWords ***
+Bill Should Be Selected
+    [Arguments]    ${id}
+    ${cls} =    Get Element Attribute    ${id}    class
+    Should Be Equal    ${cls}    sel
+
+Check Buttons Enabled For Multiple Bills
+    Filters Should Be Enabled
+    Element Should Be Enabled    ${btnCreateBill}
+    Element Should Be Enabled    ${btnAbort}
+    Element Should Be Disabled    ${btnRecalculate}
+    Element Should Be Disabled    ${btnEditBill}
+    Element Should Be Disabled    ${btnDeleteBill}
+    Element Should Be Disabled    ${btnReopenBill}
+    Element Should Be Disabled    ${btnCloseBill}
+    Element Should Be Disabled    ${btnProcessBill}
+    Element Should Be Disabled    ${btnExportBills}
+
+Filters Should Be Enabled
+    Element Should Be Enabled    ${chkShowClosedBills}
+    Element Should Be Enabled    ${chkShowProcessedBills}
+    Element Should Be Enabled    ${chkShowProformaBills}
+
 Test Filter
     [Arguments]    ${showClosedBills}=${TRUE}    ${showProcessedBills}=${TRUE}    ${showProformaBills}=${TRUE}
     Apply Filter    showClosedBills = ${showClosedBills}    showProcessedBills=${showProcessedBills}    showProformaBills=${showProformaBills}
@@ -192,19 +193,22 @@ Check If Bills Are Filtered
     ${showProformaBills} =    Is Truthy    ${showProformaBills}
     ${showProcessedClosedBills} =    Evaluate    ${showProcessedBills} or ${showClosedBills}
     ${content} =    Get Content Of Table Column    ${grdBillsPrefix}    status
-    ${openBillsExist} =    Evaluate    any(x == u'&{Bills_State_InProgress}[${language_code}]' for x in $Content)
-    ${closedBillsExist} =    Evaluate    any(x == u'&{Bills_State_Published}[${language_code}]' for x in $Content)
-    ${processedBillsExist} =    Evaluate    any(x == u'&{Bills_State_IsProcessed}[${language_code}]' for x in $Content)
-    ${processedClosedBillsExist} =    Evaluate    any(x == u'&{Bills_State_IsProcessed_and_Published}[${language_code}]' for x in $Content)
+    ${openBillsExist} =    Evaluate    any(x == u'${status_InProgress}' for x in $Content)
+    ${closedBillsExist} =    Evaluate    any(x == u'${status_Published}' for x in $Content)
+    ${processedBillsExist} =    Evaluate    any(x == u'${status_Processed}' for x in $Content)
+    ${processedClosedBillsExist} =    Evaluate    any(x == u'${status_ProcessedAndPublished}' for x in $Content)
     Should Be Equal    ${openBillsExist}    ${TRUE}
     Should Be Equal    ${closedBillsExist}    ${showClosedBills}
     Should Be Equal    ${processedBillsExist}    ${showProcessedBills}
     Should Be Equal    ${processedClosedBillsExist}    ${showProcessedClosedBills}
 
-Setup Filter Tests
+Create Bill Status Test Variables
     Init Status Dictionaries
-    ${code} =    Get Selected LanguageCode
-    Set Test Variable    ${language_code}    ${code}
+    ${language_code} =    Get Selected LanguageCode
+    Set Test Variable    ${status_InProgress}    &{Bills_State_InProgress}[${language_code}]
+    Set Test Variable    ${status_Published}    &{Bills_State_Published}[${language_code}]
+    Set Test Variable    ${status_Processed}    &{Bills_State_IsProcessed}[${language_code}]
+    Set Test Variable    ${status_ProcessedAndPublished}    &{Bills_State_IsProcessed_and_Published}[${language_code}]
 
 Check Language Content
     [Arguments]    ${key}
@@ -231,8 +235,8 @@ Check Language Content
     Run Keyword And Continue On Failure    Element Text Should Be    ${btnRecalculate}    &{DicYAML_Preise erneut berechnen}[${language_code}]
     Run Keyword And Continue On Failure    Element Text Should Be    ${btnAbort}    &{DicYAML_Vorgang abbrechen}[${language_code}]
     Run Keyword And Continue On Failure    Element Text Should Be    ${btnExportBills}    &{DicYAML_Rechnungsexport}[${language_code}]
-    Run Keyword And Continue On Failure    Status of Bill Should Be    ${invOpen}    &{Bills_State_InProgress}[${language_code}]
-    Run Keyword And Continue On Failure    Status of Bill Should Be    ${invProcessed}    &{Bills_State_IsProcessed}[${language_code}]
-    Run Keyword And Continue On Failure    Status of Bill Should Be    ${invClosed}    &{Bills_State_Published}[${language_code}]
-    Run Keyword And Continue On Failure    Status of Bill Should Be    ${invProcessedClosed}    &{Bills_State_IsProcessed_and_Published}[${language_code}]
+    Run Keyword And Continue On Failure    Element Text Should Be    ${billOpen}/$status    &{Bills_State_InProgress}[${language_code}]
+    Run Keyword And Continue On Failure    Element Text Should Be    ${billProcessed}/$status    &{Bills_State_IsProcessed}[${language_code}]
+    Run Keyword And Continue On Failure    Element Text Should Be    ${billClosed}/$status    &{Bills_State_Published}[${language_code}]
+    Run Keyword And Continue On Failure    Element Text Should Be    ${billProcessedClosed}/$status    &{Bills_State_IsProcessed_and_Published}[${language_code}]
     Sleep    1

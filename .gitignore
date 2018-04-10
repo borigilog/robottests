@@ -8,3 +8,4 @@
 *.pyc
 *.pyc
 Libs/DatabaseClass.pyc
+Libs/ActionChainsExtension.pyc

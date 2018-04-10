@@ -27,21 +27,12 @@ ${colStatus}      ${grdBillsPrefix}/$col_status
 ${colDateOfCreation}    ${grdBillsPrefix}/$col_creationDate
 ${colPositionCount}    ${grdBillsPrefix}/$col_items
 # ~~~~~~~ Bills
-${invOpen}        ${grdBillsPrefix}/94
-${invClosed}      ${grdBillsPrefix}/46
-${invProcessed}    ${grdBillsPrefix}/0
-${invProcessedClosed}    ${grdBillsPrefix}/1
+${billOpen}       ${grdBillsPrefix}/94
+${billClosed}     ${grdBillsPrefix}/46
+${billProcessed}    ${grdBillsPrefix}/0
+${billProcessedClosed}    ${grdBillsPrefix}/1
 
 *** Keywords ***
-Status of Bill Should Be
-    [Arguments]    ${id}    ${status}
-    Element Text Should Be    ${id}/$status    ${status}
-
-Bill Should Be Selected
-    [Arguments]    ${id}
-    ${cls} =    Get Element Attribute    ${id}    class
-    Should Be Equal    ${cls}    sel
-
 Init Status Dictionaries
     Create SettingsDics    Bills    State_InProgress
     Create SettingsDics    Bills    State_IsProcessed
