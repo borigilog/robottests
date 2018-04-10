@@ -1,13 +1,14 @@
 *** Settings ***
 Documentation     https://github.com/robotframework/HowToWriteGoodTestCases/blob/master/HowToWriteGoodTestCases.rst
 Force Tags        General    Login
+Metadata          Version    1.0
+Metadata          Executed At    ${RLX_LOGIN_URL}
 Resource          ../UserKeywords/Common_Resources.html
 Resource          General_PageObjects/Message_PopUp.txt
 
 *** Test Cases ***
 All Elements Are Available
     Open Login Page
-    Language Selector Is Available
     Inputfield Username Is Available
     Inputfield Password Is Available
     Button Submit Credentials Is Available
@@ -15,6 +16,8 @@ All Elements Are Available
     Copyright Is Available
     Links Are Available
     Links Are Clickable
+    Language Selector Is Available
+    Language Selector Is Clickable
     [Teardown]    Close Browser
 
 Valid Login
@@ -27,7 +30,23 @@ Valid Login
     Main Page Should Be Open
     [Teardown]    Close Browser
 
-Invalid Login
+Invalid Username
+    Open Login Page
+    Input Username    Tom
+    Input Password    ${RLX_PWD}
+    Submit Credentials
+    Error Page Should Be Open
+    [Teardown]    Close Browser
+
+Invalid Password
+    Open Login Page
+    Input Username    ${RLX_USER}
+    Input Password    Taylor
+    Submit Credentials
+    Error Page Should Be Open
+    [Teardown]    Close Browser
+
+Invalid Username And Password
     Open Login Page
     Input Username    Tom
     Input Password    Taylor
@@ -35,7 +54,23 @@ Invalid Login
     Error Page Should Be Open
     [Teardown]    Close Browser
 
-Empty Login
+Empty Username
+    Open Login Page
+    Clear Input Username
+    Input Password    ${RLX_PWD}
+    Submit Credentials
+    Error Page Should Be Open
+    [Teardown]    Close Browser
+
+Empty Password
+    Open Login Page
+    Input Username    ${RLX_USER}
+    Clear Input Password
+    Submit Credentials
+    Error Page Should Be Open
+    [Teardown]    Close Browser
+
+Empty Username And Password
     Open Login Page
     Clear Input Username
     Clear Input Password
@@ -48,24 +83,24 @@ Open Login Page
     Open Browser    ${RLX_LOGIN_URL}    ${BROWSER}
     Maximize Browser Window
     Wait until Page is unfreezed
-    Check PageArea is visible    /$flow_main    screen look_rlx_screen_login
+    Wait Until Page Contains Element    //*[@id="/$flow_main"][contains(@class, 'screen look_rlx_screen_login')]
     Title Should Be    Rigilog: OAC
 
 Input Username
     [Arguments]    ${username}=${EMPTY}
-    Input Text    //input[contains(@id,'/$flow_main/login_username')]    ${username}
+    Input Text    /$flow_main/login_username    ${username}
 
 Clear Input Username
     Input Text    //input[contains(@id,'/$flow_main/login_username')]    ${SPACE}
-    Clear Element Text    //input[contains(@id,'/$flow_main/login_username')]
+    Clear Element Text    /$flow_main/login_username
 
 Input Password
     [Arguments]    ${password}=${EMPTY}
-    Input Text    //input[contains(@id,'/$flow_main/login_password')]    ${password}
+    Input Text    /$flow_main/login_password    ${password}
 
 Clear Input Password
     Input Text    //input[contains(@id,'/$flow_main/login_password')]    ${SPACE}
-    Clear Element Text    //input[contains(@id,'/$flow_main/login_password')]
+    Clear Element Text    /$flow_main/login_password
 
 Submit Credentials
     Click Element And Wait    /$flow_main/login
@@ -78,15 +113,18 @@ Mandator Selection Page Should Be Open
     Check PageArea is visible    /$flow_main    screen look_rlx_screen_choose_mandator
 
 Submit Mandator Selection
-    [Arguments]    ${mandator}
-    Click Element    //div[contains(text(), '${mandator}')]
-    Click Element And Wait    ${btnChoose}
+    [Arguments]    ${mandator_name}
+    Click Element    //div[contains(text(), '${mandator_name}')]
+    Click Element And Wait    /$flow_main/btn_choose
 
 Main Page Should Be Open
     Check PageArea is visible    /$flow_main    screen look_rlx_screen_main_screen
 
 Language Selector Is Available
-    Check LanguageSelector    /$flow_main/languages
+    Language_Selector.Check LanguageSelector    /$flow_main/languages
+
+Language Selector Is Clickable
+    Language_Selector.Check Languages Are Selectable    /$flow_main/languages
 
 Inputfield Username Is Available
     Check ElementId    /$flow_main/login_username    enabled=true
@@ -103,8 +141,11 @@ Button Submit Credentials Is Available
 
 Texts Are Available
     Check ContainsText    Login
+    Element Should Be Visible    //div[contains(@class,'group flex vertical wide look_login_form')]/div[contains(text(),'Login')]
     Check ContainsText    OAC
+    Element Should Be Visible    //div[contains(@class,'group flex vertical look_login_module')]/div[contains(text(),'OAC')]
     Check ContainsText    Bestell- und Kommunikationsplattform für persönliche Unternehmens- und Arbeitsschutzbekleidung
+    Element Should Be Visible    //div[contains(@class,'group flex vertical look_login_module')]/div[contains(text(),'Bestell- und Kommunikationsplattform für persönliche Unternehmens- und Arbeitsschutzbekleidung')]
 
 Copyright Is Available
     Check ElementId    /$flow_main/copy    © Rigilog AG    enabled=true

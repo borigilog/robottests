@@ -7,16 +7,15 @@ ${LANGUAGE_SELECTOR}    /$flow_main/menu_bottom/languages
 *** Keywords ***
 Check LanguageSelector
     [Arguments]    ${locator}=${LANGUAGE_SELECTOR}
-    ${langunge_code}=    Get selected LanguageCode    ${locator}
+    ${langunge_code}=    Get selected LanguageCode    locator=${locator}
     Check ElementId    ${locator}
     : FOR    ${key}    IN    @{AVAILABLE_LANGUAGES.keys()}
-    \    ${class} =    Get Element Attribute    ${locator}:${key}    class
     \    ${langCode}=    Get From Dictionary    ${AVAILABLE_LANGUAGES}    ${key}
     \    Check ElementId    ${locator}:${key}    &{Dic_Sprachen_Code}[${langCode}]    enabled=true
 
 Check LanguageSelector Title
     [Arguments]    ${locator}=${LANGUAGE_SELECTOR}
-    ${langunge_code}=    Get selected LanguageCode    ${locator}
+    ${langunge_code}=    Get selected LanguageCode    locator=${locator}
     Run Keyword And Continue On Failure    Check ContainsText    &{Dic_Sprachauswahl}[${langunge_code}]
 
 Check Languages Are Selectable
@@ -24,11 +23,7 @@ Check Languages Are Selectable
     [Tags]    Action    ChangeLanguage
     : FOR    ${key}    IN    @{AVAILABLE_LANGUAGES.keys()}
     \    Set LanguageId    ${key}    ${locator}
-    \    Check LanguageId is selected    ${key}    ${locator}
-    \    ${langunge_id}=    Get selected LanguageId    ${locator}
-    \    Should Be Equal    ${langunge_id}    ${key}
-    \    ${class} =    Get Element Attribute    ${locator}:${key}    class
-    \    ${langCode}=    Get From Dictionary    ${AVAILABLE_LANGUAGES}    ${key}
+    \    Check LanguageId is selected    ${key}    locator=${locator}
     Set Default LanguageId    ${locator}
 
 Get selected LanguageId
@@ -57,7 +52,7 @@ Set Default LanguageId
     [Documentation]    MM 04.04.2018
     ...    set default languageid
     [Tags]    General, Helper, List, Selection, Language
-    Set LanguageId    ${DEFAULT_LANGUAGE_ID}    ${locator}
+    Set LanguageId    ${DEFAULT_LANGUAGE_ID}    locator=${locator}
 
 Set LanguageId
     [Arguments]    ${langunge_id}    ${locator}=${LANGUAGE_SELECTOR}
