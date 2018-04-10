@@ -2,6 +2,7 @@
 Documentation     https://github.com/robotframework/HowToWriteGoodTestCases/blob/master/HowToWriteGoodTestCases.rst
 Force Tags        General    Login
 Metadata          Version    1.0
+Metadata          Author    Marcel Mischke
 Metadata          Executed At    ${RLX_LOGIN_URL}
 Resource          ../UserKeywords/Common_Resources.html
 Resource          General_PageObjects/Message_PopUp.txt
@@ -91,7 +92,7 @@ Input Username
     Input Text    /$flow_main/login_username    ${username}
 
 Clear Input Username
-    Input Text    //input[contains(@id,'/$flow_main/login_username')]    ${SPACE}
+    Input Text    /$flow_main/login_username    ${SPACE}
     Clear Element Text    /$flow_main/login_username
 
 Input Password
@@ -99,7 +100,7 @@ Input Password
     Input Text    /$flow_main/login_password    ${password}
 
 Clear Input Password
-    Input Text    //input[contains(@id,'/$flow_main/login_password')]    ${SPACE}
+    Input Text    /$flow_main/login_password    ${SPACE}
     Clear Element Text    /$flow_main/login_password
 
 Submit Credentials
@@ -141,11 +142,8 @@ Button Submit Credentials Is Available
 
 Texts Are Available
     Check ContainsText    Login
-    Element Should Be Visible    //div[contains(@class,'group flex vertical wide look_login_form')]/div[contains(text(),'Login')]
     Check ContainsText    OAC
-    Element Should Be Visible    //div[contains(@class,'group flex vertical look_login_module')]/div[contains(text(),'OAC')]
     Check ContainsText    Bestell- und Kommunikationsplattform für persönliche Unternehmens- und Arbeitsschutzbekleidung
-    Element Should Be Visible    //div[contains(@class,'group flex vertical look_login_module')]/div[contains(text(),'Bestell- und Kommunikationsplattform für persönliche Unternehmens- und Arbeitsschutzbekleidung')]
 
 Copyright Is Available
     Check ElementId    /$flow_main/copy    © Rigilog AG    enabled=true

@@ -1,13 +1,27 @@
 *** Settings ***
-Suite Setup       Select Auswertung    true
+Suite Setup       Setup Auswertung
 Suite Teardown    Close Browser
 Test Teardown     Teardown Auswertung
 Force Tags        Bill    Auswertung
 Default Tags
+Metadata          Version    1.0
+Metadata          Author    Marcel Mischke
 Resource          ../../UserKeywords/Common_Resources.html
 Resource          PageObjects/Menu.txt
-Resource          PageObjects/Auswertung.txt
-Variables         PageObjects/Auswertung.yaml
+
+*** Variables ***
+# ~~~~~~~~~ date selector
+${selStartDate}    /$flow_main/$flow_content/dateFrom
+${selEndDate}     /$flow_main/$flow_content/dateTo
+# ~~~~~~~ buttons
+${btnAbort}       /$flow_main/$flow_content/abort
+${btnConfirm}     /$flow_main/$flow_content/confirm
+${btnGenerate}    /$flow_main/$flow_content/generate
+# ~~~~~~~ mandator list
+${listMandator}    /$flow_main/$flow_content/mandator_list
+# ~~~~~~~ mandator col
+${colIntern}      ${listMandator}/$col_intName
+${colExtern}      ${listMandator}/$col_extName
 
 *** Test Cases ***
 Check GUI Elements Auswertung Screen1
@@ -15,14 +29,14 @@ Check GUI Elements Auswertung Screen1
     [Tags]    GUI_Elements    TextLanguagedependent
     ${langunge_code}=    Get selected LanguageCode
     #title
-    Check ContainsText    &{Dic_Title}[${langunge_code}]
-    Check ContainsText    &{Dic_Info}[${langunge_code}]
+    Run Keyword And Continue On Failure    Check ContainsText    &{Dic_Title}[${langunge_code}]
+    Run Keyword And Continue On Failure    Check ContainsText    &{Dic_Info}[${langunge_code}]
     #grid
-    Check ElementId    ${colIntern}    &{Dic_colMandantorIntern}[${langunge_code}]    enabled=true
-    Check ElementId    ${colExtern}    &{Dic_colMandantorExtern}[${langunge_code}]    enabled=true
+    Run Keyword And Continue On Failure    Check ElementId    ${colIntern}    &{Dic_colMandantorIntern}[${langunge_code}]    enabled=true
+    Run Keyword And Continue On Failure    Check ElementId    ${colExtern}    &{Dic_colMandantorExtern}[${langunge_code}]    enabled=true
     #buttons
-    Check ElementId    ${btnConfirm}    &{Dic_btnConfirm}[${langunge_code}]    enabled=false
-    Check ElementId    ${btnAbort}    &{Dic_btnAbort}[${langunge_code}]    enabled=true
+    Run Keyword And Continue On Failure    Check ElementId    ${btnConfirm}    &{Dic_btnConfirm}[${langunge_code}]    enabled=false
+    Run Keyword And Continue On Failure    Check ElementId    ${btnAbort}    &{Dic_btnAbort}[${langunge_code}]    enabled=true
 
 Check Text Languagedependent Screen1
     [Documentation]    MM 01.04.2018, BILL -> Auswertung: Check texte in allen verfügbaren sprachen
@@ -77,14 +91,14 @@ Check GUI Elements Auswertung Screen2
     ${langunge_code}=    Get selected LanguageCode
     Go To Screen2
     #title
-    Check ContainsText    &{Dic_Title}[${langunge_code}]
-    Check ContainsText    &{Dic_InfoSelectDate}[${langunge_code}]
+    Run Keyword And Continue On Failure    Check ContainsText    &{Dic_Title}[${langunge_code}]
+    Run Keyword And Continue On Failure    Check ContainsText    &{Dic_InfoSelectDate}[${langunge_code}]
     #date
-    Check DateSelector    ${selStartDate}    labeltext=&{Dic_startDate}[${langunge_code}]    enabled=false
-    Check DateSelector    ${selEndDate}    labeltext=&{Dic_endDate}[${langunge_code}]    enabled=false
+    Run Keyword And Continue On Failure    Check DateSelector    ${selStartDate}    labeltext=&{Dic_startDate}[${langunge_code}]    enabled=false
+    Run Keyword And Continue On Failure    Check DateSelector    ${selEndDate}    labeltext=&{Dic_endDate}[${langunge_code}]    enabled=false
     #buttons
-    Check ElementId    ${btnGenerate}    &{Dic_btnGenerate}[${langunge_code}]    enabled=false
-    Check ElementId    ${btnAbort}    &{Dic_btnAbort}[${langunge_code}]    enabled=true
+    Run Keyword And Continue On Failure    Check ElementId    ${btnGenerate}    &{Dic_btnGenerate}[${langunge_code}]    enabled=false
+    Run Keyword And Continue On Failure    Check ElementId    ${btnAbort}    &{Dic_btnAbort}[${langunge_code}]    enabled=true
 
 Check Text Languagedependent Screen2
     [Documentation]    MM 01.04.2018, BILL -> Auswertung: Check texte in allen verfügbaren sprachen
@@ -150,3 +164,36 @@ Click Button Abbruch Screen2
     Click Element And Wait    ${btnAbort}
     Check PageArea is visible    ${menu_content}    ${evaluation_class}    visible=false
     Check Homescreen is selected
+
+*** Keywords ***
+Setup Auswertung
+    Select Auswertung    true
+    Create Dictionaries For Auswertungen
+
+Select Mandator in Auswertung
+    ${ElementId}    Get ElementID from List    ${listMandator}    $intName    ${DEFAULT_MANDATOR_NAME}
+    Click Element And Wait    ${ElementId}
+    Check List ElementId is selected    ${ElementId}    sel
+
+Go To Screen2
+    Select Mandator in Auswertung
+    Click Element And Wait    ${btnConfirm}
+
+Teardown Auswertung
+    ${passed} =    Run Keyword And Return Status    Select Auswertung
+    Return From Keyword If    ${passed}
+    Log    Die Seite war nicht clickable daher muss der Browser geschlossen und neugestartet werden    WARN
+    Close Browser
+    Select Auswertung    true
+
+Create Dictionaries For Auswertungen
+    Create SettingsDics    TotalAcount    Headline    Dic_Title
+    Create SettingsDics    TotalAcount    SelectMandator    Dic_Info
+    Create SettingsDics    TotalAcount    MandatorNameIntern    Dic_colMandantorIntern
+    Create SettingsDics    TotalAcount    MandatorName    Dic_colMandantorExtern
+    Create SettingsDics    TotalAcount    BTN_ConfirmSelection    Dic_btnConfirm
+    Create SettingsDics    TotalAcount    BTN_AbortSelection    Dic_btnAbort
+    Create SettingsDics    TotalAcount    SelcetStartDateAndEndDate    Dic_InfoSelectDate
+    Create SettingsDics    TotalAcount    StartDate    Dic_startDate
+    Create SettingsDics    TotalAcount    EndDate    Dic_endDate
+    Create SettingsDics    TotalAcount    BTNCreateReportTotalAcounting    Dic_btnGenerate
