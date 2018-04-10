@@ -6,6 +6,7 @@ Metadata          Author    Marcel Mischke
 Metadata          Executed At    ${RLX_LOGIN_URL}
 Resource          ../UserKeywords/Common_Resources.html
 Resource          General_PageObjects/Message_PopUp.txt
+Resource          General_PageObjects/Login.txt
 
 *** Test Cases ***
 All Elements Are Available
@@ -81,10 +82,7 @@ Empty Username And Password
 
 *** Keywords ***
 Open Login Page
-    Open Browser    ${RLX_LOGIN_URL}    ${BROWSER}
-    Maximize Browser Window
-    Wait until Page is unfreezed
-    Wait Until Page Contains Element    //*[@id="/$flow_main"][contains(@class, 'screen look_rlx_screen_login')]
+    Login.Load Login Page
     Title Should Be    Rigilog: OAC
 
 Input Username
@@ -103,20 +101,20 @@ Clear Input Password
     Input Text    /$flow_main/login_password    ${SPACE}
     Clear Element Text    /$flow_main/login_password
 
-Submit Credentials
-    Click Element And Wait    /$flow_main/login
-
 Error Page Should Be Open
     Message_PopUp.Check Message PopUp Is Visible    visible=true
     Check PageArea is visible    /$flow_main    screen look_rlx_screen_choose_mandator    visible=false
-
-Mandator Selection Page Should Be Open
-    Check PageArea is visible    /$flow_main    screen look_rlx_screen_choose_mandator
 
 Submit Mandator Selection
     [Arguments]    ${mandator_name}
     Click Element    //div[contains(text(), '${mandator_name}')]
     Click Element And Wait    /$flow_main/btn_choose
+
+Submit Credentials
+    Click Element And Wait    /$flow_main/login
+
+Mandator Selection Page Should Be Open
+    Check PageArea is visible    /$flow_main    screen look_rlx_screen_choose_mandator
 
 Main Page Should Be Open
     Check PageArea is visible    /$flow_main    screen look_rlx_screen_main_screen

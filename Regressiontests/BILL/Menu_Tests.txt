@@ -7,7 +7,6 @@ Metadata          Version    1.0
 Metadata          Author    Marcel Mischke
 Resource          ../../UserKeywords/Common_Resources.html
 Resource          PageObjects/Menu.txt
-Library           ../../Libs/SettingsDicReader.py
 
 *** Test Cases ***
 Check GUI Elements Menu

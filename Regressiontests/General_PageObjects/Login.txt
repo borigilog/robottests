@@ -1,0 +1,24 @@
+*** Settings ***
+Resource          Module_Selector.txt
+
+*** Keywords ***
+Load Login Page
+    Open Browser    ${RLX_LOGIN_URL}    ${BROWSER}
+    Maximize Browser Window
+    Wait until Page is unfreezed
+    Wait Until Page Contains Element    //*[@id="/$flow_main"][contains(@class, 'screen look_rlx_screen_login')]
+
+Select Default Mandator
+    Click Element    //div[contains(text(), '${DEFAULT_MANDATOR_NAME}')]
+    Click Element And Wait    /$flow_main/btn_choose
+
+Login For Module
+    [Arguments]    ${module_name}
+    Load Login Page
+    Input Text    /$flow_main/login_username    ${RLX_USER}
+    Input Text    /$flow_main/login_password    ${RLX_PWD}
+    Click Element And Wait    /$flow_main/login
+    Check PageArea is visible    /$flow_main    screen look_rlx_screen_choose_mandator
+    Select Default Mandator
+    Check PageArea is visible    /$flow_main    screen look_rlx_screen_main_screen
+    Module_Selector.Select Module By Name    ${module_name}

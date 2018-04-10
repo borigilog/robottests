@@ -1,5 +1,6 @@
 *** Settings ***
-Library           ../../../Libs/SettingsDicReader.py
+Library           ${LIBS_PATH}/SettingsDicReader.py
+Resource          ../../General_PageObjects/Login.txt
 
 *** Variables ***
 # ~~~~~~~~~ Menu
@@ -36,6 +37,14 @@ ${offsetting_charging_class}    screen look_rlx_screen_bill_defaultSettings_offs
 
 *** Keywords ***
 Login Select Bill
+    [Arguments]    ${login}=true
+    [Documentation]    MM 22.03.2018, prepare content for BILL tests
+    ${navigateToBillModule} =    Is Truthy    ${login}
+    Run Keyword If    ${navigateToBillModule}    Login.Login For Module    Bill
+    Run Keyword If    ${navigateToBillModule}    Check Homescreen is selected
+    Check PageArea is visible    /$flow_main    screen look_rlx_screen_bill_main
+
+Login Select Bill OLD
     [Arguments]    ${login}=true
     [Documentation]    MM 22.03.2018, prepare content for BILL tests
     ${navigateToBillModule} =    Is Truthy    ${login}

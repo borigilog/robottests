@@ -2,10 +2,10 @@
 Resource          ../UserKeywords/Common_Resources.html
 Library           Selenium2Library
 Library           DatabaseLibrary
-Library           ../Libs/DatabaseClass.py    database=${DATABASE_NAME}    user=${DATABASE_USER}    password=${DATABASE_PWD}    host=${DATABASE_IP}    port=${DATABASE_PORT}
+Library           ${LIBS_PATH}/DatabaseClass.py    database=${DATABASE_NAME}    user=${DATABASE_USER}    password=${DATABASE_PWD}    host=${DATABASE_IP}    port=${DATABASE_PORT}
 Library           XML
-Library           ../Libs/SQLQueryReader.py
-Library           ../Libs/SettingsDicReader.py
+Library           ${LIBS_PATH}/SQLQueryReader.py
+Library           ${LIBS_PATH}/SettingsDicReader.py
 
 *** Test Cases ***
 Connect To Database

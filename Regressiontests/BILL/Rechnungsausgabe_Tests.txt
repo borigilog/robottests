@@ -9,8 +9,8 @@ Metadata          Author    Marcel Mischke
 Resource          ../../UserKeywords/Common_Resources.html
 Resource          PageObjects/Menu.txt
 Resource          ../General_PageObjects/Message_PopUp.txt
-Library           ../../Libs/DatabaseClass.py    database=${DATABASE_NAME}    user=${DATABASE_USER}    password=${DATABASE_PWD}    host=${DATABASE_IP}    port=${DATABASE_PORT}
-Library           ../../Libs/SQLQueryReader.py
+Library           ${LIBS_PATH}/DatabaseClass.py    database=${DATABASE_NAME}    user=${DATABASE_USER}    password=${DATABASE_PWD}    host=${DATABASE_IP}    port=${DATABASE_PORT}
+Library           ${LIBS_PATH}/SQLQueryReader.py
 
 *** Variables ***
 # ~~~~~~~~~ checkboxes
