@@ -126,37 +126,10 @@ Select Multiple Bills
 Check Languagedependent Text Content
     [Documentation]    Bill -> Rechnungsverwaltung -> Übersicht: Prüft, ob pro Sprache die richtigen Texte der (statischen) Modul-Dictionaries angezeigt werden
     [Tags]    Languagedependent
-    Init Status Dictionaries
-    Sleep    1
+    [Setup]    Init Status Dictionaries
+    [Template]    Check Language Content
     : FOR    ${key}    IN    @{AVAILABLE_LANGUAGES.keys()}
-    \    Set LanguageId    ${key}
-    \    Sleep    1
-    \    Check LanguageId is selected    ${key}
-    \    ${language_code} =    Get Selected LanguageCode
-    \    Run Keyword And Continue On Failure    Element Text Should Be    ${lblHeadline}    &{DicYAML_Rechnungsverwaltung}[${language_code}]
-    \    Run Keyword And Continue On Failure    Element Text Should Be    ${colProforma}    &{DicYAML_Proforma}[${language_code}]
-    \    Run Keyword And Continue On Failure    Element Text Should Be    ${colBillNo}    &{DicYAML_Rechnungs-Nr.}[${language_code}]
-    \    Run Keyword And Continue On Failure    Element Text Should Be    ${colBillName}    &{DicYAML_Rechnungsbezeichnung}[${language_code}]
-    \    Run Keyword And Continue On Failure    Element Text Should Be    ${colStatus}    &{DicYAML_Status}[${language_code}]
-    \    Run Keyword And Continue On Failure    Element Text Should Be    ${colDateOfCreation}    &{DicYAML_Erstellt am}[${language_code}]
-    \    Run Keyword And Continue On Failure    Element Text Should Be    ${colPositionCount}    &{DicYAML_Positionen}[${language_code}]
-    \    Run Keyword And Continue On Failure    Check LabelText    ${chkShowClosedBills}    &{DicYAML_Auch bereits veröffentlichte Rechnungen mit anzeigen}[${language_code}]
-    \    Run Keyword And Continue On Failure    Check LabelText    ${chkShowProcessedBills}    &{DicYAML_Auch bereits verarbeitete Rechnungen mit anzeigen}[${language_code}]
-    \    Run Keyword And Continue On Failure    Check LabelText    ${chkShowProformaBills}    &{DicYAML_Auch Proformarechnungen mit anzeigen}[${language_code}]
-    \    Run Keyword And Continue On Failure    Element Text Should Be    ${btnCreateBill}    &{DicYAML_Neue Rechnung eröffnen}[${language_code}]
-    \    Run Keyword And Continue On Failure    Element Text Should Be    ${btnEditBill}    &{DicYAML_Rechnung bearbeiten}[${language_code}]
-    \    Run Keyword And Continue On Failure    Element Text Should Be    ${btnDeleteBill}    &{DicYAML_Rechnung löschen}[${language_code}]
-    \    Run Keyword And Continue On Failure    Element Text Should Be    ${btnReopenBill}    &{DicYAML_Rechnung zurückziehen}[${language_code}]
-    \    Run Keyword And Continue On Failure    Element Text Should Be    ${btnCloseBill}    &{DicYAML_Rechnung veröffentlichen}[${language_code}]
-    \    Run Keyword And Continue On Failure    Element Text Should Be    ${btnProcessBill}    &{DicYAML_Rechnung ist verarbeitet}[${language_code}]
-    \    Run Keyword And Continue On Failure    Element Text Should Be    ${btnRecalculate}    &{DicYAML_Preise erneut berechnen}[${language_code}]
-    \    Run Keyword And Continue On Failure    Element Text Should Be    ${btnAbort}    &{DicYAML_Vorgang abbrechen}[${language_code}]
-    \    Run Keyword And Continue On Failure    Element Text Should Be    ${btnExportBills}    &{DicYAML_Rechnungsexport}[${language_code}]
-    \    Run Keyword And Continue On Failure    Status of Bill Should Be    ${invOpen}    &{Bills_State_InProgress}[${language_code}]
-    \    Run Keyword And Continue On Failure    Status of Bill Should Be    ${invProcessed}    &{Bills_State_IsProcessed}[${language_code}]
-    \    Run Keyword And Continue On Failure    Status of Bill Should Be    ${invClosed}    &{Bills_State_Published}[${language_code}]
-    \    Run Keyword And Continue On Failure    Status of Bill Should Be    ${invProcessedClosed}    &{Bills_State_IsProcessed_and_Published}[${language_code}]
-    \    Sleep    1
+    \    ${key}
 
 Sort By Rechnungs-Nr
     [Documentation]    BILL -> Rechnungsverwaltung -> Übersicht: Sortierung nach Spalte "Rechnungs-Nr."
@@ -196,18 +169,18 @@ Sort By Positionen
 Filter Bills
     [Tags]    Filter
     [Setup]    Setup Filter Tests
-    [Template]    Apply Filter And Check Results
-    ${TRUE}    ${TRUE}    ${TRUE}
-    ${TRUE}    ${TRUE}    ${FALSE}
-    ${TRUE}    ${FALSE}    ${TRUE}
-    ${TRUE}    ${FALSE}    ${FALSE}
-    ${FALSE}    ${TRUE}    ${TRUE}
-    ${FALSE}    ${TRUE}    ${FALSE}
-    ${FALSE}    ${FALSE}    ${TRUE}
-    ${FALSE}    ${FALSE}    ${FALSE}
+    [Template]    Test Filter
+    showClosedBills=${TRUE}    showProcessedBills=${TRUE}    showProformaBills=${TRUE}
+    showClosedBills=${TRUE}    showProcessedBills=${TRUE}    showProformaBills=${FALSE}
+    showClosedBills=${TRUE}    showProcessedBills=${FALSE}    showProformaBills=${TRUE}
+    showClosedBills=${TRUE}    showProcessedBills=${FALSE}    showProformaBills=${FALSE}
+    showClosedBills=${FALSE}    showProcessedBills=${TRUE}    showProformaBills=${TRUE}
+    showClosedBills=${FALSE}    showProcessedBills=${TRUE}    showProformaBills=${FALSE}
+    showClosedBills=${FALSE}    showProcessedBills=${FALSE}    showProformaBills=${TRUE}
+    showClosedBills=${FALSE}    showProcessedBills=${FALSE}    showProformaBills=${FALSE}
 
 *** KeyWords ***
-Apply Filter And Check Results
+Test Filter
     [Arguments]    ${showClosedBills}=${TRUE}    ${showProcessedBills}=${TRUE}    ${showProformaBills}=${TRUE}
     Apply Filter    showClosedBills = ${showClosedBills}    showProcessedBills=${showProcessedBills}    showProformaBills=${showProformaBills}
     Check If Bills Are Filtered    showClosedBills = ${showClosedBills}    showProcessedBills=${showProcessedBills}    showProformaBills=${showProformaBills}
@@ -232,3 +205,34 @@ Setup Filter Tests
     Init Status Dictionaries
     ${code} =    Get Selected LanguageCode
     Set Test Variable    ${language_code}    ${code}
+
+Check Language Content
+    [Arguments]    ${key}
+    Set LanguageId    ${key}
+    Sleep    1
+    Check LanguageId is selected    ${key}
+    ${language_code} =    Get Selected LanguageCode
+    Run Keyword And Continue On Failure    Element Text Should Be    ${lblHeadline}    &{DicYAML_Rechnungsverwaltung}[${language_code}]
+    Run Keyword And Continue On Failure    Element Text Should Be    ${colProforma}    &{DicYAML_Proforma}[${language_code}]
+    Run Keyword And Continue On Failure    Element Text Should Be    ${colBillNo}    &{DicYAML_Rechnungs-Nr.}[${language_code}]
+    Run Keyword And Continue On Failure    Element Text Should Be    ${colBillName}    &{DicYAML_Rechnungsbezeichnung}[${language_code}]
+    Run Keyword And Continue On Failure    Element Text Should Be    ${colStatus}    &{DicYAML_Status}[${language_code}]
+    Run Keyword And Continue On Failure    Element Text Should Be    ${colDateOfCreation}    &{DicYAML_Erstellt am}[${language_code}]
+    Run Keyword And Continue On Failure    Element Text Should Be    ${colPositionCount}    &{DicYAML_Positionen}[${language_code}]
+    Run Keyword And Continue On Failure    Check LabelText    ${chkShowClosedBills}    &{DicYAML_Auch bereits veröffentlichte Rechnungen mit anzeigen}[${language_code}]
+    Run Keyword And Continue On Failure    Check LabelText    ${chkShowProcessedBills}    &{DicYAML_Auch bereits verarbeitete Rechnungen mit anzeigen}[${language_code}]
+    Run Keyword And Continue On Failure    Check LabelText    ${chkShowProformaBills}    &{DicYAML_Auch Proformarechnungen mit anzeigen}[${language_code}]
+    Run Keyword And Continue On Failure    Element Text Should Be    ${btnCreateBill}    &{DicYAML_Neue Rechnung eröffnen}[${language_code}]
+    Run Keyword And Continue On Failure    Element Text Should Be    ${btnEditBill}    &{DicYAML_Rechnung bearbeiten}[${language_code}]
+    Run Keyword And Continue On Failure    Element Text Should Be    ${btnDeleteBill}    &{DicYAML_Rechnung löschen}[${language_code}]
+    Run Keyword And Continue On Failure    Element Text Should Be    ${btnReopenBill}    &{DicYAML_Rechnung zurückziehen}[${language_code}]
+    Run Keyword And Continue On Failure    Element Text Should Be    ${btnCloseBill}    &{DicYAML_Rechnung veröffentlichen}[${language_code}]
+    Run Keyword And Continue On Failure    Element Text Should Be    ${btnProcessBill}    &{DicYAML_Rechnung ist verarbeitet}[${language_code}]
+    Run Keyword And Continue On Failure    Element Text Should Be    ${btnRecalculate}    &{DicYAML_Preise erneut berechnen}[${language_code}]
+    Run Keyword And Continue On Failure    Element Text Should Be    ${btnAbort}    &{DicYAML_Vorgang abbrechen}[${language_code}]
+    Run Keyword And Continue On Failure    Element Text Should Be    ${btnExportBills}    &{DicYAML_Rechnungsexport}[${language_code}]
+    Run Keyword And Continue On Failure    Status of Bill Should Be    ${invOpen}    &{Bills_State_InProgress}[${language_code}]
+    Run Keyword And Continue On Failure    Status of Bill Should Be    ${invProcessed}    &{Bills_State_IsProcessed}[${language_code}]
+    Run Keyword And Continue On Failure    Status of Bill Should Be    ${invClosed}    &{Bills_State_Published}[${language_code}]
+    Run Keyword And Continue On Failure    Status of Bill Should Be    ${invProcessedClosed}    &{Bills_State_IsProcessed_and_Published}[${language_code}]
+    Sleep    1
