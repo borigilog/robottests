@@ -15,6 +15,7 @@ All Elements Are Available
     Copyright Is Available
     Links Are Available
     Links Are Clickable
+    Language Selector Is Clickable
     [Teardown]    Close Browser
 
 Valid Login
@@ -118,7 +119,10 @@ Main Page Should Be Open
     Check PageArea is visible    /$flow_main    screen look_rlx_screen_main_screen
 
 Language Selector Is Available
-    Check LanguageSelector    /$flow_main/languages
+    Language_Selector.Check LanguageSelector    /$flow_main/languages
+
+Language Selector Is Clickable
+    Language_Selector.Check Languages Are Selectable    /$flow_main/languages
 
 Inputfield Username Is Available
     Check ElementId    /$flow_main/login_username    enabled=true
