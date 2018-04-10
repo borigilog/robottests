@@ -10,7 +10,6 @@ Check LanguageSelector
     ${langunge_code}=    Get selected LanguageCode    locator=${locator}
     Check ElementId    ${locator}
     : FOR    ${key}    IN    @{AVAILABLE_LANGUAGES.keys()}
-    \    ${class} =    Get Element Attribute    ${locator}:${key}    class
     \    ${langCode}=    Get From Dictionary    ${AVAILABLE_LANGUAGES}    ${key}
     \    Check ElementId    ${locator}:${key}    &{Dic_Sprachen_Code}[${langCode}]    enabled=true
 
@@ -25,8 +24,6 @@ Check Languages Are Selectable
     : FOR    ${key}    IN    @{AVAILABLE_LANGUAGES.keys()}
     \    Set LanguageId    ${key}    ${locator}
     \    Check LanguageId is selected    ${key}    locator=${locator}
-    \    ${langunge_id}=    Get selected LanguageId    locator=${locator}
-    \    Should Be Equal    ${langunge_id}    ${key}
     Set Default LanguageId    ${locator}
 
 Get selected LanguageId
