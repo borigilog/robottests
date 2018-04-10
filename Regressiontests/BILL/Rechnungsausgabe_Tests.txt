@@ -1,14 +1,39 @@
 *** Settings ***
-Suite Setup       Select Rechnungsausgabe    true
+Suite Setup       Setup Rechnungsausgabe
 Suite Teardown    Close Browser
 Test Teardown     Teardown Rechnungsausgabe
 Force Tags        Bill    Rechnungsausgabe
 Default Tags
+Metadata          Version    1.0
+Metadata          Author    Marcel Mischke
 Resource          ../../UserKeywords/Common_Resources.html
 Resource          PageObjects/Menu.txt
 Resource          ../General_PageObjects/Message_PopUp.txt
-Resource          PageObjects/Rechnungsausgabe.txt
-Variables         PageObjects/Rechnungsausgabe.yaml
+Library           ../../Libs/DatabaseClass.py    database=${DATABASE_NAME}    user=${DATABASE_USER}    password=${DATABASE_PWD}    host=${DATABASE_IP}    port=${DATABASE_PORT}
+Library           ../../Libs/SQLQueryReader.py
+
+*** Variables ***
+# ~~~~~~~~~ checkboxes
+${chkShowOnlyOpenBills}    /$flow_main/$flow_content/ShowOnlyOpenBills
+${chkShowProcessedBills}    /$flow_main/$flow_content/ShowProcessedBills
+${chkShowProformaBills}    /$flow_main/$flow_content/ShowProformaBills
+${chkPrintLogo}    /$flow_main/$flow_content/Print_Logo
+${chkAddCopy}     /$flow_main/$flow_content/cbx_AddCopy
+# ~~~~~~~~~ textfield
+${txtEmail}       /$flow_main/$flow_content/email
+# ~~~~~~~ buttons
+${btnCreateBill}    /$flow_main/$flow_content/createBill
+${btnAbort}       /$flow_main/$flow_content/abort
+${btnThirdParty}    /$flow_main/$flow_content/thirdParty
+${btnProForma}    /$flow_main/$flow_content/proForma
+# ~~~~~~~ invoices list
+${listInvoice}    /$flow_main/$flow_content/issue_list
+# ~~~~~~~ invoices col
+${colInvoiceNumber}    ${listInvoice}/$col_invoiceNumber
+${colDescription}    ${listInvoice}/$col_description
+${colStatus}      ${listInvoice}/$col_status
+${colCreationDate}    ${listInvoice}/$col_creationDate
+${colItems}       ${listInvoice}/$col_items
 
 *** Test Cases ***
 Check GUI Elements Rechnungsausgabe
@@ -16,25 +41,25 @@ Check GUI Elements Rechnungsausgabe
     [Tags]    GUI_Elements    TextLanguagedependent
     ${langunge_code}=    Get selected LanguageCode
     #title
-    Check ContainsText    &{Dic_Title}[${langunge_code}]
+    Run Keyword And Continue On Failure    Check ContainsText    &{Dic_Title}[${langunge_code}]
     #grid
-    Check ElementId    ${colInvoiceNumber}    &{Dic_colInvoiceNumber}[${langunge_code}]    enabled=true
-    Check ElementId    ${colDescription}    &{Dic_colDescription}[${langunge_code}]    enabled=true
-    Check ElementId    ${colStatus}    &{Dic_colStatus}[${langunge_code}]    enabled=true
-    Check ElementId    ${colCreationDate}    &{Dic_colCreationDate}[${langunge_code}]    enabled=true
-    Check ElementId    ${colItems}    &{Dic_colItems}[${langunge_code}]    enabled=true
+    Run Keyword And Continue On Failure    Check ElementId    ${colInvoiceNumber}    &{Dic_colInvoiceNumber}[${langunge_code}]    enabled=true
+    Run Keyword And Continue On Failure    Check ElementId    ${colDescription}    &{Dic_colDescription}[${langunge_code}]    enabled=true
+    Run Keyword And Continue On Failure    Check ElementId    ${colStatus}    &{Dic_colStatus}[${langunge_code}]    enabled=true
+    Run Keyword And Continue On Failure    Check ElementId    ${colCreationDate}    &{Dic_colCreationDate}[${langunge_code}]    enabled=true
+    Run Keyword And Continue On Failure    Check ElementId    ${colItems}    &{Dic_colItems}[${langunge_code}]    enabled=true
     #checkbox
-    Check CheckboxId    ${chkShowOnlyOpenBills}    &{Dic_chkShowOnlyOpenBills}[${langunge_code}]    enabled=true    selected=false
-    Check CheckboxId    ${chkShowProcessedBills}    &{Dic_chkShowProcessedBills}[${langunge_code}]    enabled=true    selected=false
-    Check CheckboxId    ${chkShowProformaBills}    &{Dic_chkShowProformaBills}[${langunge_code}]    enabled=true    selected=false
-    Check CheckboxId    ${chkPrintLogo}    &{Dic_chkPrintLogo}[${langunge_code}]    enabled=true    selected=false
-    Check CheckboxId    ${chkAddCopy}    &{Dic_chkAddCopy}[${langunge_code}]    enabled=true    selected=false
+    Run Keyword And Continue On Failure    Check CheckboxId    ${chkShowOnlyOpenBills}    &{Dic_chkShowOnlyOpenBills}[${langunge_code}]    enabled=true    selected=false
+    Run Keyword And Continue On Failure    Check CheckboxId    ${chkShowProcessedBills}    &{Dic_chkShowProcessedBills}[${langunge_code}]    enabled=true    selected=false
+    Run Keyword And Continue On Failure    Check CheckboxId    ${chkShowProformaBills}    &{Dic_chkShowProformaBills}[${langunge_code}]    enabled=true    selected=false
+    Run Keyword And Continue On Failure    Check CheckboxId    ${chkPrintLogo}    &{Dic_chkPrintLogo}[${langunge_code}]    enabled=true    selected=false
+    Run Keyword And Continue On Failure    Check CheckboxId    ${chkAddCopy}    &{Dic_chkAddCopy}[${langunge_code}]    enabled=true    selected=true
     #textfield
-    Check TextfieldId    ${txtEmail}    ${DEFAULT_EMAIL_ADRESS}    enabled=true    labeltext=&{Dic_txtEmail}[${langunge_code}]
+    Run Keyword And Continue On Failure    Check TextfieldId    ${txtEmail}    ${DEFAULT_EMAIL_ADRESS}    enabled=true    labeltext=&{Dic_txtEmail}[${langunge_code}]
     #buttons
-    Check ElementId    ${btnThirdParty}    &{Dic_btnThirdParty}[${langunge_code}]    enabled=false
-    Check ElementId    ${btnProForma}    &{Dic_btnProForma}[${langunge_code}]    enabled=false
-    Check ElementId    ${btnAbort}    &{Dic_btnAbort}[${langunge_code}]    enabled=true
+    Run Keyword And Continue On Failure    Check ElementId    ${btnThirdParty}    &{Dic_btnThirdParty}[${langunge_code}]    enabled=false
+    Run Keyword And Continue On Failure    Check ElementId    ${btnProForma}    &{Dic_btnProForma}[${langunge_code}]    enabled=false
+    Run Keyword And Continue On Failure    Check ElementId    ${btnAbort}    &{Dic_btnAbort}[${langunge_code}]    enabled=true
 
 Check Text Languagedependent
     [Tags]    TextLanguagedependent    ChangeLanguage
@@ -268,3 +293,72 @@ Click Button Zurück zum Hauptmenü
     Click Element And Wait    ${btnAbort}
     Check PageArea is visible    ${menu_content}    ${invoice_issue_class}    visible=false
     Check Homescreen is selected
+
+*** Keywords ***
+Get InvoiceID
+    [Arguments]    ${Id}    ${Col}    ${Value}=${EMPTY}
+    ${Value}=    Get Stripped String    ${Value}
+    Run Keyword If    '${Value}' == '${EMPTY}'    Log    Es konnte keine entsprechende Rechnung gefunden werden!    WARN
+    ${ElementId}    Get ElementID from List    ${Id}    ${Col}    ${Value}
+    Run Keyword If    '${Value}' != '${EMPTY}' and '${ElementId}' == '${EMPTY}'    Fail    Die Rechnung (${Value}) konnte nicht gefunden werden!
+    [Return]    ${ElementId}
+
+Check Invoice is selectable
+    [Arguments]    ${Id}
+    ${selectInvoice}=    Set Variable if    '${Id}'=='${EMPTY}'    ${FALSE}    ${TRUE}
+    Run Keyword If    '${selectInvoice}' == '${TRUE}'    Log    Eine entsprechende Rechnung wurde gefunden und kann ausgewählt werden    INFO
+    Run Keyword If    '${selectInvoice}' == '${FALSE}'    Log    Eine entsprechende Rechnung wurde nicht gefunden und kann auch nicht ausgewählt werden    WARN
+    [Return]    ${selectInvoice}
+
+Select InvoiceID
+    [Arguments]    ${Id}
+    Click Element And Wait    ${Id}
+    Check List ElementId is selected    ${Id}    sel
+
+Get InvoiceID with Positions
+    [Arguments]    ${element_id}    ${endRange}=999999
+    : FOR    ${index}    IN RANGE    ${endRange}
+    \    ${passed} =    Run Keyword And Return Status    Element Should Be Visible    ${element_id}/${index}
+    \    Return From Keyword If    '${passed}'!='${TRUE}'    ${EMPTY}
+    \    ${colValue} =    Get Text    ${element_id}/${index}/$items
+    \    Return From Keyword If    '${colValue}'>'0'    ${element_id}/${index}
+    [Return]    ${EMPTY}
+
+Get InvoiceNo From Database
+    [Arguments]    ${query_name}
+    ${sql} =    SQLQueryReader.Get Query By Name    ${SQL_QUERIES_PATH}/BILL/SQLQueries.resx    ${query_name}
+    ${queryResult}=    DatabaseClass.DB Execute Scalar With Parameter    ${sql}    ${DEFAULT_MANDATOR_NAME}
+    [Return]    ${queryResult}
+
+Setup Rechnungsausgabe
+    Select Rechnungsausgabe    true
+    Create Dictionaries For Rechnungsausgabe
+
+Teardown Rechnungsausgabe
+    ${passed} =    Run Keyword And Return Status    Select Rechnungsausgabe
+    Return From Keyword If    ${passed}
+    Log    Die Seite war nicht clickable daher muss der Browser geschlossen und neugestartet werden    WARN
+    Close Browser
+    Select Rechnungsausgabe    true
+
+Create Dictionaries For Rechnungsausgabe
+    Create SettingsDics    Billing_Print    HeadLine    Dic_Title
+    Create SettingsDics    Bills    Billing_No    Dic_colInvoiceNumber
+    Create SettingsDics    Bills    Billing_Name    Dic_colDescription
+    Create SettingsDics    Bills    Billing_State    Dic_colStatus
+    Create SettingsDics    Bills    Billing_Created_the    Dic_colCreationDate
+    Create SettingsDics    Bills    Positions    Dic_colItems
+    Create SettingsDics    Billing_Print    ShowOnlyOpenBills    Dic_chkShowOnlyOpenBills
+    Create SettingsDics    Bills    ShowProcessedBills    Dic_chkShowProcessedBills
+    Create SettingsDics    Billing_Print    ShowProformaBills    Dic_chkShowProformaBills
+    Create SettingsDics    Billing_Print    Print_Logo    Dic_chkPrintLogo
+    Create SettingsDics    Billing_Print    cbx_AddCopy    Dic_chkAddCopy
+    Create SettingsDics    Billing_Print    Receipient    Dic_txtEmail
+    Create SettingsDics    Billing_Print    To_ThirtParty    Dic_btnThirdParty
+    Create SettingsDics    Billing_Print    BTN_Bill_Proforma    Dic_btnProForma
+    Create SettingsDics    General    Back_ToMain    Dic_btnAbort
+    Create SettingsDics    Bills    State_InProgress    Dic_IsOpen
+    Create SettingsDics    Bills    State_IsProcessed    Dic_IsProcessed
+    Create SettingsDics    Bills    State_Published    Dic_IsComplete
+    Create SettingsDics    Bills    State_IsProcessed_and_Published    Dic_IsCompleteAndProcessed
+    Create SettingsDics    Billing_Print    ERROR_Bill_Send    Dic_ErrorMsg

@@ -33,25 +33,6 @@ ${shipment_costs}    /$flow_main/main_menu/shipment_costs
 ${shipment_costs_class}    screen look_rlx_screen_bill_cancellation
 ${offsetting_charging}    /$flow_main/main_menu/offsetting_charging
 ${offsetting_charging_class}    screen look_rlx_screen_bill_defaultSettings_offseting_charging
-# ~~~~~~~~~ Dictionaries
-&{Dic_Storno_Lieferungen}    1=Lieferungen    15=Deliveries    16=Livraisons
-&{Dic_Storno_Retouren}    1=Retouren    15=Returns    16=Retours
-&{Dic_Storno_Occasionen}    1=Occasionen    15=Second-hand    16=Occasions
-&{Dic_Storno_Sendungskosten}    1=Sendungskosten    15=Shipment costs    16=Frais d'expédition
-&{Dic_Lieferungen}    1=Lieferungen    15=Deliveries    16=Livraisons
-&{Dic_Retouren}    1=Retouren    15=Returns    16=Retours
-&{Dic_Occasionen}    1=Occasionen    15=Second-hand    16=Occasions
-&{Dic_Sendungskosten}    1=Sendungskosten    15=Shipment costs    16=Frais d'expédition
-&{Dic_Rechnungsverwaltung}    1=Rechnungsverwaltung    15=Invoice management    16=Gestion des factures
-&{Dic_Manuelle_Buchungen}    1=Manuelle Buchungen    15=Manual bookings    16=Écritures manuelles
-&{Dic_Rechnungsausgabe}    1=Rechnungsausgabe    15=Invoice issue    16=Émission de facture
-&{Dic_Suchen}     1=Suchen    15=Search    16=Rechercher
-&{Dic_Auswertung}    1=Auswertung    15=Evaluation    16=Évaluation
-&{Dic_Verrechnung}    1=Verrechnung    15=Offsetting/Charging    16=Facturation
-&{Dic_Allgemein}    1=Allgemein    15=Generally    16=Général
-&{Dic_Fakturierung}    1=Fakturierung    15=Billing    16=Facturation
-&{Dic_Storno}     1=Storno    15=Cancellation    16=Annulation
-&{Dic_Voreinstellungen}    1=Voreinstellungen    15=Default settings    16=Paramètres prédéfinis
 
 *** Keywords ***
 Login Select Bill
@@ -158,7 +139,8 @@ Create SettingsDics
     ${passed} =    Check Variable SettingsDic With Content Exist    ${var_name}
     Return From Keyword If    '${passed}' == '${TRUE}'
     &{python_dict} =    SettingsDicReader.Get Dictionary    ${SETTINGS_PATH}/${module}/Settings_dic.xml    ${region_name}    ${dic_id}
-    Set Global Variable    &{${var_name}}    &{python_dict}
+    #Set Global Variable    &{${var_name}}    &{python_dict}
+    Set Suite Variable    &{${var_name}}    &{python_dict}
 
 Check Variable SettingsDic With Content Exist
     [Arguments]    ${var_name}
@@ -169,23 +151,19 @@ Check Variable SettingsDic With Content Exist
     Log    Die Variable ${var_name} - &{${var_name}} existiert bereits!    INFO
     [Return]    ${TRUE}
 
-Create Menu Dictionaries
+Create Dictionaries For Menu
     [Documentation]    using Library ../../Libs/SettingsDicReader.py read dictionaries from file /BILL/Settings_dic.xml
-    Create SettingsDics    MainMenu    MG_General
-    Create SettingsDics    MainMenu    MP_Bills_Admin
-    Create SettingsDics    MainMenu    MP_Manual_Positions
-    Create SettingsDics    MainMenu    MP_Reports
-    Create SettingsDics    MainMenu    MP_SearchBills
-    Create SettingsDics    MainMenu    MP_TotalAcount
-    Create SettingsDics    MainMenu    MG_Billing
-    Create SettingsDics    MainMenu    MP_Billing_Shipments
-    Create SettingsDics    MainMenu    MP_Billing_Reverse
-    Create SettingsDics    MainMenu    MP_Billing_SecondHand
-    Create SettingsDics    MainMenu    MP_Billing_DeliveryCost
-    Create SettingsDics    MainMenu    MG_Cancellation
-    Create SettingsDics    MainMenu    MP_Billing_Shipments
-    Create SettingsDics    MainMenu    MP_Billing_Reverse
-    Create SettingsDics    MainMenu    MP_Billing_SecondHand
-    Create SettingsDics    MainMenu    MP_Billing_DeliveryCost
-    Create SettingsDics    MainMenu    MG_Settings
-    Create SettingsDics    MainMenu    MP_PresettingPricing
+    Create SettingsDics    MainMenu    MG_General    Dic_Allgemein
+    Create SettingsDics    MainMenu    MP_Bills_Admin    Dic_Rechnungsverwaltung
+    Create SettingsDics    MainMenu    MP_Manual_Positions    Dic_Manuelle_Buchungen
+    Create SettingsDics    MainMenu    MP_Reports    Dic_Rechnungsausgabe
+    Create SettingsDics    MainMenu    MP_SearchBills    Dic_Suchen
+    Create SettingsDics    MainMenu    MP_TotalAcount    Dic_Auswertung
+    Create SettingsDics    MainMenu    MG_Billing    Dic_Fakturierung
+    Create SettingsDics    MainMenu    MP_Billing_Shipments    Dic_Lieferungen
+    Create SettingsDics    MainMenu    MP_Billing_Reverse    Dic_Retouren
+    Create SettingsDics    MainMenu    MP_Billing_SecondHand    Dic_Occasionen
+    Create SettingsDics    MainMenu    MP_Billing_DeliveryCost    Dic_Sendungskosten
+    Create SettingsDics    MainMenu    MG_Cancellation    Dic_Storno
+    Create SettingsDics    MainMenu    MG_Settings    Dic_Voreinstellungen
+    Create SettingsDics    MainMenu    MP_PresettingPricing    Dic_Verrechnung

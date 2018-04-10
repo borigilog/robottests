@@ -1,134 +1,76 @@
 *** Settings ***
-Suite Setup       Login Select Bill
+Suite Setup       Setup Menu
 Suite Teardown    Close Browser
 Force Tags        Bill    Menu
 Default Tags
+Metadata          Version    1.0
+Metadata          Author    Marcel Mischke
 Resource          ../../UserKeywords/Common_Resources.html
 Resource          PageObjects/Menu.txt
-Variables         PageObjects/Menu.yaml
 Library           ../../Libs/SettingsDicReader.py
 
 *** Test Cases ***
 Check GUI Elements Menu
     [Documentation]    MM 22.03.2018, check GUI Elements for Menu
     [Tags]    GUI_Elements    TextLanguagedependent
-    ${langunge_id}=    Get selected LanguageId
+    ${langunge_code}=    Get selected LanguageCode
     #Module
-    Check ModuleSelector Is Avaliable
+    Run Keyword And Continue On Failure    Check ModuleSelector Is Avaliable
     #Benutzer
-    Check Userbox Is Avaliable
+    Run Keyword And Continue On Failure    Check Userbox Is Avaliable
     #Allgemein
-    Check ContainsText    &{Dic_Allgemein}[${langunge_id}]
-    Check ElementId    ${invoice_management}    &{Dic_Rechnungsverwaltung}[${langunge_id}]    enabled=true
-    Check ElementId    ${manual_booking}    &{Dic_Manuelle_Buchungen}[${langunge_id}]    enabled=true
-    Check ElementId    ${invoice_issue}    &{Dic_Rechnungsausgabe}[${langunge_id}]    enabled=true
-    Check ElementId    ${search}    &{Dic_Suchen}[${langunge_id}]    enabled=true
-    Check ElementId    ${evaluation}    &{Dic_Auswertung}[${langunge_id}]    enabled=true
+    Run Keyword And Continue On Failure    Check ContainsText    &{Dic_Allgemein}[${langunge_code}]
+    Run Keyword And Continue On Failure    Check ElementId    ${invoice_management}    &{Dic_Rechnungsverwaltung}[${langunge_code}]    enabled=true
+    Run Keyword And Continue On Failure    Check ElementId    ${manual_booking}    &{Dic_Manuelle_Buchungen}[${langunge_code}]    enabled=true
+    Run Keyword And Continue On Failure    Check ElementId    ${invoice_issue}    &{Dic_Rechnungsausgabe}[${langunge_code}]    enabled=true
+    Run Keyword And Continue On Failure    Check ElementId    ${search}    &{Dic_Suchen}[${langunge_code}]    enabled=true
+    Run Keyword And Continue On Failure    Check ElementId    ${evaluation}    &{Dic_Auswertung}[${langunge_code}]    enabled=true
     #Fakturierung
-    Check ContainsText    &{Dic_Fakturierung}[${langunge_id}]
-    Check ElementId    ${billing_deliveries}    &{Dic_Lieferungen}[${langunge_id}]    enabled=true
-    Check ElementId    ${billing_returns}    &{Dic_Retouren}[${langunge_id}]    enabled=true
-    Check ElementId    ${billing_second_hand}    &{Dic_Occasionen}[${langunge_id}]    enabled=true
-    Check ElementId    ${billing_shipment_costs}    &{Dic_Sendungskosten}[${langunge_id}]    enabled=true
+    Run Keyword And Continue On Failure    Check ContainsText    &{Dic_Fakturierung}[${langunge_code}]
+    Run Keyword And Continue On Failure    Check ElementId    ${billing_deliveries}    &{Dic_Lieferungen}[${langunge_code}]    enabled=true
+    Run Keyword And Continue On Failure    Check ElementId    ${billing_returns}    &{Dic_Retouren}[${langunge_code}]    enabled=true
+    Run Keyword And Continue On Failure    Check ElementId    ${billing_second_hand}    &{Dic_Occasionen}[${langunge_code}]    enabled=true
+    Run Keyword And Continue On Failure    Check ElementId    ${billing_shipment_costs}    &{Dic_Sendungskosten}[${langunge_code}]    enabled=true
     #Storno
-    Check ContainsText    &{Dic_Storno}[${langunge_id}]
-    Check ElementId    ${deliveries}    &{Dic_Storno_Lieferungen}[${langunge_id}]    enabled=true
-    Check ElementId    ${returns}    &{Dic_Storno_Retouren}[${langunge_id}]    enabled=true
-    Check ElementId    ${second_hand}    &{Dic_Storno_Occasionen}[${langunge_id}]    enabled=true
-    Check ElementId    ${shipment_costs}    &{Dic_Storno_Sendungskosten}[${langunge_id}]    enabled=true
+    Run Keyword And Continue On Failure    Check ContainsText    &{Dic_Storno}[${langunge_code}]
+    Run Keyword And Continue On Failure    Check ElementId    ${deliveries}    &{Dic_Lieferungen}[${langunge_code}]    enabled=true
+    Run Keyword And Continue On Failure    Check ElementId    ${returns}    &{Dic_Retouren}[${langunge_code}]    enabled=true
+    Run Keyword And Continue On Failure    Check ElementId    ${second_hand}    &{Dic_Occasionen}[${langunge_code}]    enabled=true
+    Run Keyword And Continue On Failure    Check ElementId    ${shipment_costs}    &{Dic_Sendungskosten}[${langunge_code}]    enabled=true
     #Voreinstellungen
-    Check ContainsText    &{Dic_Voreinstellungen}[${langunge_id}]
-    Check ElementId    ${offsetting_charging}    &{Dic_Verrechnung}[${langunge_id}]    enabled=true
+    Run Keyword And Continue On Failure    Check ContainsText    &{Dic_Voreinstellungen}[${langunge_code}]
+    Run Keyword And Continue On Failure    Check ElementId    ${offsetting_charging}    &{Dic_Verrechnung}[${langunge_code}]    enabled=true
     #Toolbox
-    Check Toolbox Is Avaliable
+    Run Keyword And Continue On Failure    Check Toolbox Is Avaliable
 
 Check Language Selection
     Check Languages Are Selectable
 
-Check Text Languagedependent with SettingsDicReader
+Check Text Languagedependent
     [Documentation]    using Library ../../Libs/SettingsDicReader.py read dictionaries from file /BILL/Settings_dic.xml
     [Tags]    TextLanguagedependent    ChangeLanguage
-    Create Menu Dictionaries
     : FOR    ${key}    IN    @{AVAILABLE_LANGUAGES.keys()}
     \    Set LanguageId    ${key}
     \    Check LanguageId is selected    ${key}
     \    ${langunge_code}=    Get selected LanguageCode
-    \    ${text} =    SettingsDicReader.Get Dic Text    ${SETTINGS_PATH}/BILL/Settings_dic.xml    MainMenu    MG_General    ${langunge_code}
-    \    Run Keyword And Continue On Failure    Check ContainsText    ${text}
-    \    Run Keyword And Continue On Failure    Element Text Should Be    ${invoice_management}    &{MainMenu_MP_Bills_Admin}[${langunge_code}]
-    \    Run Keyword And Continue On Failure    Element Text Should Be    ${manual_booking}    &{MainMenu_MP_Manual_Positions}[${langunge_code}]
-    \    Run Keyword And Continue On Failure    Element Text Should Be    ${invoice_issue}    &{MainMenu_MP_Reports}[${langunge_code}]
-    \    Run Keyword And Continue On Failure    Element Text Should Be    ${search}    &{MainMenu_MP_SearchBills}[${langunge_code}]
-    \    Run Keyword And Continue On Failure    Element Text Should Be    ${evaluation}    &{MainMenu_MP_TotalAcount}[${langunge_code}]
-    \    Run Keyword And Continue On Failure    Check ContainsText    &{MainMenu_MG_Billing}[${langunge_code}]
-    \    Run Keyword And Continue On Failure    Element Text Should Be    ${billing_deliveries}    &{MainMenu_MP_Billing_Shipments}[${langunge_code}]
-    \    Run Keyword And Continue On Failure    Element Text Should Be    ${billing_returns}    &{MainMenu_MP_Billing_Reverse}[${langunge_code}]
-    \    Run Keyword And Continue On Failure    Element Text Should Be    ${billing_second_hand}    &{MainMenu_MP_Billing_SecondHand}[${langunge_code}]
-    \    Run Keyword And Continue On Failure    Element Text Should Be    ${billing_shipment_costs}    &{MainMenu_MP_Billing_DeliveryCost}[${langunge_code}]
-    \    Run Keyword And Continue On Failure    Check ContainsText    &{MainMenu_MG_Cancellation}[${langunge_code}]
-    \    Run Keyword And Continue On Failure    Element Text Should Be    ${deliveries}    &{MainMenu_MP_Billing_Shipments}[${langunge_code}]
-    \    Run Keyword And Continue On Failure    Element Text Should Be    ${returns}    &{MainMenu_MP_Billing_Reverse}[${langunge_code}]
-    \    Run Keyword And Continue On Failure    Element Text Should Be    ${second_hand}    &{MainMenu_MP_Billing_SecondHand}[${langunge_code}]
-    \    Run Keyword And Continue On Failure    Element Text Should Be    ${shipment_costs}    &{MainMenu_MP_Billing_DeliveryCost}[${langunge_code}]
-    \    Run Keyword And Continue On Failure    Check ContainsText    &{MainMenu_MG_Settings}[${langunge_code}]
-    \    Run Keyword And Continue On Failure    Element Text Should Be    ${offsetting_charging}    &{MainMenu_MP_PresettingPricing}[${langunge_code}]
-    Set LanguageId    ${DEFAULT_LANGUAGE_ID}
-
-Check Text Languagedependent YAML
-    [Documentation]    using Variables \ \ \ \ \ \ \ \ menu.yaml
-    ...    Robot Framework requires PyYAML
-    ...    install it by running pip install pyyaml
-    ...    file must format in yaml
-    ...    http://docs.ansible.com/ansible/latest/YAMLSyntax.html
-    [Tags]    TextLanguagedependent    ChangeLanguage
-    : FOR    ${key}    IN    @{AVAILABLE_LANGUAGES.keys()}
-    \    Set LanguageId    ${key}
-    \    Check LanguageId is selected    ${key}
-    \    ${langunge_code}=    Get selected LanguageCode
-    \    Run Keyword And Continue On Failure    Check ContainsText    &{DicYAML_Allgemein}[${langunge_code}]
-    \    Run Keyword And Continue On Failure    Element Text Should Be    ${invoice_management}    &{DicYAML_Rechnungsverwaltung}[${langunge_code}]
-    \    Run Keyword And Continue On Failure    Element Text Should Be    ${manual_booking}    &{DicYAML_Manuelle_Buchungen}[${langunge_code}]
-    \    Run Keyword And Continue On Failure    Element Text Should Be    ${invoice_issue}    &{DicYAML_Rechnungsausgabe}[${langunge_code}]
-    \    Run Keyword And Continue On Failure    Element Text Should Be    ${search}    &{DicYAML_Suchen}[${langunge_code}]
-    \    Run Keyword And Continue On Failure    Element Text Should Be    ${evaluation}    &{DicYAML_Auswertung}[${langunge_code}]
-    \    Run Keyword And Continue On Failure    Check ContainsText    &{DicYAML_Fakturierung}[${langunge_code}]
-    \    Run Keyword And Continue On Failure    Element Text Should Be    ${billing_deliveries}    &{DicYAML_Lieferungen}[${langunge_code}]
-    \    Run Keyword And Continue On Failure    Element Text Should Be    ${billing_returns}    &{DicYAML_Retouren}[${langunge_code}]
-    \    Run Keyword And Continue On Failure    Element Text Should Be    ${billing_second_hand}    &{DicYAML_Occasionen}[${langunge_code}]
-    \    Run Keyword And Continue On Failure    Element Text Should Be    ${billing_shipment_costs}    &{DicYAML_Sendungskosten}[${langunge_code}]
-    \    Run Keyword And Continue On Failure    Check ContainsText    &{DicYAML_Storno}[${langunge_code}]
-    \    Run Keyword And Continue On Failure    Element Text Should Be    ${deliveries}    &{DicYAML_Storno_Lieferungen}[${langunge_code}]
-    \    Run Keyword And Continue On Failure    Element Text Should Be    ${returns}    &{DicYAML_Storno_Retouren}[${langunge_code}]
-    \    Run Keyword And Continue On Failure    Element Text Should Be    ${second_hand}    &{DicYAML_Storno_Occasionen}[${langunge_code}]
-    \    Run Keyword And Continue On Failure    Element Text Should Be    ${shipment_costs}    &{DicYAML_Storno_Sendungskosten}[${langunge_code}]
-    \    Run Keyword And Continue On Failure    Check ContainsText    &{DicYAML_Voreinstellungen}[${langunge_code}]
-    \    Run Keyword And Continue On Failure    Element Text Should Be    ${offsetting_charging}    &{DicYAML_Verrechnung}[${langunge_code}]
-    Set LanguageId    ${DEFAULT_LANGUAGE_ID}
-
-Check Text Languagedependent
-    [Tags]    TextLanguagedependent    ChangeLanguage
-    : FOR    ${key}    IN    @{AVAILABLE_LANGUAGES.keys()}
-    \    Set LanguageId    ${key}
-    \    ${langunge_id}=    Get selected LanguageId
-    \    Run Keyword And Continue On Failure    Check LanguageId is selected    ${key}
-    \    Run Keyword And Continue On Failure    Check ContainsText    &{Dic_Allgemein}[${langunge_id}]
-    \    Run Keyword And Continue On Failure    Element Text Should Be    ${invoice_management}    &{Dic_Rechnungsverwaltung}[${langunge_id}]
-    \    Run Keyword And Continue On Failure    Element Text Should Be    ${manual_booking}    &{Dic_Manuelle_Buchungen}[${langunge_id}]
-    \    Run Keyword And Continue On Failure    Element Text Should Be    ${invoice_issue}    &{Dic_Rechnungsausgabe}[${langunge_id}]
-    \    Run Keyword And Continue On Failure    Element Text Should Be    ${search}    &{Dic_Suchen}[${langunge_id}]
-    \    Run Keyword And Continue On Failure    Element Text Should Be    ${evaluation}    &{Dic_Auswertung}[${langunge_id}]
-    \    Run Keyword And Continue On Failure    Check ContainsText    &{Dic_Fakturierung}[${langunge_id}]
-    \    Run Keyword And Continue On Failure    Element Text Should Be    ${billing_deliveries}    &{Dic_Lieferungen}[${langunge_id}]
-    \    Run Keyword And Continue On Failure    Element Text Should Be    ${billing_returns}    &{Dic_Retouren}[${langunge_id}]
-    \    Run Keyword And Continue On Failure    Element Text Should Be    ${billing_second_hand}    &{Dic_Occasionen}[${langunge_id}]
-    \    Run Keyword And Continue On Failure    Element Text Should Be    ${billing_shipment_costs}    &{Dic_Sendungskosten}[${langunge_id}]
-    \    Run Keyword And Continue On Failure    Check ContainsText    &{Dic_Storno}[${langunge_id}]
-    \    Run Keyword And Continue On Failure    Element Text Should Be    ${deliveries}    &{Dic_Storno_Lieferungen}[${langunge_id}]
-    \    Run Keyword And Continue On Failure    Element Text Should Be    ${returns}    &{Dic_Storno_Retouren}[${langunge_id}]
-    \    Run Keyword And Continue On Failure    Element Text Should Be    ${second_hand}    &{Dic_Storno_Occasionen}[${langunge_id}]
-    \    Run Keyword And Continue On Failure    Element Text Should Be    ${shipment_costs}    &{Dic_Storno_Sendungskosten}[${langunge_id}]
-    \    Run Keyword And Continue On Failure    Check ContainsText    &{Dic_Voreinstellungen}[${langunge_id}]
-    \    Run Keyword And Continue On Failure    Element Text Should Be    ${offsetting_charging}    &{Dic_Verrechnung}[${langunge_id}]
+    \    Run Keyword And Continue On Failure    Check ContainsText    &{Dic_Allgemein}[${langunge_code}]
+    \    Run Keyword And Continue On Failure    Element Text Should Be    ${invoice_management}    &{Dic_Rechnungsverwaltung}[${langunge_code}]
+    \    Run Keyword And Continue On Failure    Element Text Should Be    ${manual_booking}    &{Dic_Manuelle_Buchungen}[${langunge_code}]
+    \    Run Keyword And Continue On Failure    Element Text Should Be    ${invoice_issue}    &{Dic_Rechnungsausgabe}[${langunge_code}]
+    \    Run Keyword And Continue On Failure    Element Text Should Be    ${search}    &{Dic_Suchen}[${langunge_code}]
+    \    Run Keyword And Continue On Failure    Element Text Should Be    ${evaluation}    &{Dic_Auswertung}[${langunge_code}]
+    \    Run Keyword And Continue On Failure    Check ContainsText    &{Dic_Fakturierung}[${langunge_code}]
+    \    Run Keyword And Continue On Failure    Element Text Should Be    ${billing_deliveries}    &{Dic_Lieferungen}[${langunge_code}]
+    \    Run Keyword And Continue On Failure    Element Text Should Be    ${billing_returns}    &{Dic_Retouren}[${langunge_code}]
+    \    Run Keyword And Continue On Failure    Element Text Should Be    ${billing_second_hand}    &{Dic_Occasionen}[${langunge_code}]
+    \    Run Keyword And Continue On Failure    Element Text Should Be    ${billing_shipment_costs}    &{Dic_Sendungskosten}[${langunge_code}]
+    \    Run Keyword And Continue On Failure    Check ContainsText    &{Dic_Storno}[${langunge_code}]
+    \    Run Keyword And Continue On Failure    Element Text Should Be    ${deliveries}    &{Dic_Lieferungen}[${langunge_code}]
+    \    Run Keyword And Continue On Failure    Element Text Should Be    ${returns}    &{Dic_Retouren}[${langunge_code}]
+    \    Run Keyword And Continue On Failure    Element Text Should Be    ${second_hand}    &{Dic_Occasionen}[${langunge_code}]
+    \    Run Keyword And Continue On Failure    Element Text Should Be    ${shipment_costs}    &{Dic_Sendungskosten}[${langunge_code}]
+    \    Run Keyword And Continue On Failure    Check ContainsText    &{Dic_Voreinstellungen}[${langunge_code}]
+    \    Run Keyword And Continue On Failure    Element Text Should Be    ${offsetting_charging}    &{Dic_Verrechnung}[${langunge_code}]
     Set LanguageId    ${DEFAULT_LANGUAGE_ID}
 
 Check ToolTip Mandantenauswahl
@@ -162,5 +104,8 @@ Check Menu Selection
     Select Mandaten wechseln
     Select Kontakt
     Select Module verlassen
-    Close Browser
-    [Teardown]    Login Select Bill
+
+*** Keywords ***
+Setup Menu
+    Login Select Bill
+    Create Dictionaries For Menu

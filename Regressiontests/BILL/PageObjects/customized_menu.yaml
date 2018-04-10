@@ -1,4 +1,0 @@
----
-DicYAML_RechnungsverwaltungCustomizesTest: {D: customized Rechnungsverwaltung, E: customized Invoice management, F: customized Gestion des factures}
-DicYAML_BenutzerCustomizesTest: {'1': "customized Benutzer:", 15: 'customized User:', '16': 'customized Utilisateur:'}
-...
