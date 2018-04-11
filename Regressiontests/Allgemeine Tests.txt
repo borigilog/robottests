@@ -1,6 +1,10 @@
 *** Settings ***
 Resource          ../UserKeywords/LOG_Resources.html
+Resource          ../UserKeywords/Common_Resources.html
 Library           Selenium2Library
+Resource          General_PageObjects/Login.txt
+Resource          General_PageObjects/CostCenter_PopUp.txt
+Resource          General_PageObjects/Office_PopUp.txt
 
 *** Test Cases ***
 Login to new Website
@@ -45,4 +49,41 @@ Check PSTB Employee
     Click Element    //*[@id="/$flow_main/$flow_content/back"]
     Wait Until Page Contains Element    //*[@id="/$flow_main/$flow_content/person_name"]
     Click Element    //*[@id="/$flow_main/menu_bottom/exit"]
+    [Teardown]    Close Browser
+
+Check OAC Kostenstellen Auswahl
+    Login.Login For Module    OAC
+    Click Element And Wait    /$flow_main/main_menu/info_order
+    @{costcenter_names}=    Create List    KST_BVG KST_BVG    KST-Verwaltung KST-Verwaltung    Werkstätten VAG Werkstätten    Bus Bus
+    CostCenter_PopUp.Set CostCenter In CostCenter PopUp    /$flow_main/$flow_content/costcenter_entity    @{costcenter_names}
+    ${value}    Get Value    /$flow_main/$flow_content/costcenter_entity/name
+    Should Be Equal    ${value}    Bus Bus
+    CostCenter_PopUp.Open CostCenter PopUp    /$flow_main/$flow_content/costcenter_entity
+    CostCenter_PopUp.Check CostCenter PopUp    /$flow_main/$flow_content/costcenter_entity
+    CostCenter_PopUp.Close CostCenter PopUp    /$flow_main/$flow_content/costcenter_entity
+    CostCenter_PopUp.Check CostCenter Selection Is Available    /$flow_main/$flow_content/costcenter_entity
+    CostCenter_PopUp.Remove Selected CostCenter In CostCenter PopUp    /$flow_main/$flow_content/costcenter_entity
+    [Teardown]    Close Browser
+
+Check OAC Kostenstellen Auswahl Mit Umlauten
+    Login.Login For Module    OAC
+    Click Element And Wait    /$flow_main/main_menu/info_order
+    @{costcenter_names}=    Create List    KST_BVG KST_BVG    KST-Verwaltung KST-Verwaltung    6700 Kostenstellengruppe    2600 Lagermaterial
+    CostCenter_PopUp.Set CostCenter In CostCenter PopUp    /$flow_main/$flow_content/costcenter_entity    @{costcenter_names}
+    ${value}    Get Value    /$flow_main/$flow_content/costcenter_entity/name
+    Should Be Equal    ${value}    2600 Lagermaterial
+    [Teardown]    Close Browser
+
+Check OAC Organisationseinheiten Auswahl
+    Login.Login For Module    OAC
+    Click Element And Wait    /$flow_main/main_menu/info_order
+    @{office_names}=    Create List    BVG    Verwaltung    Freiland GMBH    830
+    Office_PopUp.Set Office In Office PopUp    /$flow_main/$flow_content/org_entity    @{office_names}
+    ${value}    Get Value    /$flow_main/$flow_content/org_entity/name
+    Should Be Equal    ${value}    830
+    Office_PopUp.Open Office PopUp    /$flow_main/$flow_content/org_entity
+    Office_PopUp.Check Office PopUp    /$flow_main/$flow_content/org_entity
+    Office_PopUp.Close Office PopUp    /$flow_main/$flow_content/org_entity
+    Office_PopUp.Check Office Selection Is Available    /$flow_main/$flow_content/org_entity
+    Office_PopUp.Remove Selected Office In Office PopUp    /$flow_main/$flow_content/org_entity
     [Teardown]    Close Browser
