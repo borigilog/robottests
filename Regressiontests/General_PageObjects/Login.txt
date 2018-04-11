@@ -9,16 +9,17 @@ Load Login Page
     Wait Until Page Contains Element    //*[@id="/$flow_main"][contains(@class, 'screen look_rlx_screen_login')]
 
 Select Default Mandator
-    Click Element    //div[contains(text(), '${DEFAULT_MANDATOR_NAME}')]
+    [Arguments]    ${mandator_name}=${DEFAULT_MANDATOR_NAME}
+    Click Element    //div[contains(text(), '${mandator_name}')]
     Click Element And Wait    /$flow_main/btn_choose
 
 Login For Module
-    [Arguments]    ${module_name}
+    [Arguments]    ${module_name}    ${mandator_name}=${DEFAULT_MANDATOR_NAME}
     Load Login Page
     Input Text    /$flow_main/login_username    ${RLX_USER}
     Input Text    /$flow_main/login_password    ${RLX_PWD}
     Click Element And Wait    /$flow_main/login
     Check PageArea is visible    /$flow_main    screen look_rlx_screen_choose_mandator
-    Select Default Mandator
+    Select Default Mandator    ${mandator_name}
     Check PageArea is visible    /$flow_main    screen look_rlx_screen_main_screen
     Module_Selector.Select Module By Name    ${module_name}
