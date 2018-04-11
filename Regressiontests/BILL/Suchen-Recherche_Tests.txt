@@ -1,4 +1,6 @@
 *** Settings ***
+Suite Setup       Prepare For Bill Search Tests    Hauptmandant
+Suite Teardown    Close Browser
 Resource          ../../UserKeywords/Common_Resources.html
 Resource          ../../UserKeywords/BILL_Resources.html
 Library           Selenium2Library    run_on_failure=Nothing
@@ -16,7 +18,7 @@ ${btnEndDay}      //button[@id="/$flow_main/$flow_content/enddate/$popover0/cale
 
 *** Test Cases ***
 Verify initial GUI Settings for Bill Search
-    [Setup]    Prepare For Bill Search Tests    Hauptmandant
+    [Setup]
     ${BillSearchPage}=    Capture Page Screenshot
     Element Should Be Visible    ${btnSearch}
     Element Should be Visible    ${InputBillNumber}
@@ -47,7 +49,7 @@ Verify initial GUI Settings for Bill Search
     Element Should be Visible    ${btnBack}
     Element Should be Visible    ${btnAbort}
     Click Button    ${btnAbort}
-    [Teardown]    Close Browser
+    [Teardown]
 
 Verify PopOver Button Position
     [Documentation]    Test verifies the position of the buttons on the pop-over that is shown in case the search was initiated without any restricting parameter set.
@@ -55,7 +57,7 @@ Verify PopOver Button Position
     ...    Ersteller: O. Baeker
     ...
     ...    erstellt am: 06.04.2018
-    [Setup]    Prepare For Bill Search Tests    Hauptmandant
+    [Setup]
     [Timeout]
     Element Should Be Visible    ${btnSearch}
     Wait Until Keyword Succeeds    3    1 sec    Clear All Search Options
@@ -69,10 +71,10 @@ Verify PopOver Button Position
     Sleep    2s
     Wait Until Page Contains    Rechnungsverwaltung    timeout=3
     Click Button    ${btnAbort}
-    [Teardown]    Close Browser
+    [Teardown]
 
 Verify GUI For Search Results
-    [Setup]    Prepare For Bill Search Tests    Hauptmandant
+    [Setup]
     [Timeout]
     Element Should Be Visible    ${btnSearch}
     Wait Until Keyword Succeeds    3    1 sec    Clear All Search Options
@@ -130,10 +132,10 @@ Verify GUI For Search Results
     ${SearchResults4}=    Get Number of Bill Search Results
     Run Keyword If    ${SearchResults4}!=${SearchResults1}    Fail    Anzahl der angezeigten Rechnungen nach dem entfernen der Option Proforma Bills einschliessen, entspricht nicht der ursprünglich angezeigten Anzahl der Rechnungen
     Click Button    ${btnAbort}
-    [Teardown]    Close Browser
+    [Teardown]
 
 Suchen und Anzeigen gelöschter Rechnungen
-    [Setup]    Prepare For Bill Search Tests    Hauptmandant
+    [Setup]
     [Timeout]
     Element Should Be Visible    ${btnSearch}
     Wait Until Keyword Succeeds    3    1 sec    Clear All Search Options
@@ -154,10 +156,11 @@ Suchen und Anzeigen gelöschter Rechnungen
     ${SearchResults2}=    Get Number of Bill Search Results    ${STATUS_IN_BEARBEITUNG}
     ${SearchResults3}=    Get Number of Bill Search Results    ${STATUS_GELÖSCHT}
     Run Keyword If    '${SearchResults1}'!='${SearchResults2}'    Run Keyword If    '${SearchResults3}'=='0'    Fail    Rechnungen werden mit dem falschen Status ausgegeben
-    [Teardown]    Close Browser
+    Click Button    ${btnAbort}
+    [Teardown]
 
 Suchen und Anzeigen veröffentlichter Rechnungen
-    [Setup]    Prepare For Bill Search Tests    Hauptmandant
+    [Setup]
     [Timeout]
     Element Should Be Visible    ${btnSearch}
     Wait Until Keyword Succeeds    3    1 sec    Clear All Search Options
@@ -179,10 +182,11 @@ Suchen und Anzeigen veröffentlichter Rechnungen
     ${SearchResults3}=    Get Number of Bill Search Results    ${STATUS_VERÖFFENTLICHT}
     Run Keyword If    '${SearchResults1}'=='${SearchResults2}'    Fail    Keine Rechnungen im angegebenen Zeitraum im Status "Veröffentlicht" gefunden
     Run Keyword If    '${SearchResults1}'!='${SearchResults2}'    Run Keyword If    '${SearchResults3}'=='0'    Fail    Rechnungen werden mit dem falschen Status ausgegeben
-    [Teardown]    Close Browser
+    Click Button    ${btnAbort}
+    [Teardown]
 
 Suchen und Anzeigen verarbeiteter Rechnungen
-    [Setup]    Prepare For Bill Search Tests    Hauptmandant
+    [Setup]
     [Timeout]
     Element Should Be Visible    ${btnSearch}
     Wait Until Keyword Succeeds    3    1 sec    Clear All Search Options
@@ -204,10 +208,11 @@ Suchen und Anzeigen verarbeiteter Rechnungen
     ${SearchResults3}=    Get Number of Bill Search Results    ${STATUS_VERARBEITET}
     Run Keyword If    '${SearchResults1}'=='${SearchResults2}'    Fail    Keine Rechnungen im gewählten Zeitinterval mit dem Status "Verarbeitet & Veröffentlicht" gefunden
     Run Keyword If    '${SearchResults1}'!='${SearchResults2}'    Run Keyword If    '${SearchResults3}'=='0'    Fail    Rechnungen werden mit dem falschen Status ausgegeben
-    [Teardown]    Close Browser
+    Click Button    ${btnAbort}
+    [Teardown]
 
 Suchen und Anzeigen Rechnungen anderer SubMandanten
-    [Setup]    Prepare For Bill Search Tests    Hauptmandant
+    [Setup]
     [Timeout]
     Element Should Be Visible    ${btnSearch}
     Wait Until Keyword Succeeds    3    1 sec    Clear All Search Options
@@ -241,10 +246,10 @@ Suchen und Anzeigen Rechnungen anderer SubMandanten
     ${SearchResults2}=    Get Number of Bill Search Results    ${STATUS_IN_BEARBEITUNG}
     ${Gesamt}=    Evaluate    ${SearchResults1}+${SearchResultsOtherMand}
     Run Keyword If    '${Gesamt}'!='${SearchResults2}'    Fail    Rechnungen vom Mandanten DB Cargo werden nicht korrekt mit ausgegeben
-    [Teardown]    Close Browser
+    [Teardown]
 
 Suchen und Anzeigen von Proforma-Rechnungen
-    [Setup]    Prepare For Bill Search Tests    Hauptmandant
+    [Setup]
     [Timeout]
     Element Should Be Visible    ${btnSearch}
     Wait Until Keyword Succeeds    3    1 sec    Clear All Search Options
@@ -267,10 +272,10 @@ Suchen und Anzeigen von Proforma-Rechnungen
     ${NoOfProformaRechnugnen}=    Evaluate    ${SearchResults2}-${SearchResults1}
     ${VerificationResult}=    Check Proforma Rechnung Marker    ${NoOfProformaRechnugnen}
     Run Keyword If    '${VerificationResult}'=='Error'    Fail    Marker für Proforma Rechnungen ist nicht gesetzt
-    [Teardown]    Close Browser
+    [Teardown]
 
 Suchen von Rechnungen nach Name oder Nummer
-    [Setup]    Prepare For Bill Search Tests    Hauptmandant
+    [Setup]
     [Timeout]
     Element Should Be Visible    ${btnSearch}
     Wait Until Keyword Succeeds    3    1 sec    Clear All Search Options
@@ -305,4 +310,4 @@ Suchen von Rechnungen nach Name oder Nummer
     ${SearchResultsBillName}=    Get Number of Bill Search Results
     Run Keyword If    '${SearchResultsBillName}'!='1'    Fail    Suchergebnisse bei der Suche nach Rechnungsname entsprechen nicht den erteten Ergebnissen, es wurde nicht genau eine Rechnung gefunden
     Click Button    ${btnSearch}
-    [Teardown]    Close Browser
+    [Teardown]
