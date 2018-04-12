@@ -12,6 +12,7 @@
     - [General_PageObjects](#general_pageobjects)
     - [General_Variables](#general_variables)
     - [Modul-Tests](#modul-tests)
+      - [PageObjects](#pageobjects)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
