@@ -85,7 +85,6 @@ Get Id From Node For Office PopUp
     : FOR    ${element}    IN    @{webelements}
     \    Continue For Loop If    '${value}'!='${element.text}'
     \    ${id}=    Set Variable    ${element.get_attribute('id')}
-    \    ${id} =    Get Element Attribute    ${element}    id
     \    ${id} =    Replace String    ${id}    /$txt    ${EMPTY}    count=1
     \    Return From Keyword    ${id}
     [Return]    ${EMPTY}
