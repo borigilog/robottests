@@ -1,0 +1,15 @@
+*** Settings ***
+Library           Selenium2Library    run_on_failure=Nothing
+
+*** Keywords ***
+Check TooltipId
+    [Arguments]    ${element_id}    ${text}
+    [Documentation]    MM 22.03.2018
+    ...    check tooltip
+    [Tags]    General, Helper, Tooltip
+    Element Should Be Visible    ${element_id}
+    Mouse Over    ${element_id}
+    Wait Until Page Contains Element    //div[contains(@class,'tt fadein')]
+    Element Text Should Be    ${element_id}/$tooltip    ${text}
+    Mouse Out    ${element_id}
+    Wait Until Page Contains Element    //div[contains(@class,'tt fadeout nodisp')]

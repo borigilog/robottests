@@ -1,0 +1,5 @@
+*** Variables ***
+${DEFAULT_LANGUAGE_ID}    1
+${DEFAULT_EMAIL_ADRESS}    support@rigilog.com
+${DEFAULT_USER_NAME}    System Administrator, System Administrator
+${DEFAULT_MANDATOR_NAME}    Hauptmandant

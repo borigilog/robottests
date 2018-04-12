@@ -1,5 +1,11 @@
 *** Settings ***
 Variables         Menu_Common.yaml
+Resource          Tooltip.txt
+Resource          Language_Selector.txt
+Resource          Page.txt
+Resource          Grid.txt
+Resource          ../General_Keywords/CommonlyUsed.txt
+Resource          ../General_Variables/DefaultValues.txt
 
 *** Variables ***
 ${txtMandatorname}    /$flow_main/menu_bottom/mandatorname
@@ -56,3 +62,24 @@ Select Menu Content
     Check ElementId    ${element_id}
     Click Element And Wait    ${element_id}
     Check PageArea is visible    ${content_id}    ${class}
+
+Select Submenu Content
+    [Arguments]    ${element_id}    ${class}    ${content_id}=/$flow_main/$flow_content
+    [Documentation]    MM 12.04.2018, select certain Submenu content
+    ${parent_node_location}=    Set Variable    //div[contains(@id,'${element_id}')]/parent::div/parent::div
+    ${parent_element} =    Get WebElement    ${parent_node_location}
+    ${parent_id} =    Get Element Attribute    ${parent_element}    id
+    Mouse Over    ${parent_id}
+    Wait Until Element is Visible    ${element_id}
+    Select Menu Content    ${element_id}    ${class}    ${content_id}
+
+Select SubMenue
+    [Arguments]    ${Hauptmenüpunkt}    ${Untermenüpunkt}=None
+    Run Keyword If    '${Hauptmenüpunkt}' != ''    Wait Until Page Contains Element    //div[contains(text(),'${Hauptmenüpunkt}')]
+    Click Element    //div[contains(text(),'${Hauptmenüpunkt}')]/..
+    Comment    Click Element    //div[contains(@id,'admin_other')]
+    Comment    ${x}=    Get Horizontal Position    //div[contains(@id,'admin_other')]
+    Comment    ${y}=    Get Vertical Position    //div[contains(@id,'admin_other')]
+    Comment    Click Element At Coordinates    //div[contains(@id,'admin_other')]    ${x}    ${y}
+    Run Keyword If    '${Untermenüpunkt}' != 'None'    Wait Until Element is Visible    //div[contains(text(),'${Untermenüpunkt}')]
+    Run Keyword If    '${Untermenüpunkt}' != 'None'    Click Element    //div[contains(text(),'${Untermenüpunkt}')]

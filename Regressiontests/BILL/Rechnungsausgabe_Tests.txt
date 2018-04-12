@@ -6,9 +6,11 @@ Force Tags        Bill    Rechnungsausgabe
 Default Tags
 Metadata          Version    1.0
 Metadata          Author    Marcel Mischke
-Resource          ../../UserKeywords/Common_Resources.html
 Resource          PageObjects/Menu.txt
 Resource          ../General_PageObjects/Message_PopUp.txt
+Resource          ../General_Variables/Pathes.txt
+Resource          ../General_Variables/Database_Config.txt
+Resource          ../General_Variables/DefaultValues.txt
 Library           ${LIBS_PATH}/DatabaseClass.py    database=${DATABASE_NAME}    user=${DATABASE_USER}    password=${DATABASE_PWD}    host=${DATABASE_IP}    port=${DATABASE_PORT}
 Library           ${LIBS_PATH}/SQLQueryReader.py
 

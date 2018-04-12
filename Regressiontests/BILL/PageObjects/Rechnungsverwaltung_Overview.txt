@@ -1,3 +1,7 @@
+*** Settings ***
+Resource          ../../General_Keywords/Dictionary.txt
+Resource          ../../General_PageObjects/Page.txt
+
 *** Variables ***
 ${content}        /$flow_main/$flow_content
 # ~~~~~~~ headline

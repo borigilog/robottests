@@ -1,5 +1,11 @@
 *** Settings ***
 Variables         Language_Selector.yaml
+Resource          ../General_Keywords/CommonlyUsed.txt
+Resource          Page.txt
+Resource          Grid.txt
+Resource          ../General_Variables/Website_Config.txt
+Library           Collections
+Library           Selenium2Library    run_on_failure=Nothing
 
 *** Variables ***
 ${LANGUAGE_SELECTOR}    /$flow_main/menu_bottom/languages
