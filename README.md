@@ -16,6 +16,8 @@
 	- [Robotframework Basics](#robotframework-basics)
 	- [Was man beim Test schreiben berücksichtigen sollte](#was-man-beim-test-schreiben-berücksichtigen-sollte)
 	- [Wie man eigene Python-Bibliotheken schreibt](#wie-man-eigene-python-bibliotheken-schreibt)
+- [Wording/Begriffserklärung](#wordingbegriffserklärung)
+	- [<a name="PageObject"></a>PageObject](#a-namepageobjectapageobject)
 - [README-Datei bearbeiten:](#readme-datei-bearbeiten)
 	- [Syntax](#syntax)
 	- [Editor](#editor)
@@ -44,9 +46,7 @@ Enthält alle Tests
 Enthält [Keywords](http://robotframework.org/robotframework/latest/RobotFrameworkUserGuide.html#creating-user-keywords), die man für jede Website nutzen könnte (nicht speziell für unsere) und die zu keinem sinnvollen  [PageObject](#PageObject) gruppiert werden können.
 
 ### General_PageObjects
-[PageObject](#PageObject) = eine Art _Komponente_ = Sammlung von **Keywords**, die für eine Gruppe von immer zusammengehörenden Html-Elementen gelten.
-
-Hier landen PageObjects, die an mehreren Stellen innerhalb der Website vorkommen (Languageselector, Trees, Grids, DatePicker....)
+Hier landen [PageObjects](#PageObject), die an mehreren Stellen innerhalb der Website vorkommen (Languageselector, Trees, Grids, DatePicker....)
 
 ### General_Variables
 Variablen, die für die gesamte Website gelten (Login, Password, URL, Standard Sprache, Mandant...).
