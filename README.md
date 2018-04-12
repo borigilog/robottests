@@ -12,6 +12,7 @@
 		- [Modul-Tests](#modul-tests)
 			- [PageObjects](#pageobjects)
 - [Wie schreibt man Tests ?](#wie-schreibt-man-tests-)
+	- [Installation](#installation)
 	- [Robotframework Basics](#robotframework-basics)
 	- [Was man beim Test schreiben berücksichtigen sollte](#was-man-beim-test-schreiben-berücksichtigen-sollte)
 - [README-Datei bearbeiten:](#readme-datei-bearbeiten)
@@ -63,6 +64,9 @@ Ein Anhaltspunkt: Pro html-Ansicht eine Testsuite erstellen.
 Enthält **[PageObject](https://martinfowler.com/bliki/PageObject.html)**, die nur für dieses Modul gelten.
 
 # Wie schreibt man Tests ?
+## Installation
+- Installationsanleitung Deutsch mit integrierten Installern, Anleitung, wie man das Rpository ziehen kann und ein Desktop-Icon erstellt: https://www.swtestacademy.com/getting-started-robotframework/UI-Testing_getting_started.docx  
+- Installationsanleitung Englisch (z.B. wenn man mal keinen Zugriff auf unser Netzwerk hat): https://www.swtestacademy.com/getting-started-robotframework/
 ## Robotframework Basics
 - [Creating Test Suites](https://github.com/robotframework/robotframework/blob/master/doc/userguide/src/CreatingTestData/CreatingTestSuites.rst)
 - [Creating Test Cases](https://github.com/robotframework/robotframework/blob/master/doc/userguide/src/CreatingTestData/CreatingTestCases.rst)
@@ -70,7 +74,6 @@ Enthält **[PageObject](https://martinfowler.com/bliki/PageObject.html)**, die n
 ## Was man beim Test schreiben berücksichtigen sollte
 - [How to Write Good TestCases](https://github.com/robotframework/HowToWriteGoodTestCases/blob/master/HowToWriteGoodTestCases.rst)
 - [Do's and Dont's](https://de.slideshare.net/pekkaklarck/robot-framework-dos-and-donts)
-
 
 # README-Datei bearbeiten:
 ## Syntax
