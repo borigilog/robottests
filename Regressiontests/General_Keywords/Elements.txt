@@ -1,0 +1,24 @@
+*** Settings ***
+Library           Selenium2Library    run_on_failure=Nothing
+Library           Collections
+Resource          DataTypes.txt
+
+*** KeyWords ***
+Get Elements Text Data
+    [Arguments]    ${locator}    ${data_type}=string
+    [Documentation]    Returns the texts of all WebElements matching provided locator converted into provided data_type
+    @{webelements} =    Get WebElements    ${locator}
+    ${values}=    Create List
+    : FOR    ${el}    IN    @{webelements}
+    \    ${content}=    Convert Text To Data Type    ${el.text}    ${data_type}
+    \    Append To List    ${values}    ${content}
+    [Return]    ${values}
+
+Get Elements Texts
+    [Arguments]    ${locator}
+    [Documentation]    Returns a list of the texts of all WebElements matching provided locator
+    @{webelements} =    Get WebElements    ${locator}
+    ${values}=    Create List
+    : FOR    ${el}    IN    @{webelements}
+    \    Append To List    ${values}    ${el.text}
+    [Return]    ${values}

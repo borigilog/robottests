@@ -4,8 +4,7 @@ Force Tags        General    Login
 Metadata          Version    1.0
 Metadata          Author    Marcel Mischke
 Metadata          Executed At    ${RLX_LOGIN_URL}
-Resource          ../UserKeywords/Common_Resources.html
-Resource          General_PageObjects/Message_PopUp.txt
+Resource          General_PageObjects/Message_PopUp.txt    #Resource    ../UserKeywords/Common_Resources.html
 Resource          General_PageObjects/Login.txt
 
 *** Test Cases ***

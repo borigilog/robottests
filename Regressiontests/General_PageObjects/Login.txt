@@ -1,5 +1,9 @@
 *** Settings ***
+Library           Selenium2Library    run_on_failure=Nothing
 Resource          Module_Selector.txt
+Resource          ../General_Variables/Website_Config.txt
+Resource          ../General_Variables/DefaultValues.txt
+Resource          Page.txt
 
 *** Keywords ***
 Load Login Page
@@ -15,11 +19,14 @@ Select Default Mandator
 
 Login For Module
     [Arguments]    ${module_name}    ${mandator_name}=${DEFAULT_MANDATOR_NAME}
+    Login
+    Select Default Mandator    ${mandator_name}
+    Check PageArea is visible    /$flow_main    screen look_rlx_screen_main_screen
+    Module_Selector.Select Module By Name    ${module_name}
+
+Login
     Load Login Page
     Input Text    /$flow_main/login_username    ${RLX_USER}
     Input Text    /$flow_main/login_password    ${RLX_PWD}
     Click Element And Wait    /$flow_main/login
     Check PageArea is visible    /$flow_main    screen look_rlx_screen_choose_mandator
-    Select Default Mandator    ${mandator_name}
-    Check PageArea is visible    /$flow_main    screen look_rlx_screen_main_screen
-    Module_Selector.Select Module By Name    ${module_name}

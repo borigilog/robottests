@@ -5,8 +5,10 @@ Force Tags        Bill    Menu
 Default Tags
 Metadata          Version    1.0
 Metadata          Author    Marcel Mischke
-Resource          ../../UserKeywords/Common_Resources.html
 Resource          PageObjects/Menu.txt
+Resource          ../General_PageObjects/Language_Selector.txt
+Resource          ../General_PageObjects/Menu_Common.txt
+Resource          ../General_Keywords/CommonlyUsed.txt
 
 *** Test Cases ***
 Check GUI Elements Menu

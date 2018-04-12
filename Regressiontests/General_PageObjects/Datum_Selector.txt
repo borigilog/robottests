@@ -1,6 +1,9 @@
 *** Settings ***
 Library           DateTime
 Variables         Datum_Selector.yaml
+Resource          ../General_Keywords/DataTypes.txt
+Resource          Language_Selector.txt
+Resource          Grid.txt
 
 *** Variables ***
 # ~~~~~~~ calendar grid
@@ -187,18 +190,9 @@ Convert DateTime To DateString
     [Arguments]    ${datetime}
     [Documentation]    MM 02.04.2018
     [Tags]    General, Helper, DateSelector
-    Should Be Not String    ${value}
+    Should Not Be String    ${value}
     ${date} =    Convert Date    ${datetime}    result_format=%d.%m.%Y    exclude_millis=yes
     [Return]    ${date}
-
-Convert DateString To DateTime
-    [Arguments]    ${value}
-    [Documentation]    MM 02.04.2018
-    [Tags]    General, Helper, DateSelector
-    Should Be String    ${value}
-    ${date} =    Convert Date    ${value}    date_format=%d.%m.%Y    exclude_millis=yes
-    ${datetime} =    Convert Date    ${date}    datetime
-    [Return]    ${datetime}
 
 Convert Month To MonthName
     [Arguments]    ${month}

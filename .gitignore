@@ -1,11 +1,8 @@
 
 *.pyc
-*.pyc
-*.pyc
-*.pyc
-*.pyc
-*.pyc
-*.pyc
-*.pyc
 Libs/DatabaseClass.pyc
 Libs/ActionChainsExtension.pyc
+Libs/ActionChainsExtension.pyc
+Libs/ActionChainsExtension.pyc
+Libs/DatabaseClass.pyc
+Libs/Global.pyc
