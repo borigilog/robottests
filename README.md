@@ -66,6 +66,7 @@ Enthält **[PageObject](https://martinfowler.com/bliki/PageObject.html)**, die n
 ## Robotframework Basics
 - [Creating Test Suites](https://github.com/robotframework/robotframework/blob/master/doc/userguide/src/CreatingTestData/CreatingTestSuites.rst)
 - [Creating Test Cases](https://github.com/robotframework/robotframework/blob/master/doc/userguide/src/CreatingTestData/CreatingTestCases.rst)
+
 ## Was man beim Test schreiben berücksichtigen sollte
 - [How to Write Good TestCases](https://github.com/robotframework/HowToWriteGoodTestCases/blob/master/HowToWriteGoodTestCases.rst)
 - [Do's and Dont's](https://de.slideshare.net/pekkaklarck/robot-framework-dos-and-donts)
@@ -73,27 +74,7 @@ Enthält **[PageObject](https://martinfowler.com/bliki/PageObject.html)**, die n
 
 # README-Datei bearbeiten:
 ## Syntax
-- <!-- TOC depthFrom:1 depthTo:6 withLinks:1 updateOnSave:1 orderedList:0 -->
-
-- [About robottests](#about-robottests)
-- [robottest - Struktur](#robottest-struktur)
-	- [Libs](#libs)
-	- [SQL](#sql)
-	- [Settings](#settings)
-	- [Regressiontests](#regressiontests)
-		- [General_Keywords](#generalkeywords)
-		- [General_PageObjects](#generalpageobjects)
-		- [General_Variables](#generalvariables)
-		- [Modul-Tests](#modul-tests)
-			- [PageObjects](#pageobjects)
-- [Wie schreibt man Tests ?](#wie-schreibt-man-tests-)
-	- [Robotframework Basics](#robotframework-basics)
-	- [Was man beim Test schreiben berücksichtigen sollte](#was-man-beim-test-schreiben-berücksichtigen-sollte)
-- [README-Datei bearbeiten:](#readme-datei-bearbeiten)
-	- [Syntax](#syntax)
-	- [Editor](#editor)
-
-<!-- /TOC -->[Markdown Syntax](https://guides.github.com/features/mastering-markdown/)
+[Markdown Syntax](https://guides.github.com/features/mastering-markdown/)
 ## Editor
 [Atom](https://atom.io/)
 - [strg+shift+m öffnet ein Preview] (https://guides.github.com/features/mastering-markdown/)
