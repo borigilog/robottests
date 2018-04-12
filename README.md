@@ -83,5 +83,5 @@ Enthält **[PageObject](https://martinfowler.com/bliki/PageObject.html)**, die n
 [Markdown Syntax](https://guides.github.com/features/mastering-markdown/)
 ## Editor
 [Atom](https://atom.io/)
-- [strg+shift+m öffnet ein Preview] (https://guides.github.com/features/mastering-markdown/)
+- [strg+shift+m öffnet ein Preview](https://guides.github.com/features/mastering-markdown/)
 - Inhaltsverzeichnis erstellen mit dem AddOn [markdown-toc](https://atom.io/packages/markdown-toc)
