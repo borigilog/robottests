@@ -29,6 +29,7 @@ Enthält alle SQL-Statements
 
 ## Settings
 Enthält Dictionary-Ressourcen-Dateien etc.
+
 Pro Modul muss ein Unterordner erstellt werden.
 
 
@@ -40,6 +41,7 @@ Allgemeine **Keywords** = Keywords, die man für jede Website nutzen könnte (ni
 
 ### General_PageObjects
 **PageObject** = eine Art _Komponente_ = Sammlung von **Keywords**, die für eine Gruppe von immer zusammengehörenden Html-Elementen gelten.
+
 Allgemeine **PageObjects** = PageObjects, die an mehreren Stellen innerhalb der Website vorkommen (Languageselector, Trees, Grids, DatePicker....)
 
 ### General_Variables
@@ -47,8 +49,11 @@ Variablen, die für die gesamte Website gelten (Login, Password, URL, Standard S
 
 ### Modul-Tests
 Für jedes Modul muss ein **Ordner mit Namen des Moduls** erstellt werden (_BILL_, _LOG_, _OAC_...).
+
 Innerhalb dieses Ordners wird pro _Bereich_ eine **Testsuite** erstellt.
+
 Was ein _Bereich_ ist, ist dem Ersteller der Tests überlassen.
+
 Ein Anhaltspunkt: Pro html-Ansicht eine Testsuite erstellen.
 
 #### PageObjects
