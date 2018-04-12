@@ -41,29 +41,29 @@ Pro Modul muss ein Unterordner erstellt werden.
 Enthält alle Tests
 
 ### General_Keywords
-Allgemeine **Keywords** = [Keywords](http://robotframework.org/robotframework/latest/RobotFrameworkUserGuide.html#creating-user-keywords), die man für jede Website nutzen könnte (nicht speziell für unsere) und die nicht zu einem **PageObject** gruppiert werden.
+Enthält [Keywords](http://robotframework.org/robotframework/latest/RobotFrameworkUserGuide.html#creating-user-keywords), die man für jede Website nutzen könnte (nicht speziell für unsere) und die zu keinem sinnvollen  [PageObject](#PageObject) gruppiert werden können.
 
 ### General_PageObjects
-**[PageObject](https://martinfowler.com/bliki/PageObject.html)** = eine Art _Komponente_ = Sammlung von **Keywords**, die für eine Gruppe von immer zusammengehörenden Html-Elementen gelten.
+[PageObject](#PageObject) = eine Art _Komponente_ = Sammlung von **Keywords**, die für eine Gruppe von immer zusammengehörenden Html-Elementen gelten.
 
-Allgemeine **PageObjects** = PageObjects, die an mehreren Stellen innerhalb der Website vorkommen (Languageselector, Trees, Grids, DatePicker....)
+Hier landen PageObjects, die an mehreren Stellen innerhalb der Website vorkommen (Languageselector, Trees, Grids, DatePicker....)
 
 ### General_Variables
-Variablen, die für die gesamte Website gelten (Login, Password, URL, Standard SPrache, Mandant...).
+Variablen, die für die gesamte Website gelten (Login, Password, URL, Standard Sprache, Mandant...).
 
 ### Modul-Tests
 Für jedes Modul muss ein **Ordner mit Namen des Moduls** erstellt werden (_BILL_, _LOG_, _OAC_...).<br>
 Innerhalb dieses Ordners wird pro _Bereich_ eine **Testsuite** erstellt. <br>
 Was ein _Bereich_ ist, ist dem Ersteller der Tests überlassen. <br>
-Ein Anhaltspunkt: Pro html-Ansicht eine Testsuite erstellen. (Ist aber kein Muss!)
+**Anhaltspunkt:** Pro html-Ansicht eine Testsuite erstellen. (Ist aber kein Muss!)
 
 #### PageObjects
-Enthält **[PageObject](https://martinfowler.com/bliki/PageObject.html)**, die nur für dieses Modul gelten.
+Enthält [PageObjects](#PageObject), die nur für dieses Modul gelten.
 
 # Wie schreibt man Tests ?
 ## Installation
 - Installationsanleitung Deutsch mit integrierten Installern, Anleitung, wie man das Rpository ziehen kann und ein Desktop-Icon erstellt: **\\sr-fs03\Rigilog\Development\Testautomatisierung\UI-Testing_getting_started.docx**  
-- Installationsanleitung Englisch (z.B. wenn man mal keinen Zugriff auf unser Netzwerk hat): https://www.swtestacademy.com/getting-started-robotframework/
+- [Installationsanleitung für Ride auf Englisch](https://www.swtestacademy.com/getting-started-robotframework/) (z.B. wenn man mal keinen Zugriff auf unser Netzwerk hat)
 
 ## Robotframework Basics
 - [Creating Test Suites](https://github.com/robotframework/robotframework/blob/master/doc/userguide/src/CreatingTestData/CreatingTestSuites.rst)
@@ -76,6 +76,11 @@ Enthält **[PageObject](https://martinfowler.com/bliki/PageObject.html)**, die n
 ## Wie man eigene Python-Bibliotheken schreibt
 - [Simples Beispiel inkl. Aufruf](https://stackoverflow.com/questions/27039016/how-to-create-a-custom-python-code-library-for-the-robot-framework)
 - [Creating Testlibraries](http://robotframework.org/robotframework/latest/RobotFrameworkUserGuide.html#creating-test-libraries)
+
+# Wording/Begriffserklärung
+## <a name="PageObject"></a>PageObject
+eine Art _Komponente_ = Sammlung von **Keywords**, die für eine Gruppe von immer zusammengehörenden Html-Elementen gelten.<br>
+[Siehe PageObject-DesignPattern](https://martinfowler.com/bliki/PageObject.html).
 
 
 # README-Datei bearbeiten:
