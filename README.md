@@ -1,25 +1,28 @@
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+<!-- TOC depthFrom:1 depthTo:6 withLinks:1 updateOnSave:1 orderedList:0 -->
 
-- [robottests](#robottests)
-- [Struktur](#struktur)
-  - [Libs](#libs)
-  - [SQL](#sql)
-  - [Settings](#settings)
-  - [Regressiontests](#regressiontests)
-    - [General_Keywords](#general_keywords)
-    - [General_PageObjects](#general_pageobjects)
-    - [General_Variables](#general_variables)
-    - [Modul-Tests](#modul-tests)
-      - [PageObjects](#pageobjects)
+- [About robottests](#about-robottests)
+- [robottest - Struktur](#robottest-struktur)
+	- [Libs](#libs)
+	- [SQL](#sql)
+	- [Settings](#settings)
+	- [Regressiontests](#regressiontests)
+		- [General_Keywords](#generalkeywords)
+		- [General_PageObjects](#generalpageobjects)
+		- [General_Variables](#generalvariables)
+		- [Modul-Tests](#modul-tests)
+			- [PageObjects](#pageobjects)
+- [Wie schreibt man Tests ?](#wie-schreibt-man-tests-)
+	- [Robotframework Basics](#robotframework-basics)
+	- [Was man beim Test schreiben berücksichtigen sollte](#was-man-beim-test-schreiben-berücksichtigen-sollte)
+- [README-Datei bearbeiten:](#readme-datei-bearbeiten)
+	- [[Markdown Syntax](https://guides.github.com/features/mastering-markdown/)](#markdown-syntaxhttpsguidesgithubcomfeaturesmastering-markdown)
+	- [Editor](#editor)
 
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-# robottests
+<!-- /TOC -->
+# About robottests
 robotframework - automated on-line tests for WebGUI
 
-# Struktur
+# robottest - Struktur
 
 ## Libs
 Enthält Python-Bibliotheken
@@ -57,4 +60,20 @@ Was ein _Bereich_ ist, ist dem Ersteller der Tests überlassen.
 Ein Anhaltspunkt: Pro html-Ansicht eine Testsuite erstellen.
 
 #### PageObjects
-Enthält **PageObjects** dir nur für dieses Modul gelten.
+Enthält **[PageObject](https://martinfowler.com/bliki/PageObject.html)**, die nur für dieses Modul gelten.
+
+# Wie schreibt man Tests ?
+## Robotframework Basics
+- [Creating Test Suites](https://github.com/robotframework/robotframework/blob/master/doc/userguide/src/CreatingTestData/CreatingTestSuites.rst)
+- [Creating Test Cases](https://github.com/robotframework/robotframework/blob/master/doc/userguide/src/CreatingTestData/CreatingTestCases.rst)
+## Was man beim Test schreiben berücksichtigen sollte
+- [How to Write Good TestCases](https://github.com/robotframework/HowToWriteGoodTestCases/blob/master/HowToWriteGoodTestCases.rst)
+- [Do's and Dont's](https://de.slideshare.net/pekkaklarck/robot-framework-dos-and-donts)
+
+
+# README-Datei bearbeiten:
+## [Markdown Syntax](https://guides.github.com/features/mastering-markdown/)
+## Editor
+[Atom](https://atom.io/)
+- [strg+shift+m öffnet ein Preview] (https://guides.github.com/features/mastering-markdown/)
+- Inhaltsverzeichnis erstellen mit dem AddOn [markdown-toc](https://atom.io/packages/markdown-toc)
