@@ -1,0 +1,101 @@
+*** Settings ***
+
+*** Variables ***
+&{Dic_CostCenterPopUpTitle}    D=Kostenstellen    E=Cost centers    F=Centres de coûts
+
+*** Keywords ***
+Check CostCenter Selection Is Available
+    [Arguments]    ${locator}
+    [Documentation]    MM 11.04.2018
+    [Tags]    General, Helper, CostCenter_PopUp
+    ${picker_id}=    Set Variable    ${locator}/pick
+    ${remove_id}=    Set Variable    ${locator}/remove
+    ${name_id}=    Set Variable    ${locator}/name
+    Element Should Be Visible    ${picker_id}
+    Element Should Be Visible    ${remove_id}
+    Element Should Be Visible    ${name_id}
+
+Check CostCenter PopUp
+    [Arguments]    ${locator}
+    [Documentation]    MM 11.04.2018
+    [Tags]    General, Helper, CostCenter_PopUp
+    ${popup_id}    Set Variable    ${locator}/$popover0
+    ${close_id}=    Set Variable    ${popup_id}/$close
+    Element Should Be Visible    ${close_id}
+    ${langunge_code}=    Get selected LanguageCode
+    Run Keyword And Continue On Failure    Element Text Should Be    ${popup_id}/$title    &{Dic_CostCenterPopUpTitle}[${langunge_code}]
+
+Open CostCenter PopUp
+    [Arguments]    ${locator}
+    [Documentation]    MM 11.04.2018
+    [Tags]    General, Helper, CostCenter_PopUp
+    ${picker_id}=    Set Variable    ${locator}/pick
+    Click Element    ${picker_id}
+
+Close CostCenter PopUp
+    [Arguments]    ${locator}
+    [Documentation]    MM 11.04.2018
+    [Tags]    General, Helper, CostCenter_PopUp
+    ${popup_visible} =    Run Keyword And Return Status    Check CostCenter PopUp Is Visible    ${locator}
+    Run Keyword If    '${popup_visible}' == '${FALSE}'    Log    Das Kostenstellen Fenster ist nicht sichtbar und kann daher nicht geschlossen werden!    WARN
+    Return From Keyword If    '${popup_visible}' == '${FALSE}'
+    ${close_id}=    Set Variable    ${locator}/$popover0/$close
+    Click Element    ${close_id}
+
+Remove Selected CostCenter In CostCenter PopUp
+    [Arguments]    ${locator}
+    [Documentation]    MM 11.04.2018
+    [Tags]    General, Helper, CostCenter_PopUp
+    ${remove_id}=    Set Variable    ${locator}/remove
+    ${name_id}=    Set Variable    ${locator}/name
+    Click Element    ${remove_id}
+    ${value}=    Get Value    ${name_id}
+    Should Be Equal    ${value}    ${EMPTY}
+
+Check CostCenter PopUp Is Visible
+    [Arguments]    ${locator}    ${visible}=${TRUE}
+    [Documentation]    MM 11.04.2018
+    [Tags]    General, Helper, CostCenter_PopUp
+    ${popup_id}=    Set Variable    ${locator}/$popover0
+    Check PageArea is visible    ${popup_id}    screen look_rlx_screen_choose_costcenter    visible=${visible}
+
+Set CostCenter In CostCenter PopUp
+    [Arguments]    ${locator}    @{costsenter_node_names}
+    [Documentation]    MM 11.04.2018
+    [Tags]    General, Helper, CostCenter_PopUp
+    Open CostCenter PopUp    ${locator}
+    ${length} =    Get Length    ${costsenter_node_names}
+    ${id}=    Set Variable    ${locator}/$popover0/cctree/1
+    ${count}=    Set Variable    ${0}
+    : FOR    ${value}    IN    @{costsenter_node_names}
+    \    ${count}=    Evaluate    ${count}+${1}
+    \    ${id}=    Get Id From Node For CostCenter PopUp    ${id}    ${value}
+    \    ${btn} =    Set Variable If    '${count}' == '${length}'    $icon    $btn
+    \    Click Element    ${id}/${btn}
+    \    ${id}=    Set Variable    ${id}_
+    Check CostCenter PopUp Is Visible    ${locator}    visible=false
+
+Get Id From Node For CostCenter PopUp
+    [Arguments]    ${locator}    ${value}
+    [Documentation]    MM 11.04.2018
+    [Tags]    General, Helper, CostCenter_PopUp
+    Wait Until Costcenter Node Has Children    ${locator}
+    ${node_location}=    Set Variable    //div[contains(@class,'treecontainer')]/div[contains(@id,'${locator}')][contains(@class,'treenode')]/div[contains(@class,'treenodecontent')]/div[contains(@class,'text')]
+    @{webelements} =    Get WebElements    ${node_location}
+    : FOR    ${element}    IN    @{webelements}
+    \    Continue For Loop If    '${value}'!='${element.text}'
+    \    ${id}=    Set Variable    ${element.get_attribute('id')}
+    \    ${id} =    Get Element Attribute    ${element}    id
+    \    ${id} =    Replace String    ${id}    /$txt    ${EMPTY}    count=1
+    \    Return From Keyword    ${id}
+    [Return]    ${EMPTY}
+
+Wait Until Costcenter Node Has Children
+    [Arguments]    ${locator}
+    [Documentation]    MM 11.04.2018
+    [Tags]    General, Helper, CostCenter_PopUp
+    ${node_location}=    Set Variable    //div[contains(@class,'treecontainer')]/div[contains(@id,'${locator}')]
+    : FOR    ${index}    IN RANGE    60
+    \    ${length} =    Get Element Count    ${node_location}
+    \    Exit For Loop If    '${length}'>'${0}'
+    \    Sleep    1    Wait Until TreeNode Has Children

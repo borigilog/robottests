@@ -44,15 +44,6 @@ Login Select Bill
     Run Keyword If    ${navigateToBillModule}    Check Homescreen is selected
     Check PageArea is visible    /$flow_main    screen look_rlx_screen_bill_main
 
-Login Select Bill OLD
-    [Arguments]    ${login}=true
-    [Documentation]    MM 22.03.2018, prepare content for BILL tests
-    ${navigateToBillModule} =    Is Truthy    ${login}
-    Run Keyword If    ${navigateToBillModule}    Start Test For Module    Bill
-    Run Keyword If    ${navigateToBillModule}    Wait until Page is unfreezed
-    Run Keyword If    ${navigateToBillModule}    Check Homescreen is selected
-    Check PageArea is visible    /$flow_main    screen look_rlx_screen_bill_main
-
 Check Homescreen is selected
     [Documentation]    MM 22.03.2018, check content homescreen is selected
     Check PageArea is visible    ${menu_content}    screen look_rlx_screen_bill_homescreen
