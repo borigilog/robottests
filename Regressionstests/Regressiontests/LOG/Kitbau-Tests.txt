@@ -1,6 +1,0 @@
-*** Settings ***
-Resource          ../../UserKeywords/LOG_Resources.html
-Resource          ../../UserKeywords/Common_Resources.html
-Library           Selenium2Library
-
-*** Test Cases ***

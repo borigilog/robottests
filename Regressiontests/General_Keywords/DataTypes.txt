@@ -1,0 +1,44 @@
+*** Settings ***
+Library           robot.libraries.String
+Library           DateTime
+
+*** KeyWords ***
+Is Truthy
+    [Arguments]    ${value}
+    [Documentation]    MM 22.03.2018
+    ...    parsing booleans
+    [Tags]    General, Helper, Parsing, Bool
+    ${value as bool}    Evaluate    robot.utils.is_truthy($value)    modules=robot
+    [Return]    ${value as bool}
+
+Convert Text To Data Type
+    [Arguments]    ${value}    ${data_type}=string
+    Run Keyword And Return If    '${data_type}'=='string'    Convert To String    ${value}
+    Run Keyword And Return If    '${data_type}'=='int'    Convert To Integer    ${value}
+    Run Keyword And Return If    '${data_type}'=='number'    Convert To Number    ${value}
+    Run Keyword And Return If    '${data_type}'=='datetime'    Convert DateString To DateTime    ${value}
+    [Return]    ${value}
+
+Get Stripped String
+    [Arguments]    ${value}=${EMPTY}
+    Return From Keyword If    '${value}' == '${NONE}'    ${EMPTY}
+    Return From Keyword If    '${value}' == '${EMPTY}'    ${EMPTY}
+    ${strippedValue}    Strip String    ${value}
+    [Return]    ${strippedValue}
+
+Convert DateTime To DateString
+    [Arguments]    ${datetime}
+    [Documentation]    MM 02.04.2018
+    [Tags]    General, Helper, DateSelector
+    Should Not Be String    ${value}
+    ${date} =    Convert Date    ${datetime}    result_format=%d.%m.%Y    exclude_millis=yes
+    [Return]    ${date}
+
+Convert DateString To DateTime
+    [Arguments]    ${value}
+    [Documentation]    MM 02.04.2018
+    [Tags]    General, Helper, DateSelector
+    Should Be String    ${value}
+    ${date} =    Convert Date    ${value}    date_format=%d.%m.%Y    exclude_millis=yes
+    ${datetime} =    Convert Date    ${date}    datetime
+    [Return]    ${datetime}

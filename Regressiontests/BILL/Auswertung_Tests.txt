@@ -6,8 +6,10 @@ Force Tags        Bill    Auswertung
 Default Tags
 Metadata          Version    1.0
 Metadata          Author    Marcel Mischke
-Resource          ../../UserKeywords/Common_Resources.html
 Resource          PageObjects/Menu.txt
+Resource          ../General_PageObjects/Datum_Selector.txt
+Resource          ../General_Variables/DefaultValues.txt
+Resource          ../General_Variables/Website_Config.txt
 
 *** Variables ***
 # ~~~~~~~~~ date selector

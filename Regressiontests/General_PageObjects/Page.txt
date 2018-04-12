@@ -1,0 +1,25 @@
+*** Settings ***
+Library           Selenium2Library    run_on_failure=Nothing
+Resource          ../General_Keywords/CommonlyUsed.txt
+
+*** Keywords ***
+Wait until Page is unfreezed
+    [Documentation]    MM 29.03.2018
+    ...    warten bis die seite geladen ist, zB. nach datenabruf
+    #Temporary Helper: loop for max 300 sec => 5 min
+    : FOR    ${index}    IN RANGE    300
+    \    ${class} =    Get Element Attribute    //body    class
+    \    Exit For Loop If    '${class}'!='freezed'
+    \    Sleep    1    Wait <body class='freezed'> is not visible
+
+Check PageArea is visible
+    [Arguments]    ${element_id}    ${class}    ${visible}=${TRUE}
+    [Documentation]    MM 22.03.2018
+    ...    check page area is visible, the content has allways the same element_id therefore consider class also
+    [Tags]    General, Helper, Page Area
+    Check ElementId with class is visible    ${element_id}    ${class}    ${visible}
+
+Click Element And Wait
+    [Arguments]    ${locator}
+    Click Element    ${locator}
+    Wait until Page is unfreezed

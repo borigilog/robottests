@@ -1,0 +1,4 @@
+*** Variables ***
+${LIBS_PATH}      ${CURDIR}${/}../../Libs
+${SQL_QUERIES_PATH}    ${CURDIR}${/}../../SQL
+${SETTINGS_PATH}    ${CURDIR}${/}../../Settings

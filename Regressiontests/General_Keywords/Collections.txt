@@ -1,0 +1,20 @@
+*** Settings ***
+Resource          DataTypes.txt
+Library           Collections
+
+*** Keywords ***
+List Should Be Ordered
+    [Arguments]    ${list}    ${desc}=${FALSE}    ${caseinsensitive}=${FALSE}
+    ${desc}    Is Truthy    ${desc}
+    ${caseinsensitive}    Is Truthy    ${caseinsensitive}
+    ${list} =    Run Keyword If    ${caseinsensitive}    Evaluate    [el.lower() for el in $list]
+    ...    ELSE    Set Variable    ${list}
+    ${copy_list}=    Copy List    ${list}
+    Sort List    ${copy_list}
+    Run Keyword If    ${desc}    Reverse List    ${copy_list}
+    Lists Should Be Equal    ${copy_list}    ${list}
+
+List Contains Value
+    [Arguments]    ${list}    ${value}
+    ${result} =    Evaluate    any(x == ${value} for x in $List)
+    [Return]    ${result}

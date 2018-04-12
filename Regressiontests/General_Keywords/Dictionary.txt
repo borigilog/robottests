@@ -1,0 +1,22 @@
+*** Settings ***
+Resource          ../General_Variables/Pathes.txt
+Library           ${LIBS_PATH}/SettingsDicReader.py
+
+*** Keywords ***
+Create SettingsDics
+    [Arguments]    ${region_name}    ${dic_id}    ${enforce_name}=${EMPTY}    ${module}=BILL
+    ${var_name}=    Set Variable If    '${enforce_name}'=='${EMPTY}'    ${region_name}_${dic_id}    ${enforce_name}
+    ${passed} =    Check Variable SettingsDic With Content Exist    ${var_name}
+    Return From Keyword If    '${passed}' == '${TRUE}'
+    &{python_dict} =    SettingsDicReader.Get Dictionary    ${SETTINGS_PATH}/${module}/Settings_dic.xml    ${region_name}    ${dic_id}
+    #Set Global Variable    &{${var_name}}    &{python_dict}
+    Set Suite Variable    &{${var_name}}    &{python_dict}
+
+Check Variable SettingsDic With Content Exist
+    [Arguments]    ${var_name}
+    ${passed}=    Run Keyword And Return Status    Variable Should Exist    &{${var_name}}
+    Return From Keyword If    '${passed}' == '${FALSE}'    ${FALSE}
+    ${length} =    Get Length    ${${var_name}}
+    Return From Keyword If    ${length} == 0    ${FALSE}
+    Log    Die Variable ${var_name} - &{${var_name}} existiert bereits!    INFO
+    [Return]    ${TRUE}

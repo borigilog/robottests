@@ -1,0 +1,56 @@
+*** Settings ***
+Resource          DataTypes.txt
+Library           Selenium2Library    run_on_failure=Nothing
+
+*** Keywords ***
+Check ElementId
+    [Arguments]    ${element_id}    ${text}=${EMPTY}    ${enabled}=${EMPTY}
+    [Documentation]    MM 22.03.2018
+    ...    check elements, the arguments are passed with name or in the correct order
+    [Tags]    General, Helper, Element
+    ${enabled as bool}    Is Truthy    ${enabled}
+    #Log To Console    ${enabled} -> ${enabled as bool}
+    Element Should Be Visible    ${element_id}
+    Run Keyword If    '${enabled}' != '${EMPTY}' and '${enabled as bool}' == '${TRUE}'    Element Should Be Enabled    ${element_id}
+    Run Keyword If    '${enabled}' != '${EMPTY}' and '${enabled as bool}' == '${FALSE}'    Element Should Be Disabled    ${element_id}
+    Run Keyword If    '${text}' != '${EMPTY}'    Element Text Should Be    ${element_id}    ${text}
+
+Check CheckboxId
+    [Arguments]    ${element_id}    ${text}=${EMPTY}    ${enabled}=${EMPTY}    ${selected}=${EMPTY}
+    [Documentation]    MM 22.03.2018
+    ...    check checkbox, the arguments are passed with name or in the correct order
+    [Tags]    General, Helper, Checkbox
+    ${selected as bool}    Is Truthy    ${selected}
+    Check ElementId    ${element_id}    enabled=${enabled}
+    Run Keyword If    '${selected}' != '${EMPTY}' and '${selected as bool}' == '${TRUE}'    Checkbox Should Be Selected    ${element_id}
+    Run Keyword If    '${selected}' != '${EMPTY}' and '${selected as bool}' == '${FALSE}'    Checkbox Should Not Be Selected    ${element_id}
+    Run Keyword If    '${text}' != '${EMPTY}'    Check LabelText    ${element_id}    ${text}
+
+Check TextfieldId
+    [Arguments]    ${element_id}    ${inputvalue}=${EMPTY}    ${enabled}=${EMPTY}    ${labeltext}=${EMPTY}
+    [Documentation]    MM 22.03.2018
+    ...    check textfields, the arguments are passed with name or in the correct order
+    [Tags]    General, Helper, Textfield
+    Check ElementId    ${element_id}    enabled=${enabled}
+    Run Keyword If    '${inputvalue}' != '${EMPTY}'    Textfield Value Should Be    ${element_id}    ${inputvalue}
+    Run Keyword If    '${labeltext}' != '${EMPTY}'    Check ContainsText    ${labeltext}
+
+Check ElementId with class is visible
+    [Arguments]    ${element_id}    ${class}    ${visible}=${TRUE}
+    [Documentation]    MM 22.03.2018
+    ...    check elemnetid with class ist visible
+    [Tags]    General, Helper
+    ${visible as bool}    Is Truthy    ${visible}
+    Run Keyword If    '${visible as bool}' == '${FALSE}'    Page Should Not Contain Element    //*[@id="${element_id}"][contains(@class, '${class}')]
+    Run Keyword If    '${visible as bool}' == '${TRUE}'    Page Should Contain Element    //*[@id="${element_id}"][contains(@class, '${class}')]
+
+Check LabelText
+    [Arguments]    ${element_id}    ${text}
+    Element Text Should Be    //label[@for="${element_id}"]    ${text}
+
+Check ContainsText
+    [Arguments]    ${text}
+    [Documentation]    MM 22.03.2018
+    ...    check page contains text
+    [Tags]    General, Helper, Text
+    Element Should Be Visible    //div[contains(text(),'${text}')]

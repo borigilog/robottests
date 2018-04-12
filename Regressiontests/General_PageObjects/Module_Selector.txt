@@ -1,3 +1,6 @@
+*** Settings ***
+Resource          Page.txt
+
 *** Variables ***
 ${MODULE_SELECTOR}    /$flow_main/modsel/modules
 

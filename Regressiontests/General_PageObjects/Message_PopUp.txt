@@ -1,5 +1,6 @@
 *** Settings ***
 Variables         Message_PopUp.yaml
+Resource          Language_Selector.txt
 
 *** Variables ***
 ${MESSAGE_POPUP}    /$flow_main/$popover0
