@@ -38,7 +38,8 @@ Enthält alle Tests
 Allgemeine **Keywords** = Keywords, die man für jede Website nutzen könnte (nicht speziell für unsere) und die nicht zu einem **PageObject** gruppiert werden.
 
 ### General_PageObjects
-Allgemeine **PageObjects** = _Komponenten_, die an mehreren Stellen innerhalb der WEbsite vorkommen (Languageselector, Trees, Grids, DatePicker....)
+**PageObject** = eine Art _Komponente_ = Sammlung von **Keywords**, die für eine Gruppe von immer zusammengehörenden Html-Elementen gelten.
+Allgemeine **PageObjects** = PageObjects, die an mehreren Stellen innerhalb der Website vorkommen (Languageselector, Trees, Grids, DatePicker....)
 
 ### General_Variables
 Variablen, die für die gesamte Website gelten (Login, Password, URL, Standard SPrache, Mandant...).
@@ -48,3 +49,6 @@ Für jedes Modul muss ein **Ordner mit Namen des Moduls** erstellt werden (_BILL
 Innerhalb dieses Ordners wird pro _Bereich_ eine **Testsuite** erstellt.
 Was ein _Bereich_ ist, ist dem Ersteller der Tests überlassen.
 Ein Anhaltspunkt: Pro html-Ansicht eine Testsuite erstellen.
+
+#### PageObjects
+Enthält **PageObjects** dir nur für dieses Modul gelten.
