@@ -7,27 +7,35 @@ Resource          General_PageObjects/Menu_Common.txt
 
 *** Test Cases ***
 Login to new Website
-    Login
+    Open Browser    ${RLX_LOGIN_URL}    ${BROWSER}
+    Wait Until Page Contains Element    //input[contains(@id, 'login_username')]
+    Page Should Contain Element    //input[contains(@id,'login_password')]
+    Input Text    //input[contains(@id, 'login_username')]    ${RLX_USER}
+    Input Text    //input[contains(@id,'login_password')]    ${RLX_PWD}
+    Click Element    //button//div[contains(text(), '${RLX_LOGIN_BUTTON_TEXT}')]
+    Wait Until Page Contains Element    //div[contains(text(), 'Mandantenauswahl')]
     #[Teardown]    Close Browser
 
 Check Mandators
-    Login
+    Login to RLX Website
     Check available Mandators    Hauptmandant
     Check available Mandators    Submandant1
     Check available Mandators    Submandant2
-    Select Default Mandator    Hauptmandant
+    Select Mandator    Hauptmandant
     [Teardown]    Close Browser
 
 Check OAC Main Page
-    Login
-    Select Default Mandator    Hauptmandant
+    Login to RLX Website
+    Select Mandator    Hauptmandant
     Wait Until Page Contains Element    //select[contains(@id, 'modules')]
     Element Text Should Be    //select[contains(@id, 'modules')]/option[@value=0]    OAC
     Page Should Contain Element    //select[contains(@id, 'modules')]/option[contains(text(), 'OAC')]
     [Teardown]    Close Browser
 
 Check PSTB Employee
-    Login For Module    OAC
+    Login to RLX Website
+    Select Mandator    Hauptmandant
+    Select Module Website    OAC
     Select SubMenue    Nachbestellung/Ersatz    Für Mitarbeiter
     Wait Until Element Is Visible    //*[@id="/$flow_main/$flow_content/person_name"]
     Click Element    //*[@id="/$flow_main/$flow_content/person_name"]
@@ -77,6 +85,13 @@ Check OAC Organisationseinheiten Auswahl
     Office_PopUp.Close Office PopUp    /$flow_main/$flow_content/org_entity
     Office_PopUp.Check Office Selection Is Available    /$flow_main/$flow_content/org_entity
     Office_PopUp.Remove Selected Office In Office PopUp    /$flow_main/$flow_content/org_entity
+    [Teardown]    Close Browser
+
+Check OAC Retouren Filter
+    Login.Login For Module    OAC
+    Select Submenu Content    /$flow_main/main_menu/returns_return    screen look_rlx_screen_screen_return
+    Click Element And Wait    /$flow_main/$flow_content/filters
+    Click Element And Wait    /$flow_main/$flow_content/$popover0/txt_createdon_from/pick
     [Teardown]    Close Browser
 
 *** Keywords ***
