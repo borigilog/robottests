@@ -35,7 +35,7 @@ Verify initial GUI Settings for Bill Search
     Sleep    1s
     Element Should be Visible    ${OptionIncludePublishedBills}
     ${Result}    ${msg}=    Run Keyword And Ignore Error    Checkbox Should Not Be Selected    ${OptionIncludePublishedBills}
-    Run Keyword IF    '${Result}'!='PASS'    Fail    Checkbox veröffentlichte Rechnungen einschliesse ist bereits markiert
+    Run Keyword IF    '${Result}'!='PASS'    Fail    Checkbox veröffentlichte Rechnungen einschliessen ist bereits markiert
     Sleep    1s
     Element Should be Visible    ${OptionIncludeProformaBiills}
     ${Result}    ${msg}=    Run Keyword And Ignore Error    Checkbox Should Not Be Selected    ${OptionIncludeProformaBiills}
