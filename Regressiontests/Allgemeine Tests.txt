@@ -98,13 +98,3 @@ Check OAC Retouren Filter
 Check available Mandators
     [Arguments]    ${Mandator}
     Page Should Contain Element    //div[contains(text(), '${Mandator}')]
-
-Select Submenu Content
-    [Arguments]    ${element_id}    ${class}    ${content_id}=/$flow_main/$flow_content
-    [Documentation]    MM 12.04.2018, select certain Submenu content
-    ${parent_node_location}=    Set Variable    //div[contains(@id,'${element_id}')]/parent::div/parent::div
-    ${parent_element} =    Get WebElement    ${parent_node_location}
-    ${parent_id} =    Get Element Attribute    ${parent_element}    id
-    Mouse Over    ${parent_id}
-    Wait Until Element is Visible    ${element_id}
-    Select Menu Content    ${element_id}    ${class}    ${content_id}
