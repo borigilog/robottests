@@ -4,6 +4,7 @@ Suite Setup       Select Rechnungsverwaltung    true
 Suite Teardown    Close Browser
 Force Tags        Bill    Rechnungsverwaltung
 Default Tags
+Resource          ../General_Keywords/Collections.txt
 Resource          PageObjects/Menu.txt
 Resource          PageObjects/Rechnungsverwaltung_Overview.txt
 Resource          ../General_Variables/Website_Config.txt
@@ -230,11 +231,6 @@ Check If Bills Are Filtered
     Should Be Equal    ${closedBillsExist}    ${showClosedBills}
     Should Be Equal    ${processedBillsExist}    ${showProcessedBills}
     Should Be Equal    ${processedClosedBillsExist}    ${showProcessedClosedBills}
-
-List Contains Value
-    [Arguments]    ${list}    ${value}
-    ${result} =    Evaluate    any(x == ${value} for x in $List)
-    [Return]    ${result}
 
 Create Bill Status Test Variables
     Init Status Dictionaries
