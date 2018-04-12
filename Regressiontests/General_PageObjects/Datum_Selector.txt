@@ -34,8 +34,7 @@ Check DateSelector Is Visible
     [Arguments]    ${locator}
     [Documentation]    MM 02.04.2018
     [Tags]    General, Helper, DateSelector
-    ${calendar_id}    Set Variable    ${locator}/$popover0
-    Check PageArea is visible    ${calendar_id}    screen look_rlx_screen_popcal    visible=true
+    Check PopOver Is Visible    ${locator}    screen look_rlx_screen_popcal    visible=true
 
 Check DateValue Is Valid
     [Arguments]    ${locator}    ${selected}=${TRUE}
@@ -95,21 +94,24 @@ Select Previous Month In DateSelector
     [Arguments]    ${locator}
     [Documentation]    MM 02.04.2018
     [Tags]    General, Helper, DateSelector
-    ${prev_id}    Set Variable    ${locator}/$popover0/prev
+    ${popup_id}=    Get DateSelector PopUpID    ${locator}
+    ${prev_id}=    Set Variable    ${popup_id}/prev
     Click Element    ${prev_id}
 
 Select Next Month In DateSelector
     [Arguments]    ${locator}
     [Documentation]    MM 02.04.2018
     [Tags]    General, Helper, DateSelector
-    ${next_id}    Set Variable    ${locator}/$popover0/next
+    ${popup_id}=    Get DateSelector PopUpID    ${locator}
+    ${next_id}    Set Variable    ${popup_id}/next
     Click Element    ${next_id}
 
 Select Month In DateSelector
     [Arguments]    ${locator}    ${datetime}
     [Documentation]    MM 02.04.2018
     [Tags]    General, Helper, DateSelector
-    ${month_id}    Set Variable    ${locator}/$popover0/month
+    ${popup_id}=    Get DateSelector PopUpID    ${locator}
+    ${month_id}    Set Variable    ${popup_id}/month
     ${current_month_year}    Get Text    ${month_id}
     @{words} =    Split String    ${current_month_year}    ${SPACE}    1
     ${current_month_name}=    Get From List    ${words}    0
@@ -186,6 +188,12 @@ Get DateString Now
     ${date}=    Get Current Date    result_format=%d.%m.%Y
     [Return]    ${date}
 
+Get Current DateValue
+    [Arguments]    ${locator}
+    ${date_id}    Set Variable    ${locator}/date
+    ${datevalue}    Get Value    ${date_id}
+    [Return]    ${datevalue}
+
 Convert DateTime To DateString
     [Arguments]    ${datetime}
     [Documentation]    MM 02.04.2018
@@ -199,7 +207,7 @@ Convert Month To MonthName
     [Documentation]    MM 02.04.2018
     ...    get selected month
     [Tags]    General, Helper, DateSelector
-    ${month}=    Evaluate    ${month}-1
+    ${month}=    Evaluate    ${month}-${1}
     ${month_dic}=    Get From List    ${DATE_MONTH_NAME}    ${month}
     ${length} =    Get Length    ${month_dic}
     Return From Keyword If    '${length}'=='${0}'    Fail    Der Monat (${month}) konnte nicht gefunden werden
@@ -216,7 +224,12 @@ Convert MonthName To Month
     ${stripped_month_name}    Get Stripped String    ${month_name}
     ${index}=    Set Variable    0
     : FOR    ${monthDic}    IN    @{DATE_MONTH_NAME}
-    \    ${index}=    Evaluate    ${index}+1
+    \    ${index}=    Evaluate    ${index}+${1}
     \    ${isMonthName}=    Get From Dictionary    ${monthDic}    ${langunge_code}
     \    Return From Keyword If    '${isMonthName}'=='${stripped_month_name}'    ${index}
     [Return]    Fail    Der Monat (${month_name}) konnte nicht gefunden werden
+
+Get DateSelector PopUpID
+    [Arguments]    ${locator}
+    [Documentation]    MM 12.04.2018
+    Run Keyword And Return    Get PopOverId    ${locator}    screen look_rlx_screen_popcal

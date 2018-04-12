@@ -19,7 +19,7 @@ Check CostCenter PopUp
     [Arguments]    ${locator}
     [Documentation]    MM 11.04.2018
     [Tags]    General, Helper, CostCenter_PopUp
-    ${popup_id}    Set Variable    ${locator}/$popover0
+    ${popup_id}=    Get CostCenter PopUpID    ${locator}
     ${close_id}=    Set Variable    ${popup_id}/$close
     Element Should Be Visible    ${close_id}
     ${langunge_code}=    Get selected LanguageCode
@@ -39,7 +39,8 @@ Close CostCenter PopUp
     ${popup_visible} =    Run Keyword And Return Status    Check CostCenter PopUp Is Visible    ${locator}
     Run Keyword If    '${popup_visible}' == '${FALSE}'    Log    Das Kostenstellen Fenster ist nicht sichtbar und kann daher nicht geschlossen werden!    WARN
     Return From Keyword If    '${popup_visible}' == '${FALSE}'
-    ${close_id}=    Set Variable    ${locator}/$popover0/$close
+    ${popup_id}=    Get CostCenter PopUpID    ${locator}
+    ${close_id}=    Set Variable    ${popup_id}/$close
     Click Element    ${close_id}
 
 Remove Selected CostCenter In CostCenter PopUp
@@ -56,8 +57,7 @@ Check CostCenter PopUp Is Visible
     [Arguments]    ${locator}    ${visible}=${TRUE}
     [Documentation]    MM 11.04.2018
     [Tags]    General, Helper, CostCenter_PopUp
-    ${popup_id}=    Set Variable    ${locator}/$popover0
-    Check PageArea is visible    ${popup_id}    screen look_rlx_screen_choose_costcenter    visible=${visible}
+    Check PopOver Is Visible    ${locator}    screen look_rlx_screen_choose_costcenter    visible=${visible}
 
 Set CostCenter In CostCenter PopUp
     [Arguments]    ${locator}    @{costsenter_node_names}
@@ -65,7 +65,8 @@ Set CostCenter In CostCenter PopUp
     [Tags]    General, Helper, CostCenter_PopUp
     Open CostCenter PopUp    ${locator}
     ${length} =    Get Length    ${costsenter_node_names}
-    ${id}=    Set Variable    ${locator}/$popover0/cctree/1
+    ${popup_id}=    Get CostCenter PopUpID    ${locator}
+    ${id}=    Set Variable    ${popup_id}/cctree/1
     ${count}=    Set Variable    ${0}
     : FOR    ${value}    IN    @{costsenter_node_names}
     \    ${count}=    Evaluate    ${count}+${1}
@@ -73,7 +74,6 @@ Set CostCenter In CostCenter PopUp
     \    ${btn} =    Set Variable If    '${count}' == '${length}'    $icon    $btn
     \    Click Element    ${id}/${btn}
     \    ${id}=    Set Variable    ${id}_
-    Check CostCenter PopUp Is Visible    ${locator}    visible=false
 
 Get Id From Node For CostCenter PopUp
     [Arguments]    ${locator}    ${value}
@@ -98,3 +98,8 @@ Wait Until Costcenter Node Has Children
     \    ${length} =    Get Element Count    ${node_location}
     \    Exit For Loop If    '${length}'>'${0}'
     \    Sleep    1    Wait Until TreeNode Has Children
+
+Get CostCenter PopUpID
+    [Arguments]    ${locator}
+    [Documentation]    MM 12.04.2018
+    Run Keyword And Return    Get PopOverId    ${locator}    screen look_rlx_screen_choose_costcenter

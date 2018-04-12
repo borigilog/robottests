@@ -4,6 +4,7 @@ Resource          General_PageObjects/Login.txt
 Resource          General_PageObjects/CostCenter_PopUp.txt
 Resource          General_PageObjects/Office_PopUp.txt
 Resource          General_PageObjects/Menu_Common.txt
+Resource          General_PageObjects/Return_Filter_PopUp.txt
 
 *** Test Cases ***
 Login to new Website
@@ -61,7 +62,7 @@ Check OAC Kostenstellen Auswahl Mit Umlauten
     Click Element And Wait    /$flow_main/main_menu/info_order
     @{costcenter_names}=    Create List    KST_BVG KST_BVG    KST-Verwaltung KST-Verwaltung    6700 Kostenstellengruppe    2600 Lagermaterial
     CostCenter_PopUp.Set CostCenter In CostCenter PopUp    /$flow_main/$flow_content/costcenter_entity    @{costcenter_names}
-    ${value}    Get Value    /$flow_main/$flow_content/costcenter_entity/name
+    ${value}=    Get Value    /$flow_main/$flow_content/costcenter_entity/name
     Should Be Equal    ${value}    2600 Lagermaterial
     [Teardown]    Close Browser
 
@@ -70,7 +71,7 @@ Check OAC Organisationseinheiten Auswahl
     Click Element And Wait    /$flow_main/main_menu/info_order
     @{office_names}=    Create List    BVG    Verwaltung    Freiland GMBH    830
     Office_PopUp.Set Office In Office PopUp    /$flow_main/$flow_content/org_entity    @{office_names}
-    ${value}    Get Value    /$flow_main/$flow_content/org_entity/name
+    ${value}=    Get Value    /$flow_main/$flow_content/org_entity/name
     Should Be Equal    ${value}    830
     Office_PopUp.Open Office PopUp    /$flow_main/$flow_content/org_entity
     Office_PopUp.Check Office PopUp    /$flow_main/$flow_content/org_entity
@@ -82,8 +83,32 @@ Check OAC Organisationseinheiten Auswahl
 Check OAC Retouren Filter
     Login.Login For Module    OAC
     Select Submenu Content    /$flow_main/main_menu/returns_return    screen look_rlx_screen_screen_return
-    Click Element And Wait    /$flow_main/$flow_content/filters
-    Click Element And Wait    /$flow_main/$flow_content/$popover0/txt_createdon_from/pick
+    Return_Filter_PopUp.Open ReturnFilter PopUp    /$flow_main/$flow_content
+    Return_Filter_PopUp.Close ReturnFilter PopUp    /$flow_main/$flow_content
+    Return_Filter_PopUp.Open ReturnFilter PopUp    /$flow_main/$flow_content
+    Return_Filter_PopUp.Select Reset Filter In ReturnFilter PopUp    /$flow_main/$flow_content
+    Return_Filter_PopUp.Open ReturnFilter PopUp    /$flow_main/$flow_content
+    Return_Filter_PopUp.Set Use Return No In ReturnFilter PopUp    /$flow_main/$flow_content    true
+    ${value}=    Return_Filter_PopUp.Get Use Return No In ReturnFilter PopUp    /$flow_main/$flow_content
+    Should Be Equal    ${value}    ${TRUE}
+    Return_Filter_PopUp.Check Use Return No Selection In ReturnFilter PopUp    /$flow_main/$flow_content    ${value}
+    Return_Filter_PopUp.Set Value Return No In ReturnFilter PopUp    /$flow_main/$flow_content    1234
+    ${value}=    Return_Filter_PopUp.Get Value Return No In ReturnFilter PopUp    /$flow_main/$flow_content
+    Should Be Equal    ${value}    1234
+    Return_Filter_PopUp.Check Value Return No In ReturnFilter PopUp    /$flow_main/$flow_content    ${value}
+    Return_Filter_PopUp.Set Use Created On In ReturnFilter PopUp    /$flow_main/$flow_content    true
+    ${value}=    Return_Filter_PopUp.Get Use Created On In ReturnFilter PopUp    /$flow_main/$flow_content
+    Should Be Equal    ${value}    ${TRUE}
+    Return_Filter_PopUp.Check Use Created On Selection In ReturnFilter PopUp    /$flow_main/$flow_content    ${value}
+    Return_Filter_PopUp.Set Date Created On From In ReturnFilter PopUp    /$flow_main/$flow_content    14.03.2018
+    ${value}=    Return_Filter_PopUp.Get Date Created On From In ReturnFilter PopUp    /$flow_main/$flow_content
+    Should Be Equal    ${value}    14.03.2018
+    Return_Filter_PopUp.Check Date Created On From In ReturnFilter PopUp    /$flow_main/$flow_content    ${value}
+    Return_Filter_PopUp.Set Date Created On To In ReturnFilter PopUp    /$flow_main/$flow_content    11.05.2018
+    ${value}=    Return_Filter_PopUp.Get Date Created On To In ReturnFilter PopUp    /$flow_main/$flow_content
+    Should Be Equal    ${value}    11.05.2018
+    Return_Filter_PopUp.Check Date Created On To In ReturnFilter PopUp    /$flow_main/$flow_content    ${value}
+    Return_Filter_PopUp.Select Apply Filter In ReturnFilter PopUp    /$flow_main/$flow_content
     [Teardown]    Close Browser
 
 *** Keywords ***

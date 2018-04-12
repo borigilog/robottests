@@ -8,11 +8,8 @@ Check ElementId
     [Documentation]    MM 22.03.2018
     ...    check elements, the arguments are passed with name or in the correct order
     [Tags]    General, Helper, Element
-    ${enabled as bool}    Is Truthy    ${enabled}
-    #Log To Console    ${enabled} -> ${enabled as bool}
     Element Should Be Visible    ${element_id}
-    Run Keyword If    '${enabled}' != '${EMPTY}' and '${enabled as bool}' == '${TRUE}'    Element Should Be Enabled    ${element_id}
-    Run Keyword If    '${enabled}' != '${EMPTY}' and '${enabled as bool}' == '${FALSE}'    Element Should Be Disabled    ${element_id}
+    Run Keyword If    '${enabled}' != '${EMPTY}'    Check Element Is Enabled    ${element_id}    ${enabled}
     Run Keyword If    '${text}' != '${EMPTY}'    Element Text Should Be    ${element_id}    ${text}
 
 Check CheckboxId
@@ -20,10 +17,8 @@ Check CheckboxId
     [Documentation]    MM 22.03.2018
     ...    check checkbox, the arguments are passed with name or in the correct order
     [Tags]    General, Helper, Checkbox
-    ${selected as bool}    Is Truthy    ${selected}
     Check ElementId    ${element_id}    enabled=${enabled}
-    Run Keyword If    '${selected}' != '${EMPTY}' and '${selected as bool}' == '${TRUE}'    Checkbox Should Be Selected    ${element_id}
-    Run Keyword If    '${selected}' != '${EMPTY}' and '${selected as bool}' == '${FALSE}'    Checkbox Should Not Be Selected    ${element_id}
+    Run Keyword If    '${selected}' != '${EMPTY}'    Check Selection of CheckBox    ${element_id}    ${selected}
     Run Keyword If    '${text}' != '${EMPTY}'    Check LabelText    ${element_id}    ${text}
 
 Check TextfieldId
@@ -40,9 +35,9 @@ Check ElementId with class is visible
     [Documentation]    MM 22.03.2018
     ...    check elemnetid with class ist visible
     [Tags]    General, Helper
-    ${visible as bool}    Is Truthy    ${visible}
-    Run Keyword If    '${visible as bool}' == '${FALSE}'    Page Should Not Contain Element    //*[@id="${element_id}"][contains(@class, '${class}')]
-    Run Keyword If    '${visible as bool}' == '${TRUE}'    Page Should Contain Element    //*[@id="${element_id}"][contains(@class, '${class}')]
+    ${expected_visible}    Is Truthy    ${visible}
+    Run Keyword If    '${expected_visible}' == '${FALSE}'    Page Should Not Contain Element    //*[@id="${element_id}"][contains(@class, '${class}')]
+    Run Keyword If    '${expected_visible}' == '${TRUE}'    Page Should Contain Element    //*[@id="${element_id}"][contains(@class, '${class}')]
 
 Check LabelText
     [Arguments]    ${element_id}    ${text}
@@ -54,3 +49,34 @@ Check ContainsText
     ...    check page contains text
     [Tags]    General, Helper, Text
     Element Should Be Visible    //div[contains(text(),'${text}')]
+
+Get Selection of CheckBox
+    [Arguments]    ${element_id}
+    [Documentation]    MM 12.04.2018
+    [Tags]    General, Helper, CheckBox
+    ${is_selected} =    Run Keyword And Return Status    Checkbox Should Be Selected    ${element_id}
+    [Return]    ${is_selected}
+
+Set Selection of CheckBox
+    [Arguments]    ${element_id}    ${selection}
+    [Documentation]    MM 12.04.2018
+    [Tags]    General, Helper, CheckBox
+    ${selection}=    Is Truthy    ${selection}
+    Run Keyword If    '${selection}'=='${TRUE}'    Select Checkbox    ${element_id}
+    Run Keyword If    '${selection}'=='${FALSE}'    Unselect Checkbox    ${element_id}
+
+Check Selection of CheckBox
+    [Arguments]    ${element_id}    ${expected_selection}
+    [Documentation]    MM 12.04.2018
+    [Tags]    General, Helper, CheckBox
+    ${expected_selection}=    Is Truthy    ${expected_selection}
+    Run Keyword If    '${expected_selection}' == '${TRUE}'    Checkbox Should Be Selected    ${element_id}
+    Run Keyword If    '${expected_selection}' == '${FALSE}'    Checkbox Should Not Be Selected    ${element_id}
+
+Check Element Is Enabled
+    [Arguments]    ${element_id}    ${expected_enabled}
+    [Documentation]    MM 12.04.2018
+    [Tags]    General, Helper, Element
+    ${expected_enabled}=    Is Truthy    ${expected_enabled}
+    Run Keyword If    '${expected_enabled}' == '${TRUE}'    Element Should Be Enabled    ${element_id}
+    Run Keyword If    '${expected_enabled}' == '${FALSE}'    Element Should Be Disabled    ${element_id}

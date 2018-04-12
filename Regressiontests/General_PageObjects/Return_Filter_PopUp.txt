@@ -1,6 +1,195 @@
 *** Settings ***
+Resource          Datum_Selector.txt
 
 *** Variables ***
 
-
 *** Keywords ***
+Open ReturnFilter PopUp
+    [Arguments]    ${locator}
+    [Documentation]    MM 12.04.2018
+    [Tags]    General, Helper, ReturnFilter_PopUp
+    ${filter_id}=    Set Variable    ${locator}/filters
+    Click Element And Wait    ${filter_id}
+
+Close ReturnFilter PopUp
+    [Arguments]    ${locator}
+    [Documentation]    MM 12.04.2018
+    [Tags]    General, Helper, ReturnFilter_PopUp
+    ${popup_visible} =    Run Keyword And Return Status    Check ReturnFilter PopUp Is Visible    ${locator}
+    Run Keyword If    '${popup_visible}' == '${FALSE}'    Log    Das Filter Fenster ist nicht sichtbar und kann daher nicht geschlossen werden!    WARN
+    Return From Keyword If    '${popup_visible}' == '${FALSE}'
+    #irgendwohin mit mouse clicken => click ist nicht möglich
+    Mouse Down    /$flow_main/username
+    Mouse Up    /$flow_main/username
+
+Check ReturnFilter PopUp Is Visible
+    [Arguments]    ${locator}    ${visible}=${TRUE}
+    [Documentation]    MM 12.04.2018
+    [Tags]    General, Helper, ReturnFilter_PopUp
+    Check PopOver Is Visible    ${locator}    screen look_rlx_screen_return_filter_popover    visible=${visible}
+
+Select Reset Filter In ReturnFilter PopUp
+    [Arguments]    ${locator}
+    [Documentation]    MM 12.04.2018
+    [Tags]    General, Helper, ReturnFilter_PopUp
+    ${popup_id}=    Get ReturnFilter PopUpID    ${locator}
+    ${reset_id}    Set Variable    ${popup_id}/reset_filter
+    Click Element And Wait    ${reset_id}
+
+Select Apply Filter In ReturnFilter PopUp
+    [Arguments]    ${locator}
+    [Documentation]    MM 12.04.2018
+    [Tags]    General, Helper, ReturnFilter_PopUp
+    ${popup_id}=    Get ReturnFilter PopUpID    ${locator}
+    ${apply_id}    Set Variable    ${popup_id}/apply_filter
+    Click Element And Wait    ${apply_id}
+
+Get Use Return No CheckboxID
+    [Arguments]    ${locator}
+    [Documentation]    MM 12.04.2018
+    ${popup_id}=    Get ReturnFilter PopUpID    ${locator}
+    ${chkbox_id}=    Set Variable    ${popup_id}/chk_return_no
+    [Return]    ${chkbox_id}
+
+Set Use Return No In ReturnFilter PopUp
+    [Arguments]    ${locator}    ${select}
+    [Documentation]    MM 12.04.2018
+    [Tags]    General, Helper, ReturnFilter_PopUp
+    ${chkbox_id}=    Get Use Return No CheckboxID    ${locator}
+    Set Selection of CheckBox    ${chkbox_id}    ${select}
+
+Get Use Return No In ReturnFilter PopUp
+    [Arguments]    ${locator}
+    [Documentation]    MM 12.04.2018
+    [Tags]    General, Helper, ReturnFilter_PopUp
+    ${chkbox_id}=    Get Use Return No CheckboxID    ${locator}
+    ${selected}=    Get Selection of CheckBox    ${chkbox_id}
+    [Return]    ${selected}
+
+Check Use Return No Selection In ReturnFilter PopUp
+    [Arguments]    ${locator}    ${select}
+    [Documentation]    MM 12.04.2018
+    [Tags]    General, Helper, ReturnFilter_PopUp
+    ${chkbox_id}=    Get Use Return No CheckboxID    ${locator}
+    Check Selection of CheckBox    ${chkbox_id}    ${select}
+
+Get Return No ValueID
+    [Arguments]    ${locator}
+    [Documentation]    MM 12.04.2018
+    ${popup_id}=    Get ReturnFilter PopUpID    ${locator}
+    ${chkbox_id}=    Set Variable    ${popup_id}/txt_return_no
+    [Return]    ${chkbox_id}
+
+Set Value Return No In ReturnFilter PopUp
+    [Arguments]    ${locator}    ${value}
+    [Documentation]    MM 12.04.2018
+    [Tags]    General, Helper, ReturnFilter_PopUp
+    ${value_id}=    Get Return No ValueID    ${locator}
+    Input Text    ${value_id}    ${value}
+
+Get Value Return No In ReturnFilter PopUp
+    [Arguments]    ${locator}
+    [Documentation]    MM 12.04.2018
+    [Tags]    General, Helper, ReturnFilter_PopUp
+    ${value_id}=    Get Return No ValueID    ${locator}
+    ${value}=    Get Value    ${value_id}
+    [Return]    ${value}
+
+Check Value Return No In ReturnFilter PopUp
+    [Arguments]    ${locator}    ${expected_value}
+    [Documentation]    MM 12.04.2018
+    [Tags]    General, Helper, ReturnFilter_PopUp
+    ${value}=    Get Value Return No In ReturnFilter PopUp    ${locator}
+    Should Be Equal    ${value}    ${expected_value}
+
+Get Use Created On CheckboxID
+    [Arguments]    ${locator}
+    [Documentation]    MM 12.04.2018
+    ${popup_id}=    Get ReturnFilter PopUpID    ${locator}
+    ${chkbox_id}=    Set Variable    ${popup_id}/chk_createdon
+    [Return]    ${chkbox_id}
+
+Set Use Created On In ReturnFilter PopUp
+    [Arguments]    ${locator}    ${select}
+    [Documentation]    MM 12.04.2018
+    [Tags]    General, Helper, ReturnFilter_PopUp
+    ${chkbox_id}=    Get Use Created On CheckboxID    ${locator}
+    Set Selection of CheckBox    ${chkbox_id}    ${select}
+
+Get Use Created On In ReturnFilter PopUp
+    [Arguments]    ${locator}
+    [Documentation]    MM 12.04.2018
+    [Tags]    General, Helper, ReturnFilter_PopUp
+    ${chkbox_id}=    Get Use Created On CheckboxID    ${locator}
+    ${selected}=    Get Selection of CheckBox    ${chkbox_id}
+    [Return]    ${selected}
+
+Check Use Created On Selection In ReturnFilter PopUp
+    [Arguments]    ${locator}    ${select}
+    [Documentation]    MM 12.04.2018
+    [Tags]    General, Helper, ReturnFilter_PopUp
+    ${chkbox_id}=    Get Use Created On CheckboxID    ${locator}
+    Check Selection of CheckBox    ${chkbox_id}    ${select}
+
+Get Created On From DateID
+    [Arguments]    ${locator}
+    [Documentation]    MM 12.04.2018
+    ${popup_id}=    Get ReturnFilter PopUpID    ${locator}
+    ${chkbox_id}=    Set Variable    ${popup_id}/txt_createdon_from
+    [Return]    ${chkbox_id}
+
+Set Date Created On From In ReturnFilter PopUp
+    [Arguments]    ${locator}    ${datevalue}
+    [Documentation]    MM 12.04.2018
+    [Tags]    General, Helper, ReturnFilter_PopUp
+    ${date_id}=    Get Created On From DateID    ${locator}
+    Datum_Selector.Set Date In DateSelector    ${date_id}    ${datevalue}
+
+Get Date Created On From In ReturnFilter PopUp
+    [Arguments]    ${locator}
+    [Documentation]    MM 12.04.2018
+    [Tags]    General, Helper, ReturnFilter_PopUp
+    ${date_id}=    Get Created On From DateID    ${locator}
+    ${value}=    Datum_Selector.Get Current DateValue    ${date_id}
+    [Return]    ${value}
+
+Check Date Created On From In ReturnFilter PopUp
+    [Arguments]    ${locator}    ${expected_datevalue}
+    [Documentation]    MM 12.04.2018
+    [Tags]    General, Helper, ReturnFilter_PopUp
+    ${date_id}=    Get Created On From DateID    ${locator}
+    Datum_Selector.Check Expected DateValue In DateSelector    ${date_id}    ${expected_datevalue}
+
+Get Created On To DateID
+    [Arguments]    ${locator}
+    [Documentation]    MM 12.04.2018
+    ${popup_id}=    Get ReturnFilter PopUpID    ${locator}
+    ${chkbox_id}=    Set Variable    ${popup_id}/txt_createdon_to
+    [Return]    ${chkbox_id}
+
+Set Date Created On To In ReturnFilter PopUp
+    [Arguments]    ${locator}    ${datevalue}
+    [Documentation]    MM 12.04.2018
+    [Tags]    General, Helper, ReturnFilter_PopUp
+    ${date_id}=    Get Created On To DateID    ${locator}
+    Datum_Selector.Set Date In DateSelector    ${date_id}    ${datevalue}
+
+Get Date Created On To In ReturnFilter PopUp
+    [Arguments]    ${locator}
+    [Documentation]    MM 12.04.2018
+    [Tags]    General, Helper, ReturnFilter_PopUp
+    ${date_id}=    Get Created On To DateID    ${locator}
+    ${value}=    Datum_Selector.Get Current DateValue    ${date_id}
+    [Return]    ${value}
+
+Check Date Created On To In ReturnFilter PopUp
+    [Arguments]    ${locator}    ${expected_datevalue}
+    [Documentation]    MM 12.04.2018
+    [Tags]    General, Helper, ReturnFilter_PopUp
+    ${date_id}=    Get Created On To DateID    ${locator}
+    Datum_Selector.Check Expected DateValue In DateSelector    ${date_id}    ${expected_datevalue}
+
+Get ReturnFilter PopUpID
+    [Arguments]    ${locator}
+    [Documentation]    MM 12.04.2018
+    Run Keyword And Return    Get PopOverId    ${locator}    screen look_rlx_screen_return_filter_popover
