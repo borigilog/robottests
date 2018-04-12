@@ -65,7 +65,7 @@ Enthält **[PageObject](https://martinfowler.com/bliki/PageObject.html)**, die n
 
 # Wie schreibt man Tests ?
 ## Installation
-- Installationsanleitung Deutsch mit integrierten Installern, Anleitung, wie man das Rpository ziehen kann und ein Desktop-Icon erstellt: https://www.swtestacademy.com/getting-started-robotframework/UI-Testing_getting_started.docx  
+- Installationsanleitung Deutsch mit integrierten Installern, Anleitung, wie man das Rpository ziehen kann und ein Desktop-Icon erstellt: **\\sr-fs03\Rigilog\Development\Testautomatisierung\UI-Testing_getting_started.docx**  
 - Installationsanleitung Englisch (z.B. wenn man mal keinen Zugriff auf unser Netzwerk hat): https://www.swtestacademy.com/getting-started-robotframework/
 ## Robotframework Basics
 - [Creating Test Suites](https://github.com/robotframework/robotframework/blob/master/doc/userguide/src/CreatingTestData/CreatingTestSuites.rst)
