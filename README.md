@@ -40,7 +40,7 @@ Enthält alle Tests
 Allgemeine **Keywords** = Keywords, die man für jede Website nutzen könnte (nicht speziell für unsere) und die nicht zu einem **PageObject** gruppiert werden.
 
 ### General_PageObjects
-**PageObject** = eine Art _Komponente_ = Sammlung von **Keywords**, die für eine Gruppe von immer zusammengehörenden Html-Elementen gelten.
+**[PageObject](https://martinfowler.com/bliki/PageObject.html)** = eine Art _Komponente_ = Sammlung von **Keywords**, die für eine Gruppe von immer zusammengehörenden Html-Elementen gelten.
 
 Allgemeine **PageObjects** = PageObjects, die an mehreren Stellen innerhalb der Website vorkommen (Languageselector, Trees, Grids, DatePicker....)
 
