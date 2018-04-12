@@ -1,10 +1,9 @@
 *** Settings ***
-Resource          ../UserKeywords/LOG_Resources.html
-Resource          ../UserKeywords/Common_Resources.html
 Library           Selenium2Library
 Resource          General_PageObjects/Login.txt
 Resource          General_PageObjects/CostCenter_PopUp.txt
 Resource          General_PageObjects/Office_PopUp.txt
+Resource          General_PageObjects/Menu_Common.txt
 
 *** Test Cases ***
 Login to new Website
@@ -96,6 +95,10 @@ Check OAC Retouren Filter
     [Teardown]    Close Browser
 
 *** Keywords ***
+Check available Mandators
+    [Arguments]    ${Mandator}
+    Page Should Contain Element    //div[contains(text(), '${Mandator}')]
+
 Select Submenu Content
     [Arguments]    ${element_id}    ${class}    ${content_id}=/$flow_main/$flow_content
     [Documentation]    MM 12.04.2018, select certain Submenu content
