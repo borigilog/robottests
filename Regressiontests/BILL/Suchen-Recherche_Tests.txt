@@ -4,6 +4,8 @@ Suite Teardown    Close Browser
 Resource          ../../UserKeywords/Common_Resources.html
 Resource          ../../UserKeywords/BILL_Resources.html
 Library           Selenium2Library    run_on_failure=Nothing
+Resource          ../General_PageObjects/Message_PopUp.txt
+Resource          PageObjects/Rechnungen_Suchen.txt
 
 *** Variables ***
 ${InputBillNumber}    //input[@id="/$flow_main/$flow_content/billNr"]    # Input field for Bill number
@@ -37,8 +39,8 @@ Verify initial GUI Settings for Bill Search
     ${Result}    ${msg}=    Run Keyword And Ignore Error    Checkbox Should Not Be Selected    ${OptionIncludePublishedBills}
     Run Keyword IF    '${Result}'!='PASS'    Fail    Checkbox veröffentlichte Rechnungen einschliessen ist bereits markiert
     Sleep    1s
-    Element Should be Visible    ${OptionIncludeProformaBiills}
-    ${Result}    ${msg}=    Run Keyword And Ignore Error    Checkbox Should Not Be Selected    ${OptionIncludeProformaBiills}
+    Element Should be Visible    ${OptionIncludeProformaBills}
+    ${Result}    ${msg}=    Run Keyword And Ignore Error    Checkbox Should Not Be Selected    ${OptionIncludeProformaBills}
     Run Keyword IF    '${Result}'!='PASS'    Fail    CheckboxProforma-Rechnungen mit einschliessen ist bereits markiert
     Sleep    1s
     Element Should be Visible    ${OptionIncludeProcessedBills}
@@ -48,8 +50,7 @@ Verify initial GUI Settings for Bill Search
     Element Should be Visible    ${btnSearch}
     Element Should be Visible    ${btnBack}
     Element Should be Visible    ${btnAbort}
-    Click Button    ${btnAbort}
-    [Teardown]
+    [Teardown]    Abort And Reset To Search Start
 
 Verify PopOver Button Position
     [Documentation]    Test verifies the position of the buttons on the pop-over that is shown in case the search was initiated without any restricting parameter set.
@@ -60,33 +61,28 @@ Verify PopOver Button Position
     [Setup]
     [Timeout]
     Element Should Be Visible    ${btnSearch}
-    Wait Until Keyword Succeeds    3    1 sec    Clear All Search Options
-    Click Button    ${btnSearch}
-    Sleep    2s
-    Wait Until Keyword Succeeds    3    1 sec    Element Should Be Visible    //*[@id="/$flow_main/$popover0"]
+    Clear All Search Options
+    Click Search Button
+    Element Should Be Visible    //*[@id="/$flow_main/$popover0"]
     Element Should Be Visible    ${btnPopOverAbort}
     Element Should Be Visible    ${btnPopOverOk}
-    Element Text Should Be    ${btnPopOverOk}    Suche ausführen!
+    ${Result}    ${msg}=    Run Keyword And Ignore Error    Element Text Should Be    ${btnPopOverOk}    Suche ausführen!
     Click Button    ${btnPopOverOk}    # Definition ist ausgelegt auf falsche Position des "Suche ausführen!" Buttons, muss dann angepasst werden, wenn korrigiert
-    Sleep    2s
-    Wait Until Page Contains    Rechnungsverwaltung    timeout=3
-    Click Button    ${btnAbort}
-    [Teardown]
+    Run Keyword If    '${Status}'=='FAIL'    Fail    Button Text Für Suche ist fehlerhaft, Buttons scheinen vertauscht
+    [Teardown]    Abort And Reset To Search Start
 
 Verify GUI For Search Results
     [Setup]
     [Timeout]
-    Element Should Be Visible    ${btnSearch}
-    Wait Until Keyword Succeeds    3    1 sec    Clear All Search Options
-    Click Button    ${btnSearch}
-    Sleep    2s
-    Wait Until Keyword Succeeds    3    1 sec    Element Should Be Visible    //*[@id="/$flow_main/$popover0"]
+    Clear All Search Options
+    Click Search Button
+    Element Should Be Visible    //*[@id="/$flow_main/$popover0"]
     Element Should Be Visible    ${btnPopOverAbort}
     Element Should Be Visible    ${btnPopOverOk}
     Click Button    ${btnPopOverAbort}    # Definition ist ausgelegt auf falsche Position des "Suche ausführen!" Buttons, muss dann angepasst werden, wenn korrigiert
-    Sleep    2s
+    Wait Until Page Is Unfreezed
     Wait Until Page Contains    Rechnungsverwaltung    timeout=3
-    Wait Until Keyword Succeeds    3    1 sec    Clear All Search Options
+    Clear All Search Options
     Element Should Be Visible    ${OptionIncludePublishedBills}
     Element Should Be Visible    ${OptionIncludeProcessedBills}
     Element Should Be Visible    ${OptionIncludeProformaBills}
@@ -99,215 +95,181 @@ Verify GUI For Search Results
     Element Should Be Disabled    ${btnIsProcessedBill}
     Element Should Be Disabled    ${btnRecalculate}
     ${SearchResults1}=    Get Number of Bill Search Results
-    Sleep    1s
-    Run Keyword If    '${SearchResults1}'!='0'    Click Element    //*[@id="/$flow_main/$flow_content/invoice_list/0/$invoiceNumber"]
-    Sleep    1s
+    Wait Until Page Is Unfreezed
+    Run Keyword If    '${SearchResults1}'!='0'    Click Element And Wait    //*[@id="/$flow_main/$flow_content/invoice_list/0/$invoiceNumber"]
     Element Should Be Enabled    ${btnEditBill}
     Element Should Be Enabled    ${btnViewBill}
     Element Should Be Enabled    ${btnDeleteBill}
     Element Should Be Enabled    ${btnIsProcessedBill}
     Element Should Be Enabled    ${btnRecalculate}
-    Wait Until Keyword Succeeds    3    1 sec    Select Checkbox    ${OptionIncludePublishedBills}
-    Sleep    2s
+    Select Checkbox Include PublishedBills
+    Wait Until Page Is Unfreezed
     ${SearchResultsWithPublished}=    Get Number of Bill Search Results
     Run Keyword If    ${SearchResultsWithPublished}<=${SearchResults1}    Fail    Die veröffentlichten Rechnungen werden nicht angezeigt
-    Wait Until Keyword Succeeds    3    1 sec    Unselect Checkbox    ${OptionIncludePublishedBills}
-    Sleep    1s
+    Unselect Checkbox Include PublishedBills
+    Wait Until Page Is Unfreezed
     ${SearchResults2}=    Get Number of Bill Search Results
     Run Keyword If    ${SearchResults2}!=${SearchResults1}    Fail    Anzahl der angezeigten Rechnungen nach dem entfernen der Option Published Rechnungen entfernen, entspricht nicht der ursprünglich angezeigten Anzahl der Rechnungen
-    Wait Until Keyword Succeeds    3    1 sec    Select Checkbox    ${OptionIncludeProcessedBills}
+    Select Checkbox Include ProcessedBills
     Sleep    2s
     ${SearchResultsWithProcessed}=    Get Number of Bill Search Results
     Run Keyword If    ${SearchResultsWithProcessed}<=${SearchResults1}    Fail    Die verarbeiteten Rechnungen werden nicht zusätzlich angezeigt
-    Wait Until Keyword Succeeds    3    1 sec    Unselect Checkbox    ${OptionIncludeProcessedBills}
+    Unselect Checkbox Include ProcessedBills
     Sleep    2s
     ${SearchResults3}=    Get Number of Bill Search Results
     Run Keyword If    ${SearchResults3}!=${SearchResults1}    Fail    Anzahl der angezeigten Rechnungen nach entfernen der Option Processed Bills einschliessen, entspricht nicht der ursprünglich angezeigten Anzahl der Rechnungen
-    Wait Until Keyword Succeeds    3    1 sec    Select Checkbox    ${OptionIncludeProformaBills}
+    Select Checkbox Include ProformaBills
     Sleep    2s
     ${SearchResultsWithProforma}=    Get Number of Bill Search Results
     Run Keyword If    ${SearchResultsWithProforma}<=${SearchResults1}    Fail    Zusätzliche Proforma rechnungen werden nicht angezeigt
-    Wait Until Keyword Succeeds    3    1 sec    Unselect Checkbox    ${OptionIncludeProformaBills}
+    Unselect Checkbox Include ProformaBills
     Sleep    2s
     ${SearchResults4}=    Get Number of Bill Search Results
     Run Keyword If    ${SearchResults4}!=${SearchResults1}    Fail    Anzahl der angezeigten Rechnungen nach dem entfernen der Option Proforma Bills einschliessen, entspricht nicht der ursprünglich angezeigten Anzahl der Rechnungen
-    Click Button    ${btnAbort}
-    [Teardown]
+    [Teardown]    Abort And Reset To Search Start
 
 Suchen und Anzeigen gelöschter Rechnungen
     [Setup]
     [Timeout]
-    Element Should Be Visible    ${btnSearch}
-    Wait Until Keyword Succeeds    3    1 sec    Clear All Search Options
-    Select Datepicker Date    ${PickerStartDate}    Januar 2018    1    ${btnStartDay}    ${btnEndDay}
-    Select Datepicker Date    ${PickerEndDate}    Februar 2018    26    ${btnStartDay}    ${btnEndDay}
-    Click Button    ${btnSearch}
-    Wait Until Page Contains    Rechnungsverwaltung    timeout=3
+    Clear All Search Options
+    Set Start Date For Search    1.Januar 2018
+    Set End Date For Search    26.Februar 2018
+    Click Search Button
     ${SearchResults1}=    Get Number of Bill Search Results    ${STATUS_IN_BEARBEITUNG}
-    Sleep    1s
+    Wait Until Page Is Unfreezed
     Click Button    ${btnSearch}
-    Sleep    1s
-    Select Datepicker Date    ${PickerStartDate}    Januar 2018    1    ${btnStartDay}    ${btnEndDay}
-    Select Datepicker Date    ${PickerEndDate}    Februar 2018    26    ${btnStartDay}    ${btnEndDay}
-    Wait Until Keyword Succeeds    3    1 sec    Select Checkbox    ${OptionIncludeDeletedBills}
-    Click Button    ${btnSearch}
-    Wait Until Page Contains    Rechnungsverwaltung    timeout=3
-    Sleep    1s
+    Wait Until Page Is Unfreezed
+    Set Start Date For Search    1.Januar 2018
+    Set End Date For Search    26.Februar 2018
+    Select Checkbox Include DeletedBills
+    Wait Until Page Is Unfreezed
+    Click Search Button
     ${SearchResults2}=    Get Number of Bill Search Results    ${STATUS_IN_BEARBEITUNG}
     ${SearchResults3}=    Get Number of Bill Search Results    ${STATUS_GELÖSCHT}
     Run Keyword If    '${SearchResults1}'!='${SearchResults2}'    Run Keyword If    '${SearchResults3}'=='0'    Fail    Rechnungen werden mit dem falschen Status ausgegeben
-    Click Button    ${btnAbort}
-    [Teardown]
+    [Teardown]    Abort And Reset To Search Start
 
 Suchen und Anzeigen veröffentlichter Rechnungen
     [Setup]
     [Timeout]
-    Element Should Be Visible    ${btnSearch}
-    Wait Until Keyword Succeeds    3    1 sec    Clear All Search Options
-    Select Datepicker Date    ${PickerStartDate}    Januar 2018    10    ${btnStartDay}    ${btnEndDay}
-    Select Datepicker Date    ${PickerEndDate}    März 2018    31    ${btnStartDay}    ${btnEndDay}
-    Click Button    ${btnSearch}
-    Wait Until Page Contains    Rechnungsverwaltung    timeout=3
+    Clear All Search Options
+    Set Start Date For Search    10.Januar 2018
+    Set End Date For Search    31.März 2018
+    Click Search Button
     ${SearchResults1}=    Get Number of Bill Search Results    ${STATUS_IN_BEARBEITUNG}
-    Sleep    1s
+    Wait Until Page Is Unfreezed
     Click Button    ${btnSearch}
-    Sleep    1s
-    Select Datepicker Date    ${PickerStartDate}    Januar 2018    10    ${btnStartDay}    ${btnEndDay}
-    Select Datepicker Date    ${PickerEndDate}    März 2018    31    ${btnStartDay}    ${btnEndDay}
-    Wait Until Keyword Succeeds    3    1 sec    Select Checkbox    ${OptionIncludePublishedBills}
-    Click Button    ${btnSearch}
-    Wait Until Page Contains    Rechnungsverwaltung    timeout=3
-    Sleep    1s
+    Wait Until Page Is Unfreezed
+    Set Start Date For Search    10.Januar 2018
+    Set End Date For Search    31.März 2018
+    Select Checkbox Include PublishedBills
+    Click Search Button
     ${SearchResults2}=    Get Number of Bill Search Results
     ${SearchResults3}=    Get Number of Bill Search Results    ${STATUS_VERÖFFENTLICHT}
     Run Keyword If    '${SearchResults1}'=='${SearchResults2}'    Fail    Keine Rechnungen im angegebenen Zeitraum im Status "Veröffentlicht" gefunden
     Run Keyword If    '${SearchResults1}'!='${SearchResults2}'    Run Keyword If    '${SearchResults3}'=='0'    Fail    Rechnungen werden mit dem falschen Status ausgegeben
-    Click Button    ${btnAbort}
-    [Teardown]
+    [Teardown]    Abort And Reset To Search Start
 
 Suchen und Anzeigen verarbeiteter Rechnungen
     [Setup]
     [Timeout]
-    Element Should Be Visible    ${btnSearch}
-    Wait Until Keyword Succeeds    3    1 sec    Clear All Search Options
-    Select Datepicker Date    ${PickerStartDate}    Januar 2018    1    ${btnStartDay}    ${btnEndDay}
-    Select Datepicker Date    ${PickerEndDate}    März 2018    26    ${btnStartDay}    ${btnEndDay}
-    Click Button    ${btnSearch}
-    Wait Until Page Contains    Rechnungsverwaltung    timeout=3
+    Clear All Search Options
+    Set Start Date For Search    1.Januar 2018
+    Set End Date for Search    26.März 2018
+    Click Search Button
     ${SearchResults1}=    Get Number of Bill Search Results    ${STATUS_IN_BEARBEITUNG}
-    Sleep    1s
+    Wait Until Page Is Unfreezed
     Click Button    ${btnSearch}
-    Sleep    1s
-    Select Datepicker Date    ${PickerStartDate}    Januar 2018    1    ${btnStartDay}    ${btnEndDay}
-    Select Datepicker Date    ${PickerEndDate}    März 2018    26    ${btnStartDay}    ${btnEndDay}
-    Wait Until Keyword Succeeds    3    1 sec    Select Checkbox    ${OptionIncludeProcessedBills}
-    Click Button    ${btnSearch}
-    Wait Until Page Contains    Rechnungsverwaltung    timeout=3
-    Sleep    1s
+    Wait Until Page Is Unfreezed
+    Set Start Date For Search    1.Januar 2018
+    Set End Date for Search    26.März 2018
+    Select Checkbox Include ProcessedBills
+    Click Search Button
     ${SearchResults2}=    Get Number of Bill Search Results    ${STATUS_IN_BEARBEITUNG}
     ${SearchResults3}=    Get Number of Bill Search Results    ${STATUS_VERARBEITET}
     Run Keyword If    '${SearchResults1}'=='${SearchResults2}'    Fail    Keine Rechnungen im gewählten Zeitinterval mit dem Status "Verarbeitet & Veröffentlicht" gefunden
     Run Keyword If    '${SearchResults1}'!='${SearchResults2}'    Run Keyword If    '${SearchResults3}'=='0'    Fail    Rechnungen werden mit dem falschen Status ausgegeben
-    Click Button    ${btnAbort}
-    [Teardown]
+    [Teardown]    Abort And Reset To Search Start
 
 Suchen und Anzeigen Rechnungen anderer SubMandanten
     [Setup]
     [Timeout]
-    Element Should Be Visible    ${btnSearch}
-    Wait Until Keyword Succeeds    3    1 sec    Clear All Search Options
-    Select Datepicker Date    ${PickerStartDate}    August 2016    1    ${btnStartDay}    ${btnEndDay}
-    Select Datepicker Date    ${PickerEndDate}    März 2018    31    ${btnStartDay}    ${btnEndDay}
-    Click Button    ${btnSearch}
-    Wait Until Page Contains    Rechnungsverwaltung    timeout=3
+    Clear All Search Options
+    Set Start Date For Search    1.August 2016
+    Set End Date For Search    31.März 2018
+    Click Search Button
     ${SearchResults1}=    Get Number of Bill Search Results    ${STATUS_IN_BEARBEITUNG}
-    Sleep    1s
+    Wait Until Page Is Unfreezed
     Click Button    ${btnSearch}
-    Sleep    1s
-    Click Element    ${ElementMandatorChange}
-    Wait Until Keyword Succeeds    3    1 sec    Select Mandator    DB Cargo
-    Sleep    5s
-    Click Element    ${MenueBillSearch}
-    Select Datepicker Date    ${PickerStartDate}    August 2016    1    ${btnStartDay}    ${btnEndDay}
-    Select Datepicker Date    ${PickerEndDate}    März 2018    31    ${btnStartDay}    ${btnEndDay}
-    Click Button    ${btnSearch}
+    Wait Until Page Is Unfreezed
+    Click Element And Wait    ${ElementMandatorChange}
+    Select Mandator    DB Cargo
+    Wait Until Page Is Unfreezed
+    Click Element And Wait    ${MenueBillSearch}
+    Set Start Date For Search    1.August 2016
+    Set End Date For Search    31.März 2018
+    Click Search Button
     ${SearchResultsOtherMand}=    Get Number of Bill Search Results    ${STATUS_IN_BEARBEITUNG}
-    Click Element    ${ElementMandatorChange}
-    Wait Until Keyword Succeeds    3    1 sec    Select Mandator    Hauptmandant
-    Sleep    5s
-    Click Element    ${MenueBillSearch}
-    Wait Until Keyword Succeeds    3    1 sec    Clear All Search Options
-    Select Datepicker Date    ${PickerStartDate}    August 2016    1    ${btnStartDay}    ${btnEndDay}
-    Select Datepicker Date    ${PickerEndDate}    März 2018    31    ${btnStartDay}    ${btnEndDay}
-    Wait Until Keyword Succeeds    3    1 sec    Select Checkbox    ${OptionIncludeSubMandator}
-    Click Button    ${btnSearch}
-    Wait Until Page Contains    Rechnungsverwaltung    timeout=3
-    Sleep    1s
+    Click Element And Wait    ${ElementMandatorChange}
+    Select Mandator    Hauptmandant
+    Wait Until Page Is Unfreezed
+    Click Element And Wait    ${MenueBillSearch}
+    Clear All Search Options
+    Set Start Date For Search    1.August 2016
+    Set End Date For Search    31.März 2018
+    Select Checkbox Include SubMandator
+    Click Search Button
     ${SearchResults2}=    Get Number of Bill Search Results    ${STATUS_IN_BEARBEITUNG}
     ${Gesamt}=    Evaluate    ${SearchResults1}+${SearchResultsOtherMand}
     Run Keyword If    '${Gesamt}'!='${SearchResults2}'    Fail    Rechnungen vom Mandanten DB Cargo werden nicht korrekt mit ausgegeben
-    [Teardown]
+    [Teardown]    Abort And Reset To Search Start
 
 Suchen und Anzeigen von Proforma-Rechnungen
     [Setup]
     [Timeout]
-    Element Should Be Visible    ${btnSearch}
-    Wait Until Keyword Succeeds    3    1 sec    Clear All Search Options
-    Select Datepicker Date    ${PickerStartDate}    Juli 2016    5    ${btnStartDay}    ${btnEndDay}
-    Select Datepicker Date    ${PickerEndDate}    März 2018    31    ${btnStartDay}    ${btnEndDay}
-    Click Button    ${btnSearch}
-    Wait Until Page Contains    Rechnungsverwaltung    timeout=3
+    Clear All Search Options
+    Set Start Date For Search    5.Juli 2016
+    Set End Date For Search    31.März 2018
+    Click Search Button
     ${SearchResults1}=    Get Number of Bill Search Results
-    Sleep    1s
+    Wait until Page is unfreezed
     Click Button    ${btnSearch}
-    Sleep    1s
-    Select Datepicker Date    ${PickerStartDate}    Juli 2016    5    ${btnStartDay}    ${btnEndDay}
-    Select Datepicker Date    ${PickerEndDate}    März 2018    31    ${btnStartDay}    ${btnEndDay}
-    Select Checkbox    ${OptionIncludeProformaBills}
-    Click Button    ${btnSearch}
-    Wait Until Page Contains    Rechnungsverwaltung    timeout=3
-    Sleep    1s
+    Wait until Page is unfreezed
+    Set Start Date For Search    5.Juli 2016
+    Set End Date For Search    31.März 2018
+    Select Checkbox Include ProformaBills
+    Click Search Button
     ${SearchResults2}=    Get Number of Bill Search Results
     Run Keyword If    '${SearchResults1}'=='${SearchResults2}'    Fail    Keine Proforma-Rechnung gefunden und zusätzlich ausgegeben
     ${NoOfProformaRechnugnen}=    Evaluate    ${SearchResults2}-${SearchResults1}
     ${VerificationResult}=    Check Proforma Rechnung Marker    ${NoOfProformaRechnugnen}
     Run Keyword If    '${VerificationResult}'=='Error'    Fail    Marker für Proforma Rechnungen ist nicht gesetzt
-    [Teardown]
+    [Teardown]    Abort And Reset To Search Start
 
 Suchen von Rechnungen nach Name oder Nummer
     [Setup]
     [Timeout]
-    Element Should Be Visible    ${btnSearch}
-    Wait Until Keyword Succeeds    3    1 sec    Clear All Search Options
-    Select Datepicker Date    ${PickerStartDate}    August 2016    1    ${btnStartDay}    ${btnEndDay}
-    Select Datepicker Date    ${PickerEndDate}    März 2018    31    ${btnStartDay}    ${btnEndDay}
-    Click Button    ${btnSearch}
-    Wait Until Page Contains    Rechnungsverwaltung    timeout=3
+    Clear All Search Options
+    Set Start Date For Search    1.August 2016
+    Set End Date For Search    31.März 2018
+    Click Search Button
     ${SearchResults1}=    Get Number of Bill Search Results
-    Sleep    1s
+    Wait Until Page Is Unfreezed
     Run Keyword If    '${SearchResults1}'=='0'    Fail    Keine Rechnungen gefunden, daher Test nicht durchführbar
     ${BillNumber}=    Get Text    //*[@id="/$flow_main/$flow_content/invoice_list/0/$invoiceNumber"]    # Auslesen der Rechnungsnummer vom ersten Eintrag in den Suchergebnissen
     ${BillName}=    Get Text    //*[@id="/$flow_main/$flow_content/invoice_list/0/$description"]    # Auslesen des Rechnungsnamens vom ersten Eintrag in den Suchergebnissen
     Click Button    ${btnSearch}
-    Sleep    1s
-    Click Element    ${InputBillNumber}
-    Input Text    ${InputBillNumber}    ${BillNumber}
-    Click Button    ${btnSearch}
-    Sleep    1s
-    Wait Until Page Contains    Rechnungsverwaltung    timeout=3
+    Wait Until Page Is Unfreezed
+    Set Bill Number For Search    ${BillNumber}
+    Click Search Button
     ${SearchResultsBillNumber}=    Get Number of Bill Search Results
     Run Keyword If    '${SearchResultsBillNumber}'!='1'    Fail    Suchergebnisse bei der Suche nach Rechnungsnummer entsprechen nicht den erteten Ergebnissen, es wurde nicht genau eine Rechnung gefunden
     Click Button    ${btnSearch}
     Sleep    1s
     Wait Until Keyword Succeeds    3    1 sec    Clear All Search Options
-    Click Element    ${InputBillNumber}
-    Input Text    ${InputBillNumber}    ${EMPTY}
-    Click Element    ${InputBillName}
-    Input Text    ${InputBillName}    ${BillName}
-    Click Button    ${btnSearch}
-    Wait Until Page Contains    Rechnungsverwaltung    timeout=3
-    Sleep    1s
+    Set Bill NUmber For Search    ${EMPTY}
+    Set Bill Name For Search    ${BillName}
+    Click Search Button
     ${SearchResultsBillName}=    Get Number of Bill Search Results
     Run Keyword If    '${SearchResultsBillName}'!='1'    Fail    Suchergebnisse bei der Suche nach Rechnungsname entsprechen nicht den erteten Ergebnissen, es wurde nicht genau eine Rechnung gefunden
-    Click Button    ${btnSearch}
-    [Teardown]
+    [Teardown]    Abort And Reset To Search Start
