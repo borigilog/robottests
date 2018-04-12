@@ -15,7 +15,7 @@
 	- [Robotframework Basics](#robotframework-basics)
 	- [Was man beim Test schreiben berücksichtigen sollte](#was-man-beim-test-schreiben-berücksichtigen-sollte)
 - [README-Datei bearbeiten:](#readme-datei-bearbeiten)
-	- [[Markdown Syntax](https://guides.github.com/features/mastering-markdown/)](#markdown-syntaxhttpsguidesgithubcomfeaturesmastering-markdown)
+	- [Syntax](#syntax)
 	- [Editor](#editor)
 
 <!-- /TOC -->
@@ -72,7 +72,28 @@ Enthält **[PageObject](https://martinfowler.com/bliki/PageObject.html)**, die n
 
 
 # README-Datei bearbeiten:
-## [Markdown Syntax](https://guides.github.com/features/mastering-markdown/)
+## Syntax
+- <!-- TOC depthFrom:1 depthTo:6 withLinks:1 updateOnSave:1 orderedList:0 -->
+
+- [About robottests](#about-robottests)
+- [robottest - Struktur](#robottest-struktur)
+	- [Libs](#libs)
+	- [SQL](#sql)
+	- [Settings](#settings)
+	- [Regressiontests](#regressiontests)
+		- [General_Keywords](#generalkeywords)
+		- [General_PageObjects](#generalpageobjects)
+		- [General_Variables](#generalvariables)
+		- [Modul-Tests](#modul-tests)
+			- [PageObjects](#pageobjects)
+- [Wie schreibt man Tests ?](#wie-schreibt-man-tests-)
+	- [Robotframework Basics](#robotframework-basics)
+	- [Was man beim Test schreiben berücksichtigen sollte](#was-man-beim-test-schreiben-berücksichtigen-sollte)
+- [README-Datei bearbeiten:](#readme-datei-bearbeiten)
+	- [Syntax](#syntax)
+	- [Editor](#editor)
+
+<!-- /TOC -->[Markdown Syntax](https://guides.github.com/features/mastering-markdown/)
 ## Editor
 [Atom](https://atom.io/)
 - [strg+shift+m öffnet ein Preview] (https://guides.github.com/features/mastering-markdown/)
