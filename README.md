@@ -1,14 +1,13 @@
 <!-- TOC depthFrom:1 depthTo:6 withLinks:1 updateOnSave:1 orderedList:0 -->
 
-- [About robottests](#about-robottests)
-- [robottest - Struktur](#robottest-struktur)
+- [Struktur](#robottest-struktur)
 	- [Libs](#libs)
 	- [SQL](#sql)
 	- [Settings](#settings)
 	- [Regressiontests](#regressiontests)
-		- [General_Keywords](#generalkeywords)
-		- [General_PageObjects](#generalpageobjects)
-		- [General_Variables](#generalvariables)
+		- [General_Keywords](#general_keywords)
+		- [General_PageObjects](#general_pageobjects)
+		- [General_Variables](#general_variables)
 		- [Modul-Tests](#modul-tests)
 			- [PageObjects](#pageobjects)
 				- [Menu-PageObjects](#menu-pageobjects)
@@ -24,10 +23,8 @@
 	- [Editor](#editor)
 
 <!-- /TOC -->
-# About robottests
-robotframework - automated on-line tests for WebGUI
 
-# robottest - Struktur
+# Struktur
 
 ## Libs
 Enthält von uns geschriebene Python-Bibliotheken.
