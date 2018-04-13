@@ -104,7 +104,7 @@ Select Rechnungsverwaltung
 - [Keywords dokumentieren](http://robotframework.org/robotframework/latest/RobotFrameworkUserGuide.html#id353)
 
 ## Was man beim Test schreiben berücksichtigen sollte
-- [Resourcen](http://robotframework.org/robotframework/latest/RobotFrameworkUserGuide.html#resource-files) müssen als ***.txt** oder ***.robot** Datei gespeichert werden um kompatibel zu anderen Editoren zu sein. (**Nicht als *.html Datei speichern!**)
+- [Resourcen](http://robotframework.org/robotframework/latest/RobotFrameworkUserGuide.html#resource-files) müssen als ***.txt** oder ***.robot** Datei gespeichert werden um kompatibel zu anderen Editoren zu sein.
 - [How to Write Good TestCases](https://github.com/robotframework/HowToWriteGoodTestCases/blob/master/HowToWriteGoodTestCases.rst)
 - [Do's and Dont's](https://de.slideshare.net/pekkaklarck/robot-framework-dos-and-donts)
 
