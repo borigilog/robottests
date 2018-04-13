@@ -58,8 +58,8 @@ Variablen, die für die gesamte Website gelten (Login, Password, URL, Standard S
 Was ein _Bereich_ ist, ist dem Ersteller der Tests überlassen. <br>
 **Anhaltspunkt:** Pro html-Ansicht eine Testsuite erstellen. (Ist aber kein Muss!)
 3. In einer Testsuite können [Variablen](http://robotframework.org/robotframework/latest/RobotFrameworkUserGuide.html#variables) und [Keywords](http://robotframework.org/robotframework/latest/RobotFrameworkUserGuide.html#creating-user-keywords) direkt eingefügt werden.
-⋅⋅* Es sollte aber überlegt werden, ob die Variablen/Keywords zu einem [PageObject](#PageObject) gehören.<br>In diesem Fall sollten sie zu den [Modulspezifischen PageObjects](#ModulPageObjects) oder ggf. sogar zu den [General_PageObjects](#General_PageObjects) hinzugefügt werden.
-⋅⋅* Auch sollte geprüft werden, ob es sich um [General_Keywords](#General_Keywords) handelt.
+..* Es sollte aber überlegt werden, ob die Variablen/Keywords zu einem [PageObject](#PageObject) gehören.<br>In diesem Fall sollten sie zu den [Modulspezifischen PageObjects](#ModulPageObjects) oder ggf. sogar zu den [General_PageObjects](#General_PageObjects) hinzugefügt werden.
+..* Auch sollte geprüft werden, ob es sich um [General_Keywords](#General_Keywords) handelt.
 
 #### PageObjects
 <a name="ModulPageObjects"></a>Enthält [PageObjects](#PageObject), die nur für dieses Modul gelten.<br>
