@@ -25,11 +25,19 @@ Click Element And Wait
     Wait until Page is unfreezed
 
 Get PopOverId
-    [Arguments]    ${locator}    ${class}
+    [Arguments]    ${locator}    ${popover_class}
     [Documentation]    MM 12.04.2018
     [Tags]    General, Helper, PopOver
-    ${popover_element} =    Get WebElement    //div[@class="${class}"][contains(@id, '${locator}')]
+    ${popover_element} =    Get WebElement    //div[@class="${popover_class}"][contains(@id, '${locator}')]
     Run Keyword And Return    Get Element Attribute    ${popover_element}    id
+
+Get ElementID In PopOver
+    [Arguments]    ${locator}    ${popover_class}    ${element_name}
+    [Documentation]    MM 13.04.2018
+    [Tags]    General, Helper, PopOver
+    ${popover_id}=    Get PopOverId    ${locator}    ${popover_class}
+    ${element_id}=    Set Variable    ${popover_id}/${element_name}
+    [Return]    ${element_id}
 
 Check PopOver Is Visible
     [Arguments]    ${locator}    ${class}    ${visible}=${TRUE}
@@ -38,3 +46,10 @@ Check PopOver Is Visible
     ${visible}    Is Truthy    ${visible}
     Run Keyword If    '${visible}' == '${FALSE}'    Page Should Not Contain Element    //div[@class="${class}"][contains(@id, '${locator}')]
     Run Keyword If    '${visible}' == '${TRUE}'    Page Should Contain Element    //div[@class="${class}"][contains(@id, '${locator}')]
+
+Click MouseOutSide PopOver
+    [Documentation]    MM 12.04.2018, try to close popover without close button, for allert or message popover not useable
+    [Tags]    General, Helper, PopOver
+    #irgendwohin mit mouse clicken => click ist nicht möglich
+    Mouse Down    /$flow_main/username
+    Mouse Up    /$flow_main/username

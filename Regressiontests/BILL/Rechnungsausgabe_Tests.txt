@@ -15,6 +15,7 @@ Library           ${LIBS_PATH}/DatabaseClass.py    database=${DATABASE_NAME}    
 Library           ${LIBS_PATH}/SQLQueryReader.py
 
 *** Variables ***
+${alert_content_locator}    /$flow_main
 # ~~~~~~~~~ checkboxes
 ${chkShowOnlyOpenBills}    /$flow_main/$flow_content/ShowOnlyOpenBills
 ${chkShowProcessedBills}    /$flow_main/$flow_content/ShowProcessedBills
@@ -253,42 +254,44 @@ Click Button Rechnung mit Positionen
     ${InvoiceID}    Get InvoiceID with Positions    ${listInvoice}
     Select InvoiceID    ${InvoiceID}
     Click Element And Wait    ${btnThirdParty}
-    Message_PopUp.Check Message PopUp Is Visible    visible=false
+    Message_PopUp.Check Message PopUp Is Visible    ${alert_content_locator}    visible=false
 
 Click Button Rechnung ohne Positionen
     [Tags]    Action
+    &{message}=    Create Error Message
     ${InvoiceID}    Get InvoiceID    ${listInvoice}    $items    0
     Select InvoiceID    ${InvoiceID}
     Click Element And Wait    ${btnThirdParty}
-    Message_PopUp.Check Message PopUp Is Visible    visible=true
-    Message_PopUp.Check Error Message PopUp    &{Dic_ErrorMsg}
-    Message_PopUp.Click Close Button
-    Message_PopUp.Check Message PopUp Is Visible    visible=false
+    Message_PopUp.Check Message PopUp Is Visible    ${alert_content_locator}    visible=true
+    Message_PopUp.Check Error Message PopUp    ${alert_content_locator}    &{message}
+    Message_PopUp.Click Close Button    ${alert_content_locator}
+    Message_PopUp.Check Message PopUp Is Visible    ${alert_content_locator}    visible=false
     Click Element And Wait    ${btnThirdParty}
-    Message_PopUp.Check Message PopUp Is Visible    visible=true
-    Message_PopUp.Click OK Button
-    Message_PopUp.Check Message PopUp Is Visible    visible=false
+    Message_PopUp.Check Message PopUp Is Visible    ${alert_content_locator}    visible=true
+    Message_PopUp.Click OK Button    ${alert_content_locator}
+    Message_PopUp.Check Message PopUp Is Visible    ${alert_content_locator}    visible=false
 
 Click Button Proformarechnung mit Positionen
     [Tags]    Action
     ${InvoiceID}    Get InvoiceID with Positions    ${listInvoice}
     Select InvoiceID    ${InvoiceID}
     Click Element And Wait    ${btnThirdParty}
-    Message_PopUp.Check Message PopUp Is Visible    visible=false
+    Message_PopUp.Check Message PopUp Is Visible    ${alert_content_locator}    visible=false
 
 Click Button Proformarechnung ohne Positionen
     [Tags]    Action
+    &{message}=    Create Error Message
     ${InvoiceID}    Get InvoiceID    ${listInvoice}    $items    0
     Select InvoiceID    ${InvoiceID}
     Click Element And Wait    ${btnProForma}
-    Message_PopUp.Check Message PopUp Is Visible    visible=true
-    Message_PopUp.Check Error Message PopUp    &{Dic_ErrorMsg}
-    Message_PopUp.Click Close Button
-    Message_PopUp.Check Message PopUp Is Visible    visible=false
+    Message_PopUp.Check Message PopUp Is Visible    ${alert_content_locator}    visible=true
+    Message_PopUp.Check Error Message PopUp    ${alert_content_locator}    &{message}
+    Message_PopUp.Click Close Button    ${alert_content_locator}
+    Message_PopUp.Check Message PopUp Is Visible    ${alert_content_locator}    visible=false
     Click Element And Wait    ${btnProForma}
-    Message_PopUp.Check Message PopUp Is Visible    visible=true
-    Message_PopUp.Click OK Button
-    Message_PopUp.Check Message PopUp Is Visible    visible=false
+    Message_PopUp.Check Message PopUp Is Visible    ${alert_content_locator}    visible=true
+    Message_PopUp.Click OK Button    ${alert_content_locator}
+    Message_PopUp.Check Message PopUp Is Visible    ${alert_content_locator}    visible=false
 
 Click Button Zurück zum Hauptmenü
     [Tags]    Action
@@ -364,3 +367,11 @@ Create Dictionaries For Rechnungsausgabe
     Create SettingsDics    Bills    State_Published    Dic_IsComplete
     Create SettingsDics    Bills    State_IsProcessed_and_Published    Dic_IsCompleteAndProcessed
     Create SettingsDics    Billing_Print    ERROR_Bill_Send    Dic_ErrorMsg
+
+Create Error Message
+    &{error_message}=    Create Dictionary    &{EMPTY}
+    : FOR    ${key}    IN    @{Dic_ErrorMsg.keys()}
+    \    ${text}=    Get From Dictionary    ${Dic_ErrorMsg}    ${key}
+    \    ${text}=    Set Variable    ${text}\nNo positions on this Bill
+    \    Set To Dictionary    ${error_message}    ${key}    ${text}
+    [Return]    &{error_message}

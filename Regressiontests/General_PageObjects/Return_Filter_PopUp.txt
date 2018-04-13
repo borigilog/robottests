@@ -2,13 +2,15 @@
 Resource          Datum_Selector.txt
 
 *** Variables ***
+# ~~~~~~~ class name
+${RETURN_FILTER_POPUP_CLASS}    screen look_rlx_screen_return_filter_popover
 
 *** Keywords ***
 Open ReturnFilter PopUp
     [Arguments]    ${locator}
     [Documentation]    MM 12.04.2018
     [Tags]    General, Helper, ReturnFilter_PopUp
-    ${filter_id}=    Set Variable    ${locator}/filters
+    ${filter_id}=    Get FilterID    ${locator}
     Click Element And Wait    ${filter_id}
 
 Close ReturnFilter PopUp
@@ -18,178 +20,555 @@ Close ReturnFilter PopUp
     ${popup_visible} =    Run Keyword And Return Status    Check ReturnFilter PopUp Is Visible    ${locator}
     Run Keyword If    '${popup_visible}' == '${FALSE}'    Log    Das Filter Fenster ist nicht sichtbar und kann daher nicht geschlossen werden!    WARN
     Return From Keyword If    '${popup_visible}' == '${FALSE}'
-    #irgendwohin mit mouse clicken => click ist nicht möglich
-    Mouse Down    /$flow_main/username
-    Mouse Up    /$flow_main/username
+    Click MouseOutSide PopOver
 
 Check ReturnFilter PopUp Is Visible
     [Arguments]    ${locator}    ${visible}=${TRUE}
     [Documentation]    MM 12.04.2018
     [Tags]    General, Helper, ReturnFilter_PopUp
-    Check PopOver Is Visible    ${locator}    screen look_rlx_screen_return_filter_popover    visible=${visible}
+    Page.Check PopOver Is Visible    ${locator}    ${RETURN_FILTER_POPUP_CLASS}    visible=${visible}
 
-Select Reset Filter In ReturnFilter PopUp
+Select ResetFilter In ReturnFilter PopUp
     [Arguments]    ${locator}
     [Documentation]    MM 12.04.2018
     [Tags]    General, Helper, ReturnFilter_PopUp
-    ${popup_id}=    Get ReturnFilter PopUpID    ${locator}
-    ${reset_id}    Set Variable    ${popup_id}/reset_filter
+    ${reset_id}=    Get ResetFilterID    ${locator}
     Click Element And Wait    ${reset_id}
 
-Select Apply Filter In ReturnFilter PopUp
+Select ApplyFilter In ReturnFilter PopUp
     [Arguments]    ${locator}
     [Documentation]    MM 12.04.2018
     [Tags]    General, Helper, ReturnFilter_PopUp
-    ${popup_id}=    Get ReturnFilter PopUpID    ${locator}
-    ${apply_id}    Set Variable    ${popup_id}/apply_filter
+    ${apply_id}=    Get ApplyFilterID    ${locator}
     Click Element And Wait    ${apply_id}
 
-Get Use Return No CheckboxID
-    [Arguments]    ${locator}
-    [Documentation]    MM 12.04.2018
-    ${popup_id}=    Get ReturnFilter PopUpID    ${locator}
-    ${chkbox_id}=    Set Variable    ${popup_id}/chk_return_no
-    [Return]    ${chkbox_id}
-
-Set Use Return No In ReturnFilter PopUp
+Set Use ReturnNo In ReturnFilter PopUp
     [Arguments]    ${locator}    ${select}
     [Documentation]    MM 12.04.2018
     [Tags]    General, Helper, ReturnFilter_PopUp
-    ${chkbox_id}=    Get Use Return No CheckboxID    ${locator}
+    ${chkbox_id}=    Get ReturnNo CheckboxID    ${locator}
     Set Selection of CheckBox    ${chkbox_id}    ${select}
 
-Get Use Return No In ReturnFilter PopUp
+Get Use ReturnNo In ReturnFilter PopUp
     [Arguments]    ${locator}
     [Documentation]    MM 12.04.2018
     [Tags]    General, Helper, ReturnFilter_PopUp
-    ${chkbox_id}=    Get Use Return No CheckboxID    ${locator}
-    ${selected}=    Get Selection of CheckBox    ${chkbox_id}
-    [Return]    ${selected}
+    ${chkbox_id}=    Get ReturnNo CheckboxID    ${locator}
+    Run Keyword And Return    Get Selection of CheckBox    ${chkbox_id}
 
-Check Use Return No Selection In ReturnFilter PopUp
+Check Use ReturnNo Selection In ReturnFilter PopUp
     [Arguments]    ${locator}    ${select}
     [Documentation]    MM 12.04.2018
     [Tags]    General, Helper, ReturnFilter_PopUp
-    ${chkbox_id}=    Get Use Return No CheckboxID    ${locator}
+    ${chkbox_id}=    Get ReturnNo CheckboxID    ${locator}
     Check Selection of CheckBox    ${chkbox_id}    ${select}
 
-Get Return No ValueID
-    [Arguments]    ${locator}
-    [Documentation]    MM 12.04.2018
-    ${popup_id}=    Get ReturnFilter PopUpID    ${locator}
-    ${chkbox_id}=    Set Variable    ${popup_id}/txt_return_no
-    [Return]    ${chkbox_id}
-
-Set Value Return No In ReturnFilter PopUp
+Set Value ReturnNo In ReturnFilter PopUp
     [Arguments]    ${locator}    ${value}
     [Documentation]    MM 12.04.2018
     [Tags]    General, Helper, ReturnFilter_PopUp
-    ${value_id}=    Get Return No ValueID    ${locator}
+    ${value_id}=    Get ReturnNoID    ${locator}
     Input Text    ${value_id}    ${value}
 
-Get Value Return No In ReturnFilter PopUp
+Get Value ReturnNo In ReturnFilter PopUp
     [Arguments]    ${locator}
     [Documentation]    MM 12.04.2018
     [Tags]    General, Helper, ReturnFilter_PopUp
-    ${value_id}=    Get Return No ValueID    ${locator}
-    ${value}=    Get Value    ${value_id}
-    [Return]    ${value}
+    ${value_id}=    Get ReturnNoID    ${locator}
+    Run Keyword And Return    Get Value    ${value_id}
 
-Check Value Return No In ReturnFilter PopUp
+Check Value ReturnNo In ReturnFilter PopUp
     [Arguments]    ${locator}    ${expected_value}
     [Documentation]    MM 12.04.2018
     [Tags]    General, Helper, ReturnFilter_PopUp
-    ${value}=    Get Value Return No In ReturnFilter PopUp    ${locator}
+    ${value}=    Get Value ReturnNo In ReturnFilter PopUp    ${locator}
     Should Be Equal    ${value}    ${expected_value}
 
-Get Use Created On CheckboxID
-    [Arguments]    ${locator}
-    [Documentation]    MM 12.04.2018
-    ${popup_id}=    Get ReturnFilter PopUpID    ${locator}
-    ${chkbox_id}=    Set Variable    ${popup_id}/chk_createdon
-    [Return]    ${chkbox_id}
-
-Set Use Created On In ReturnFilter PopUp
+Set Use ClientNo In ReturnFilter PopUp
     [Arguments]    ${locator}    ${select}
     [Documentation]    MM 12.04.2018
     [Tags]    General, Helper, ReturnFilter_PopUp
-    ${chkbox_id}=    Get Use Created On CheckboxID    ${locator}
+    ${chkbox_id}=    Get ClientNo CheckboxID    ${locator}
     Set Selection of CheckBox    ${chkbox_id}    ${select}
 
-Get Use Created On In ReturnFilter PopUp
+Get Use ClientNo In ReturnFilter PopUp
     [Arguments]    ${locator}
     [Documentation]    MM 12.04.2018
     [Tags]    General, Helper, ReturnFilter_PopUp
-    ${chkbox_id}=    Get Use Created On CheckboxID    ${locator}
-    ${selected}=    Get Selection of CheckBox    ${chkbox_id}
-    [Return]    ${selected}
+    ${chkbox_id}=    Get ClientNo CheckboxID    ${locator}
+    Run Keyword And Return    Get Selection of CheckBox    ${chkbox_id}
 
-Check Use Created On Selection In ReturnFilter PopUp
+Check Use ClientNo Selection In ReturnFilter PopUp
     [Arguments]    ${locator}    ${select}
     [Documentation]    MM 12.04.2018
     [Tags]    General, Helper, ReturnFilter_PopUp
-    ${chkbox_id}=    Get Use Created On CheckboxID    ${locator}
+    ${chkbox_id}=    Get ClientNo CheckboxID    ${locator}
     Check Selection of CheckBox    ${chkbox_id}    ${select}
 
-Get Created On From DateID
+Set Value ClientNo In ReturnFilter PopUp
+    [Arguments]    ${locator}    ${value}
+    [Documentation]    MM 12.04.2018
+    [Tags]    General, Helper, ReturnFilter_PopUp
+    ${value_id}=    Get ClientNoID    ${locator}
+    Input Text    ${value_id}    ${value}
+
+Get Value ClientNo In ReturnFilter PopUp
     [Arguments]    ${locator}
     [Documentation]    MM 12.04.2018
-    ${popup_id}=    Get ReturnFilter PopUpID    ${locator}
-    ${chkbox_id}=    Set Variable    ${popup_id}/txt_createdon_from
-    [Return]    ${chkbox_id}
+    [Tags]    General, Helper, ReturnFilter_PopUp
+    ${value_id}=    Get ClientNoID    ${locator}
+    Run Keyword And Return    Get Value    ${value_id}
 
-Set Date Created On From In ReturnFilter PopUp
+Check Value ClientNo In ReturnFilter PopUp
+    [Arguments]    ${locator}    ${expected_value}
+    [Documentation]    MM 12.04.2018
+    [Tags]    General, Helper, ReturnFilter_PopUp
+    ${value}=    Get Value ClientNo In ReturnFilter PopUp    ${locator}
+    Should Be Equal    ${value}    ${expected_value}
+
+Set Use OrderNo In ReturnFilter PopUp
+    [Arguments]    ${locator}    ${select}
+    [Documentation]    MM 12.04.2018
+    [Tags]    General, Helper, ReturnFilter_PopUp
+    ${chkbox_id}=    Get OrderNo CheckboxID    ${locator}
+    Set Selection of CheckBox    ${chkbox_id}    ${select}
+
+Get Use OrderNo In ReturnFilter PopUp
+    [Arguments]    ${locator}
+    [Documentation]    MM 12.04.2018
+    [Tags]    General, Helper, ReturnFilter_PopUp
+    ${chkbox_id}=    Get OrderNo CheckboxID    ${locator}
+    Run Keyword And Return    Get Selection of CheckBox    ${chkbox_id}
+
+Check Use OrderNo Selection In ReturnFilter PopUp
+    [Arguments]    ${locator}    ${select}
+    [Documentation]    MM 12.04.2018
+    [Tags]    General, Helper, ReturnFilter_PopUp
+    ${chkbox_id}=    Get OrderNo CheckboxID    ${locator}
+    Check Selection of CheckBox    ${chkbox_id}    ${select}
+
+Set Value OrderNo In ReturnFilter PopUp
+    [Arguments]    ${locator}    ${value}
+    [Documentation]    MM 12.04.2018
+    [Tags]    General, Helper, ReturnFilter_PopUp
+    ${value_id}=    Get OrderNoID    ${locator}
+    Input Text    ${value_id}    ${value}
+
+Get Value OrderNo In ReturnFilter PopUp
+    [Arguments]    ${locator}
+    [Documentation]    MM 12.04.2018
+    [Tags]    General, Helper, ReturnFilter_PopUp
+    ${value_id}=    Get OrderNoID    ${locator}
+    Run Keyword And Return    Get Value    ${value_id}
+
+Check Value OrderNo In ReturnFilter PopUp
+    [Arguments]    ${locator}    ${expected_value}
+    [Documentation]    MM 12.04.2018
+    [Tags]    General, Helper, ReturnFilter_PopUp
+    ${value}=    Get Value OrderNo In ReturnFilter PopUp    ${locator}
+    Should Be Equal    ${value}    ${expected_value}
+
+Set Use DeliveryNo In ReturnFilter PopUp
+    [Arguments]    ${locator}    ${select}
+    [Documentation]    MM 12.04.2018
+    [Tags]    General, Helper, ReturnFilter_PopUp
+    ${chkbox_id}=    Get DeliveryNo CheckboxID    ${locator}
+    Set Selection of CheckBox    ${chkbox_id}    ${select}
+
+Get Use DeliveryNo In ReturnFilter PopUp
+    [Arguments]    ${locator}
+    [Documentation]    MM 12.04.2018
+    [Tags]    General, Helper, ReturnFilter_PopUp
+    ${chkbox_id}=    Get DeliveryNo CheckboxID    ${locator}
+    Run Keyword And Return    Get Selection of CheckBox    ${chkbox_id}
+
+Check Use DeliveryNo Selection In ReturnFilter PopUp
+    [Arguments]    ${locator}    ${select}
+    [Documentation]    MM 12.04.2018
+    [Tags]    General, Helper, ReturnFilter_PopUp
+    ${chkbox_id}=    Get DeliveryNo CheckboxID    ${locator}
+    Check Selection of CheckBox    ${chkbox_id}    ${select}
+
+Set Value DeliveryNo In ReturnFilter PopUp
+    [Arguments]    ${locator}    ${value}
+    [Documentation]    MM 12.04.2018
+    [Tags]    General, Helper, ReturnFilter_PopUp
+    ${value_id}=    Get DeliveryNoID    ${locator}
+    Input Text    ${value_id}    ${value}
+
+Get Value DeliveryNo In ReturnFilter PopUp
+    [Arguments]    ${locator}
+    [Documentation]    MM 12.04.2018
+    [Tags]    General, Helper, ReturnFilter_PopUp
+    ${value_id}=    Get DeliveryNoID    ${locator}
+    Run Keyword And Return    Get Value    ${value_id}
+
+Check Value DeliveryNo In ReturnFilter PopUp
+    [Arguments]    ${locator}    ${expected_value}
+    [Documentation]    MM 12.04.2018
+    [Tags]    General, Helper, ReturnFilter_PopUp
+    ${value}=    Get Value DeliveryNo In ReturnFilter PopUp    ${locator}
+    Should Be Equal    ${value}    ${expected_value}
+
+Set Use CreatedBy In ReturnFilter PopUp
+    [Arguments]    ${locator}    ${select}
+    [Documentation]    MM 12.04.2018
+    [Tags]    General, Helper, ReturnFilter_PopUp
+    ${chkbox_id}=    Get CreatedBy CheckboxID    ${locator}
+    Set Selection of CheckBox    ${chkbox_id}    ${select}
+
+Get Use CreatedBy In ReturnFilter PopUp
+    [Arguments]    ${locator}
+    [Documentation]    MM 12.04.2018
+    [Tags]    General, Helper, ReturnFilter_PopUp
+    ${chkbox_id}=    Get CreatedBy CheckboxID    ${locator}
+    Run Keyword And Return    Get Selection of CheckBox    ${chkbox_id}
+
+Check Use CreatedBy Selection In ReturnFilter PopUp
+    [Arguments]    ${locator}    ${select}
+    [Documentation]    MM 12.04.2018
+    [Tags]    General, Helper, ReturnFilter_PopUp
+    ${chkbox_id}=    Get CreatedBy CheckboxID    ${locator}
+    Check Selection of CheckBox    ${chkbox_id}    ${select}
+
+Set Value CreatedBy In ReturnFilter PopUp
+    [Arguments]    ${locator}    ${value}
+    [Documentation]    MM 12.04.2018
+    [Tags]    General, Helper, ReturnFilter_PopUp
+    ${value_id}=    Get CreatedByID    ${locator}
+    Input Text    ${value_id}    ${value}
+
+Get Value CreatedBy In ReturnFilter PopUp
+    [Arguments]    ${locator}
+    [Documentation]    MM 12.04.2018
+    [Tags]    General, Helper, ReturnFilter_PopUp
+    ${value_id}=    Get CreatedByID    ${locator}
+    Run Keyword And Return    Get Value    ${value_id}
+
+Check Value CreatedBy In ReturnFilter PopUp
+    [Arguments]    ${locator}    ${expected_value}
+    [Documentation]    MM 12.04.2018
+    [Tags]    General, Helper, ReturnFilter_PopUp
+    ${value}=    Get Value CreatedBy In ReturnFilter PopUp    ${locator}
+    Should Be Equal    ${value}    ${expected_value}
+
+Set Use CreatedOn In ReturnFilter PopUp
+    [Arguments]    ${locator}    ${select}
+    [Documentation]    MM 12.04.2018
+    [Tags]    General, Helper, ReturnFilter_PopUp
+    ${chkbox_id}=    Get CreatedOn CheckboxID    ${locator}
+    Set Selection of CheckBox    ${chkbox_id}    ${select}
+
+Get Use CreatedOn In ReturnFilter PopUp
+    [Arguments]    ${locator}
+    [Documentation]    MM 12.04.2018
+    [Tags]    General, Helper, ReturnFilter_PopUp
+    ${chkbox_id}=    Get CreatedOn CheckboxID    ${locator}
+    Run Keyword And Return    Get Selection of CheckBox    ${chkbox_id}
+
+Check Use CreatedOn Selection In ReturnFilter PopUp
+    [Arguments]    ${locator}    ${select}
+    [Documentation]    MM 12.04.2018
+    [Tags]    General, Helper, ReturnFilter_PopUp
+    ${chkbox_id}=    Get CreatedOn CheckboxID    ${locator}
+    Check Selection of CheckBox    ${chkbox_id}    ${select}
+
+Set Date CreatedOnFrom In ReturnFilter PopUp
     [Arguments]    ${locator}    ${datevalue}
     [Documentation]    MM 12.04.2018
     [Tags]    General, Helper, ReturnFilter_PopUp
-    ${date_id}=    Get Created On From DateID    ${locator}
+    ${date_id}=    Get CreatedOnFrom DateID    ${locator}
     Datum_Selector.Set Date In DateSelector    ${date_id}    ${datevalue}
 
-Get Date Created On From In ReturnFilter PopUp
+Get Date CreatedOnFrom In ReturnFilter PopUp
     [Arguments]    ${locator}
     [Documentation]    MM 12.04.2018
     [Tags]    General, Helper, ReturnFilter_PopUp
-    ${date_id}=    Get Created On From DateID    ${locator}
-    ${value}=    Datum_Selector.Get Current DateValue    ${date_id}
-    [Return]    ${value}
+    ${date_id}=    Get CreatedOnFrom DateID    ${locator}
+    Run Keyword And Return    Datum_Selector.Get Current DateValue    ${date_id}
 
-Check Date Created On From In ReturnFilter PopUp
+Check Date CreatedOnFrom In ReturnFilter PopUp
     [Arguments]    ${locator}    ${expected_datevalue}
     [Documentation]    MM 12.04.2018
     [Tags]    General, Helper, ReturnFilter_PopUp
-    ${date_id}=    Get Created On From DateID    ${locator}
+    ${date_id}=    Get CreatedOnFrom DateID    ${locator}
     Datum_Selector.Check Expected DateValue In DateSelector    ${date_id}    ${expected_datevalue}
 
-Get Created On To DateID
-    [Arguments]    ${locator}
-    [Documentation]    MM 12.04.2018
-    ${popup_id}=    Get ReturnFilter PopUpID    ${locator}
-    ${chkbox_id}=    Set Variable    ${popup_id}/txt_createdon_to
-    [Return]    ${chkbox_id}
-
-Set Date Created On To In ReturnFilter PopUp
+Set Date CreatedOnTo In ReturnFilter PopUp
     [Arguments]    ${locator}    ${datevalue}
     [Documentation]    MM 12.04.2018
     [Tags]    General, Helper, ReturnFilter_PopUp
-    ${date_id}=    Get Created On To DateID    ${locator}
+    ${date_id}=    Get CreatedOnTo DateID    ${locator}
     Datum_Selector.Set Date In DateSelector    ${date_id}    ${datevalue}
 
-Get Date Created On To In ReturnFilter PopUp
+Get Date CreatedOnTo In ReturnFilter PopUp
     [Arguments]    ${locator}
     [Documentation]    MM 12.04.2018
     [Tags]    General, Helper, ReturnFilter_PopUp
-    ${date_id}=    Get Created On To DateID    ${locator}
-    ${value}=    Datum_Selector.Get Current DateValue    ${date_id}
-    [Return]    ${value}
+    ${date_id}=    Get CreatedOnTo DateID    ${locator}
+    Run Keyword And Return    Datum_Selector.Get Current DateValue    ${date_id}
 
-Check Date Created On To In ReturnFilter PopUp
+Check Date CreatedOnTo In ReturnFilter PopUp
     [Arguments]    ${locator}    ${expected_datevalue}
     [Documentation]    MM 12.04.2018
     [Tags]    General, Helper, ReturnFilter_PopUp
-    ${date_id}=    Get Created On To DateID    ${locator}
+    ${date_id}=    Get CreatedOnTo DateID    ${locator}
     Datum_Selector.Check Expected DateValue In DateSelector    ${date_id}    ${expected_datevalue}
 
-Get ReturnFilter PopUpID
+Set Use Overdue In ReturnFilter PopUp
+    [Arguments]    ${locator}    ${select}
+    [Documentation]    MM 12.04.2018
+    [Tags]    General, Helper, ReturnFilter_PopUp
+    ${chkbox_id}=    Get Overdue CheckboxID    ${locator}
+    Set Selection of CheckBox    ${chkbox_id}    ${select}
+
+Get Use Overdue In ReturnFilter PopUp
     [Arguments]    ${locator}
     [Documentation]    MM 12.04.2018
-    Run Keyword And Return    Get PopOverId    ${locator}    screen look_rlx_screen_return_filter_popover
+    [Tags]    General, Helper, ReturnFilter_PopUp
+    ${chkbox_id}=    Get Overdue CheckboxID    ${locator}
+    Run Keyword And Return    Get Selection of CheckBox    ${chkbox_id}
+
+Check Use Overdue Selection In ReturnFilter PopUp
+    [Arguments]    ${locator}    ${select}
+    [Documentation]    MM 12.04.2018
+    [Tags]    General, Helper, ReturnFilter_PopUp
+    ${chkbox_id}=    Get Overdue CheckboxID    ${locator}
+    Check Selection of CheckBox    ${chkbox_id}    ${select}
+
+Set Use Orconnection In ReturnFilter PopUp
+    [Arguments]    ${locator}    ${select}
+    [Documentation]    MM 12.04.2018
+    [Tags]    General, Helper, ReturnFilter_PopUp
+    ${chkbox_id}=    Get Orconnection CheckboxID    ${locator}
+    Set Selection of CheckBox    ${chkbox_id}    ${select}
+
+Get Use Orconnection In ReturnFilter PopUp
+    [Arguments]    ${locator}
+    [Documentation]    MM 12.04.2018
+    [Tags]    General, Helper, ReturnFilter_PopUp
+    ${chkbox_id}=    Get Orconnection CheckboxID    ${locator}
+    Run Keyword And Return    Get Selection of CheckBox    ${chkbox_id}
+
+Check Use Orconnection Selection In ReturnFilter PopUp
+    [Arguments]    ${locator}    ${select}
+    [Documentation]    MM 12.04.2018
+    [Tags]    General, Helper, ReturnFilter_PopUp
+    ${chkbox_id}=    Get Orconnection CheckboxID    ${locator}
+    Check Selection of CheckBox    ${chkbox_id}    ${select}
+
+Set Use Open In ReturnFilter PopUp
+    [Arguments]    ${locator}    ${select}
+    [Documentation]    MM 12.04.2018
+    [Tags]    General, Helper, ReturnFilter_PopUp
+    ${chkbox_id}=    Get Open CheckboxID    ${locator}
+    Set Selection of CheckBox    ${chkbox_id}    ${select}
+
+Get Use Open In ReturnFilter PopUp
+    [Arguments]    ${locator}
+    [Documentation]    MM 12.04.2018
+    [Tags]    General, Helper, ReturnFilter_PopUp
+    ${chkbox_id}=    Get Open CheckboxID    ${locator}
+    Run Keyword And Return    Get Selection of CheckBox    ${chkbox_id}
+
+Check Use Open Selection In ReturnFilter PopUp
+    [Arguments]    ${locator}    ${select}
+    [Documentation]    MM 12.04.2018
+    [Tags]    General, Helper, ReturnFilter_PopUp
+    ${chkbox_id}=    Get Open CheckboxID    ${locator}
+    Check Selection of CheckBox    ${chkbox_id}    ${select}
+
+Set Use Cleared In ReturnFilter PopUp
+    [Arguments]    ${locator}    ${select}
+    [Documentation]    MM 12.04.2018
+    [Tags]    General, Helper, ReturnFilter_PopUp
+    ${chkbox_id}=    Get Cleared CheckboxID    ${locator}
+    Set Selection of CheckBox    ${chkbox_id}    ${select}
+
+Get Use Cleared In ReturnFilter PopUp
+    [Arguments]    ${locator}
+    [Documentation]    MM 12.04.2018
+    [Tags]    General, Helper, ReturnFilter_PopUp
+    ${chkbox_id}=    Get Cleared CheckboxID    ${locator}
+    Run Keyword And Return    Get Selection of CheckBox    ${chkbox_id}
+
+Check Use Cleared Selection In ReturnFilter PopUp
+    [Arguments]    ${locator}    ${select}
+    [Documentation]    MM 12.04.2018
+    [Tags]    General, Helper, ReturnFilter_PopUp
+    ${chkbox_id}=    Get Cleared CheckboxID    ${locator}
+    Check Selection of CheckBox    ${chkbox_id}    ${select}
+
+Set Use Billed In ReturnFilter PopUp
+    [Arguments]    ${locator}    ${select}
+    [Documentation]    MM 12.04.2018
+    [Tags]    General, Helper, ReturnFilter_PopUp
+    ${chkbox_id}=    Get Billed CheckboxID    ${locator}
+    Set Selection of CheckBox    ${chkbox_id}    ${select}
+
+Get Use Billed In ReturnFilter PopUp
+    [Arguments]    ${locator}
+    [Documentation]    MM 12.04.2018
+    [Tags]    General, Helper, ReturnFilter_PopUp
+    ${chkbox_id}=    Get Billed CheckboxID    ${locator}
+    Run Keyword And Return    Get Selection of CheckBox    ${chkbox_id}
+
+Check Use Billed Selection In ReturnFilter PopUp
+    [Arguments]    ${locator}    ${select}
+    [Documentation]    MM 12.04.2018
+    [Tags]    General, Helper, ReturnFilter_PopUp
+    ${chkbox_id}=    Get Billed CheckboxID    ${locator}
+    Check Selection of CheckBox    ${chkbox_id}    ${select}
+
+Set Use Closed In ReturnFilter PopUp
+    [Arguments]    ${locator}    ${select}
+    [Documentation]    MM 12.04.2018
+    [Tags]    General, Helper, ReturnFilter_PopUp
+    ${chkbox_id}=    Get Closed CheckboxID    ${locator}
+    Set Selection of CheckBox    ${chkbox_id}    ${select}
+
+Get Use Closed In ReturnFilter PopUp
+    [Arguments]    ${locator}
+    [Documentation]    MM 12.04.2018
+    [Tags]    General, Helper, ReturnFilter_PopUp
+    ${chkbox_id}=    Get Closed CheckboxID    ${locator}
+    Run Keyword And Return    Get Selection of CheckBox    ${chkbox_id}
+
+Check Use Closed Selection In ReturnFilter PopUp
+    [Arguments]    ${locator}    ${select}
+    [Documentation]    MM 12.04.2018
+    [Tags]    General, Helper, ReturnFilter_PopUp
+    ${chkbox_id}=    Get Closed CheckboxID    ${locator}
+    Check Selection of CheckBox    ${chkbox_id}    ${select}
+
+Get FilterID
+    [Arguments]    ${locator}
+    [Documentation]    MM 13.04.2018
+    ${id}=    Set Variable    ${locator}/filters
+    [Return]    ${id}
+
+Get ResetFilterID
+    [Arguments]    ${locator}
+    [Documentation]    MM 13.04.2018
+    [Tags]    ReturnFilter_PopUp
+    Run Keyword And Return    Page.Get ElementID In PopOver    ${locator}    ${RETURN_FILTER_POPUP_CLASS}    reset_filter
+
+Get ApplyFilterID
+    [Arguments]    ${locator}
+    [Documentation]    MM 13.04.2018
+    [Tags]    ReturnFilter_PopUp
+    Run Keyword And Return    Page.Get ElementID In PopOver    ${locator}    ${RETURN_FILTER_POPUP_CLASS}    apply_filter
+
+Get ReturnNo CheckboxID
+    [Arguments]    ${locator}
+    [Documentation]    MM 12.04.2018
+    [Tags]    ReturnFilter_PopUp
+    Run Keyword And Return    Page.Get ElementID In PopOver    ${locator}    ${RETURN_FILTER_POPUP_CLASS}    chk_return_no
+
+Get ReturnNoID
+    [Arguments]    ${locator}
+    [Documentation]    MM 12.04.2018
+    [Tags]    ReturnFilter_PopUp
+    Run Keyword And Return    Page.Get ElementID In PopOver    ${locator}    ${RETURN_FILTER_POPUP_CLASS}    txt_return_no
+
+Get ClientNo CheckboxID
+    [Arguments]    ${locator}
+    [Documentation]    MM 12.04.2018
+    [Tags]    ReturnFilter_PopUp
+    Run Keyword And Return    Page.Get ElementID In PopOver    ${locator}    ${RETURN_FILTER_POPUP_CLASS}    chk_client_no
+
+Get ClientNoID
+    [Arguments]    ${locator}
+    [Documentation]    MM 12.04.2018
+    [Tags]    ReturnFilter_PopUp
+    Run Keyword And Return    Page.Get ElementID In PopOver    ${locator}    ${RETURN_FILTER_POPUP_CLASS}    txt_client_no
+
+Get OrderNo CheckboxID
+    [Arguments]    ${locator}
+    [Documentation]    MM 12.04.2018
+    [Tags]    ReturnFilter_PopUp
+    Run Keyword And Return    Page.Get ElementID In PopOver    ${locator}    ${RETURN_FILTER_POPUP_CLASS}    chk_order_no
+
+Get OrderNoID
+    [Arguments]    ${locator}
+    [Documentation]    MM 12.04.2018
+    [Tags]    ReturnFilter_PopUp
+    Run Keyword And Return    Page.Get ElementID In PopOver    ${locator}    ${RETURN_FILTER_POPUP_CLASS}    txt_order_no
+
+Get DeliveryNo CheckboxID
+    [Arguments]    ${locator}
+    [Documentation]    MM 12.04.2018
+    [Tags]    ReturnFilter_PopUp
+    Run Keyword And Return    Page.Get ElementID In PopOver    ${locator}    ${RETURN_FILTER_POPUP_CLASS}    chk_delivery_no
+
+Get DeliveryNoID
+    [Arguments]    ${locator}
+    [Documentation]    MM 12.04.2018
+    [Tags]    ReturnFilter_PopUp
+    Run Keyword And Return    Page.Get ElementID In PopOver    ${locator}    ${RETURN_FILTER_POPUP_CLASS}    txt_delivery_no
+
+Get CreatedBy CheckboxID
+    [Arguments]    ${locator}
+    [Documentation]    MM 12.04.2018
+    [Tags]    ReturnFilter_PopUp
+    Run Keyword And Return    Page.Get ElementID In PopOver    ${locator}    ${RETURN_FILTER_POPUP_CLASS}    chk_createdby
+
+Get CreatedByID
+    [Arguments]    ${locator}
+    [Documentation]    MM 12.04.2018
+    [Tags]    ReturnFilter_PopUp
+    Run Keyword And Return    Page.Get ElementID In PopOver    ${locator}    ${RETURN_FILTER_POPUP_CLASS}    txt_createdby
+
+Get CreatedOn CheckboxID
+    [Arguments]    ${locator}
+    [Documentation]    MM 12.04.2018
+    [Tags]    ReturnFilter_PopUp
+    Run Keyword And Return    Page.Get ElementID In PopOver    ${locator}    ${RETURN_FILTER_POPUP_CLASS}    chk_createdon
+
+Get CreatedOnFrom DateID
+    [Arguments]    ${locator}
+    [Documentation]    MM 12.04.2018
+    [Tags]    ReturnFilter_PopUp
+    Run Keyword And Return    Page.Get ElementID In PopOver    ${locator}    ${RETURN_FILTER_POPUP_CLASS}    txt_createdon_from
+
+Get CreatedOnTo DateID
+    [Arguments]    ${locator}
+    [Documentation]    MM 12.04.2018
+    [Tags]    ReturnFilter_PopUp
+    Run Keyword And Return    Page.Get ElementID In PopOver    ${locator}    ${RETURN_FILTER_POPUP_CLASS}    txt_createdon_to
+
+Get Overdue CheckboxID
+    [Arguments]    ${locator}
+    [Documentation]    MM 12.04.2018
+    [Tags]    ReturnFilter_PopUp
+    Run Keyword And Return    Page.Get ElementID In PopOver    ${locator}    ${RETURN_FILTER_POPUP_CLASS}    chk_overdue
+
+Get Orconnection CheckboxID
+    [Arguments]    ${locator}
+    [Documentation]    MM 12.04.2018
+    [Tags]    ReturnFilter_PopUp
+    Run Keyword And Return    Page.Get ElementID In PopOver    ${locator}    ${RETURN_FILTER_POPUP_CLASS}    chk_orconnection
+
+Get Open CheckboxID
+    [Arguments]    ${locator}
+    [Documentation]    MM 12.04.2018
+    [Tags]    ReturnFilter_PopUp
+    Run Keyword And Return    Page.Get ElementID In PopOver    ${locator}    ${RETURN_FILTER_POPUP_CLASS}    chk_open
+
+Get Cleared CheckboxID
+    [Arguments]    ${locator}
+    [Documentation]    MM 12.04.2018
+    [Tags]    ReturnFilter_PopUp
+    Run Keyword And Return    Page.Get ElementID In PopOver    ${locator}    ${RETURN_FILTER_POPUP_CLASS}    chk_cleared
+
+Get Billed CheckboxID
+    [Arguments]    ${locator}
+    [Documentation]    MM 12.04.2018
+    [Tags]    ReturnFilter_PopUp
+    Run Keyword And Return    Page.Get ElementID In PopOver    ${locator}    ${RETURN_FILTER_POPUP_CLASS}    chk_billed
+
+Get Closed CheckboxID
+    [Arguments]    ${locator}
+    [Documentation]    MM 12.04.2018
+    [Tags]    ReturnFilter_PopUp
+    Run Keyword And Return    Page.Get ElementID In PopOver    ${locator}    ${RETURN_FILTER_POPUP_CLASS}    chk_closed

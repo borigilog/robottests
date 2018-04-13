@@ -3,22 +3,50 @@ Variables         Message_PopUp.yaml
 Resource          Language_Selector.txt
 
 *** Variables ***
-${MESSAGE_POPUP}    /$flow_main/$popover0
+# ~~~~~~~ class name
+${MESSAGE_POPUP_CLASS}    screen look_rlx_screen_alert
 
 *** Keywords ***
 Check Error Message PopUp
-    [Arguments]    &{dic_message}
+    [Arguments]    ${locator}    &{dic_message}
     ${langunge_code}=    Get selected LanguageCode
-    Run Keyword And Continue On Failure    Element Text Should Be    ${MESSAGE_POPUP}/$title    &{Dic_ErrorTitle}[${langunge_code}]
-    Run Keyword And Continue On Failure    Element Text Should Be    ${MESSAGE_POPUP}/msg    &{dic_message}[${langunge_code}]
-    Run Keyword And Continue On Failure    Element Text Should Be    ${MESSAGE_POPUP}/btn    OK
+    ${btn_id}=    Get Message OkID    ${locator}
+    ${title_id}=    Get Message TitleID    ${locator}
+    ${msg_id}=    Get Message MsgID    ${locator}
+    Run Keyword And Continue On Failure    Element Text Should Be    ${title_id}    &{Dic_ErrorTitle}[${langunge_code}]
+    Run Keyword And Continue On Failure    Element Text Should Be    ${msg_id}    &{dic_message}[${langunge_code}]
+    Run Keyword And Continue On Failure    Element Text Should Be    ${btn_id}    OK
 
 Click Close Button
-    Click Element And Wait    ${MESSAGE_POPUP}/$close
+    [Arguments]    ${locator}
+    ${button_id}=    Get Message CloseID    ${locator}
+    Click Element And Wait    ${button_id}
 
 Click OK Button
-    Click Element    ${MESSAGE_POPUP}/btn
+    [Arguments]    ${locator}
+    ${button_id}=    Get Message OkID    ${locator}
+    Click Element    ${button_id}
 
 Check Message PopUp Is Visible
-    [Arguments]    ${visible}
-    Check PageArea is visible    ${MESSAGE_POPUP}    screen look_rlx_screen_alert    visible=${visible}
+    [Arguments]    ${locator}    ${visible}
+    Page.Check PopOver Is Visible    ${locator}    ${MESSAGE_POPUP_CLASS}    visible=${visible}
+
+Get Message CloseID
+    [Arguments]    ${locator}
+    [Documentation]    MM 12.04.2018
+    Run Keyword And Return    Page.Get ElementID In PopOver    ${locator}    ${MESSAGE_POPUP_CLASS}    $close
+
+Get Message OkID
+    [Arguments]    ${locator}
+    [Documentation]    MM 12.04.2018
+    Run Keyword And Return    Page.Get ElementID In PopOver    ${locator}    ${MESSAGE_POPUP_CLASS}    btn
+
+Get Message TitleID
+    [Arguments]    ${locator}
+    [Documentation]    MM 12.04.2018
+    Run Keyword And Return    Page.Get ElementID In PopOver    ${locator}    ${MESSAGE_POPUP_CLASS}    $title
+
+Get Message MsgID
+    [Arguments]    ${locator}
+    [Documentation]    MM 12.04.2018
+    Run Keyword And Return    Page.Get ElementID In PopOver    ${locator}    ${MESSAGE_POPUP_CLASS}    msg
