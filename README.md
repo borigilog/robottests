@@ -1,6 +1,6 @@
 <!-- TOC depthFrom:1 depthTo:6 withLinks:1 updateOnSave:1 orderedList:0 -->
 
-- [Struktur](#robottest-struktur)
+- [Struktur](#struktur)
 	- [Libs](#libs)
 	- [SQL](#sql)
 	- [Settings](#settings)
