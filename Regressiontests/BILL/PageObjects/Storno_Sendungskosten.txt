@@ -1,0 +1,44 @@
+*** Settings ***
+Library           Selenium2Library
+
+*** Variables ***
+# texts
+${BILL_NO_HEADER_TEXT_DE}    Rechnungs-Nr.
+${BILL_NAME_HEADER_TEXT_DE}    Rechnungsbezeichnung
+${STATUS_HEADER_TEXT_DE}    Status
+${CREATION_DATE_HEADER_TEXT_DE}    Erstellt am
+${POSITIONS_HEADER_TEXT_DE}    Positionen
+${STORNO_SENDUNGSKOSTEN_HEADER_DE}    Faktura / Einzelbestellungs-Storno
+${STORNO_PAGE_HEADER_DE}    Faktura / Einzelbestellungs-Storno
+${BILL_STORNO_HEADER_DELIVERY_DE}    Lieferschein
+${BILL_STORNO_HEADER_PROCESS_DE}    Vorgang
+${BILL_STORNO_HEADER_ERROR_DE}    Fehlgeschlagen
+${BILL_STORNO_HEADER_RECEIVER_UNIT_DE}    Empfänger-Einheit
+${BILL_STORNO_HEADER_RECEIVER_DE}    Empfänger
+${MENUE_TEXT_BILLING_SENDUNGSKOSTEN_DE}    Sendungskosten
+# buttons
+${btnSelect}      //*[@id="/$flow_main/$flow_content/select"]
+${btnAbort}       //button[@id="/$flow_main/$flow_content/abort"]
+${btnBack}        //*[@id="/$flow_main/$flow_content/back"]
+
+*** Keywords ***
+Get Entry From Bill Table
+    [Arguments]    ${BillNumber}    ${maxLines}=100
+    [Documentation]    Ermittelt den Tabellen Index für die angegebene Rechnungsnummer
+    ...    Parameter:
+    ...    \ - Rechnungsnummer
+    ...    \ - max. Anzahl an Zeilen in der Tabelle, die geprüft werden (default = 100)
+    ...
+    ...    Ersteller: O. Baeker
+    ...
+    ...    erstellt am: 13.03.2018
+    Sleep    2s
+    : FOR    ${Index}    IN RANGE    0    ${maxLines}
+    \    ${Result}    ${msg}=    Run Keyword And Ignore Error    Click Element    //*[@id="/$flow_main/$flow_content/invoices/list_invoices/${Index}/$invoiceNumber"]
+    \    Run Keyword If    '${Result}'=='FAIL'    Exit For Loop    # kein weiterer Eintrag in der Tabelle
+    \    ${BillNumberTable}=    Get Text    //*[@id="/$flow_main/$flow_content/invoices/list_invoices/${Index}/$invoiceNumber"]
+    \    ${BillNumberTable}=    Convert To String    ${BillNumberTable}
+    \    ${Result}    ${msg}=    Run Keyword And Ignore Error    Should be Equal    ${BillNumberTable}    ${BillNumber}
+    \    ${LineIndex}=    Set Variable If    '${Result}'=='PASS'    ${Index}
+    \    Run Keyword If    '${BillNumberTable}'=='${BillNumber}'    Exit For Loop
+    [Return]    ${LineIndex}

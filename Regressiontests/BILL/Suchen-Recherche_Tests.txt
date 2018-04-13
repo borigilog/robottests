@@ -1,21 +1,11 @@
 *** Settings ***
 Suite Setup       Prepare For Bill Search Tests
 Suite Teardown    Close Browser
+Force Tags        Bill
 Library           Selenium2Library    run_on_failure=Nothing
 Resource          ../General_PageObjects/Message_PopUp.txt
 Resource          PageObjects/Rechnungen_Suchen.txt
 Resource          PageObjects/Menu.txt
-
-*** Variables ***
-${InputBillNumber}    //input[@id="/$flow_main/$flow_content/billNr"]    # Input field for Bill number
-${InputBillName}    //input[@id="/$flow_main/$flow_content/billName"]    # Input field for bill name
-${InputStartDate}    //input[@id="/$flow_main/$flow_content/startdate/date"]    # Input field for start date for Search
-${InputEndDate}    //input[@id="/$flow_main/$flow_content/enddate/date"]    # Input field for end date for Search
-${PickerEndDate}    //*[@id="/$flow_main/$flow_content/enddate/pick"]    # date picker for end date
-${PickerStartDate}    //*[@id="/$flow_main/$flow_content/startdate/pick"]    # Date picker for start date
-${SelectDeletedBills}    //input[@id="/$flow_main/$flow_content/showDeletedBills"]    # Selector to include deleted bills
-${btnStartDay}    //button[@id="/$flow_main/$flow_content/startdate/$popover0/calendar/Daten"]
-${btnEndDay}      //button[@id="/$flow_main/$flow_content/enddate/$popover0/calendar/Daten"]
 
 *** Test Cases ***
 Verify initial GUI Settings for Bill Search
@@ -67,7 +57,7 @@ Verify PopOver Button Position
     Element Should Be Visible    ${btnPopOverOk}
     ${Result}    ${msg}=    Run Keyword And Ignore Error    Element Text Should Be    ${btnPopOverOk}    Suche ausführen!
     Click Button    ${btnPopOverOk}    # Definition ist ausgelegt auf falsche Position des "Suche ausführen!" Buttons, muss dann angepasst werden, wenn korrigiert
-    Run Keyword If    '${Status}'=='FAIL'    Fail    Button Text Für Suche ist fehlerhaft, Buttons scheinen vertauscht
+    Run Keyword If    '${Result}'=='FAIL'    Fail    Button Text Für Suche ist fehlerhaft, Buttons scheinen vertauscht
     [Teardown]    Abort And Reset To Search Start
 
 Verify GUI For Search Results
@@ -303,57 +293,3 @@ Check Proforma Rechnung Marker
     \    ${MarkerSetFound}=    Evaluate    ${MarkerSetFound}+1
     ${VerificationResult}    Set Variable If    '${MarkerSetFound}'=='${NoOfProformaBills}'    Ok    Error
     [Return]    ${VerificationResult}
-
-Skip Empty Entries
-    [Arguments]    ${Row}    ${startOrEnd}
-    : FOR    ${Index1}    IN RANGE    0    6
-    \    Run Keyword If    '${Row}'=='1'    Exit For Loop
-    \    Run Keyword If    '${Row}'=='2'    Exit For Loop
-    \    Run Keyword If    '${Row}'=='3'    Exit For Loop
-    \    Run Keyword If    '${Row}'=='4'    Exit For Loop
-    \    Run Keyword If    '${Row}'=='5'    Exit For Loop
-    \    ${xPath}=    Set Variable If    '${startOrEnd}'=='start'    //tr[@id="/$flow_main/$flow_content/startdate/$popover0/calendar/${Row}"]/td[@data-colindex='${Index1}']/button    //tr[@id="/$flow_main/$flow_content/enddate/$popover0/calendar/${Row}"]/td[@data-colindex='${Index1}']/button
-    \    ${Result}    ${msg}=    Run Keyword And Ignore Error    Element Text Should Not Be    ${xPath}    ${EMPTY}
-    \    Run Keyword If    '${Result}'=='PASS'    Exit For Loop
-    [Return]    ${Index1}
-
-Select Datepicker Date
-    [Arguments]    ${dateElem}    ${expectedMonthYear}    ${Day}    ${btnStartDay}    ${btnEndDay}
-    [Documentation]    Select given day from datepicker
-    [Timeout]
-    Click Element    ${dateElem}
-    ${monthyear}=    Get Datepicker MonthYear
-    : FOR    ${Index}    IN RANGE    1    36
-    \    Run Keyword If    '${monthyear}' == '${expectedMonthYear}'    Exit For Loop
-    \    Click Element    //div[contains(@id,'/$popover0/prev')]
-    \    ${monthyear}=    Get Datepicker MonthYear
-    ${Row}=    Evaluate    ${Day}/7
-    : FOR    ${LineIndex}    IN RANGE    $w}    5
-    \    ${DayFound}=    Scan Datepicker Row For Day    ${LineIndex}    ${Day}    ${dateElem}    ${btnStartDay}
-    \    ...    ${btnEndDay}
-    \    Run Keyword If    '${DayFound}'=='PASS'    Exit For Loop
-
-Get Datepicker MonthYear
-    [Documentation]    Return current month + year from datepicker
-    ${monthyear}=    Get Text    //div[contains(@id,'/$popover0/month')]
-    [Return]    ${monthyear}
-
-Scan Datepicker Row For Day
-    [Arguments]    ${Row}    ${DayToFind}    ${dayElem}    ${btnStartDay}    ${btnEndDay}
-    [Timeout]
-    ${sep}=    Set Variable    /
-    ${xPath}=    Split String    ${dayElem}    ${sep}
-    ${Result}    ${msg}=    Run Keyword And Ignore Error    List Should Contain Value    ${xPath}    startdate
-    ${btnXPath}=    Set Variable If    '${Result}'=='PASS'    ${btnStartDay}    ${btnEndDay}
-    ${startOrEnd}=    Set Variable If    '${Result}'=='PASS'    start    end
-    ${xPath}=    Catenate    SEPARATOR=    ${btnXPath}    /div
-    ${xPath}=    Set Variable    ${btnXPath}
-    ${Index1}=    Skip Empty Entries    ${Row}    ${startOrEnd}
-    : FOR    ${Index}    IN RANGE    ${Index1}    6
-    \    ${Index3}=    Catenate    SEPARATOR=    f    ${Index}
-    \    ${xPath1}=    Replace String    ${xPath}    /Daten    /${Row}/${Index3}
-    \    ${Result}    ${msg}=    Run Keyword And Ignore Error    Element Text Should Be    ${xPath1}    ${DayToFind}
-    \    Exit For Loop If    '${Result}'=='PASS'
-    ${btnXPath}=    Replace String    ${btnXPath}    /Daten    /${Row}/${Index3}
-    Run Keyword If    '${Result}'=='PASS'    Click Button    ${btnXPath}
-    [Return]    ${Result}

@@ -1,10 +1,12 @@
 *** Settings ***
 Library           Selenium2Library
+Resource          ../../General_PageObjects/Page.txt
 
 *** Variables ***
 ${btnSearch}      //button[@id="/$flow_main/$flow_content/search"]    # Search Button
 ${btnAbort}       //button[@id="/$flow_main/$flow_content/abort"]
 ${btnBack}        //*[@id="/$flow_main/$flow_content/back"]
+${btnChoose}      //button[contains(@id,'/btn_choose')]
 ${btnStartDay}    //button[@id="/$flow_main/$flow_content/startdate/$popover0/calendar/Daten"]
 ${btnEndDay}      //button[@id="/$flow_main/$flow_content/enddate/$popover0/calendar/Daten"]
 ${btnPopOverOk}    //button[@id="/$flow_main/$popover0/btn1"]
@@ -31,6 +33,10 @@ ${STATUS_GELÖSCHT}    Gelöscht
 ${STATUS_IN_BEARBEITUNG}    In Bearbeitung
 ${STATUS_VERÖFFENTLICHT}    Veröffentlicht
 ${STATUS_VERARBEITET}    Verarbeitet
+${MENUE_TEXT_SEARCH_BILLS_DE}    Suchen
+${BILL_SEARCH_HEADER_DE}    Recherche
+${ElementMandatorChange}    //*[@id="/$flow_main/menu_bottom/switchmandator"]
+${MenueBillSearch}    //*[@id="/$flow_main/main_menu/search"]
 
 *** Keywords ***
 Select Checkbox Include ProformaBills
@@ -160,3 +166,57 @@ Set Bill Name For Search
     [Arguments]    ${BillName}
     Click Element    ${InputBillName}
     Input Text    ${InputBillName}    ${BillName}
+
+Skip Empty Entries
+    [Arguments]    ${Row}    ${startOrEnd}
+    : FOR    ${Index1}    IN RANGE    0    6
+    \    Run Keyword If    '${Row}'=='1'    Exit For Loop
+    \    Run Keyword If    '${Row}'=='2'    Exit For Loop
+    \    Run Keyword If    '${Row}'=='3'    Exit For Loop
+    \    Run Keyword If    '${Row}'=='4'    Exit For Loop
+    \    Run Keyword If    '${Row}'=='5'    Exit For Loop
+    \    ${xPath}=    Set Variable If    '${startOrEnd}'=='start'    //tr[@id="/$flow_main/$flow_content/startdate/$popover0/calendar/${Row}"]/td[@data-colindex='${Index1}']/button    //tr[@id="/$flow_main/$flow_content/enddate/$popover0/calendar/${Row}"]/td[@data-colindex='${Index1}']/button
+    \    ${Result}    ${msg}=    Run Keyword And Ignore Error    Element Text Should Not Be    ${xPath}    ${EMPTY}
+    \    Run Keyword If    '${Result}'=='PASS'    Exit For Loop
+    [Return]    ${Index1}
+
+Get Number of Bill Search Results
+    [Arguments]    ${Status}=None
+    [Documentation]    Key durchsucht die Suchergebnisse nach Rechnungen in einem bestimmten Status und liefert als Ergebnis die Anzahl der gefudenen Rechnungen in diesem Status zurück
+    ...
+    ...    Ersteller: O. Baeker
+    ...
+    ...    IN
+    ...    - Status - Status in dem Rechnungen gezählt werden sollen
+    ...
+    ...    OUT
+    ...    - Anzahl der gefunden Rehcnungen in idesem Status
+    ...
+    ...    erstellt am: 04.04.2018
+    ${NoOfResults}=    Set Variable    0
+    : FOR    ${Index}    IN RANGE    0    100
+    \    ${Result}    ${msg}=    Run Keyword And Ignore Error    Click Element    //*[@id="/$flow_main/$flow_content/invoice_list/${Index}/$invoiceNumber"]
+    \    Run Keyword If    '${Result}'=='FAIL'    Exit For Loop
+    \    ${StatusRead}=    Get Text    //*[@id="/$flow_main/$flow_content/invoice_list/${Index}/$status"]
+    \    Run Keyword If    '${StatusRead}'!='${Status}'    Run Keyword If    '${Status}'!='None'    Continue For Loop
+    \    ${NoOfResults}    Evaluate    ${NoOfResults}+1
+    [Return]    ${NoOfResults}    # Suchergebnisse entsprechend dem angegebenen Status der Rechnungen
+
+Clear All Search Options
+    [Documentation]    Keyword clears all Search Options, Errors will be caught in case of a smaller number of Options on a particular page
+    ...
+    ...    Ersteller: O. Baeker
+    ...
+    ...    erstellt am: 04.04.2018
+    ${Result}    ${msg}=    Run Keyword And Ignore Error    Unselect Checkbox    ${OptionIncludeSubMandator}
+    ${Result}    ${msg}=    Run Keyword And Ignore Error    Unselect Checkbox    ${OptionIncludeDeletedBills}
+    ${Result}    ${msg}=    Run Keyword And Ignore Error    Unselect Checkbox    ${OptionIncludePublishedBills}
+    ${Result}    ${msg}=    Run Keyword And Ignore Error    Unselect Checkbox    ${OptionIncludeProformaBills}
+    ${Result}    ${msg}=    Run Keyword And Ignore Error    Unselect Checkbox    ${OptionIncludeProcessedBills}
+
+Select Mandator
+    [Arguments]    ${Mandator}
+    Wait Until Element Is Visible    //div[contains(text(), 'Mandantenauswahl')]    5 sec
+    Click Element    //div[contains(text(), '${Mandator}')]
+    Comment    Click Element    //button//div[contains(text(), 'Mandanten auswählen')]
+    Click Button    ${btnChoose}

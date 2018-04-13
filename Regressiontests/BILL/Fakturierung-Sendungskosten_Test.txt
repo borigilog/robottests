@@ -1,10 +1,10 @@
 *** Settings ***
-Resource          ../../UserKeywords/Common_Resources.html
-Resource          ../../UserKeywords/BILL_Resources.html
+Force Tags        Bill
+Resource          PageObjects/Menu.txt
 
 *** Test Cases ***
 Invoice Delivery Costs
-    [Setup]    Prepare For Billing Shipment Costs Test    Hauptmandant
+    [Setup]    Select Sendungskosten
     Wait Until Keyword Succeeds    3    1 sec    Click Element    //input[@id="/$flow_main/$flow_content/allWarehouses"]
     Click Button    ${btnNext}
     Wait Until Keyword Succeeds    3    1 sec    Element Should be Visible    //input[@id="/$flow_main/$flow_content/SubOrinatedUnits"]

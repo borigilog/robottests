@@ -1,0 +1,52 @@
+*** Settings ***
+Library           Selenium2Library
+
+*** Variables ***
+${btnNext}        //button[@id="/$flow_main/$flow_content/next"]
+${btnBilling}     //button[@id="/$flow_main/$flow_content/billing"]
+${btnInvoice}     //button[@id="/$flow_main/$flow_content/invoice"]
+${btnSelect}      //*[@id="/$flow_main/$flow_content/select"]
+
+*** Keywords ***
+Get Entry From Bill Table
+    [Arguments]    ${BillNumber}    ${maxLines}=100
+    [Documentation]    Ermittelt den Tabellen Index für die angegebene Rechnungsnummer
+    ...    Parameter:
+    ...    \ - Rechnungsnummer
+    ...    \ - max. Anzahl an Zeilen in der Tabelle, die geprüft werden (default = 100)
+    ...
+    ...    Ersteller: O. Baeker
+    ...
+    ...    erstellt am: 13.03.2018
+    Sleep    2s
+    : FOR    ${Index}    IN RANGE    0    ${maxLines}
+    \    ${Result}    ${msg}=    Run Keyword And Ignore Error    Click Element    //*[@id="/$flow_main/$flow_content/invoices/list_invoices/${Index}/$invoiceNumber"]
+    \    Run Keyword If    '${Result}'=='FAIL'    Exit For Loop    # kein weiterer Eintrag in der Tabelle
+    \    ${BillNumberTable}=    Get Text    //*[@id="/$flow_main/$flow_content/invoices/list_invoices/${Index}/$invoiceNumber"]
+    \    ${BillNumberTable}=    Convert To String    ${BillNumberTable}
+    \    ${Result}    ${msg}=    Run Keyword And Ignore Error    Should be Equal    ${BillNumberTable}    ${BillNumber}
+    \    ${LineIndex}=    Set Variable If    '${Result}'=='PASS'    ${Index}
+    \    Run Keyword If    '${BillNumberTable}'=='${BillNumber}'    Exit For Loop
+    [Return]    ${LineIndex}
+
+Get Entry From Delivery Table
+    [Arguments]    ${DeliveryNumber}    ${MaxLines}=100
+    [Documentation]    Gibt die Zeilennummer für den Eintrag in der Tabelle zurück, die die übergebene Sendungsnummer enthält oder 'None', wenn diese nicht gefunden wurde
+    ...
+    ...    Ersteller: O. Baeker
+    ...
+    ...    Parameter:
+    ...    - Sendungsnummer
+    ...    - max. Anzahl von Zeilen, die berücksichtigt werden sollen, default = 100
+    ...
+    ...    erstellt: 27.03.2018
+    Sleep    2s
+    : FOR    ${Index}    IN RANGE    0    ${MaxLines}
+    \    ${Result}    ${msg}=    Run Keyword And Ignore Error    Click Element    //*[@id="/$flow_main/$flow_content/list_deliveries_from_shipments/${Index}/$shipment_no"]
+    \    Run Keyword If    '${Result}'=='FAIL'    Exit For Loop    # kein weiterer Eintrag in der Tabelle
+    \    ${DeliveryNumberTable}=    Get Text    //*[@id="/$flow_main/$flow_content/list_deliveries_from_shipments/${Index}/$shipment_no"]
+    \    ${DeliveryNumberTable}=    Convert To String    ${DeliveryNumberTable}
+    \    ${Result}    ${msg}=    Run Keyword And Ignore Error    Should be Equal    ${DeliveryNumberTable}    ${DeliveryNumber}
+    \    ${LineIndex}=    Set Variable If    '${Result}'=='PASS'    ${Index}
+    \    Run Keyword If    '${DeliveryNumberTable}'=='${DeliveryNumber}'    Exit For Loop
+    [Return]    ${LineIndex}

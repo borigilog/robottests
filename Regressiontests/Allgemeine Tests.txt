@@ -8,19 +8,19 @@ Resource          General_PageObjects/Menu_Common.txt
 *** Test Cases ***
 Login to new Website
     Login
-    #[Teardown]    Close Browser
+    [Teardown]    Close Browser
 
 Check Mandators
     Login
     Check available Mandators    Hauptmandant
     Check available Mandators    Submandant1
     Check available Mandators    Submandant2
-    Select Mandator    Hauptmandant
+    Select Default Mandator    Hauptmandant
     [Teardown]    Close Browser
 
 Check OAC Main Page
-    Login to RLX Website
-    Select Mandator    Hauptmandant
+    Login
+    Select Default Mandator    Hauptmandant
     Wait Until Page Contains Element    //select[contains(@id, 'modules')]
     Element Text Should Be    //select[contains(@id, 'modules')]/option[@value=0]    OAC
     Page Should Contain Element    //select[contains(@id, 'modules')]/option[contains(text(), 'OAC')]

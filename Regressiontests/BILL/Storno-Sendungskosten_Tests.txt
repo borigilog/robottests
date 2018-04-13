@@ -1,6 +1,13 @@
 *** Settings ***
-Resource          ../../UserKeywords/Common_Resources.html
-Resource          ../../UserKeywords/BILL_Resources.html
+Suite Setup       Select Storno Sendungskosten    login=${TRUE}
+Suite Teardown    Close Browser
+Test Setup        Select Storno Sendungskosten
+Force Tags        Bill
+Library           Selenium2Library
+Library           Collections
+Library           robot.libraries.String
+Resource          PageObjects/Storno_Sendungskosten.txt
+Resource          PageObjects/Menu.txt
 
 *** Variables ***
 ${StornoOngoing}    Stornierungen werden durchgeführt ...
@@ -12,7 +19,6 @@ Check GUI Elements Storno-Sendungskosten - 1
     ...    Ersteller: O. Baeker
     ...
     ...    erstaellt am: 13.03.2018
-    [Setup]    Prepare For Storno Sendungskosten Test    Hauptmandant
     Element Should be Visible    //*[@id="/$flow_main/$flow_content/invoices/list_invoices/$col_invoiceNumber"]
     Element Text Should Be    //*[@id="/$flow_main/$flow_content/invoices/list_invoices/$col_invoiceNumber"]    ${BILL_NO_HEADER_TEXT_DE}
     Element Should be Visible    //*[@id="/$flow_main/$flow_content/invoices/list_invoices/$col_description"]
@@ -28,10 +34,8 @@ Check GUI Elements Storno-Sendungskosten - 1
     ${Result}    ${msg}=    Run Keyword And Ignore Error    Click Button    ${btnSelect}
     Run Keyword If    '${Result}'!='FAIL'    Fail    Button sollte inaktiv sein, wenn keine Rechnung ausgewählt worden ist
     Click Button    ${btnAbort}
-    [Teardown]    Close Browser
 
 Verify Select BILL For Storno And GUI For Storno
-    [Setup]    Prepare For Storno Sendungskosten Test    Hauptmandant
     ${Line}=    Get Entry From Bill Table    B00000116
     Run Keyword If    '${Line}'=='${Empty}'    Fail    gesuchte Rechnung wurde nicht gefunden
     ${Number}=    Get Text    //*[@id="/$flow_main/$flow_content/invoices/list_invoices/${Line}/$invoiceNumber"]
@@ -48,10 +52,8 @@ Verify Select BILL For Storno And GUI For Storno
     Wait Until Keyword Succeeds    3    1 sec    Element Should Be Visible    //div[contains(text(),'${STORNO_SENDUNGSKOSTEN_HEADER_DE}')]
     Click Button    ${btnSelect}
     Wait Until Keyword Succeeds    3    1 sec    Page Should Contain    ${Header}
-    [Teardown]    Close Browser
 
 Verify GUI Elements On Storno Page
-    [Setup]    Prepare For Storno Sendungskosten Test    Hauptmandant
     ${Line}=    Get Entry From Bill Table    B00000116
     Run Keyword If    '${Line}'=='${Empty}'    Fail    gesuchte Rechnung wurde nicht gefunden
     ${Number}=    Get Text    //*[@id="/$flow_main/$flow_content/invoices/list_invoices/${Line}/$invoiceNumber"]
@@ -86,10 +88,8 @@ Verify GUI Elements On Storno Page
     List Should Contain Value    ${TextList}    ${Wert1}
     ${BILL_Storno}=    Capture Page Screenshot
     Click Button    ${btnBack}
-    [Teardown]    Close Browser
 
 Storno Delivery Costs
-    [Setup]    Prepare For Storno Sendungskosten Test    Hauptmandant
     ${Line}=    Get Entry From Bill Table    B00000116
     Run Keyword If    '${Line}'=='${Empty}'    Fail    gesuchte Rechnung wurde nicht gefunden
     ${Number}=    Get Text    //*[@id="/$flow_main/$flow_content/invoices/list_invoices/${Line}/$invoiceNumber"]
@@ -135,4 +135,3 @@ Storno Delivery Costs
     ${Result}    ${msg}=    Run Keyword And Ignore Error    Click Element    //*[@id="/$flow_main/$flow_content/list_invoices_items/0/$delivery_note"]
     Run Keyword If    '${Result}'!='FAIL'    Fail    Sendungskosten für Lieferung wurden nicht korrekt storniert
     Click Button    ${btnBack}
-    [Teardown]    Close Browser

@@ -1,7 +1,10 @@
 *** Settings ***
-Resource          ../UserKeywords/Common_Resources.html
+Resource          General_Variables/Pathes.txt
+Resource          General_Variables/Website_Config.txt
+Resource          General_Variables/Database_Config.txt
 Library           Selenium2Library
 Library           DatabaseLibrary
+Library           Collections
 Library           ${LIBS_PATH}/DatabaseClass.py    database=${DATABASE_NAME}    user=${DATABASE_USER}    password=${DATABASE_PWD}    host=${DATABASE_IP}    port=${DATABASE_PORT}
 Library           XML
 Library           ${LIBS_PATH}/SQLQueryReader.py
