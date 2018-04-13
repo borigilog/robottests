@@ -62,7 +62,8 @@ Was ein _Bereich_ ist, ist dem Ersteller der Tests überlassen. <br>
 Enthält [PageObjects](#PageObject), die nur für dieses Modul gelten.<br>
 ##### Menu-PageObjects
 Da jedes Modul sein eigenes Menü hat, enthält jeder PageObjects-Ordner eine [Resource](http://robotframework.org/robotframework/latest/RobotFrameworkUserGuide.html#resource-files) **Menu.txt**.<br>
-In dieser Resource wird pro Menüpunkt/Untermenüpunkt ein Keyword erstellt.<br>
+- In dieser Resource wird pro Menüpunkt/Untermenüpunkt ein Keyword erstellt.<br>
+- Da pro Testsuite gewöhnlich ein Menüpunkt im Suite Setup inklusive Login aufgerufen wird, danach pro TestCase jedoch nur noch ohne Login, sollte man pro Keyword einen Parameter einbauen, der steuert, ob nur der Menüpunkt geklickt oder zuvor noch der komplette Login-Vorgang gestartet werden soll.
 
 **Beispiel**
 ```robotframework
