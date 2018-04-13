@@ -52,13 +52,45 @@ Hier landen [PageObjects](#PageObject), die an mehreren Stellen innerhalb der We
 Variablen, die für die gesamte Website gelten (Login, Password, URL, Standard Sprache, Mandant...).
 
 ### Modul-Tests
-Für jedes Modul muss ein **Ordner mit Namen des Moduls** erstellt werden (_BILL_, _LOG_, _OAC_...).<br>
-Innerhalb dieses Ordners wird pro _Bereich_ eine **Testsuite** erstellt. <br>
+1. Für jedes Modul muss ein **Ordner mit Namen des Moduls** erstellt werden (_BILL_, _LOG_, _OAC_...).<br>
+2. Innerhalb dieses Ordners wird pro _Bereich_ eine **Testsuite** erstellt. <br>
 Was ein _Bereich_ ist, ist dem Ersteller der Tests überlassen. <br>
 **Anhaltspunkt:** Pro html-Ansicht eine Testsuite erstellen. (Ist aber kein Muss!)
 
 #### PageObjects
-Enthält [PageObjects](#PageObject), die nur für dieses Modul gelten.
+Enthält [PageObjects](#PageObject), die nur für dieses Modul gelten.<br>
+##### Menu-PageObjects
+Da jedes Modul sein eigenes Menü hat, enthält jeder PageObjects-Ordner eine [Resource](http://robotframework.org/robotframework/latest/RobotFrameworkUserGuide.html#resource-files) **Menu.txt**.<br>
+In dieser Resource wird pro Menüpunkt/Untermenüpunkt ein Keyword erstellt.<br>
+
+**Beispiel**
+```robotframework
+*** Settings ***
+Resource          ../../General_PageObjects/Login.txt
+Resource          ../../General_PageObjects/Menu_Common.txt
+
+*** Variables ***
+# ~~~~~~~~~ Menu
+${menu_content}    /$flow_main/$flow_content
+${invoice_management}    /$flow_main/main_menu/invoice_management
+${invoice_management_class}    screen look_rlx_screen_bill_generally_invoicemanagement
+
+*** Keywords ***
+Login Select Bill
+    [Arguments]    ${login}=true
+    ${navigateToBillModule} =    Is Truthy    ${login}
+    Run Keyword If    ${navigateToBillModule}    Login For Module    Bill
+    Run Keyword If    ${navigateToBillModule}    Check Homescreen is selected
+    Check PageArea is visible    /$flow_main    screen look_rlx_screen_bill_main
+
+Check Homescreen is selected
+    Check PageArea is visible    ${menu_content}    screen look_rlx_screen_bill_homescreen
+
+Select Rechnungsverwaltung
+    [Arguments]    ${login}=false
+    Login Select Bill    ${login}
+    Select Menu Content    ${invoice_management}    ${invoice_management_class}
+```
 
 # Wie schreibt man Tests ?
 ## Installation
