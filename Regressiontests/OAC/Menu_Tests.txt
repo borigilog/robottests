@@ -1,0 +1,11 @@
+*** Settings ***
+Resource          ../General_PageObjects/Login.txt
+Resource          ../General_PageObjects/Menu_Common.txt
+
+*** Test Cases ***
+Check Menüpoint Vorbestellung bearbeiten für Submandant
+    [Documentation]    Test verifies whether the Sub menu Vorbestellung bearbeiten is not available within the Sub Mandator Submandant1
+    Login
+    Select Default Mandator    Submandant1
+    Run Keyword And Expect Error    did not match any element    Select SubMenue    Nachbestellung/Ersatz    Vorbestellung bearbeiten
+    [Teardown]    Close Browser

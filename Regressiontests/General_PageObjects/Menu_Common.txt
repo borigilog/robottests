@@ -58,7 +58,15 @@ Select Exit
 
 Select Menu Content
     [Arguments]    ${element_id}    ${class}    ${content_id}=/$flow_main/$flow_content
-    [Documentation]    MM 22.03.2018, select certain Menu content
+    [Documentation]    MM 22.03.2018, select certain Menu and waits until the menu content is loaded/displaed
+    ...
+    ...    == Parameters ==
+    ...    - ${element_id} = the id of the submenu
+    ...    - ${class} = the class of the container-div that is displayed when the menu content is loaded
+    ...
+    ...    == Example ==
+    ...    | = Keyword = | = element_id = | = class = | = Result = |
+    ...    | Select Menu Content | /$flow_main/main_menu/order_initial | screen look_rlx_screen_search_person | opens menu "Eintritt: MA ausstatten" within the OAC-modul |
     Check ElementId    ${element_id}
     Click Element And Wait    ${element_id}
     Check PageArea is visible    ${content_id}    ${class}

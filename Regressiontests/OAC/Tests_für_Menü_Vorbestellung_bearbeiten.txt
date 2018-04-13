@@ -1,21 +1,24 @@
 *** Settings ***
+Suite Setup       Select Vorbestellung bearbeiten    login=${TRUE}
+Suite Teardown    Close Browser
+Test Setup        Select Vorbestellung bearbeiten
 Library           Selenium2Library
 Library           robot.libraries.String
-Resource          ../../UserKeywords/Common_Resources.html
-Resource          ../../UserKeywords/OAC_Resources.html
+Resource          PageObjects/Menu.txt
+Resource          ../General_PageObjects/Module_Selector.txt
+
+*** Variables ***
+${NO_SEARCH_RESULTS_TEXT_DE}    Leider wurden keine passenden Lieferaufträge gefunden. Bitte prüfen Sie die Suchkriterien!    # Meldungstext, wenn für Suchkriterien kein Ergebnis gefunden worden ist
+@{ORDER_SEARCH_PAGE_LABELS_DE}    Bestellnummer    Lieferauftrags-Nummer    Name    Organisationseinheit    Kostenstelle    ab Bestelldatum    bis Bestelldatum
+...               im Format tt.mm.jjjj    Gelöschte Aufträge in Suche miteinbeziehen
 
 *** Test Cases ***
 Check Page Contents
     [Documentation]    Test überrüft alle Elemente der Search Page - Label, Eingabefelder
-    [Setup]    Start Test For Module    OAC    Hauptmandant
-    OpenSearch Page PreOrders
     Check Order Search Page Elements
-    [Teardown]    Close Browser
 
 Test Vorbestellungen bearbeiten Seitenstruktur
     [Documentation]    Test um zu überprüfen, ob Button "Zurück" auf Seite der Suchergebnisse aktiv und funktioniert
-    [Setup]    Start Test For Module    OAC    Hauptmandant
-    Select SubMenue    Nachbestellung/Ersatz    Vorbestellung bearbeiten
     Wait Until Keyword Succeeds    3 sec    1 sec    Element Should Be Visible    //*[@id="/$flow_main/$flow_content/title"]
     Page Should Contain    Bitte geben Sie die Kriterien ein, die von der gesuchten Bestellung bekannt sind:
     Input Text    //*[@id="/$flow_main/$flow_content/order_number"]    %
@@ -25,29 +28,23 @@ Test Vorbestellungen bearbeiten Seitenstruktur
     Run Keyword If    '${Result}'=='FAIL'    Click Button    //button[@id="/$flow_main/$popover0/btn"]    # Keine Suchergebnisse
     Run Keyword If    '${Result}'=='PASS'    Element Should Be Visible    //div[contains(text(),"passende Bestellungen wurden gefunden")]
     Run Keyword If    '${Result}'=='PASS'    Click Button    //button[contains(@id,'back')]
-    [Teardown]    Close Browser
 
 Test Search All Orders
     [Documentation]    Test überprüft den Korrekten Text im Header der Suchergebnisse bei den Vorbestellungen.
     ...
     ...    "- passende Bestellungen gefunden"
-    [Setup]    Start Test For Module    OAC    Hauptmandant
-    Open Search Page PreOrders
-    Input Text    //input[contains(@id,'-order_number')]    %
+    Input Text    //input[contains(@id,'/order_number')]    %
     Click Element    //button//div[contains(text(),'Suche')]
     Wait Until Element is Visible    //div[contains(text(),"passende Bestellungen wurden gefunden") ]
-    [Teardown]    Close Browser
 
 Test Search PreOrders from Name
     [Documentation]    Tested die Anzahl der Suchergebnisse wenn im gegenwärtigen Stand der Manualguide DB nach Vorbestellungen für den MA Mustermann gesucht wird.
     ...
     ...    aktuell erwartete Anzahl = 3
-    Open Search Page PreOrders
     Search For Item    order_name    Muster
     Wait Until Element is Visible    //div[contains(text(),"gefunden") ]
     ${SearchErgebnisse} =    Get Number of Search Results    gefunden
     Run Keyword If    ${SearchErgebnisse} == 2    Log    Passed
-    [Teardown]    Close Browser
 
 Test Search PreOrders from Org-Unit - 1
     [Documentation]    Testet die Suche von Vorbestellungen nach Org-Einheit
@@ -55,30 +52,18 @@ Test Search PreOrders from Org-Unit - 1
     ...    Eingabe falscher Org-Einheit
     ...
     ...    erwartetes Ergebnis = keine Suchergebnisse
-    Open Search Page preOrders    Hauptmandant
     Search For Item    -name    Mustermann
     Wait Until Element is Visible    //div[contains(@class,'popover look_popover_alert look_alert')]
-    [Teardown]    Close Browser
 
 Check PreOrder Edit Funktion
     [Documentation]    Test prüft die Funktion des Buttons "Bearbeiten" nach Selektion einer Vorbestellung aus den suchergebnissen.
-    Open Search Page Preorders    Hauptmandant
     Search For Item    order_number    %
     Wait Until Element is Visible    //div[contains(text(),"gefunden") ]
     Click Element    //table//tr[contains(@data-rowindex,'0')]
     Click Element    //button//div[contains(text(),'Bearbeiten')]
     Wait Until Element is Visible    //div[contains(text(),'Bestellung für:')]
-    [Teardown]    Close Browser
-
-Check Menüpoint Vorbestellung bearbeiten für Submandant
-    [Documentation]    Test verifies whether the Sub menu Vorbestellung bearbeiten is not available within the Sub Mandator Submandant1
-    Login to RLX Website
-    Select Mandator    Submandant1
-    Run Keyword And Expect Error    did not match any element    Select SubMenue    Nachbestellung/Ersatz    Vorbestellung bearbeiten
-    [Teardown]    Close Browser
 
 Check Content of Pre-Order O103438
-    Open Search Page PreOrders    Hauptmandant
     Search For Item    -name    %
     Wait Until Element is Visible    //div[contains(text(),"gefunden") ]
     Click Element    //table//tr[contains(@data-rowindex,'2')]
@@ -86,4 +71,35 @@ Check Content of Pre-Order O103438
     Wait Until element is Visible    //div[contains(text(),'Bestellung für:')]
     ${bestand_aktuell}    Get Text    //td[contains(@class,'_EQW_col_currentItems')]
     Run Keyword If    ${bestand_aktuell} == '0'    log    Passed
-    [Teardown]    Close Browser
+
+*** Keywords ***
+Check Order Search Page Elements
+    Element Text Should Be    //label[@for="/$flow_main/$flow_content/order_number"]    @{ORDER_SEARCH_PAGE_LABELS_DE}[0]
+    Page Should Contain Element    //*[@id="/$flow_main/$flow_content/order_number"]
+    Element Text Should Be    //label[@for="/$flow_main/$flow_content/delivery_number"]    @{ORDER_SEARCH_PAGE_LABELS_DE}[1]
+    Page Should Contain Element    //*[@id="/$flow_main/$flow_content/delivery_number"]
+    Element Text Should Be    //label[@for="/$flow_main/$flow_content/order_name"]    @{ORDER_SEARCH_PAGE_LABELS_DE}[2]
+    Page Should Contain Element    //*[@id="/$flow_main/$flow_content/order_name"]
+    Element Text Should Be    //label[@for="/$flow_main/$flow_content/org_entity"]    @{ORDER_SEARCH_PAGE_LABELS_DE}[3]
+    Page Should Contain Element    //*[@id="/$flow_main/$flow_content/org_entity/pick"]    # open selector for Org unit
+    Element Text Should Be    //label[@for="/$flow_main/$flow_content/costcenter_entity"]    @{ORDER_SEARCH_PAGE_LABELS_DE}[4]
+    Page Should Contain Element    //*[@id="/$flow_main/$flow_content/costcenter_entity/pick"]    # open selector for cost center unit
+    Element Text Should Be    //label[@for="/$flow_main/$flow_content/from_order_date"]    @{ORDER_SEARCH_PAGE_LABELS_DE}[5]
+    Page Should Contain Element    //*[@id="/$flow_main/$flow_content/from_order_date"]
+    Element Text Should Be    //label[@for="/$flow_main/$flow_content/up_order_date"]    @{ORDER_SEARCH_PAGE_LABELS_DE}[6]
+    Page Should Contain Element    //*[@id="/$flow_main/$flow_content/up_order_date"]
+    Element Text Should Be    //label[@for="/$flow_main/$flow_content/search_delete_order"]    @{ORDER_SEARCH_PAGE_LABELS_DE}[8]
+    Page Should Contain Element    //*[@id="/$flow_main/$flow_content/search_delete_order"]
+    Page Should Contain Element    //*[@id="/$flow_main/$flow_content/start_search"]
+    Page Should Contain Element    //*[@id="/$flow_main/$flow_content/cancel"]
+
+Get Number of Search Results
+    [Arguments]    ${ResultText}
+    ${vollText}    Get Text    //div[contains(text(),"${ResultText}") ]
+    ${NumberOfResults} =    Get Substring    ${vollText}    0    1
+    [Return]    ${NumberOfResults}    # Gibt die Anzahl der Suchergebnisse zurück
+
+Search For Item
+    [Arguments]    ${SearchInputField}    ${SearchString}
+    Input Text    //input[contains(@id, '${SearchInputField}')]    ${SearchString}
+    Click Element    //button//div[contains(text(),'Suche')]

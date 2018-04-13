@@ -1,0 +1,39 @@
+*** Settings ***
+Resource          ../../General_PageObjects/Login.txt
+Resource          ../../General_PageObjects/Menu_Common.txt /
+
+*** Variables ***
+${menu_content}    /$flow_main/$flow_content
+${oac_homescreen}    screen look_rlx_screen_admin_news
+${menuitem_releasePurchaseOrder}    /$flow_main/main_menu/order_release
+${releasePurchaseOrder_content}    screen look_rlx_screen_orders_result
+${menuitem_initialOrder}    /$flow_main/main_menu/order_initial
+${initialOrder_content}    screen look_rlx_screen_search_person
+${menuitem_editPreorders}    /$flow_main/main_menu/order_peak
+${editPreorders_content}    screen look_rlx_screen_search_orders
+
+*** Keywords ***
+Login Select OAC
+    [Arguments]    ${login}=true
+    ${navigateToModule} =    Is Truthy    ${login}
+    Run Keyword If    ${navigateToModule}    Login For Module    OAC
+    Run Keyword If    ${navigateToModule}    Check Homescreen is selected
+    Check PageArea is visible    /$flow_main    screen look_rlx_screen_main_screen
+
+Check Homescreen is selected
+    Check PageArea is visible    ${menu_content}    ${oac_homescreen}
+
+Select Bestellung freigeben
+    [Arguments]    ${login}=false
+    Login Select OAC    ${login}
+    Select Submenu Content    ${menuitem_releasePurchaseOrder}    ${releasePurchaseOrder_content}
+
+Select Vorbestellung bearbeiten
+    [Arguments]    ${login}=false
+    Login Select OAC    ${login}
+    Select Submenu Content    ${menuitem_editPreorders}    ${editPreorders_content}
+
+Select Eintritt: Ma ausstatten
+    [Arguments]    ${login}=false
+    Login Select OAC    ${login}
+    Select Menu Content    ${menuitem_initialOrder}    ${initialOrder_content}
