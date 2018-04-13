@@ -17,7 +17,7 @@
 	- [Was man beim Test schreiben berücksichtigen sollte](#was-man-beim-test-schreiben-berücksichtigen-sollte)
 	- [Wie man eigene Python-Bibliotheken schreibt](#wie-man-eigene-python-bibliotheken-schreibt)
 - [Wording/Begriffserklärung](#wordingbegriffserklärung)
-	- [PageObject <a name="PageObject"></a>](#pageobject-a-namepageobjecta)
+	- [PageObject](#pageobject)
 - [README-Datei bearbeiten:](#readme-datei-bearbeiten)
 	- [Syntax](#syntax)
 	- [Editor](#editor)
@@ -79,8 +79,8 @@ Enthält [PageObjects](#PageObject), die nur für dieses Modul gelten.
 - [Creating Testlibraries](http://robotframework.org/robotframework/latest/RobotFrameworkUserGuide.html#creating-test-libraries)
 
 # Wording/Begriffserklärung
-## PageObject <a name="PageObject"></a>
-eine Art _Komponente_ = Sammlung von **Keywords**, die für eine Gruppe von immer zusammengehörenden Html-Elementen gelten.<br>
+## PageObject
+<a name="PageObject"></a> eine Art _Komponente_ = Sammlung von **Keywords**, die für eine Gruppe von immer zusammengehörenden Html-Elementen gelten.<br>
 [Siehe PageObject-DesignPattern](https://martinfowler.com/bliki/PageObject.html).
 
 
