@@ -66,8 +66,9 @@ Enthält [PageObjects](#PageObject), die nur für dieses Modul gelten.
 - [Installationsanleitung für Ride auf Englisch](https://www.swtestacademy.com/getting-started-robotframework/) (z.B. wenn man mal keinen Zugriff auf unser Netzwerk hat)
 
 ## Robotframework Basics
-- [Creating Test Suites](https://github.com/robotframework/robotframework/blob/master/doc/userguide/src/CreatingTestData/CreatingTestSuites.rst)
-- [Creating Test Cases](https://github.com/robotframework/robotframework/blob/master/doc/userguide/src/CreatingTestData/CreatingTestCases.rst)
+- [Test Suites erstellen](https://github.com/robotframework/robotframework/blob/master/doc/userguide/src/CreatingTestData/CreatingTestSuites.rst)
+- [Test Cases erstellen](https://github.com/robotframework/robotframework/blob/master/doc/userguide/src/CreatingTestData/CreatingTestCases.rst)
+- [Keywords dokumentieren](http://robotframework.org/robotframework/latest/RobotFrameworkUserGuide.html#id353)
 
 ## Was man beim Test schreiben berücksichtigen sollte
 - [How to Write Good TestCases](https://github.com/robotframework/HowToWriteGoodTestCases/blob/master/HowToWriteGoodTestCases.rst)

@@ -1,14 +1,12 @@
 *** Settings ***
-Resource          ../../UserKeywords/LOG_Resources.html
-Resource          ../../UserKeywords/Common_Resources.html
 Library           Selenium2Library
+Resource          ../General_PageObjects/Login.txt
+Resource          ../General_PageObjects/Menu_Common.txt
 
 *** Test Cases ***
 Verify LOG Menü entries for SericePoint and RangeEvaluation
     [Tags]    Check Menu Section
-    Login To RLX Website
-    Select Mandator    Hauptmandant
-    Select Module Website    LOG
+    Login For Module    LOG
     Wait Until Element Is Visible    //div[contains(@id,'menu_bottom/switchwarehouse')]    5
     Check Menu Section    Management/Information
     Check Menu Item    Admin/Anderes
@@ -19,3 +17,13 @@ Verify LOG Menü entries for SericePoint and RangeEvaluation
     Wait Until Element Is Visible    //button[contains(@id,'$flow_content/refresh')]    10
     ${REFile}=    Capture Page Screenshot
     [Teardown]    Close Browser
+
+*** Keywords ***
+Check Menu Section
+    [Arguments]    ${SectionName}
+    Element Should Be Visible    //div[contains(text(),'${SectionName}')]
+
+Check Menu Item
+    [Arguments]    ${MenuName}
+    Element Should Be Visible    //div[contains(@id,'admin_other')]
+    Element Text Should Be    //div[contains(@id,'admin_other')]    ${MenuName}
