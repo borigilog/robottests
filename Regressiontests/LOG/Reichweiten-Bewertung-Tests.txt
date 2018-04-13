@@ -1,12 +1,19 @@
 *** Settings ***
-Resource          ../../UserKeywords/LOG_Resources.html
-Resource          ../../UserKeywords/Common_Resources.html
+Suite Setup       Select Reichweitenbewertung    login=${TRUE}
+Suite Teardown    Close Browser
+Test Setup        Select Reichweitenbewertung
 Library           Selenium2Library
+Resource          PageObjects/Menu.txt
+
+*** Variables ***
+${NAME_REICHWEITEN_CONFIG}    Einstellungen    # Enthält den Header Text der Reichweiten Config Page
+${WHITESPACE}     ${EMPTY}
+${RE_WARNING_MESSAGE}    Die Einstellungen haben sich geändert, bitte starten sie die Neuberechnung erneut.
+@{KEYWORD_RESULT_WERTE}    FAIL    PASS
+${btnAbort}       /$flow_main/$flow_content/abort
 
 *** Test Cases ***
 Check GUI Elements Overview Page
-    Start Test For Module    LOG    Hauptmandant
-    Go To Reichweiten Bewertung
     Element Should be Visible    //div[contains(text(), 'Artikel Nr:')]
     Element Should be Visible    //input[contains(@id,'articleNo')]
     Element Should be Visible    //div[contains(text(), 'Artikel Name:')]
@@ -16,11 +23,10 @@ Check GUI Elements Overview Page
     Element Should Be Visible    //button[contains(@id,'$flow_content/search')]
     Element Should Be Visible    //button[contains(@id,'$flow_content/setting')]
     Element Should Be Visible    //button[contains(@id,'$flow_content/abort')]
-    Wait Until Keyword Succeeds    3 sec    1 sec    Click Element    //div[contains(@id,'exit')]
-    [Teardown]    Close Browser
+    Wait Until Keyword Succeeds    3 sec    1 sec    Click Element    ${btnAbort}
+    Check Homescreen is selected
 
 Check GUI Elements Config Page
-    [Setup]    Prepare For Reichweiten Bewertung Tests    Hauptmandant
     Wait Until Page Contains    Reichweiten Bewertung    10
     Wait Until Element Is Visible    //button[contains(@id,'$flow_content/setting')]
     Sleep    3
@@ -44,21 +50,17 @@ Check GUI Elements Config Page
     Click Element    //button[contains(@id,'$flow_content/back')]
     Sleep    3
     Element Should Be Visible    //button[contains(@id,'$flow_content/setting')]
-    [Teardown]    Close Browser
 
 Verify Search Function on Results
     [Documentation]    Hier wird geprüft, ob die Suchfunktion nach Artikelnummer und Artikelname funktioniert und Ergebjisse liefert
-    [Setup]    Prepare For Reichweiten Bewertung Tests    Hauptmandant
     Wait Until Element is Visible    //input[contains(@id,'articleNo')]
     sleep    3
     Reichweiten Bewertung Search article No    110
     Input Text    //input[contains(@id,'articleNo')]    ${WHITESPACE}
     Reichweiten Bewertung Search Article Name    Jacke
-    [Teardown]    Close Browser
 
 Change Configuration For Reichweiten Bewertung
     [Documentation]    Test Case prüft die Funktionalität rund um die Abschreibungs Settings für die Reichweiten Bewertung
-    [Setup]    Prepare For Reichweiten Bewertung Tests    Hauptmandant
     Change To Reichweiten Settings Page
     ${AnzahlEintraege}=    Get Matching Xpath Count    //table/tbody/tr[contains(@id,'/$flow_main/$flow_content/list_articles/')]
     ${AnzahlEintraege}=    Convert To Integer    ${AnzahlEintraege}
@@ -74,12 +76,10 @@ Change Configuration For Reichweiten Bewertung
     Add Entry To Reichweiten Config Table    6    10    Erstabschreibung
     Add Entry To Reichweiten Config Table    12    20    jährliche Abschreibung
     Add Entry To Reichweiten Config Table    24    30    2-Jahresabschreibung
-    [Teardown]    Close Browser
 
 Check Exclusion Rules Setting
     [Documentation]    Test prüft das Setzen und Abspeichern der Ausnahmeregeln für Artikel.
     ...    Darüber hinaus wird geprüft, ob nach Änderung der Settings die Warnmeldung ausgegeben wird, dass eine Neuberechnung notwenidg ist, wegen Veränderung der Konfiguration
-    [Setup]    Prepare For Reichweiten Bewertung Tests    Hauptmandant
     Change To Reichweiten Settings Page
     Wait Until Keyword Succeeds    3 sec    1 sec    Element Should Be Visible    //input[contains(@id,'/months')]
     ${Zeitraum}=    Get Value    //input[contains(@id,'/months')]
@@ -95,11 +95,10 @@ Check Exclusion Rules Setting
     ${Zeitraum_2}=    Convert To Integer    ${Zeitraum_2}
     ${Alter_2}=    Convert To Integer    ${Alter_2}
     Run Keyword If    ${Zeitraum_2}==24 and ${Alter_2}==4    Modify Reichweiten Time Settings    ${Zeitraum}    ${Alter}
-    [Teardown]    Close Browser
 
 Verify Re-Calculation of Range Evalaution Values
     [Documentation]    Prüft, ob die Berechnung mit neune Konfiguration durchgeführt und erfolgreich abgeschlossen wird.
-    [Setup]    Prepare For Reichweiten Config And Calculation Tests    Hauptmandant    # Prepares RE Tests
+    [Setup]    Prepare For Reichweiten Config And Calculation Tests    # Prepares RE Tests
     ${Zeitraum}=    Get Value    //input[contains(@id,'/months')]
     ${Alter}=    Get Value    //input[contains(@id,'/ages')]
     Modify Reichweiten Time Settings    6    1
@@ -151,23 +150,200 @@ Verify Re-Calculation of Range Evalaution Values
     Change To Reichweiten Settings Page
     Modify Reichweiten Time Settings    ${Zeitraum}    ${Alter}    # Zurück zu Ausgangswerten
     Wait Until Keyword Succeeds    3 sec    1 sec    Click Element    //div[contains(@id,'exit')]
-    [Teardown]    Close Browser
 
 Enter Manual Deduction Value for One Article
     [Documentation]    Test der Funktionalität, die den Wert für manuelle Abschreibung einzutragen.
     ...    Prüfen, ob die resultierenden Berechnungen der Änderung Rechnung tragen.
-    [Setup]    Prepare For Reichweiten Bewertung Tests    Hauptmandant
     Sleep    10s
     Reichweiten Bewertung Search Article No    110
     ${AnzahlEinträge}=    Get Matching Xpath Count    //table/tbody/tr[contains(@id,'/$flow_main/$flow_content/list_articles/')]
     ${AnzahlEinträge}=    Convert To Integer    ${AnzahlEinträge}    \    # wird nur zu Log Zwekcen verwendet
     Verify RE Manual Position Reduction    4    50    # Tested die Reduktion des Artikelwertes in Zeile 4 um 50%
     Wait Until Keyword Succeeds    3 sec    1 sec    Click Element    //div[contains(@id,'exit')]
-    [Teardown]    Close Browser
 
 Check Calculation For Reichweiten Bewertung
-    [Setup]    Prepare For Reichweiten Bewertung Tests    Hauptmandant
     @{CheckValues}=    Create List    0.0    0.0    0.0    0.0
     Check Update Page After Re-Calculation    @{CheckValues}
     Check Reichweiten Re-Calculation Progress Status    Off
-    [Teardown]    Close Browser
+
+*** Keywords ***
+Prepare for Reichweiten Config And Calculation Tests
+    Select Reichweitenbewertung
+    Comment    Start Test For Module    LOG    ${DEFAULT_MANDATOR_NAME}
+    Comment    Go To Reichweiten Bewertung
+    Change To Reichweiten Settings Page
+    Wait Until Keyword Succeeds    3 sec    1 sec    Element Should Be Visible    //input[contains(@id,'/months')]
+
+Change To Reichweiten Settings Page
+    [Documentation]    Wechselt auf die Konfigurationsseite der Reichweiten Bewertung - Konfigurations-Seite
+    Wait Until Keyword Succeeds    10 sec    1 sec    Click Element    //button[contains(@id,'$flow_content/setting')]
+    Sleep    1
+    Wait Until Page Contains    ${NAME_REICHWEITEN_CONFIG}    10
+
+Reichweiten Bewertung Search Article No
+    [Arguments]    ${ArticleNo}
+    [Documentation]    Führt eine Suche mit der übergebenen Artikelnummer duch und prüft das Suchergebnis nach Anzahl der Suchergebnisse.
+    ...    Wenn die Anzhal größer als 50 ist wird ein Fehler erzeugt
+    Input Text    //input[contains(@id,'articleNo')]    ${ArticleNo}
+    Click Button    //button[contains(@id,'search')]
+    Sleep    1
+    ${Suchergebnis}    Get Text    //div[contains(@id,'flow_content/found')]
+    Should Contain    ${Suchergebnis}    Anzahl der Suchergebnisse: 1 -
+    ${Suchergebnis}    Convert To String    ${Suchergebnis}
+    ${length}=    Get Length    ${Suchergebnis}
+    ${Anzahl}=    Split String From Right    ${Suchergebnis}    ${WHITESPACE}    1
+    ${list}=    Get Matching Xpath Count    //table/tbody/tr[contains(@id,'/$flow_main/$flow_content/list_articles/')]
+    ${Anzahl}=    Convert To Integer    ${Anzahl[1]}
+    ${list}=    Convert To Integer    ${list}
+    Should Be Equal    ${Anzahl}    ${list}
+
+Reichweiten Bewertung Search Article Name
+    [Arguments]    ${ArticleName}
+    Input Text    //input[contains(@id,'articleName')]    ${ArticleName}
+    Click Button    //button[contains(@id,'search')]
+    Sleep    5
+    ${Suchergebnis}    Get Text    //div[contains(@id,'flow_content/found')]
+    Should Contain    ${Suchergebnis}    Anzahl der Suchergebnisse: 1 -
+    ${Suchergebnis}    Convert To String    ${Suchergebnis}
+    ${length}=    Get Length    ${Suchergebnis}
+    ${Anzahl}=    Split String From Right    ${Suchergebnis}    ${WHITESPACE}    1
+    ${list}=    Get Matching Xpath Count    //table/tbody/tr[contains(@id,'/$flow_main/$flow_content/list_articles/')]
+    ${Anzahl}=    Convert To Integer    ${Anzahl[1]}
+    ${list}=    Convert To Integer    ${list}
+    Should Be Equal    ${Anzahl}    ${list}
+
+Add Entry To Reichweiten Config Table
+    [Arguments]    ${Months}    ${Percentage}    ${Description}
+    ${AnzahlEintraege}=    Get Matching Xpath Count    //table/tbody/tr[contains(@id,'/$flow_main/$flow_content/list_articles/')]
+    ${AnzahlEintraege}=    Convert To Integer    ${AnzahlEintraege}
+    ${AnzahlEintraege}=    Evaluate    ${AnzahlEintraege}-1
+    Comment    Wait Until Keyword Succeeds    3 sec    1 sec    Element Should Be \ Visible    //input[contains(@id,'/$flow_main/$flow_content/list_articles/${AnzahlEintraege}/Range_Months/')]
+    Click Element    //*[contains(@id,'/$flow_main/$flow_content/list_articles/${AnzahlEintraege}/Range_Months/')]
+    Click Element    //*[contains(@id,'/$flow_main/$flow_content/list_articles/${AnzahlEintraege}/Range_Months/')]
+    Input Text    //input[contains(@id,'/list_articles/${AnzahlEintraege}/Range_Months/')]    ${Months}
+    Click Element    //div[contains(@id,'/$flow_main/$flow_content/list_articles/${AnzahlEintraege}/Reduction_Percent/')]
+    Input Text    //input[contains(@id,'/$flow_main/$flow_content/list_articles/${AnzahlEintraege}/Reduction_Percent/')]    ${Percentage}
+    Wait Until Keyword Succeeds    3 sec    1 sec    Click Element    //div[contains(@id,'${AnzahlEintraege}/Description/')]
+    Wait Until Keyword Succeeds    3 sec    1 sec    Click Element    //div[contains(@id,'${AnzahlEintraege}/Description/')]
+    Wait Until Keyword Succeeds    3 sec    1 sec    Input Text    //*[contains(@id,'${AnzahlEintraege}/Description/inp')]    ${Description}
+    Wait Until Keyword Succeeds    3 sec    1 sec    Click Button    //button[contains(@id,'save')]
+    Wait Until Keyword Succeeds    3 sec    1 sec    Click Button    //button[contains(@id,'/$flow_main/$flow_content/plus')]
+    ${AnzahlEintraege}=    Evaluate    ${AnzahlEintraege}+1
+    Wait Until Element Is Visible    //div[contains(@id,'/$flow_main/$flow_content/list_articles/${AnzahlEintraege}/Description/txt')]
+
+Modify Reichweiten Time Settings
+    [Arguments]    ${InventaryTime}    ${ArtikelAge}
+    [Documentation]    Procedure modifiziert die Zeitinterveral Settings für die Reichweiten Berechnung:
+    ...
+    ...    - Zeitraum für den Bestand (in Monaten)
+    ...    - mindest Alter der Artikel, die für die Reichweiten Berehcnung berücksichtigt werden (in Monaten)
+    Input Text    //input[contains(@id,'/months')]    ${InventaryTime}
+    Input Text    //input[contains(@id,'/ages')]    ${ArtikelAge}
+    Wait Until Keyword Succeeds    3 sec    1 sec    Click Button    //button[contains(@id,'/save')]
+
+Check Reichweiten Re-Calculation Progress Status
+    [Arguments]    ${Status}
+    [Documentation]    Test prüft, ob die Status Information auf der Reichweiten Übersichtsseite den Erwartungen entspricht
+    ...
+    ...    Running \ - Berechnung sollte laufen, rot gefärbter Text zeigt das an
+    ...    Off - Berechnung sollte nicht laufen, Text ist nicht sichtbar
+    ${Result}    ${msg}=    Run Keyword And Ignore Error    Element Should not be Visible    //*[@id="/$flow_main/$flow_content/locked"]
+    Run Keyword If    '${Status}'=='Running' and '${Result}'=='PASS'    Fail    Re-Calculation should be running but, it isn't
+    Run Keyword If    '${Status}'=='Off' and '${Result}'=='FAIL'    Fail    Re-Calculation should not be running but, it is
+
+Check Update Page After Re-Calculation
+    [Arguments]    @{CompareValues}
+    [Documentation]    Test Verifies whether all elements on the range evaluation overview page are updated once the re-calculation is finished.
+    Wait Until Element Is Visible    //*[@id="/$flow_main/$flow_content/Total_AverageStockValue"]
+    ${TotalMiddleStorageValue}=    Get Text    //*[@id="/$flow_main/$flow_content/Total_AverageStockValue"]
+    ${TotalMiddleStorageValue}=    Convert To Number    ${TotalMiddleStorageValue}
+    ${RESULT_VALUES}=    Create List    ${TotalMiddleStorageValue}
+    ${CompareValue}=    Convert To Number    @{CompareValues}[0]
+    ${Result}    ${msg}=    Run Keyword And Ignore Error    Should Not Be Equal As Numbers    ${TotalMiddleStorageValue}    ${CompareValue}
+    ${RESULT_LIST}=    Create List    ${Result}
+    ${TotalStorageValue}=    Get Text    //*[@id="/$flow_main/$flow_content/Total_AbsoluteStockValue"]
+    ${TotalStorageValue}=    Convert To Number    ${TotalStorageValue}
+    Append To List    ${RESULT_VALUES}    ${TotalStorageValue}
+    ${CompareValue}=    Convert To Number    @{CompareValues}[1]
+    ${Result}    ${msg}=    Run Keyword And Ignore Error    Should Not Be Equal As Numbers    ${TotalStorageValue}    ${CompareValue}
+    Append To List    ${RESULT_LIST}    ${Result}
+    ${TotalReduction}=    Get Text    //*[@id="/$flow_main/$flow_content/Total_Reduction"]
+    ${TotalReduction}=    Convert To Number    ${TotalReduction}
+    Append To List    ${RESULT_VALUES}    ${TotalReduction}
+    ${CompareValue}=    Convert To Number    @{CompareValues}[2]
+    ${Result}    ${msg}=    Run Keyword And Ignore Error    Should Not Be Equal As Numbers    ${TotalStorageValue}    ${CompareValue}
+    Append To List    ${RESULT_LIST}    ${Result}
+    ${TotalAfterReduction}=    Get Text    //*[@id="/$flow_main/$flow_content/Total_ActualStockValueAfterReduction"]
+    ${TotalAfterReduction}=    Convert To Number    ${TotalAfterReduction}
+    Append To List    ${RESULT_VALUES}    ${TotalAfterReduction}
+    ${CompareValue}=    Convert To Number    @{CompareValues}[3]
+    ${Result}    ${msg}=    Run Keyword And Ignore Error    Should Not Be Equal As Numbers    ${TotalAfterReduction}    ${CompareValue}
+    Append To List    ${RESULT_LIST}    ${Result}
+    Log Many    ${RESULT_LIST}
+    Log Many    ${RESULT_VALUES}
+    List Should Not Contain Value    ${RESULT_LIST}    @{KEYWORD_RESULT_WERTE}[0]
+
+Verify RE Manual Position Reduction
+    [Arguments]    ${RowNumber}    ${ReductionValueInPercent}
+    [Documentation]    Prüft, ob das System auf der Reichweiten Übersichtsseite die Berechnung und Aktualisierung der Web GUI bei manuellem Abschlag korrekt vornimmt.
+    ...
+    ...    Creator: O.Baeker
+    ...
+    ...    Date: \ 06.03.2108
+    ...
+    ...    Modified: \ O.Baeker \ \ Date: \ 09.03.2108
+    Wait Until Keyword Succeeds    3 sec    1 sec    Click Element    //*[@id="/$flow_main/$flow_content/list_articles/${RowNumber}/$Art_Number"]
+    Element Should Be Visible    //*[@id="/$flow_main/$flow_content/lblDetailOcc"]
+    Element Should Be Visible    //input[@id="/$flow_main/$flow_content/manual"]
+    ${TotalReductionBefore}=    Get Text    //*[@id="/$flow_main/$flow_content/Total_Reduction"]
+    ${TotalReductionBefore}=    Convert To Number    ${TotalReductionBefore}
+    ${VauleBeforeReduction}=    Get Text    //*[@id="/$flow_main/$flow_content/list_articles/${RowNumber}/$Absolute_StockValue"]
+    ${VauleBeforeReduction}=    Convert To Number    ${VauleBeforeReduction}
+    Select Checkbox    //*[@id="/$flow_main/$flow_content/manual"]
+    Wait Until Keyword Succeeds    3 sec    1 sec    Element Should Be Visible    //input[contains(@id,'ReductionValueInPercent')]
+    Element Should Be Visible    //*[@id="/$flow_main/$flow_content/save"]
+    ${Result}    ${msg}=    Run Keyword And Ignore Error    Click Element    //*[@id="/$flow_main/$flow_content/reload"]
+    Click Element    //*[@id="/$flow_main/$flow_content/DetailCurrent_ReductionValueInPercent"]
+    Wait Until Keyword Succeeds    3 sec    1 sec    Input Text    //*[@id="/$flow_main/$flow_content/DetailCurrent_ReductionValueInPercent"]    ${ReductionValueInPercent}
+    Click Element    //*[@id="/$flow_main/$flow_content/save"]
+    Sleep    3s
+    ${REAfterReduction}=    Capture Page Screenshot
+    Element Should Be Visible    //*[@id="/$flow_main/$flow_content/list_articles/${RowNumber}/out_Correction_Occured"]
+    ${ReductionValueInPercentAfterSave}=    Get Value    //*[@id="/$flow_main/$flow_content/DetailCurrent_ReductionValueInPercent"]    # Start Prüfung ob der eingetragene Wert für die prozentuale Abschreibung durch das Abspeichern verändert wird
+    ${Result}    ${msg}=    Run Keyword And Ignore Error    Should be Equal    ${ReductionValueInPercentAfterSave}    ${ReductionValueInPercent}
+    ${Status}=    Create List    ${Result}
+    ${AdditionalInfo}=    Create List    ${msg}
+    ${list}=    Get Matching Xpath Count    //table/tbody/tr[contains(@id,'/$flow_main/$flow_content/list_articles/')]    ${EMPTY}    # hier started die Prüfung ob die Markierung für den manuellen Eintrag einer Abschreibung nur genau 1 mal gesetzt wird
+    ${list}=    Convert To Integer    ${list}
+    ${list}=    Evaluate    ${list}-1
+    ${Found}=    Convert To Integer    0
+    : FOR    ${Index}    IN RANGE    0    ${list}
+    \    ${Visible}    ${msg}=    Run Keyword And Ignore Error    Element Should Be Visible    //*[@id="/$flow_main/$flow_content/list_articles/${Index}/out_Correction_Occured"]
+    \    ${x}=    Get Variable Value    ${Found}
+    \    ${x}=    Evaluate    ${x}+1
+    \    ${Found}=    Set Variable If    '${Visible}'=='PASS'    ${x}    ${Found}
+    ${Result}    ${msg}=    Run Keyword And Ignore Error    Should Be Equal    ${Found}    1
+    Run Keyword If    '${Result}'=='FAIL'    Append To List    ${AdditionalInfo}    ${msg}
+    Append To List    ${Status}    ${Result}
+    ${DeprecationValue}=    Get Text    //*[@id="/$flow_main/$flow_content/list_articles/${RowNumber}/$Current_ReductionValue"]    # Start Prüfung der berechneten Werte auf Grund der prozentualen Abschreibung
+    ${DeprecationValue}=    Convert To Number    ${DeprecationValue}
+    ${Compare}=    Evaluate    ${VauleBeforeReduction}*${ReductionValueInPercent}/100.0
+    Run Keyword If    ${DeprecationValue}!= ${Compare}    Fail    Calculation not correct, Test Failed
+    ${ReductionValueFooterLeft}=    Get Text    //*[@id="/$flow_main/$flow_content/DetailCurrent_ReductionValue"]    # prüfen, ob nach Speichern des Abschlag Values die entsprechenden Felder auf der Webseite korrekt aktualisiert werden
+    ${ReductionValueFooterLeft}=    Convert To Number    ${ReductionValueFooterLeft}
+    Run Keyword If    ${ReductionValueFooterLeft}!=${DeprecationValue}    Fail    Update of Position Abschlag in detailed Information Area not correct
+    ${StockValueAfterReduction}=    Get Text    //*[@id="/$flow_main/$flow_content/Detail_Absolute_StockValue_After_Reduction"]    # Prüfung 2 - aktueller Lagerwert nach Reduction
+    ${StockValueAfterReduction}=    Convert To Number    ${StockValueAfterReduction}
+    Run Keyword If    ${StockValueAfterReduction}!=${Compare}    Fail    Update of stock value with entered reductionvalue not correct
+    ${TotalReductionAfter}=    Get Text    //*[@id="/$flow_main/$flow_content/Total_Reduction"]
+    ${TotalReductionAfter}=    Convert To Number    ${TotalReductionAfter}
+    ${TotalCalculatedAfter}=    Evaluate    ${TotalReductionBefore}+${DeprecationValue}    # Prüfung 3 Gesamtabschlag Value updated nach Speichern
+    Run Keyword If    ${TotalReductionAfter}!=${TotalCalculatedAfter}    Fail    Overall reduction value not updated after reduction was stored
+    Click Element    //*[@id="/$flow_main/$flow_content/reload"]
+    Sleep    3s
+    Element Should Not Be Visible    //*[@id="/$flow_main/$flow_content/list_articles/${RowNumber}/out_Correction_Occured"]
+    ${DeprecationValue}=    Get Text    //*[@id="/$flow_main/$flow_content/list_articles/${RowNumber}/$Current_ReductionValue"]
+    Run Keyword If    ${DeprecationValue}== '0'    Fail    Reduction not cleard, Test Failed
+    Log Many    ${Status}
+    Log Many    ${AdditionalInfo}
+    List Should Not Contain Value    ${Status}    @{KEYWORD_RESULT_WERTE}[0]    ${EMPTY}    # prüft, ob der Vergleich der Prozentwerte der Abschreibung vor und nach dem Abspeichern identisch sind - Fehler im ersten Testdurchlauf

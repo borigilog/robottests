@@ -1,0 +1,32 @@
+*** Settings ***
+Resource          ../../General_PageObjects/Login.txt
+Resource          ../../General_PageObjects/Menu_Common.txt
+
+*** Variables ***
+${menu_content}    /$flow_main/$flow_content
+${log_homescreen}    screen look_rlx_screen_log_homescreen
+${menuitem_servicepoint}    /$flow_main/main_menu/ServicePoint
+${servicepoint_content}    screen look_log_admin_servicepoint look_rlx_screen_log_admin_servicepoint
+${menuitem_rangeEvaluation}    /$flow_main/main_menu/RangeEvaluation
+${rangeEvaluation_content}    screen look_rlx_screen_log_admin_rangeEvaluation
+
+*** Keywords ***
+Login Select LOG
+    [Arguments]    ${login}=true
+    ${navigateToModule} =    Is Truthy    ${login}
+    Run Keyword If    ${navigateToModule}    Login For Module    LOG
+    Run Keyword If    ${navigateToModule}    Check Homescreen is selected
+    Check PageArea is visible    /$flow_main    screen look_rlx_screen_log_main
+
+Check Homescreen is selected
+    Check PageArea is visible    ${menu_content}    ${log_homescreen}
+
+Select Servicepoint
+    [Arguments]    ${login}=false
+    Login Select LOG    ${login}
+    Select Submenu Content    ${menuitem_servicepoint}    ${servicepoint_content}
+
+Select Reichweitenbewertung
+    [Arguments]    ${login}=false
+    Login Select LOG    ${login}
+    Select Submenu Content    ${menuitem_rangeEvaluation}    ${rangeEvaluation_content}

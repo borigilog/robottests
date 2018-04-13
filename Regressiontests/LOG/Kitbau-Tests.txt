@@ -1,8 +1,17 @@
 *** Settings ***
-Resource          ../../UserKeywords/LOG_Resources.html
-Resource          ../../UserKeywords/Common_Resources.html
+Suite Setup       Select Servicepoint    login=${TRUE}
+Suite Teardown    Close Browser
+Test Setup        Select Servicepoint
 Library           Collections
 Library           Selenium2Library
+Resource          PageObjects/Menu.txt
+
+*** Variables ***
+${KITBAU_BAU_HEADER_TEXT_DE}    Artikel Service Point - Set-Artikel erstellen
+${KB_T-HEADER-2_GROUP_DE}    Gruppe
+${KB_T-HEADER-2_A-NR_DE}    Artikelnr
+${KB_T-HEADER-2_A-NAME_DE}    Artikelname
+${KB_T-HEADER-2_ALTERNATIVE_DE}    Alternativen *
 
 *** Test Cases ***
 Verify GUI Elements on Kitbau GUI Overview
@@ -11,8 +20,6 @@ Verify GUI Elements on Kitbau GUI Overview
     ...    Ersteller: O. Baeker
     ...
     ...    erstellt am: 12.03.2018
-    [Setup]    Prepare For Service Point Tests    Hauptmandant    # The Mandator does not play any role, it is needed to login to RLX website only
-    Go To Kitbau Function
     Element Should Be Visible    //button[@id="/$flow_main/$flow_content/newproduction"]
     Element Should Be Visible    //*[@id="/$flow_main/$flow_content/back"]
     Element Should Be Visible    //*[@id="/$flow_main/$flow_content/countProductionOpen"]
@@ -38,7 +45,6 @@ Verify GUI Elements on Kitbau GUI Overview
     Wait Until Keyword Succeeds    3 sec    1 sec    Element Should Be Visible    //*[@id="/$flow_main/$popover0"]
     Element Should Contain    //*[@id="/$flow_main/$popover0/msg"]    Trotzdem verlassen?
     Click Button    //*[@id="/$flow_main/$popover0/btn0"]
-    [Teardown]    Close Browser
 
 Verify Kitbau Abschluss
     [Documentation]    Test überprüft die Funktionalität beim Abschluss eines Kitbau Auftrages, nachdem die entsprechenden Komponenten vollständig komissioniert werden konnten
@@ -46,8 +52,6 @@ Verify Kitbau Abschluss
     ...    Ersteller: O. Baeker
     ...
     ...    erstellt am: 12.03.2018
-    [Setup]    Prepare For Service Point Tests    Hauptmandant    # The Mandator does not play any role, it is needed to login to RLX website only
-    Go To Kitbau Function
     ${LineNumber}=    Get Entry From Kitbau Overview Table    O675735
     Run Keyword If    '${LineNumber}'!='None'    Click Element    //*[@id="/$flow_main/$flow_content/list_Articles/${LineNumber}/$ArtNr"]
     ${Lieferauftragsnummer}=    Get Text    //*[@id="/$flow_main/$flow_content/delivery_Number"]
@@ -59,12 +63,8 @@ Verify Kitbau Abschluss
     Element Should Be Visible    //button[@id="/$flow_main/$flow_content/edit"]
     Click Button    //button[@id="/$flow_main/$flow_content/edit"]
     Wait Until Keyword Succeeds    3 sec    1 sec    Element Should Not Be Visible    //*[@id="/$flow_main/$flow_content/newproduction"]    # Hier sollte auf den nächsten Bildschirm gesprungen werden.
-    [Teardown]    Close Browser
 
 Verify Kitbau - new KIT
-    [Setup]    Prepare For Service Point Tests    Hauptmandant    # The Mandator does not play any role, it is needed to login to RLX website only
-    Go To Kitbau Function
-    Sleep    2s
     ${NumberOfKitsBefore}=    Get Text    //*[@id="/$flow_main/$flow_content/countProductionOpen"]
     ${NumberOfKitsBefore}=    Convert To Integer    ${NumberOfKitsBefore}
     Wait Until Keyword Succeeds    3    1 sec    Element Should Be Visible    //button[@id="/$flow_main/$flow_content/newproduction"]
@@ -91,7 +91,6 @@ Verify Kitbau - new KIT
     Wait Until Keyword Succeeds    5    1 sec    Element Should Be Visible    //*[@id="/$flow_main/$flow_content/countProductionOpen"]
     ${NumberOfKitsAfter}=    Get Text    //*[@id="/$flow_main/$flow_content/countProductionOpen"]
     Run Keyword If    ${NumberOfKitsBefore}==${NumberOfKitsAfter}    Fail    Neu gebautes KIT wird nicht in der Liste der offenen KITs angezeigt bzw. KIT wird nicht gebaut
-    [Teardown]    Close Browser
 
 Verify GUI Element On Page 1 During Kitbau
     [Documentation]    This test verifies the GUI elements on all pages related to the kitbau process (excluding the overview page)
@@ -99,9 +98,6 @@ Verify GUI Element On Page 1 During Kitbau
     ...    Ersteller: O.Baeker
     ...
     ...    erstellt am: 16.03.2018
-    [Setup]    Prepare For Service Point Tests    Hauptmandant    # The Mandator does not play any role, it is needed to login to RLX website only
-    Go To Kitbau Function
-    Sleep    2s
     ${NumberOfKitsBefore}=    Get Text    //*[@id="/$flow_main/$flow_content/countProductionOpen"]
     ${NumberOfKitsBefore}=    Convert To Integer    ${NumberOfKitsBefore}
     Wait Until Keyword Succeeds    3    1 sec    Element Should Be Visible    //button[@id="/$flow_main/$flow_content/newproduction"]
@@ -110,12 +106,8 @@ Verify GUI Element On Page 1 During Kitbau
     Verify Kitbau Page 1 Elements
     Click Button    //button[@id="/$flow_main/$flow_content/edit"]
     Wait Until Keyword Succeeds    3    1 sec    Element Should Be Visible    //input[@id="/$flow_main/$flow_content/numberArticle"]
-    [Teardown]    Close Browser
 
 Verify GUI Element On Page 2 During Kitbau
-    [Setup]    Prepare For Service Point Tests    Hauptmandant    # The Mandator does not play any role, it is needed to login to RLX website only
-    Go To Kitbau Function
-    Sleep    2s
     Wait Until Keyword Succeeds    3    1 sec    Element Should Be Visible    //button[@id="/$flow_main/$flow_content/newproduction"]
     Wait Until Keyword Succeeds    3    1 sec    Click Button    //button[@id="/$flow_main/$flow_content/newproduction"]    # change to first subpage for selection of KIT article
     Wait Until Keyword Succeeds    5    1 sec    Page Should Contain    ${KITBAU_BAU_HEADER_TEXT_DE}
@@ -131,4 +123,152 @@ Verify GUI Element On Page 2 During Kitbau
     Wait Until Element Is Visible    //*[@id="/$flow_main/$popover0"]
     Click Button    //button[@id="/$flow_main/$popover0/btn0"]
     Element Should Not Be Visible    //button[@id="/$flow_main/$flow_content/newproduction"]
-    [Teardown]    Close Browser
+
+*** Keywords ***
+Get Entry From Kitbau Overview Table
+    [Arguments]    ${OrderNumber}
+    [Documentation]    Selects out of the Kitbau overview table the entry with the given order number
+    ...
+    ...    Ersteller: O. Baeker
+    ...
+    ...    erstellt am: 12.03.2018
+    Sleep    2s
+    Wait Until Keyword Succeeds    5    1 sec    Element Should be Visible    //*[@id="/$flow_main/$flow_content/countProductionOpen"]
+    Sleep    2s
+    ${EntriesInOverviewTable}=    Get Text    //div[@id="/$flow_main/$flow_content/countProductionOpen"]
+    ${EntriesInOverviewTable}=    Convert To Integer    ${EntriesInOverviewTable}
+    ${EntriesInOverviewTable}=    Evaluate    ${EntriesInOverviewTable}-1
+    : FOR    ${Index}    IN RANGE    0    ${EntriesInOverviewTable}
+    \    Click Element    //*[@id="/$flow_main/$flow_content/list_Articles/${Index}/$ArtNr"]
+    \    ${OrderNumberTable}=    Get Text    //*[@id="/$flow_main/$flow_content/list_Articles/${Index}/$OrderNumber"]
+    \    ${OrderNumberTable}=    Convert To String    ${OrderNumberTable}
+    \    ${Result}    ${msg}=    Run Keyword And Ignore Error    Should be Equal    ${OrderNumberTable}    ${OrderNumber}
+    \    ${LineNumber}=    Set Variable If    '${Result}'=='PASS'    ${Index}
+    \    Run Keyword If    '${OrderNumberTable}'=='${OrderNumber}'    Exit For Loop
+    [Return]    ${LineNumber}    # Indicates the line with the Kitbau order within the overview table accordiing to the given order number
+
+Get Line Number Of KIT Article
+    [Arguments]    ${KitArticle}    ${NumberOfKitArticles}
+    [Documentation]    Keyword returns the Line Number of the given KIT Article within the List of availabel KIT Articles to built from
+    ...
+    ...    Ersteller: O. Baeker
+    ...
+    ...    erstaellt am: 15.03.2018
+    ${MaxIndex}=    Evaluate    ${NumberOfKitArticles}-1
+    : FOR    ${Index}    IN RANGE    0    ${MaxIndex}
+    \    Click Element    //*[@id="/$flow_main/$flow_content/list_Articles/${Index}/$ArtNr"]
+    \    ${ArticleNo}=    Get Text    //*[@id="/$flow_main/$flow_content/list_Articles/${Index}/$ArtNr"]
+    \    ${ArticleNo}=    Convert To String    ${ArticleNo}
+    \    ${LineNumber}=    Set Variable    ${Index}
+    \    Run Keyword If    '${ArticleNo}'=='${KitArticle}'    Exit For LOOP
+    [Return]    ${LineNumber}
+
+Fill Data For Finishing Kitbau Order
+    [Arguments]    ${Storehouse}    ${Account}    ${Name}=System Administrator, System Administrator    ${Street}=Reinhardtstrasse 25    ${ZipCode}=10117    ${City}=Berlin
+    ...    ${Country}=Deutschland
+    [Documentation]    Keyword fills in Data for finishing the Kitbau Order and uses defualt vaule for the delivery address if not given
+    ...
+    ...    Ersteller: \ O. Baeker
+    ...
+    ...    erstellt am: 16.03.2108
+    Select From List By Label    //*[@id="/$flow_main/$flow_content/deliveryDestination"]    ${Storehouse}
+    Click Button    //button[@id="/$flow_main/$flow_content/choose_costcenter"]
+    Wait Until Keyword Succeeds    5    1 sec    Element Should Be Visible    //button[@id="/$flow_main/$flow_content/ok"]
+    Click Element    //*[@id="/$flow_main/$flow_content/tree_costcenter/1_4"]
+    Wait Until Keyword Succeeds    3    1 sec    Click Element    //*[@id="/$flow_main/$flow_content/tree_costcenter/1_4/$btn"]
+    ${KstName}=    Get Text    //*[@id="/$flow_main/$flow_content/tree_costcenter/1_4_0/$txt"]
+    ${KstName}=    Convert To String    ${KstName}
+    Run Keyword If    '${KstName}'=='${Account}'    Click Element    //*[@id="/$flow_main/$flow_content/tree_costcenter/1_4_1/$txt"]
+    Click Button    //*[@id="/$flow_main/$flow_content/ok"]
+    Wait Until Keyword Succeeds    3    1 sec    Element Should Be Visible    //Button[@id="/$flow_main/$flow_content/complete"]
+    Click Element    //input[@id="/$flow_main/$flow_content/addressName"]
+    Input Text    //input[@id="/$flow_main/$flow_content/addressName"]    ${Name}
+    Click Element    //input[@id="/$flow_main/$flow_content/AddressStrasse_Number"]
+    Input Text    //input[@id="/$flow_main/$flow_content/AddressStrasse_Number"]    ${Street}
+    Click Element    //Input[@id="/$flow_main/$flow_content/PLZ"]
+    Input Text    //Input[@id="/$flow_main/$flow_content/PLZ"]    ${ZipCode}
+    Click Element    //input[@id="/$flow_main/$flow_content/town"]
+    Input Text    //input[@id="/$flow_main/$flow_content/town"]    ${City}
+    Select From List By Label    //select[@id="/$flow_main/$flow_content/country"]    ${Country}
+
+Verify Kitbau Page 1 Elements
+    [Documentation]    Verifies the GUI Page elements for the intro page of the Kitbau process - selection of Kitbau article to be built
+    ...
+    ...    (!) Testet aktuell den Fehler, dass der Button um zur nächsten Siete beim KITBau zu kommen auch genutzt werden kann, \ wenn vorher kein KIT Artikel gewählt worden war.
+    ...
+    ...    Ersteller: O. Baeker
+    ...
+    ...    erstellt am: 19.03.2018
+    Element Should Be Visible    //Input[@id="/$flow_main/$flow_content/filter"]
+    Element Should Be Visible    //*[@id="/$flow_main/$flow_content/numberItems"]
+    ${NmberOfArticles}=    Get Text    //*[@id="/$flow_main/$flow_content/numberItems"]
+    ${NmberOfArticles}=    Convert To Integer    ${NmberOfArticles}
+    ${NumerbOfRows}=    Evaluate    ${NmberOfArticles}-1
+    Element Should Be Visible    //*[@id="/$flow_main/$flow_content/list_Articles/$col_ArtNr"]
+    Element Should Be Visible    //*[@id="/$flow_main/$flow_content/list_Articles/$col_ArtName"]
+    Element Should Be Visible    //*[@id="/$flow_main/$flow_content/list_Articles/$col_ArtDesc"]
+    : FOR    ${Index}    IN RANGE    0    ${NumerbOfRows}
+    \    Click Element    //*[@id="/$flow_main/$flow_content/list_Articles/${Index}/$ArtNr"]
+    \    ${Artikel}=    Get Text    //*[@id="/$flow_main/$flow_content/list_Articles/${Index}/$ArtNr"]
+    \    ${Artikel}=    Convert To String    ${Artikel}
+    \    Run Keyword If    '${Artikel}'=='${Empty}'    Fail    Keine Artikelnummer für Kit Artikel vorhanden obwohl erwartet
+    \    ${ArtikelName}=    Get Text    //*[@id="/$flow_main/$flow_content/list_Articles/0/$ArtName"]
+    \    ${ArtikelName}=    Convert To String    ${ArtikelName}
+    \    Run Keyword If    '${ArtikelName}'=='${Empty}'    Fail    Kein Artikelname für Kit Artikel in List obwohl erwartet
+    Element Should Be Visible    //button[@id="/$flow_main/$flow_content/back"]
+    Element Should Be Visible    //button[@id="/$flow_main/$flow_content/edit"]
+    Click Element    //Input[@id="/$flow_main/$flow_content/filter"]
+    Input Text    //Input[@id="/$flow_main/$flow_content/filter"]    KIT100001
+    ${NmberOfArticles}=    Get Text    //*[@id="/$flow_main/$flow_content/numberItems"]
+    ${NmberOfArticles}=    Convert To Integer    ${NmberOfArticles}
+    Run Keyword If    ${NmberOfArticles}!=1    Fail    Filter wurde nicht in entsprechender Weise angewendet
+    ${Artikel}=    Get Text    //*[@id="/$flow_main/$flow_content/list_Articles/0/$ArtNr"]
+    ${Artikel}=    Convert To String    ${Artikel}
+    Run Keyword If    '${Artikel}'!='KIT100001'    Fail    Gefilterter Artikel entspricht nicht dem Fikter-Wert aus der Eingabe im Filter Eingabefeld
+    Click Button    //button[@id="/$flow_main/$flow_content/edit"]
+    ${Status}    ${msg}=    Run Keyword And Ignore Error    Wait Until Element Is Visible    //button[@id="/$flow_main/$flow_content/kitdetail"]
+    ${KB1Screen}=    Capture Page Screenshot
+    sleep    2s
+    Run Keyword If    '${Status}'=='PASS'    Fail    Button dürfte nicht aktiv sein, lässt sich aber anklicken und führt zur nächsten Seite
+    Click Element    //*[@id="/$flow_main/$flow_content/list_Articles/${NumberOfRows}/$ArtNr"]
+
+Verify Kitbau Page 2 Elements
+    [Documentation]    Test überprüft die WebGUI im KITBau Prozess, die die Artikel eines KITs auflistet und den Ersatz mit Alternativartikeln ermöglicht.
+    ...
+    ...    Ersteller: O.Baeker
+    ...
+    ...    erstellt am: 21.03.2018
+    ${NumberOfArtiklesToBuilt}=    Get Value    //input[@id="/$flow_main/$flow_content/numberArticle"]
+    ${NumberOfArtiklesToBuilt}=    Convert To Integer    ${NumberOfArtiklesToBuilt}
+    Run Keyword If    ${NumberOfArtiklesToBuilt}!=1    Fail    Default Wert für die Anzahl der zu bauenden KIT ist ungleich 1
+    Wait Until Keyword Succeeds    3    1 sec    Click Element    //input[@id="/$flow_main/$flow_content/numberArticle"]
+    Input Text    //input[@id="/$flow_main/$flow_content/numberArticle"]    2
+    ${NumberOfArtiklesToBuilt}=    Get Value    //input[@id="/$flow_main/$flow_content/numberArticle"]
+    ${NumberOfArtiklesToBuilt}=    Convert To Integer    ${NumberOfArtiklesToBuilt}
+    Run Keyword If    ${NumberOfArtiklesToBuilt}!=2    Fail    Anzahl der zu bauenden KITs wurde nicht wie erwartet auf den Wert 2 geändert
+    Element Should Be Visible    //*[@id="/$flow_main/$flow_content/list_Articles/$col_GroupName"]
+    Element Text Should Be    //*[@id="/$flow_main/$flow_content/list_Articles/$col_GroupName"]    ${KB_T-HEADER-2_GROUP_DE}
+    Element Should Be Visible    //*[@id="/$flow_main/$flow_content/list_Articles/$col_ArtNr"]
+    Element Text Should Be    //*[@id="/$flow_main/$flow_content/list_Articles/$col_ArtNr"]    ${KB_T-HEADER-2_A-NR_DE}
+    Element Should Be Visible    //*[@id="/$flow_main/$flow_content/list_Articles/$col_ArtName"]
+    Element Text Should Be    //*[@id="/$flow_main/$flow_content/list_Articles/$col_ArtName"]    ${KB_T-HEADER-2_A-NAME_DE}
+    Element Should Be Visible    //*[@id="/$flow_main/$flow_content/list_Articles/$col_3"]
+    Element Text Should Be    //*[@id="/$flow_main/$flow_content/list_Articles/$col_3"]    ${KB_T-HEADER-2_ALTERNATIVE_DE}
+    ${KitArtikel}=    Set Variable    0
+    ${KitArtikel}=    Convert To Integer    ${KitArtikel}
+    : FOR    ${Index}    IN RANGE    0    50
+    \    ${Result}    ${msg}=    Run Keyword And Ignore Error    Element Should Be Visible    //*[@id="/$flow_main/$flow_content/list_Articles/${Index}/$ArtNr"]
+    \    Run Keyword If    '${Result}'!='PASS'    Exit FOR LOOP
+    \    ${Article}=    Get Text    //*[@id="/$flow_main/$flow_content/list_Articles/${Index}/$ArtNr"]
+    \    ${KitArtikel}=    Evaluate    ${KitArtikel}+1
+    \    Run Keyword If    '${Article}'=='${Empty}'    Exit FOR LOOP
+    \    ${Resultat}    ${msg}=    Run Keyword And Ignore Error    Element Should Be Visible    //*[@id="/$flow_main/$flow_content/list_Articles/${Index}/alternative"]
+    \    ${AlternativArtikelIndex}=    Set Variable If    '${Resultat}'=='PASS'    ${Index}
+    Run Keyword If    '${AlternativArtikelIndex}'!='None'    Click Element    //select[@id="/$flow_main/$flow_content/list_Articles/2/alternative"]
+    Run Keyword If    '${AlternativArtikelIndex}'!='None'    Select From List By Index    //select[@id="/$flow_main/$flow_content/list_Articles/2/alternative"]    1
+    Run Keyword If    '${AlternativArtikelIndex}'!='None'    Element Should Be Visible    //*[@id="/$flow_main/$flow_content/list_Articles/${AlternativArtikelIndex}/$4"]    # bei Alternativ-Artikeln muss es die Möglichkeit geben, die Verwendung von Original- und Alternativ-Artikeln zu splitten
+    Run Keyword If    '${AlternativArtikelIndex}'!='None'    Click Element    //*[@id="/$flow_main/$flow_content/list_Articles/${AlternativArtikelIndex}/$4"]    # Über das icon erfolgt die Auswahl des Benutzers zum Split
+    Comment    Run Keyword If    '${AlternativArtikelIndex}'!='None'    ???    # Hier müsste das icon zum Split des Articles geprüft werden, welches in der aktuellen Version fehlt
+    Element Should Be Visible    //button[@id="/$flow_main/$flow_content/kitdetail"]
+    Element Should Be Visible    //button[@id="/$flow_main/$flow_content/continue"]
+    Element Should Be Visible    //button[@id="/$flow_main/$flow_content/back"]
