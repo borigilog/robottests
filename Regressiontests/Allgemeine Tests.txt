@@ -48,13 +48,15 @@ Check OAC Kostenstellen Auswahl
     Click Element And Wait    /$flow_main/main_menu/info_order
     @{costcenter_names}=    Create List    KST_BVG KST_BVG    KST-Verwaltung KST-Verwaltung    Werkstätten VAG Werkstätten    Bus Bus
     CostCenter_PopUp.Set CostCenter In CostCenter PopUp    /$flow_main/$flow_content/costcenter_entity    @{costcenter_names}
-    ${value}    Get Value    /$flow_main/$flow_content/costcenter_entity/name
+    ${value}=    CostCenter_PopUp.Get Current CostCenterValue In CostCenter PopUp    /$flow_main/$flow_content/costcenter_entity
     Should Be Equal    ${value}    Bus Bus
+    CostCenter_PopUp.Check Expected Value In CostCenter PopUp    /$flow_main/$flow_content/costcenter_entity    Bus Bus
     CostCenter_PopUp.Open CostCenter PopUp    /$flow_main/$flow_content/costcenter_entity
     CostCenter_PopUp.Check CostCenter PopUp    /$flow_main/$flow_content/costcenter_entity
     CostCenter_PopUp.Close CostCenter PopUp    /$flow_main/$flow_content/costcenter_entity
     CostCenter_PopUp.Check CostCenter Selection Is Available    /$flow_main/$flow_content/costcenter_entity
     CostCenter_PopUp.Remove Selected CostCenter In CostCenter PopUp    /$flow_main/$flow_content/costcenter_entity
+    CostCenter_PopUp.Check Expected Value In CostCenter PopUp    /$flow_main/$flow_content/costcenter_entity    ${EMPTY}
     [Teardown]    Close Browser
 
 Check OAC Kostenstellen Auswahl Mit Umlauten
@@ -71,13 +73,15 @@ Check OAC Organisationseinheiten Auswahl
     Click Element And Wait    /$flow_main/main_menu/info_order
     @{office_names}=    Create List    BVG    Verwaltung    Freiland GMBH    830
     Office_PopUp.Set Office In Office PopUp    /$flow_main/$flow_content/org_entity    @{office_names}
-    ${value}=    Get Value    /$flow_main/$flow_content/org_entity/name
+    ${value}=    Office_PopUp.Get Current OfficeValue In Office PopUp    /$flow_main/$flow_content/org_entity
     Should Be Equal    ${value}    830
+    Office_PopUp.Check Expected Value In Office PopUp    /$flow_main/$flow_content/org_entity    830
     Office_PopUp.Open Office PopUp    /$flow_main/$flow_content/org_entity
     Office_PopUp.Check Office PopUp    /$flow_main/$flow_content/org_entity
     Office_PopUp.Close Office PopUp    /$flow_main/$flow_content/org_entity
     Office_PopUp.Check Office Selection Is Available    /$flow_main/$flow_content/org_entity
     Office_PopUp.Remove Selected Office In Office PopUp    /$flow_main/$flow_content/org_entity
+    Office_PopUp.Check Expected Value In Office PopUp    /$flow_main/$flow_content/org_entity    ${EMPTY}
     [Teardown]    Close Browser
 
 Check OAC Retouren Filter
@@ -86,29 +90,85 @@ Check OAC Retouren Filter
     Return_Filter_PopUp.Open ReturnFilter PopUp    /$flow_main/$flow_content
     Return_Filter_PopUp.Close ReturnFilter PopUp    /$flow_main/$flow_content
     Return_Filter_PopUp.Open ReturnFilter PopUp    /$flow_main/$flow_content
-    Return_Filter_PopUp.Select Reset Filter In ReturnFilter PopUp    /$flow_main/$flow_content
+    Return_Filter_PopUp.Select ResetFilter In ReturnFilter PopUp    /$flow_main/$flow_content
     Return_Filter_PopUp.Open ReturnFilter PopUp    /$flow_main/$flow_content
-    Return_Filter_PopUp.Set Use Return No In ReturnFilter PopUp    /$flow_main/$flow_content    true
-    ${value}=    Return_Filter_PopUp.Get Use Return No In ReturnFilter PopUp    /$flow_main/$flow_content
+    Return_Filter_PopUp.Set Use ReturnNo In ReturnFilter PopUp    /$flow_main/$flow_content    true
+    ${value}=    Return_Filter_PopUp.Get Use ReturnNo In ReturnFilter PopUp    /$flow_main/$flow_content
     Should Be Equal    ${value}    ${TRUE}
-    Return_Filter_PopUp.Check Use Return No Selection In ReturnFilter PopUp    /$flow_main/$flow_content    ${value}
-    Return_Filter_PopUp.Set Value Return No In ReturnFilter PopUp    /$flow_main/$flow_content    1234
-    ${value}=    Return_Filter_PopUp.Get Value Return No In ReturnFilter PopUp    /$flow_main/$flow_content
+    Return_Filter_PopUp.Check Use ReturnNo Selection In ReturnFilter PopUp    /$flow_main/$flow_content    ${value}
+    Return_Filter_PopUp.Set Value ReturnNo In ReturnFilter PopUp    /$flow_main/$flow_content    1234
+    ${value}=    Return_Filter_PopUp.Get Value ReturnNo In ReturnFilter PopUp    /$flow_main/$flow_content
     Should Be Equal    ${value}    1234
-    Return_Filter_PopUp.Check Value Return No In ReturnFilter PopUp    /$flow_main/$flow_content    ${value}
-    Return_Filter_PopUp.Set Use Created On In ReturnFilter PopUp    /$flow_main/$flow_content    true
-    ${value}=    Return_Filter_PopUp.Get Use Created On In ReturnFilter PopUp    /$flow_main/$flow_content
+    Return_Filter_PopUp.Check Value ReturnNo In ReturnFilter PopUp    /$flow_main/$flow_content    ${value}
+    Return_Filter_PopUp.Set Use ClientNo In ReturnFilter PopUp    /$flow_main/$flow_content    true
+    ${value}=    Return_Filter_PopUp.Get Use ClientNo In ReturnFilter PopUp    /$flow_main/$flow_content
     Should Be Equal    ${value}    ${TRUE}
-    Return_Filter_PopUp.Check Use Created On Selection In ReturnFilter PopUp    /$flow_main/$flow_content    ${value}
-    Return_Filter_PopUp.Set Date Created On From In ReturnFilter PopUp    /$flow_main/$flow_content    14.03.2018
-    ${value}=    Return_Filter_PopUp.Get Date Created On From In ReturnFilter PopUp    /$flow_main/$flow_content
+    Return_Filter_PopUp.Check Use ClientNo Selection In ReturnFilter PopUp    /$flow_main/$flow_content    ${value}
+    Return_Filter_PopUp.Set Value ClientNo In ReturnFilter PopUp    /$flow_main/$flow_content    1234
+    ${value}=    Return_Filter_PopUp.Get Value ClientNo In ReturnFilter PopUp    /$flow_main/$flow_content
+    Should Be Equal    ${value}    1234
+    Return_Filter_PopUp.Check Value ClientNo In ReturnFilter PopUp    /$flow_main/$flow_content    ${value}
+    Return_Filter_PopUp.Set Use OrderNo In ReturnFilter PopUp    /$flow_main/$flow_content    true
+    ${value}=    Return_Filter_PopUp.Get Use OrderNo In ReturnFilter PopUp    /$flow_main/$flow_content
+    Should Be Equal    ${value}    ${TRUE}
+    Return_Filter_PopUp.Check Use OrderNo Selection In ReturnFilter PopUp    /$flow_main/$flow_content    ${value}
+    Return_Filter_PopUp.Set Value OrderNo In ReturnFilter PopUp    /$flow_main/$flow_content    1234
+    ${value}=    Return_Filter_PopUp.Get Value OrderNo In ReturnFilter PopUp    /$flow_main/$flow_content
+    Should Be Equal    ${value}    1234
+    Return_Filter_PopUp.Check Value OrderNo In ReturnFilter PopUp    /$flow_main/$flow_content    ${value}
+    Return_Filter_PopUp.Set Use DeliveryNo In ReturnFilter PopUp    /$flow_main/$flow_content    true
+    ${value}=    Return_Filter_PopUp.Get Use DeliveryNo In ReturnFilter PopUp    /$flow_main/$flow_content
+    Should Be Equal    ${value}    ${TRUE}
+    Return_Filter_PopUp.Check Use DeliveryNo Selection In ReturnFilter PopUp    /$flow_main/$flow_content    ${value}
+    Return_Filter_PopUp.Set Value DeliveryNo In ReturnFilter PopUp    /$flow_main/$flow_content    1234
+    ${value}=    Return_Filter_PopUp.Get Value DeliveryNo In ReturnFilter PopUp    /$flow_main/$flow_content
+    Should Be Equal    ${value}    1234
+    Return_Filter_PopUp.Check Value DeliveryNo In ReturnFilter PopUp    /$flow_main/$flow_content    ${value}
+    Return_Filter_PopUp.Set Use CreatedBy In ReturnFilter PopUp    /$flow_main/$flow_content    true
+    ${value}=    Return_Filter_PopUp.Get Use CreatedBy In ReturnFilter PopUp    /$flow_main/$flow_content
+    Should Be Equal    ${value}    ${TRUE}
+    Return_Filter_PopUp.Check Use CreatedBy Selection In ReturnFilter PopUp    /$flow_main/$flow_content    ${value}
+    Return_Filter_PopUp.Set Value CreatedBy In ReturnFilter PopUp    /$flow_main/$flow_content    1234
+    ${value}=    Return_Filter_PopUp.Get Value CreatedBy In ReturnFilter PopUp    /$flow_main/$flow_content
+    Should Be Equal    ${value}    1234
+    Return_Filter_PopUp.Check Value CreatedBy In ReturnFilter PopUp    /$flow_main/$flow_content    ${value}
+    Return_Filter_PopUp.Set Use CreatedOn In ReturnFilter PopUp    /$flow_main/$flow_content    true
+    ${value}=    Return_Filter_PopUp.Get Use CreatedOn In ReturnFilter PopUp    /$flow_main/$flow_content
+    Should Be Equal    ${value}    ${TRUE}
+    Return_Filter_PopUp.Check Use CreatedOn Selection In ReturnFilter PopUp    /$flow_main/$flow_content    ${value}
+    Return_Filter_PopUp.Set Date CreatedOnFrom In ReturnFilter PopUp    /$flow_main/$flow_content    14.03.2018
+    ${value}=    Return_Filter_PopUp.Get Date CreatedOnFrom In ReturnFilter PopUp    /$flow_main/$flow_content
     Should Be Equal    ${value}    14.03.2018
-    Return_Filter_PopUp.Check Date Created On From In ReturnFilter PopUp    /$flow_main/$flow_content    ${value}
-    Return_Filter_PopUp.Set Date Created On To In ReturnFilter PopUp    /$flow_main/$flow_content    11.05.2018
-    ${value}=    Return_Filter_PopUp.Get Date Created On To In ReturnFilter PopUp    /$flow_main/$flow_content
+    Return_Filter_PopUp.Check Date CreatedOnFrom In ReturnFilter PopUp    /$flow_main/$flow_content    ${value}
+    Return_Filter_PopUp.Set Date CreatedOnTo In ReturnFilter PopUp    /$flow_main/$flow_content    11.05.2018
+    ${value}=    Return_Filter_PopUp.Get Date CreatedOnTo In ReturnFilter PopUp    /$flow_main/$flow_content
     Should Be Equal    ${value}    11.05.2018
-    Return_Filter_PopUp.Check Date Created On To In ReturnFilter PopUp    /$flow_main/$flow_content    ${value}
-    Return_Filter_PopUp.Select Apply Filter In ReturnFilter PopUp    /$flow_main/$flow_content
+    Return_Filter_PopUp.Check Date CreatedOnTo In ReturnFilter PopUp    /$flow_main/$flow_content    ${value}
+    Return_Filter_PopUp.Set Use Overdue In ReturnFilter PopUp    /$flow_main/$flow_content    true
+    ${value}=    Return_Filter_PopUp.Get Use Overdue In ReturnFilter PopUp    /$flow_main/$flow_content
+    Should Be Equal    ${value}    ${TRUE}
+    Return_Filter_PopUp.Check Use Overdue Selection In ReturnFilter PopUp    /$flow_main/$flow_content    ${value}
+    Return_Filter_PopUp.Set Use Orconnection In ReturnFilter PopUp    /$flow_main/$flow_content    true
+    ${value}=    Return_Filter_PopUp.Get Use Orconnection In ReturnFilter PopUp    /$flow_main/$flow_content
+    Should Be Equal    ${value}    ${TRUE}
+    Return_Filter_PopUp.Check Use Orconnection Selection In ReturnFilter PopUp    /$flow_main/$flow_content    ${value}
+    Return_Filter_PopUp.Set Use Open In ReturnFilter PopUp    /$flow_main/$flow_content    true
+    ${value}=    Return_Filter_PopUp.Get Use Open In ReturnFilter PopUp    /$flow_main/$flow_content
+    Should Be Equal    ${value}    ${TRUE}
+    Return_Filter_PopUp.Check Use Open Selection In ReturnFilter PopUp    /$flow_main/$flow_content    ${value}
+    Return_Filter_PopUp.Set Use Cleared In ReturnFilter PopUp    /$flow_main/$flow_content    true
+    ${value}=    Return_Filter_PopUp.Get Use Cleared In ReturnFilter PopUp    /$flow_main/$flow_content
+    Should Be Equal    ${value}    ${TRUE}
+    Return_Filter_PopUp.Check Use Cleared Selection In ReturnFilter PopUp    /$flow_main/$flow_content    ${value}
+    Return_Filter_PopUp.Set Use Billed In ReturnFilter PopUp    /$flow_main/$flow_content    true
+    ${value}=    Return_Filter_PopUp.Get Use Billed In ReturnFilter PopUp    /$flow_main/$flow_content
+    Should Be Equal    ${value}    ${TRUE}
+    Return_Filter_PopUp.Check Use Billed Selection In ReturnFilter PopUp    /$flow_main/$flow_content    ${value}
+    Return_Filter_PopUp.Set Use Closed In ReturnFilter PopUp    /$flow_main/$flow_content    true
+    ${value}=    Return_Filter_PopUp.Get Use Closed In ReturnFilter PopUp    /$flow_main/$flow_content
+    Should Be Equal    ${value}    ${TRUE}
+    Return_Filter_PopUp.Check Use Closed Selection In ReturnFilter PopUp    /$flow_main/$flow_content    ${value}
+    Return_Filter_PopUp.Select ApplyFilter In ReturnFilter PopUp    /$flow_main/$flow_content
     [Teardown]    Close Browser
 
 *** Keywords ***

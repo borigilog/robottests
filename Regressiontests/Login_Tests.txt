@@ -101,7 +101,7 @@ Clear Input Password
     Clear Element Text    /$flow_main/login_password
 
 Error Page Should Be Open
-    Message_PopUp.Check Message PopUp Is Visible    visible=true
+    Message_PopUp.Check Message PopUp Is Visible    /$flow_main    visible=true
     Check PageArea is visible    /$flow_main    screen look_rlx_screen_choose_mandator    visible=false
 
 Submit Mandator Selection

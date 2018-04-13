@@ -2,15 +2,17 @@
 
 *** Variables ***
 &{Dic_OfficePopUpTitle}    D=Organisationseinheiten    E=Organizational units    F=Unités d'organisation
+# ~~~~~~~ class name
+${OFFICE_POPUP_CLASS}    screen look_rlx_screen_choose_org_entity
 
 *** Keywords ***
 Check Office Selection Is Available
     [Arguments]    ${locator}
     [Documentation]    MM 11.04.2018
     [Tags]    General, Helper, Office_PopUp
-    ${picker_id}=    Set Variable    ${locator}/pick
-    ${remove_id}=    Set Variable    ${locator}/remove
-    ${name_id}=    Set Variable    ${locator}/name
+    ${picker_id}=    Get Office PickID    ${locator}
+    ${remove_id}=    Get Office RemoveID    ${locator}
+    ${name_id}=    Get Office NameID    ${locator}
     Element Should Be Visible    ${picker_id}
     Element Should Be Visible    ${remove_id}
     Element Should Be Visible    ${name_id}
@@ -19,17 +21,17 @@ Check Office PopUp
     [Arguments]    ${locator}
     [Documentation]    MM 11.04.2018
     [Tags]    General, Helper, Office_PopUp
-    ${popup_id}=    Get Office PopUpID    ${locator}
-    ${close_id}=    Set Variable    ${popup_id}/$close
+    ${title_id}=    Get Office TitleID    ${locator}
+    ${close_id}=    Get Office CloseID    ${locator}
     Element Should Be Visible    ${close_id}
     ${langunge_code}=    Get selected LanguageCode
-    Run Keyword And Continue On Failure    Element Text Should Be    ${popup_id}/$title    &{Dic_OfficePopUpTitle}[${langunge_code}]
+    Run Keyword And Continue On Failure    Element Text Should Be    ${title_id}    &{Dic_OfficePopUpTitle}[${langunge_code}]
 
 Open Office PopUp
     [Arguments]    ${locator}
     [Documentation]    MM 11.04.2018
     [Tags]    General, Helper, Office_PopUp
-    ${picker_id}=    Set Variable    ${locator}/pick
+    ${picker_id}=    Get Office PickID    ${locator}
     Click Element    ${picker_id}
 
 Close Office PopUp
@@ -39,25 +41,36 @@ Close Office PopUp
     ${popup_visible} =    Run Keyword And Return Status    Check Office PopUp Is Visible    ${locator}
     Run Keyword If    '${popup_visible}' == '${FALSE}'    Log    Das Oraganisationseinheiten Fenster ist nicht sichtbar und kann daher nicht geschlossen werden!    WARN
     Return From Keyword If    '${popup_visible}' == '${FALSE}'
-    ${popup_id}=    Get Office PopUpID    ${locator}
-    ${close_id}=    Set Variable    ${popup_id}/$close
+    ${close_id}=    Get Office CloseID    ${locator}
     Click Element    ${close_id}
 
 Remove Selected Office In Office PopUp
     [Arguments]    ${locator}
     [Documentation]    MM 11.04.2018
     [Tags]    General, Helper, Office_PopUp
-    ${remove_id}=    Set Variable    ${locator}/remove
-    ${name_id}=    Set Variable    ${locator}/name
+    ${remove_id}=    Get Office RemoveID    ${locator}
     Click Element    ${remove_id}
-    ${value}=    Get Value    ${name_id}
-    Should Be Equal    ${value}    ${EMPTY}
 
 Check Office PopUp Is Visible
     [Arguments]    ${locator}    ${visible}=${TRUE}
     [Documentation]    MM 11.04.2018
     [Tags]    General, Helper, Office_PopUp
-    Check PopOver Is Visible    ${locator}    screen look_rlx_screen_choose_org_entity    visible=${visible}
+    Page.Check PopOver Is Visible    ${locator}    ${OFFICE_POPUP_CLASS}    visible=${visible}
+
+Get Current OfficeValue In Office PopUp
+    [Arguments]    ${locator}
+    [Documentation]    MM 13.04.2018
+    [Tags]    General, Helper, Office_PopUp
+    ${name_id}=    Get Office NameID    ${locator}
+    ${value}=    Get Value    ${name_id}
+    [Return]    ${value}
+
+Check Expected Value In Office PopUp
+    [Arguments]    ${locator}    ${expected_value}
+    [Documentation]    MM 13.04.2018
+    [Tags]    General, Helper, Office_PopUp
+    ${current_value}=    Get Current OfficeValue In Office PopUp    ${locator}
+    Should Be Equal    ${current_value}    ${expected_value}
 
 Set Office In Office PopUp
     [Arguments]    ${locator}    @{office_node_names}
@@ -65,8 +78,7 @@ Set Office In Office PopUp
     [Tags]    General, Helper, Office_PopUp
     Open CostCenter PopUp    ${locator}
     ${length} =    Get Length    ${office_node_names}
-    ${popup_id}=    Get Office PopUpID    ${locator}
-    ${id}=    Set Variable    ${popup_id}/orgtree/1
+    ${id}=    Get Office FirstTreeItemID    ${locator}
     ${count}=    Set Variable    ${0}
     : FOR    ${value}    IN    @{office_node_names}
     \    ${count}=    Evaluate    ${count}+${1}
@@ -99,7 +111,35 @@ Wait Until Office Node Has Children
     \    Exit For Loop If    '${length}'>'${0}'
     \    Sleep    1    Wait Until TreeNode Has Children
 
-Get Office PopUpID
+Get Office PickID
     [Arguments]    ${locator}
-    [Documentation]    MM 12.04.2018
-    Run Keyword And Return    Get PopOverId    ${locator}    screen look_rlx_screen_choose_org_entity
+    [Documentation]    MM 13.04.2018
+    ${id}=    Set Variable    ${locator}/pick
+    [Return]    ${id}
+
+Get Office FirstTreeItemID
+    [Arguments]    ${locator}
+    [Documentation]    MM 13.04.2018
+    Run Keyword And Return    Page.Get ElementID In PopOver    ${locator}    ${OFFICE_POPUP_CLASS}    orgtree/1
+
+Get Office CloseID
+    [Arguments]    ${locator}
+    [Documentation]    MM 13.04.2018
+    Run Keyword And Return    Page.Get ElementID In PopOver    ${locator}    ${OFFICE_POPUP_CLASS}    $close
+
+Get Office TitleID
+    [Arguments]    ${locator}
+    [Documentation]    MM 13.04.2018
+    Run Keyword And Return    Page.Get ElementID In PopOver    ${locator}    ${OFFICE_POPUP_CLASS}    $title
+
+Get Office NameID
+    [Arguments]    ${locator}
+    [Documentation]    MM 13.04.2018
+    ${id}=    Set Variable    ${locator}/name
+    [Return]    ${id}
+
+Get Office RemoveID
+    [Arguments]    ${locator}
+    [Documentation]    MM 13.04.2018
+    ${id}=    Set Variable    ${locator}/remove
+    [Return]    ${id}

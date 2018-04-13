@@ -2,15 +2,17 @@
 
 *** Variables ***
 &{Dic_CostCenterPopUpTitle}    D=Kostenstellen    E=Cost centers    F=Centres de coûts
+# ~~~~~~~ class name
+${COSTCENTER_POPUP_CLASS}    screen look_rlx_screen_choose_costcenter
 
 *** Keywords ***
 Check CostCenter Selection Is Available
     [Arguments]    ${locator}
     [Documentation]    MM 11.04.2018
     [Tags]    General, Helper, CostCenter_PopUp
-    ${picker_id}=    Set Variable    ${locator}/pick
-    ${remove_id}=    Set Variable    ${locator}/remove
-    ${name_id}=    Set Variable    ${locator}/name
+    ${picker_id}=    Get CostCenter PickID    ${locator}
+    ${remove_id}=    Get CostCenter RemoveID    ${locator}
+    ${name_id}=    Get CostCenter NameID    ${locator}
     Element Should Be Visible    ${picker_id}
     Element Should Be Visible    ${remove_id}
     Element Should Be Visible    ${name_id}
@@ -19,17 +21,17 @@ Check CostCenter PopUp
     [Arguments]    ${locator}
     [Documentation]    MM 11.04.2018
     [Tags]    General, Helper, CostCenter_PopUp
-    ${popup_id}=    Get CostCenter PopUpID    ${locator}
-    ${close_id}=    Set Variable    ${popup_id}/$close
+    ${title_id}=    Get CostCenter TitleID    ${locator}
+    ${close_id}=    Get CostCenter CloseID    ${locator}
     Element Should Be Visible    ${close_id}
     ${langunge_code}=    Get selected LanguageCode
-    Run Keyword And Continue On Failure    Element Text Should Be    ${popup_id}/$title    &{Dic_CostCenterPopUpTitle}[${langunge_code}]
+    Run Keyword And Continue On Failure    Element Text Should Be    ${title_id}    &{Dic_CostCenterPopUpTitle}[${langunge_code}]
 
 Open CostCenter PopUp
     [Arguments]    ${locator}
     [Documentation]    MM 11.04.2018
     [Tags]    General, Helper, CostCenter_PopUp
-    ${picker_id}=    Set Variable    ${locator}/pick
+    ${picker_id}=    Get CostCenter PickID    ${locator}
     Click Element    ${picker_id}
 
 Close CostCenter PopUp
@@ -39,25 +41,36 @@ Close CostCenter PopUp
     ${popup_visible} =    Run Keyword And Return Status    Check CostCenter PopUp Is Visible    ${locator}
     Run Keyword If    '${popup_visible}' == '${FALSE}'    Log    Das Kostenstellen Fenster ist nicht sichtbar und kann daher nicht geschlossen werden!    WARN
     Return From Keyword If    '${popup_visible}' == '${FALSE}'
-    ${popup_id}=    Get CostCenter PopUpID    ${locator}
-    ${close_id}=    Set Variable    ${popup_id}/$close
+    ${close_id}=    Get CostCenter CloseID    ${locator}
     Click Element    ${close_id}
 
 Remove Selected CostCenter In CostCenter PopUp
     [Arguments]    ${locator}
     [Documentation]    MM 11.04.2018
     [Tags]    General, Helper, CostCenter_PopUp
-    ${remove_id}=    Set Variable    ${locator}/remove
-    ${name_id}=    Set Variable    ${locator}/name
+    ${remove_id}=    Get CostCenter RemoveID    ${locator}
     Click Element    ${remove_id}
-    ${value}=    Get Value    ${name_id}
-    Should Be Equal    ${value}    ${EMPTY}
 
 Check CostCenter PopUp Is Visible
     [Arguments]    ${locator}    ${visible}=${TRUE}
     [Documentation]    MM 11.04.2018
     [Tags]    General, Helper, CostCenter_PopUp
-    Check PopOver Is Visible    ${locator}    screen look_rlx_screen_choose_costcenter    visible=${visible}
+    Page.Check PopOver Is Visible    ${locator}    ${COSTCENTER_POPUP_CLASS}    visible=${visible}
+
+Get Current CostCenterValue In CostCenter PopUp
+    [Arguments]    ${locator}
+    [Documentation]    MM 13.04.2018
+    [Tags]    General, Helper, CostCenter_PopUp
+    ${name_id}=    Get CostCenter NameID    ${locator}
+    ${value}=    Get Value    ${name_id}
+    [Return]    ${value}
+
+Check Expected Value In CostCenter PopUp
+    [Arguments]    ${locator}    ${expected_value}
+    [Documentation]    MM 13.04.2018
+    [Tags]    General, Helper, CostCenter_PopUp
+    ${current_value}=    Get Current CostCenterValue In CostCenter PopUp    ${locator}
+    Should Be Equal    ${current_value}    ${expected_value}
 
 Set CostCenter In CostCenter PopUp
     [Arguments]    ${locator}    @{costsenter_node_names}
@@ -65,8 +78,7 @@ Set CostCenter In CostCenter PopUp
     [Tags]    General, Helper, CostCenter_PopUp
     Open CostCenter PopUp    ${locator}
     ${length} =    Get Length    ${costsenter_node_names}
-    ${popup_id}=    Get CostCenter PopUpID    ${locator}
-    ${id}=    Set Variable    ${popup_id}/cctree/1
+    ${id}=    Get CostCenter FirstTreeItemID    ${locator}
     ${count}=    Set Variable    ${0}
     : FOR    ${value}    IN    @{costsenter_node_names}
     \    ${count}=    Evaluate    ${count}+${1}
@@ -85,7 +97,7 @@ Get Id From Node For CostCenter PopUp
     : FOR    ${element}    IN    @{webelements}
     \    Continue For Loop If    '${value}'!='${element.text}'
     \    ${id}=    Set Variable    ${element.get_attribute('id')}
-    \    ${id} =    Replace String    ${id}    /$txt    ${EMPTY}    count=1
+    \    ${id}=    Replace String    ${id}    /$txt    ${EMPTY}    count=1
     \    Return From Keyword    ${id}
     [Return]    ${EMPTY}
 
@@ -99,7 +111,35 @@ Wait Until Costcenter Node Has Children
     \    Exit For Loop If    '${length}'>'${0}'
     \    Sleep    1    Wait Until TreeNode Has Children
 
-Get CostCenter PopUpID
+Get CostCenter PickID
     [Arguments]    ${locator}
-    [Documentation]    MM 12.04.2018
-    Run Keyword And Return    Get PopOverId    ${locator}    screen look_rlx_screen_choose_costcenter
+    [Documentation]    MM 13.04.2018
+    ${id}=    Set Variable    ${locator}/pick
+    [Return]    ${id}
+
+Get CostCenter FirstTreeItemID
+    [Arguments]    ${locator}
+    [Documentation]    MM 13.04.2018
+    Run Keyword And Return    Page.Get ElementID In PopOver    ${locator}    ${COSTCENTER_POPUP_CLASS}    cctree/1
+
+Get CostCenter CloseID
+    [Arguments]    ${locator}
+    [Documentation]    MM 13.04.2018
+    Run Keyword And Return    Page.Get ElementID In PopOver    ${locator}    ${COSTCENTER_POPUP_CLASS}    $close
+
+Get CostCenter TitleID
+    [Arguments]    ${locator}
+    [Documentation]    MM 13.04.2018
+    Run Keyword And Return    Page.Get ElementID In PopOver    ${locator}    ${COSTCENTER_POPUP_CLASS}    $title
+
+Get CostCenter NameID
+    [Arguments]    ${locator}
+    [Documentation]    MM 13.04.2018
+    ${id}=    Set Variable    ${locator}/name
+    [Return]    ${id}
+
+Get CostCenter RemoveID
+    [Arguments]    ${locator}
+    [Documentation]    MM 13.04.2018
+    ${id}=    Set Variable    ${locator}/remove
+    [Return]    ${id}
