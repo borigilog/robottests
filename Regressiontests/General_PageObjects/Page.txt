@@ -23,3 +23,18 @@ Click Element And Wait
     [Arguments]    ${locator}
     Click Element    ${locator}
     Wait until Page is unfreezed
+
+Get PopOverId
+    [Arguments]    ${locator}    ${class}
+    [Documentation]    MM 12.04.2018
+    [Tags]    General, Helper, PopOver
+    ${popover_element} =    Get WebElement    //div[@class="${class}"][contains(@id, '${locator}')]
+    Run Keyword And Return    Get Element Attribute    ${popover_element}    id
+
+Check PopOver Is Visible
+    [Arguments]    ${locator}    ${class}    ${visible}=${TRUE}
+    [Documentation]    MM 12.04.2018
+    [Tags]    General, Helper, PopOver
+    ${visible}    Is Truthy    ${visible}
+    Run Keyword If    '${visible}' == '${FALSE}'    Page Should Not Contain Element    //div[@class="${class}"][contains(@id, '${locator}')]
+    Run Keyword If    '${visible}' == '${TRUE}'    Page Should Contain Element    //div[@class="${class}"][contains(@id, '${locator}')]
