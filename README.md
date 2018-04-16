@@ -52,9 +52,14 @@ Variablen, die für die gesamte Website gelten (Login, Password, URL, Standard S
 2. Innerhalb dieses Ordners wird pro _Bereich_ eine [Testsuite](http://robotframework.org/robotframework/latest/RobotFrameworkUserGuide.html#creating-test-suites) erstellt. <br>
 Was ein _Bereich_ ist, ist dem Ersteller der Tests überlassen. <br>
 **Anhaltspunkt:** Pro html-Ansicht eine Testsuite erstellen. (Ist aber kein Muss!)
-3. In einer Testsuite können [Variablen](http://robotframework.org/robotframework/latest/RobotFrameworkUserGuide.html#variables) und [Keywords](http://robotframework.org/robotframework/latest/RobotFrameworkUserGuide.html#creating-user-keywords) direkt eingefügt werden.
-    * Es sollte aber überlegt werden, ob die Variablen/Keywords zu einem [PageObject](#PageObject) gehören.<br>In diesem Fall sollten sie zu den [Modulspezifischen PageObjects](#pageobjects) oder ggf. sogar zu den [GeneralPageObjects](#generalpageobjects) hinzugefügt werden.
-    * Auch sollte geprüft werden, ob es sich um [General_Keywords](#generalkeywords) handelt.
+
+#### Wo fügt man Variablen und Keywords ein ? ####
+3. [Variablen](http://robotframework.org/robotframework/latest/RobotFrameworkUserGuide.html#variables) und [Keywords](http://robotframework.org/robotframework/latest/RobotFrameworkUserGuide.html#creating-user-keywords) zunächst direkt in die Testsuite einfügen.
+4. Stellt man fest, dass man Keywords/Variablen in mehreren Testsuites benötigt, kann man diese an generellere Stellen verschieben
+    * Sind die Variablen/Keywords modulspezifisch, sollten sie zu einem [Modulspezifischen PageObjects](#pageobjects) zusammengefasst werden.
+    * Handelt es sich um Keywords, die überall in der Website vorkommen können:
+        * Handelt es sich um [PageObjects](#PageObject), können sie zu den [GeneralPageObjects](#generalpageobjects) hinzugefügt werden.
+        * Andernfalls werden sie den [General_Keywords](#generalkeywords) zugeordnet.
 
 #### PageObjects   
 Enthält [PageObjects](#PageObject), die nur für dieses Modul gelten.<br>
