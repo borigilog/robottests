@@ -9,6 +9,9 @@ ${OFFICE_POPUP_CLASS}    screen look_rlx_screen_choose_org_entity
 Check Office Selection Is Available
     [Arguments]    ${locator}
     [Documentation]    MM 11.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of all office elements , e.g.: /$flow_main/$flow_content/org_entity/pick \ = /$flow_main/$flow_content/org_entity
     [Tags]    General, Helper, Office_PopUp
     ${picker_id}=    Get Office PickID    ${locator}
     ${remove_id}=    Get Office RemoveID    ${locator}
@@ -20,6 +23,9 @@ Check Office Selection Is Available
 Check Office PopUp
     [Arguments]    ${locator}
     [Documentation]    MM 11.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of all office elements , e.g.: /$flow_main/$flow_content/org_entity/pick \ = /$flow_main/$flow_content/org_entity
     [Tags]    General, Helper, Office_PopUp
     ${title_id}=    Get Office TitleID    ${locator}
     ${close_id}=    Get Office CloseID    ${locator}
@@ -30,6 +36,9 @@ Check Office PopUp
 Open Office PopUp
     [Arguments]    ${locator}
     [Documentation]    MM 11.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of all office elements , e.g.: /$flow_main/$flow_content/org_entity/pick \ = /$flow_main/$flow_content/org_entity
     [Tags]    General, Helper, Office_PopUp
     ${picker_id}=    Get Office PickID    ${locator}
     Click Element    ${picker_id}
@@ -37,16 +46,19 @@ Open Office PopUp
 Close Office PopUp
     [Arguments]    ${locator}
     [Documentation]    MM 11.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of all office elements , e.g.: /$flow_main/$flow_content/org_entity/pick \ = /$flow_main/$flow_content/org_entity
     [Tags]    General, Helper, Office_PopUp
-    ${popup_visible} =    Run Keyword And Return Status    Check Office PopUp Is Visible    ${locator}
-    Run Keyword If    '${popup_visible}' == '${FALSE}'    Log    Das Oraganisationseinheiten Fenster ist nicht sichtbar und kann daher nicht geschlossen werden!    WARN
-    Return From Keyword If    '${popup_visible}' == '${FALSE}'
     ${close_id}=    Get Office CloseID    ${locator}
     Click Element    ${close_id}
 
 Remove Selected Office In Office PopUp
     [Arguments]    ${locator}
     [Documentation]    MM 11.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of all office elements , e.g.: /$flow_main/$flow_content/org_entity/pick \ = /$flow_main/$flow_content/org_entity
     [Tags]    General, Helper, Office_PopUp
     ${remove_id}=    Get Office RemoveID    ${locator}
     Click Element    ${remove_id}
@@ -54,12 +66,19 @@ Remove Selected Office In Office PopUp
 Check Office PopUp Is Visible
     [Arguments]    ${locator}    ${visible}=${TRUE}
     [Documentation]    MM 11.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of all office elements , e.g.: /$flow_main/$flow_content/org_entity/pick \ = /$flow_main/$flow_content/org_entity
+    ...    - ${visible} = element is visible , e.g.: true or false, optional
     [Tags]    General, Helper, Office_PopUp
     Page.Check PopOver Is Visible    ${locator}    ${OFFICE_POPUP_CLASS}    visible=${visible}
 
 Get Current OfficeValue In Office PopUp
     [Arguments]    ${locator}
     [Documentation]    MM 13.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of all office elements , e.g.: /$flow_main/$flow_content/org_entity/pick \ = /$flow_main/$flow_content/org_entity
     [Tags]    General, Helper, Office_PopUp
     ${name_id}=    Get Office NameID    ${locator}
     ${value}=    Get Value    ${name_id}
@@ -68,6 +87,10 @@ Get Current OfficeValue In Office PopUp
 Check Expected Value In Office PopUp
     [Arguments]    ${locator}    ${expected_value}
     [Documentation]    MM 13.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of all office elements , e.g.: /$flow_main/$flow_content/org_entity/pick \ = /$flow_main/$flow_content/org_entity
+    ...    - ${expected_value} = expected value of element
     [Tags]    General, Helper, Office_PopUp
     ${current_value}=    Get Current OfficeValue In Office PopUp    ${locator}
     Should Be Equal    ${current_value}    ${expected_value}
@@ -75,6 +98,14 @@ Check Expected Value In Office PopUp
 Set Office In Office PopUp
     [Arguments]    ${locator}    @{office_node_names}
     [Documentation]    MM 11.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of all office elements , e.g.: /$flow_main/$flow_content/org_entity/pick \ = /$flow_main/$flow_content/org_entity
+    ...    - @{office_node_names} = dictionary of all officenames in order of their nodes, necessary to open the nodes
+    ...    == Example ==
+    ...    @{office_names}= Create List BVG Verwaltung Freiland GMBH 830
+    ...    | = Keyword = | = locator = | = office_node_names = | = Result = |
+    ...    | Set Office In Office PopUp | /$flow_main/$flow_content/org_entity | @{office_names} | set officename => Bestellinformationen |
     [Tags]    General, Helper, Office_PopUp
     Open CostCenter PopUp    ${locator}
     ${length} =    Get Length    ${office_node_names}
@@ -90,6 +121,10 @@ Set Office In Office PopUp
 Get Id From Node For Office PopUp
     [Arguments]    ${locator}    ${value}
     [Documentation]    MM 11.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of all office elements , e.g.: /$flow_main/$flow_content/org_entity/pick \ = /$flow_main/$flow_content/org_entity
+    ...    - ${value} = value of element (office name)
     [Tags]    General, Helper, Office_PopUp
     Wait Until Office Node Has Children    ${locator}
     ${node_location}=    Set Variable    //div[contains(@class,'treecontainer')]/div[contains(@id,'${locator}')][contains(@class,'treenode')]/div[contains(@class,'treenodecontent')]/div[contains(@class,'text')]
@@ -104,6 +139,9 @@ Get Id From Node For Office PopUp
 Wait Until Office Node Has Children
     [Arguments]    ${locator}
     [Documentation]    MM 11.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of all office elements , e.g.: /$flow_main/$flow_content/org_entity/pick \ = /$flow_main/$flow_content/org_entity
     [Tags]    General, Helper, Office_PopUp
     ${node_location}=    Set Variable    //div[contains(@class,'treecontainer')]/div[contains(@id,'${locator}')]
     : FOR    ${index}    IN RANGE    60
@@ -114,32 +152,50 @@ Wait Until Office Node Has Children
 Get Office PickID
     [Arguments]    ${locator}
     [Documentation]    MM 13.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of all office elements , e.g.: /$flow_main/$flow_content/org_entity/pick \ = /$flow_main/$flow_content/org_entity
     ${id}=    Set Variable    ${locator}/pick
     [Return]    ${id}
 
 Get Office FirstTreeItemID
     [Arguments]    ${locator}
     [Documentation]    MM 13.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of all office elements , e.g.: /$flow_main/$flow_content/org_entity/pick \ = /$flow_main/$flow_content/org_entity
     Run Keyword And Return    Page.Get ElementID In PopOver    ${locator}    ${OFFICE_POPUP_CLASS}    orgtree/1
 
 Get Office CloseID
     [Arguments]    ${locator}
     [Documentation]    MM 13.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of all office elements , e.g.: /$flow_main/$flow_content/org_entity/pick \ = /$flow_main/$flow_content/org_entity
     Run Keyword And Return    Page.Get ElementID In PopOver    ${locator}    ${OFFICE_POPUP_CLASS}    $close
 
 Get Office TitleID
     [Arguments]    ${locator}
     [Documentation]    MM 13.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of all office elements , e.g.: /$flow_main/$flow_content/org_entity/pick \ = /$flow_main/$flow_content/org_entity
     Run Keyword And Return    Page.Get ElementID In PopOver    ${locator}    ${OFFICE_POPUP_CLASS}    $title
 
 Get Office NameID
     [Arguments]    ${locator}
     [Documentation]    MM 13.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of all office elements , e.g.: /$flow_main/$flow_content/org_entity/pick \ = /$flow_main/$flow_content/org_entity
     ${id}=    Set Variable    ${locator}/name
     [Return]    ${id}
 
 Get Office RemoveID
     [Arguments]    ${locator}
     [Documentation]    MM 13.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of all office elements , e.g.: /$flow_main/$flow_content/org_entity/pick \ = /$flow_main/$flow_content/org_entity
     ${id}=    Set Variable    ${locator}/remove
     [Return]    ${id}

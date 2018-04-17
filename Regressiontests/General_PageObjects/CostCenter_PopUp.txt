@@ -9,6 +9,9 @@ ${COSTCENTER_POPUP_CLASS}    screen look_rlx_screen_choose_costcenter
 Check CostCenter Selection Is Available
     [Arguments]    ${locator}
     [Documentation]    MM 11.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of all cost center elements , e.g.: /$flow_main/$flow_content/cost_center/pick \ = /$flow_main/$flow_content/cost_center
     [Tags]    General, Helper, CostCenter_PopUp
     ${picker_id}=    Get CostCenter PickID    ${locator}
     ${remove_id}=    Get CostCenter RemoveID    ${locator}
@@ -20,6 +23,9 @@ Check CostCenter Selection Is Available
 Check CostCenter PopUp
     [Arguments]    ${locator}
     [Documentation]    MM 11.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of all cost center elements , e.g.: /$flow_main/$flow_content/cost_center/pick \ = /$flow_main/$flow_content/cost_center
     [Tags]    General, Helper, CostCenter_PopUp
     ${title_id}=    Get CostCenter TitleID    ${locator}
     ${close_id}=    Get CostCenter CloseID    ${locator}
@@ -30,6 +36,9 @@ Check CostCenter PopUp
 Open CostCenter PopUp
     [Arguments]    ${locator}
     [Documentation]    MM 11.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of all cost center elements , e.g.: /$flow_main/$flow_content/cost_center/pick \ = /$flow_main/$flow_content/cost_center
     [Tags]    General, Helper, CostCenter_PopUp
     ${picker_id}=    Get CostCenter PickID    ${locator}
     Click Element    ${picker_id}
@@ -37,16 +46,19 @@ Open CostCenter PopUp
 Close CostCenter PopUp
     [Arguments]    ${locator}
     [Documentation]    MM 11.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of all cost center elements , e.g.: /$flow_main/$flow_content/cost_center/pick \ = /$flow_main/$flow_content/cost_center
     [Tags]    General, Helper, CostCenter_PopUp
-    ${popup_visible} =    Run Keyword And Return Status    Check CostCenter PopUp Is Visible    ${locator}
-    Run Keyword If    '${popup_visible}' == '${FALSE}'    Log    Das Kostenstellen Fenster ist nicht sichtbar und kann daher nicht geschlossen werden!    WARN
-    Return From Keyword If    '${popup_visible}' == '${FALSE}'
     ${close_id}=    Get CostCenter CloseID    ${locator}
     Click Element    ${close_id}
 
 Remove Selected CostCenter In CostCenter PopUp
     [Arguments]    ${locator}
     [Documentation]    MM 11.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of all cost center elements , e.g.: /$flow_main/$flow_content/cost_center/pick \ = /$flow_main/$flow_content/cost_center
     [Tags]    General, Helper, CostCenter_PopUp
     ${remove_id}=    Get CostCenter RemoveID    ${locator}
     Click Element    ${remove_id}
@@ -54,12 +66,19 @@ Remove Selected CostCenter In CostCenter PopUp
 Check CostCenter PopUp Is Visible
     [Arguments]    ${locator}    ${visible}=${TRUE}
     [Documentation]    MM 11.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of all cost center elements , e.g.: /$flow_main/$flow_content/cost_center/pick \ = /$flow_main/$flow_content/cost_center
+    ...    - ${visible} = element is visible , e.g.: true or false, optional
     [Tags]    General, Helper, CostCenter_PopUp
     Page.Check PopOver Is Visible    ${locator}    ${COSTCENTER_POPUP_CLASS}    visible=${visible}
 
 Get Current CostCenterValue In CostCenter PopUp
     [Arguments]    ${locator}
     [Documentation]    MM 13.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of all cost center elements , e.g.: /$flow_main/$flow_content/cost_center/pick \ = /$flow_main/$flow_content/cost_center
     [Tags]    General, Helper, CostCenter_PopUp
     ${name_id}=    Get CostCenter NameID    ${locator}
     ${value}=    Get Value    ${name_id}
@@ -68,6 +87,10 @@ Get Current CostCenterValue In CostCenter PopUp
 Check Expected Value In CostCenter PopUp
     [Arguments]    ${locator}    ${expected_value}
     [Documentation]    MM 13.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of all cost center elements , e.g.: /$flow_main/$flow_content/cost_center/pick \ = /$flow_main/$flow_content/cost_center
+    ...    - ${expected_value} = expected value of element
     [Tags]    General, Helper, CostCenter_PopUp
     ${current_value}=    Get Current CostCenterValue In CostCenter PopUp    ${locator}
     Should Be Equal    ${current_value}    ${expected_value}
@@ -75,6 +98,14 @@ Check Expected Value In CostCenter PopUp
 Set CostCenter In CostCenter PopUp
     [Arguments]    ${locator}    @{costsenter_node_names}
     [Documentation]    MM 11.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of all cost center elements , e.g.: /$flow_main/$flow_content/cost_center/pick \ = /$flow_main/$flow_content/cost_center
+    ...    - @{costsenter_node_names} = dictionary of all costcenternames in order of their nodes, necessary to open the nodes
+    ...    == Example ==
+    ...    @{costcenter_names}= Create List KST_BVG KST_BVG KST-Verwaltung KST-Verwaltung Werkstätten VAG Werkstätten Bus Bus
+    ...    | = Keyword = | = locator = | = costcenter_names = | = Result = |
+    ...    | Set CostCenter In CostCenter PopUp | /$flow_main/$flow_content/cost_center | @{costcenter_names} | set costcentername => Bestellinformationen |
     [Tags]    General, Helper, CostCenter_PopUp
     Open CostCenter PopUp    ${locator}
     ${length} =    Get Length    ${costsenter_node_names}
@@ -90,6 +121,10 @@ Set CostCenter In CostCenter PopUp
 Get Id From Node For CostCenter PopUp
     [Arguments]    ${locator}    ${value}
     [Documentation]    MM 11.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of all cost center elements , e.g.: /$flow_main/$flow_content/cost_center/pick \ = /$flow_main/$flow_content/cost_center
+    ...    - ${value} = value of element (costcenter name)
     [Tags]    General, Helper, CostCenter_PopUp
     Wait Until Costcenter Node Has Children    ${locator}
     ${node_location}=    Set Variable    //div[contains(@class,'treecontainer')]/div[contains(@id,'${locator}')][contains(@class,'treenode')]/div[contains(@class,'treenodecontent')]/div[contains(@class,'text')]
@@ -104,6 +139,9 @@ Get Id From Node For CostCenter PopUp
 Wait Until Costcenter Node Has Children
     [Arguments]    ${locator}
     [Documentation]    MM 11.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of all cost center elements , e.g.: /$flow_main/$flow_content/cost_center/pick \ = /$flow_main/$flow_content/cost_center
     [Tags]    General, Helper, CostCenter_PopUp
     ${node_location}=    Set Variable    //div[contains(@class,'treecontainer')]/div[contains(@id,'${locator}')]
     : FOR    ${index}    IN RANGE    60
@@ -114,32 +152,50 @@ Wait Until Costcenter Node Has Children
 Get CostCenter PickID
     [Arguments]    ${locator}
     [Documentation]    MM 13.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of all cost center elements , e.g.: /$flow_main/$flow_content/cost_center/pick \ = /$flow_main/$flow_content/cost_center
     ${id}=    Set Variable    ${locator}/pick
     [Return]    ${id}
 
 Get CostCenter FirstTreeItemID
     [Arguments]    ${locator}
     [Documentation]    MM 13.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of all cost center elements , e.g.: /$flow_main/$flow_content/cost_center/pick \ = /$flow_main/$flow_content/cost_center
     Run Keyword And Return    Page.Get ElementID In PopOver    ${locator}    ${COSTCENTER_POPUP_CLASS}    cctree/1
 
 Get CostCenter CloseID
     [Arguments]    ${locator}
     [Documentation]    MM 13.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of all cost center elements , e.g.: /$flow_main/$flow_content/cost_center/pick \ = /$flow_main/$flow_content/cost_center
     Run Keyword And Return    Page.Get ElementID In PopOver    ${locator}    ${COSTCENTER_POPUP_CLASS}    $close
 
 Get CostCenter TitleID
     [Arguments]    ${locator}
     [Documentation]    MM 13.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of all cost center elements , e.g.: /$flow_main/$flow_content/cost_center/pick \ = /$flow_main/$flow_content/cost_center
     Run Keyword And Return    Page.Get ElementID In PopOver    ${locator}    ${COSTCENTER_POPUP_CLASS}    $title
 
 Get CostCenter NameID
     [Arguments]    ${locator}
     [Documentation]    MM 13.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of all cost center elements , e.g.: /$flow_main/$flow_content/cost_center/pick \ = /$flow_main/$flow_content/cost_center
     ${id}=    Set Variable    ${locator}/name
     [Return]    ${id}
 
 Get CostCenter RemoveID
     [Arguments]    ${locator}
     [Documentation]    MM 13.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of all cost center elements , e.g.: /$flow_main/$flow_content/cost_center/pick \ = /$flow_main/$flow_content/cost_center
     ${id}=    Set Variable    ${locator}/remove
     [Return]    ${id}
