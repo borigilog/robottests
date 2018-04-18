@@ -4,75 +4,65 @@ Suite Teardown    Close Browser
 Test Setup        Select Reichweitenbewertung
 Library           Selenium2Library
 Resource          PageObjects/Menu.txt
+Resource          PageObjects/Reichweiten-Bewertung.txt
 
 *** Variables ***
 ${NAME_REICHWEITEN_CONFIG}    Einstellungen    # Enthält den Header Text der Reichweiten Config Page
-${WHITESPACE}     ${EMPTY}
 ${RE_WARNING_MESSAGE}    Die Einstellungen haben sich geändert, bitte starten sie die Neuberechnung erneut.
 @{KEYWORD_RESULT_WERTE}    FAIL    PASS
-${btnAbort}       /$flow_main/$flow_content/abort
 
 *** Test Cases ***
 Check GUI Elements Overview Page
-    Element Should be Visible    //div[contains(text(), 'Artikel Nr:')]
-    Element Should be Visible    //input[contains(@id,'articleNo')]
-    Element Should be Visible    //div[contains(text(), 'Artikel Name:')]
-    Element Should be Visible    //input[contains(@id,'articleName')]
+    Element Should be Visible    ${labelArticleNo}
+    Element Should be Visible    ${inputArticleNo}
+    Element Should be Visible    ${labelArticleName}
+    Element Should be Visible    ${inputArticleName}
     Page Should contain    Anzahl der Suchergebnisse
-    Element Should be Visible    //button[contains(@id,'$flow_content/refresh')]
-    Element Should Be Visible    //button[contains(@id,'$flow_content/search')]
-    Element Should Be Visible    //button[contains(@id,'$flow_content/setting')]
-    Element Should Be Visible    //button[contains(@id,'$flow_content/abort')]
-    Wait Until Keyword Succeeds    3 sec    1 sec    Click Element    ${btnAbort}
+    Element Should be Visible    ${btnRefresh}
+    Element Should Be Visible    ${btnSearch}
+    Element Should Be Visible    ${btnEditSettings}
+    Element Should Be Visible    ${btnAbort}
+    Click Abbruch Button
     Check Homescreen is selected
 
 Check GUI Elements Config Page
-    Wait Until Page Contains    Reichweiten Bewertung    10
-    Wait Until Element Is Visible    //button[contains(@id,'$flow_content/setting')]
-    Sleep    3
-    Click Element    //button[contains(@id,'$flow_content/setting')]
-    Sleep    1
-    Wait Until Page Contains    Einstellungen    10
+    Wait Until Page Is Unfreezed
+    Page Should Contain    Reichweiten Bewertung
+    Element Should Be Visible    ${btnEditSettings}
+    Click Settings Button
+    Page Should Contain    Einstellungen
     ${REConfigFile}=    Capture Page Screenshot
-    Element Should Be Visible    //div[contains(@id,'list_articles/$col_range_Months')]
-    Element Should Be Visible    //div[contains(@id,'list_articles/$col_reduction_Percent')]
-    Element Should Be Visible    //div[contains(@id,'list_articles/$col_2')]
-    Element Should Be Visible    //div[contains(@id,'list_articles/$col_description')]
-    Element Should Be Visible    //button[contains(@id,'$flow_content/plus')]
-    Element Should Be Visible    //button[contains(@id,'$flow_content/remove')]
+    Element Should Be Visible    ${columnSettingsRangeMonths}
+    Element Should Be Visible    ${columnSettingsReductionPercent}
+    Element Should Be Visible    ${columnSettingsSymbol}
+    Element Should Be Visible    ${columnSettingsDescription}
+    Element Should Be Visible    ${btnAdd}
+    Element Should Be Visible    ${btnRemove}
     Page Should Contain    Ausnahmeregeln:
-    element Should Be Visible    //input[contains(@id,'$flow_content/months')]
-    Element Should Be Visible    //input[contains(@id,'$flow_content/ages')]
-    Element Should Be Visible    //button[contains(@id,'$flow_content/back')]
-    Element Should Be Visible    //button[contains(@id,'$flow_content/recalculation')]
-    Element Should Be Visible    //button[contains(@id,'$flow_content/save')]
-    Element Should Be Visible    //button[contains(@id,'$flow_content/abort')]
-    Click Element    //button[contains(@id,'$flow_content/back')]
-    Sleep    3
-    Element Should Be Visible    //button[contains(@id,'$flow_content/setting')]
+    element Should Be Visible    ${inputMonths}
+    Element Should Be Visible    ${inputArticleAge}
+    Element Should Be Visible    ${btnBack}
+    Element Should Be Visible    ${btnNeuberechnung}
+    Element Should Be Visible    ${btnSave}
+    Element Should Be Visible    ${btnAbort}
+    Click Back Button
+    Element Should Be Visible    ${btnEditSettings}
 
 Verify Search Function on Results
     [Documentation]    Hier wird geprüft, ob die Suchfunktion nach Artikelnummer und Artikelname funktioniert und Ergebjisse liefert
-    Wait Until Element is Visible    //input[contains(@id,'articleNo')]
-    sleep    3
+    Wait Until Page Is Unfreezed
+    Element Should Be Visible    ${inputArticleNo}
     Reichweiten Bewertung Search article No    110
-    Input Text    //input[contains(@id,'articleNo')]    ${WHITESPACE}
+    Clear Input For Article No
     Reichweiten Bewertung Search Article Name    Jacke
 
 Change Configuration For Reichweiten Bewertung
     [Documentation]    Test Case prüft die Funktionalität rund um die Abschreibungs Settings für die Reichweiten Bewertung
     Change To Reichweiten Settings Page
-    ${AnzahlEintraege}=    Get Matching Xpath Count    //table/tbody/tr[contains(@id,'/$flow_main/$flow_content/list_articles/')]
-    ${AnzahlEintraege}=    Convert To Integer    ${AnzahlEintraege}
-    ${AnzahlEintraege}=    Evaluate    ${AnzahlEintraege}-1
-    : FOR    ${INDEX}    IN RANGE    0    ${AnzahlEintraege}
-    \    Click Element    //div[contains(@id,'/$flow_main/$flow_content/list_articles/0/Range_Months/')]
-    \    Click Element    //button[contains(@id,'/$flow_main/$flow_content/remove')]
-    \    Wait Until Keyword Succeeds    3 sec    1 sec    Element Should be Visible    //div[contains(@id,'/$flow_main/$popover0')]
-    \    Click Button    //button[contains(@id,'/$flow_main/$popover0/btn0')]
-    \    Sleep    1
-    Wait Until Keyword Succeeds    5 sec    1 sec    Click Button    //button[contains(@id,'save')]
-    Wait Until Keyword Succeeds    3 sec    1 sec    Click Button    //button[contains(@id,'/$flow_main/$flow_content/plus')]
+    Remove All Entries From Settings Table
+    Click Button    ${btnSave}
+    Wait Until Page Is Unfreezed
+    Click Button    ${btnAdd}
     Add Entry To Reichweiten Config Table    6    10    Erstabschreibung
     Add Entry To Reichweiten Config Table    12    20    jährliche Abschreibung
     Add Entry To Reichweiten Config Table    24    30    2-Jahresabschreibung
@@ -81,85 +71,60 @@ Check Exclusion Rules Setting
     [Documentation]    Test prüft das Setzen und Abspeichern der Ausnahmeregeln für Artikel.
     ...    Darüber hinaus wird geprüft, ob nach Änderung der Settings die Warnmeldung ausgegeben wird, dass eine Neuberechnung notwenidg ist, wegen Veränderung der Konfiguration
     Change To Reichweiten Settings Page
-    Wait Until Keyword Succeeds    3 sec    1 sec    Element Should Be Visible    //input[contains(@id,'/months')]
-    ${Zeitraum}=    Get Value    //input[contains(@id,'/months')]
-    ${Alter}=    Get Value    //input[contains(@id,'/ages')]
+    ${Zeitraum}    ${Alter}=    Read Current Exclusion Rules
     Modify Reichweiten Time Settings    24    4
-    Element Should Be Visible    //div[contains(@id,'/warningIcon')]
-    Element Text Should Be    //*[contains(@id,'warningMSG')]    ${RE_WARNING_MESSAGE}
-    Wait Until Keyword Succeeds    3 sec    1 sec    Click Button    //button[contains(@id,'/back')]
+    Element Should Be Visible    ${warnHinweisIcon}
+    Element Text Should Be    ${wanrHinweisText}    ${RE_WARNING_MESSAGE}
+    Wait Until Page Is Unfreezed
+    Click Back Button
     Change To Reichweiten Settings Page
-    Wait Until Keyword Succeeds    3 sec    1 sec    Element Should Be Visible    //input[contains(@id,'/months')]
-    ${Zeitraum_2}=    Get Value    //input[contains(@id,'/months')]
-    ${Alter_2}=    Get Value    //input[contains(@id,'/ages')]
-    ${Zeitraum_2}=    Convert To Integer    ${Zeitraum_2}
-    ${Alter_2}=    Convert To Integer    ${Alter_2}
+    ${Zeitraum_2}    ${Alter_2}=    Read Current Exclusion Rules
     Run Keyword If    ${Zeitraum_2}==24 and ${Alter_2}==4    Modify Reichweiten Time Settings    ${Zeitraum}    ${Alter}
 
-Verify Re-Calculation of Range Evalaution Values
-    [Documentation]    Prüft, ob die Berechnung mit neune Konfiguration durchgeführt und erfolgreich abgeschlossen wird.
+Verify Re-Calculation of Range Evaluation Values
+    [Documentation]    Prüft, ob die Berechnung mit der neuen Konfiguration durchgeführt und erfolgreich abgeschlossen wird.
     [Setup]    Prepare For Reichweiten Config And Calculation Tests    # Prepares RE Tests
-    ${Zeitraum}=    Get Value    //input[contains(@id,'/months')]
-    ${Alter}=    Get Value    //input[contains(@id,'/ages')]
+    ${Zeitraum}    ${Alter}=    Read Current Exclusion Rules
     Modify Reichweiten Time Settings    6    1
-    Wait Until Keyword Succeeds    3 sec    1 sec    Click Button    //button[contains(@id,'recalculation')]
-    Wait Until Keyword Succeeds    3 sec    1 sec    Element Should Be Visible    //div[contains(@id,'popover')]
-    Page Should Contain Checkbox    //input[contains(@id,'sendemail')]
+    Click Button    ${btnNeuberechnung}
+    Wait Until Keyword Succeeds    3    1 sec    Element Should Be Visible    ${popupRecalculationStartWindow}
+    Page Should Contain Checkbox    ${checkboxPopupSendEmail}
     Page Should Contain    Email senden an
-    Element Should Be Visible    //input[contains(@id,'email')]
-    Element Should Be Visible    //button[contains(@id,'Abort')]
-    Element Should Be Visible    //button[contains(@id,'start')]
-    Wait Until Keyword Succeeds    3 sec    1 sec    Input Text    //input[contains(@id,'$popover0/email')]    ob@rigilog.com
-    Click Element    //input[contains(@id,'sendemail')]
+    Element Should Be Visible    ${inputPopupEmail}
+    Element Should Be Visible    ${btnPopupAbort}
+    Element Should Be Visible    ${btnPopupStart}
+    Wait Until Keyword Succeeds    3    1 sec    Input Text    ${inputPopupEmail}    ob@rigilog.com
+    Select Checkbox    ${checkboxPopupSendEmail}
     ${RecalcRE}=    Capture Page Screenshot
-    Click Element    //input[contains(@id,'sendemail')]
-    Click Button    //button[contains(@id,'start')]
-    Wait Until Element Is Visible    //button[contains(@id,'recalculation')]
-    Wait Until Keyword Succeeds    3 sec    1 sec    Click Button    //button[contains(@id,'recalculation')]    # Aufruf, um die Neuberechnung neu zu starten
-    Wait Until Keyword Succeeds    3 sec    1 sec    Element Should Be Visible    //div[contains(@id,'$popover0')]
-    Element Should Be Visible    //button[contains(@id,'start')]
-    Click Button    //button[contains(@id,'start')]    # neuerlicher Start wird verhindert, popup wird gezeigt
-    Wait Until Keyword Succeeds    3 sec    1 sec    Element Should Be Visible    //div[contains(@id,'$popover0/msg')]
+    Click Button    ${btnPopupStart}
+    Wait Until Page Is Unfreezed
+    Element Should Be Visible    ${btnNeuberechnung}
+    Click Button    ${btnNeuberechnung}    # Aufruf, um die Neuberechnung neu zu starten
+    Wait Until Keyword Succeeds    3    1 sec    Element Should Be Visible    ${popupRecalculationStartWindow}
+    Element Should Be Visible    ${btnPopupStart}
+    Click Button    ${btnPopupStart}    # neuerlicher Start wird verhindert, popup wird gezeigt
+    Wait Until Keyword Succeeds    3    1 sec    Element Should Be Visible    //div[contains(@id,'$popover0/msg')]
     ${RestartFailRE}=    Capture Page Screenshot
     Click Button    //button[contains(@id,'$popover0/btn')]
-    Wait Until Element Is Visible    //button[contains(@id,'back')]    5 sec
-    Click Element    //button[contains(@id,'back')]
-    Wait Until Keyword Succeeds    5 sec    1 sec    Element Should Be Visible    //div[contains(@id,'flow_content/found')]
-    : FOR    ${Index}    IN RANGE    0    60    # Loop um den Fortschritt der Berechnung zu prüfen und die Werte zu protokollieren
-    \    Wait Until Keyword Succeeds    5 sec    1 sec    Input Text    //input[contains(@id,'articleNo')]    %
-    \    Click Button    //button[contains(@id,'search')]
-    \    Sleep    15s
-    \    ${Result}    ${value}=    Run Keyword And Ignore Error    Element Should Be Visible    //div[contains(@id,'$popover0/msg')]
-    \    Exit For Loop If    '${Result}' == 'PASS'
-    \    Click Button    //button[contains(@id,'refresh')]
-    \    Wait Until Keyword Succeeds    5 sec    1 sec    Element Should Be Visible    //div[contains(@id,'flow_content/found')]
-    \    Check Reichweiten Re-Calculation ProgressStatus    Running
-    \    ${Ergebnis}=    Get Text    //div[contains(@id,'flow_content/found')]
-    \    ${TotalAverage}=    Get Text    //div[contains(@id,'Total_AverageStockValue')]
-    \    ${Total}=    Get Text    //div[contains(@id,'Total_AbsoluteStockValue')]
-    \    ${TotalReduction}=    Get Text    //div[contains(@id,'Total_Reduction')]
-    \    ${TotalReduced}=    Get Text    //div[contains(@id,'Total_ActualStockValueAfterReduction')]
-    \    ${Status}=    Get Text    //div[contains(@id,'locked')]
-    Element Text Should Be    //button[contains(@id,'popover0/btn')]    OK
-    Click Button    //button[contains(@id,'popover0/btn')]
-    ${Las Re-Calculation}=    Get Text    //div[contains(@id,'LastCalculatedDate')]
+    Wait Until Page Is Unfreezed
+    Element Should Be Visible    ${btnBack}
+    Click Back Button
+    Monitor And Check Recalculation Process
     ${TimeActual}=    Get Time
     @{ValuesForComparison}=    Create List    0    0    0    0
     Check Update Page After Re-Calculation    @{ValuesForComparison}
     Check Reichweiten Re-Calculation ProgressStatus    Off
     Change To Reichweiten Settings Page
     Modify Reichweiten Time Settings    ${Zeitraum}    ${Alter}    # Zurück zu Ausgangswerten
-    Wait Until Keyword Succeeds    3 sec    1 sec    Click Element    //div[contains(@id,'exit')]
+    Click Button    ${btnAbort}
 
 Enter Manual Deduction Value for One Article
     [Documentation]    Test der Funktionalität, die den Wert für manuelle Abschreibung einzutragen.
     ...    Prüfen, ob die resultierenden Berechnungen der Änderung Rechnung tragen.
-    Sleep    10s
     Reichweiten Bewertung Search Article No    110
-    ${AnzahlEinträge}=    Get Matching Xpath Count    //table/tbody/tr[contains(@id,'/$flow_main/$flow_content/list_articles/')]
-    ${AnzahlEinträge}=    Convert To Integer    ${AnzahlEinträge}    \    # wird nur zu Log Zwekcen verwendet
+    ${AnzahlEinträge}=    Get Number Of Search Results
     Verify RE Manual Position Reduction    4    50    # Tested die Reduktion des Artikelwertes in Zeile 4 um 50%
-    Wait Until Keyword Succeeds    3 sec    1 sec    Click Element    //div[contains(@id,'exit')]
+    Click Button    ${btnAbort}
 
 Check Calculation For Reichweiten Bewertung
     @{CheckValues}=    Create List    0.0    0.0    0.0    0.0
@@ -169,47 +134,33 @@ Check Calculation For Reichweiten Bewertung
 *** Keywords ***
 Prepare for Reichweiten Config And Calculation Tests
     Select Reichweitenbewertung
-    Comment    Start Test For Module    LOG    ${DEFAULT_MANDATOR_NAME}
-    Comment    Go To Reichweiten Bewertung
     Change To Reichweiten Settings Page
-    Wait Until Keyword Succeeds    3 sec    1 sec    Element Should Be Visible    //input[contains(@id,'/months')]
+    Element Should Be Visible    ${inputMonths}
 
 Change To Reichweiten Settings Page
     [Documentation]    Wechselt auf die Konfigurationsseite der Reichweiten Bewertung - Konfigurations-Seite
-    Wait Until Keyword Succeeds    10 sec    1 sec    Click Element    //button[contains(@id,'$flow_content/setting')]
-    Sleep    1
-    Wait Until Page Contains    ${NAME_REICHWEITEN_CONFIG}    10
+    Click Element    ${btnEditSettings}
+    Wait Until Page Is Unfreezed
+    Page Should Contain    ${NAME_REICHWEITEN_CONFIG}
 
 Reichweiten Bewertung Search Article No
     [Arguments]    ${ArticleNo}
     [Documentation]    Führt eine Suche mit der übergebenen Artikelnummer duch und prüft das Suchergebnis nach Anzahl der Suchergebnisse.
     ...    Wenn die Anzhal größer als 50 ist wird ein Fehler erzeugt
-    Input Text    //input[contains(@id,'articleNo')]    ${ArticleNo}
-    Click Button    //button[contains(@id,'search')]
-    Sleep    1
-    ${Suchergebnis}    Get Text    //div[contains(@id,'flow_content/found')]
-    Should Contain    ${Suchergebnis}    Anzahl der Suchergebnisse: 1 -
-    ${Suchergebnis}    Convert To String    ${Suchergebnis}
-    ${length}=    Get Length    ${Suchergebnis}
-    ${Anzahl}=    Split String From Right    ${Suchergebnis}    ${WHITESPACE}    1
-    ${list}=    Get Matching Xpath Count    //table/tbody/tr[contains(@id,'/$flow_main/$flow_content/list_articles/')]
-    ${Anzahl}=    Convert To Integer    ${Anzahl[1]}
-    ${list}=    Convert To Integer    ${list}
+    Input Text    ${inputArticleNo}    ${ArticleNo}
+    Click Button    ${btnSearch}
+    Wait Until Page Is Unfreezed
+    ${Anzahl}=    Get Indicated Number Of Search Results
+    ${list}=    Get Number Of Search Results
     Should Be Equal    ${Anzahl}    ${list}
 
 Reichweiten Bewertung Search Article Name
     [Arguments]    ${ArticleName}
-    Input Text    //input[contains(@id,'articleName')]    ${ArticleName}
-    Click Button    //button[contains(@id,'search')]
-    Sleep    5
-    ${Suchergebnis}    Get Text    //div[contains(@id,'flow_content/found')]
-    Should Contain    ${Suchergebnis}    Anzahl der Suchergebnisse: 1 -
-    ${Suchergebnis}    Convert To String    ${Suchergebnis}
-    ${length}=    Get Length    ${Suchergebnis}
-    ${Anzahl}=    Split String From Right    ${Suchergebnis}    ${WHITESPACE}    1
-    ${list}=    Get Matching Xpath Count    //table/tbody/tr[contains(@id,'/$flow_main/$flow_content/list_articles/')]
-    ${Anzahl}=    Convert To Integer    ${Anzahl[1]}
-    ${list}=    Convert To Integer    ${list}
+    Input Text    ${inputArticleName}    ${ArticleName}
+    Click Button    ${btnSearch}
+    Wait Until Page Is Unfreezed
+    ${Anzahl}=    Get Indicated Number Of Search Results
+    ${list}=    Get Number Of Search Results
     Should Be Equal    ${Anzahl}    ${list}
 
 Add Entry To Reichweiten Config Table
@@ -217,17 +168,15 @@ Add Entry To Reichweiten Config Table
     ${AnzahlEintraege}=    Get Matching Xpath Count    //table/tbody/tr[contains(@id,'/$flow_main/$flow_content/list_articles/')]
     ${AnzahlEintraege}=    Convert To Integer    ${AnzahlEintraege}
     ${AnzahlEintraege}=    Evaluate    ${AnzahlEintraege}-1
-    Comment    Wait Until Keyword Succeeds    3 sec    1 sec    Element Should Be \ Visible    //input[contains(@id,'/$flow_main/$flow_content/list_articles/${AnzahlEintraege}/Range_Months/')]
     Click Element    //*[contains(@id,'/$flow_main/$flow_content/list_articles/${AnzahlEintraege}/Range_Months/')]
     Click Element    //*[contains(@id,'/$flow_main/$flow_content/list_articles/${AnzahlEintraege}/Range_Months/')]
     Input Text    //input[contains(@id,'/list_articles/${AnzahlEintraege}/Range_Months/')]    ${Months}
     Click Element    //div[contains(@id,'/$flow_main/$flow_content/list_articles/${AnzahlEintraege}/Reduction_Percent/')]
     Input Text    //input[contains(@id,'/$flow_main/$flow_content/list_articles/${AnzahlEintraege}/Reduction_Percent/')]    ${Percentage}
-    Wait Until Keyword Succeeds    3 sec    1 sec    Click Element    //div[contains(@id,'${AnzahlEintraege}/Description/')]
-    Wait Until Keyword Succeeds    3 sec    1 sec    Click Element    //div[contains(@id,'${AnzahlEintraege}/Description/')]
-    Wait Until Keyword Succeeds    3 sec    1 sec    Input Text    //*[contains(@id,'${AnzahlEintraege}/Description/inp')]    ${Description}
-    Wait Until Keyword Succeeds    3 sec    1 sec    Click Button    //button[contains(@id,'save')]
-    Wait Until Keyword Succeeds    3 sec    1 sec    Click Button    //button[contains(@id,'/$flow_main/$flow_content/plus')]
+    Add Description To Config Entry    ${AnzahlEintraege}    ${Description}
+    Click Button    ${btnSave}
+    Wait Until Page Is Unfreezed
+    Click Button    ${btnAdd}
     ${AnzahlEintraege}=    Evaluate    ${AnzahlEintraege}+1
     Wait Until Element Is Visible    //div[contains(@id,'/$flow_main/$flow_content/list_articles/${AnzahlEintraege}/Description/txt')]
 
@@ -237,9 +186,11 @@ Modify Reichweiten Time Settings
     ...
     ...    - Zeitraum für den Bestand (in Monaten)
     ...    - mindest Alter der Artikel, die für die Reichweiten Berehcnung berücksichtigt werden (in Monaten)
-    Input Text    //input[contains(@id,'/months')]    ${InventaryTime}
-    Input Text    //input[contains(@id,'/ages')]    ${ArtikelAge}
-    Wait Until Keyword Succeeds    3 sec    1 sec    Click Button    //button[contains(@id,'/save')]
+    Input Text    ${inputMonths}    ${InventaryTime}
+    Input Text    ${inputArticleAge}    ${ArtikelAge}
+    Wait Until Page Is Unfreezed
+    Click Button    ${btnSave}
+    Wait Until Page Is Unfreezed
 
 Check Reichweiten Re-Calculation Progress Status
     [Arguments]    ${Status}
@@ -299,14 +250,13 @@ Verify RE Manual Position Reduction
     ${TotalReductionBefore}=    Convert To Number    ${TotalReductionBefore}
     ${VauleBeforeReduction}=    Get Text    //*[@id="/$flow_main/$flow_content/list_articles/${RowNumber}/$Absolute_StockValue"]
     ${VauleBeforeReduction}=    Convert To Number    ${VauleBeforeReduction}
-    Select Checkbox    //*[@id="/$flow_main/$flow_content/manual"]
-    Wait Until Keyword Succeeds    3 sec    1 sec    Element Should Be Visible    //input[contains(@id,'ReductionValueInPercent')]
-    Element Should Be Visible    //*[@id="/$flow_main/$flow_content/save"]
-    ${Result}    ${msg}=    Run Keyword And Ignore Error    Click Element    //*[@id="/$flow_main/$flow_content/reload"]
-    Click Element    //*[@id="/$flow_main/$flow_content/DetailCurrent_ReductionValueInPercent"]
-    Wait Until Keyword Succeeds    3 sec    1 sec    Input Text    //*[@id="/$flow_main/$flow_content/DetailCurrent_ReductionValueInPercent"]    ${ReductionValueInPercent}
-    Click Element    //*[@id="/$flow_main/$flow_content/save"]
-    Sleep    3s
+    Select Checkbox    ${checkboxManualReduction}
+    Wait Until Keyword Succeeds    3 sec    1 sec    Element Should Be Visible    ${inputManualReduction}
+    Element Should Be Visible    ${iconSave}
+    ${Result}    ${msg}=    Run Keyword And Ignore Error    Click Element And Wait    ${iconReload}
+    Click Element And Wait    ${inputManualReduction}
+    Input Text    ${inputManualReduction}    ${ReductionValueInPercent}
+    Click Element And Wait    ${iconSave}
     ${REAfterReduction}=    Capture Page Screenshot
     Element Should Be Visible    //*[@id="/$flow_main/$flow_content/list_articles/${RowNumber}/out_Correction_Occured"]
     ${ReductionValueInPercentAfterSave}=    Get Value    //*[@id="/$flow_main/$flow_content/DetailCurrent_ReductionValueInPercent"]    # Start Prüfung ob der eingetragene Wert für die prozentuale Abschreibung durch das Abspeichern verändert wird
@@ -339,7 +289,7 @@ Verify RE Manual Position Reduction
     ${TotalReductionAfter}=    Convert To Number    ${TotalReductionAfter}
     ${TotalCalculatedAfter}=    Evaluate    ${TotalReductionBefore}+${DeprecationValue}    # Prüfung 3 Gesamtabschlag Value updated nach Speichern
     Run Keyword If    ${TotalReductionAfter}!=${TotalCalculatedAfter}    Fail    Overall reduction value not updated after reduction was stored
-    Click Element    //*[@id="/$flow_main/$flow_content/reload"]
+    Click Element    ${iconReload}
     Sleep    3s
     Element Should Not Be Visible    //*[@id="/$flow_main/$flow_content/list_articles/${RowNumber}/out_Correction_Occured"]
     ${DeprecationValue}=    Get Text    //*[@id="/$flow_main/$flow_content/list_articles/${RowNumber}/$Current_ReductionValue"]
