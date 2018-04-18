@@ -16,6 +16,14 @@ Check PageArea is visible
     [Arguments]    ${element_id}    ${class}    ${visible}=${TRUE}
     [Documentation]    MM 22.03.2018
     ...    check page area is visible, the content has allways the same element_id therefore consider class also
+    ...
+    ...    == Parameters ==
+    ...    - ${element_id} = the id of the element, e.g.: the area where the content displayed
+    ...    - ${class} = the class of the container-div that is displayed when the page content is loaded
+    ...    - ${visible} = element is visible, optional
+    ...    == Example ==
+    ...    | = Keyword = | = element_id = | = class = | = visible = | = Result = |
+    ...    | Check PageArea is visible | /$flow_main | screen look_rlx_screen_main_screen | visible=true | check area is visible on page |
     [Tags]    General, Helper, Page Area
     Check ElementId with class is visible    ${element_id}    ${class}    ${visible}
 
@@ -26,26 +34,49 @@ Click Element And Wait
 
 Get PopOverId
     [Arguments]    ${locator}    ${popover_class}
-    [Documentation]    MM 12.04.2018
+    [Documentation]    MM 12.04.2018, get the element id for certain popover
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of the content that invokes the popover, e.g.: /$flow_main/$flow_content
+    ...    - ${popover_class} = the class of the container-div that is displayed when the popover content is loaded
+    ...    == Example ==
+    ...    | = Keyword = | = locator = | = popover_class = | = Result = |
+    ...    | Get PopOverId | /$flow_main/$flow_content/cost_center | screen look_rlx_screen_return_filter_popover | get elementID = /$flow_main/$flow_content/$popover0 |
     [Tags]    General, Helper, PopOver
     ${popover_element} =    Get WebElement    //div[@class="${popover_class}"][contains(@id, '${locator}')]
     Run Keyword And Return    Get Element Attribute    ${popover_element}    id
 
 Get ElementID In PopOver
     [Arguments]    ${locator}    ${popover_class}    ${element_name}
-    [Documentation]    MM 13.04.2018
+    [Documentation]    MM 13.04.2018, get the element id for a certain element in popover
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of the content that invokes the popover, e.g.: /$flow_main/$flow_content
+    ...    - ${popover_class} = the class of the container-div that is displayed when the popover content is loaded
+    ...    - ${element_name} = the name of element, e.g.: chk_closed
+    ...    == Example ==
+    ...    | = Keyword = | = locator = | = popover_class = | = element_name = | = Result = |
+    ...    | Get ElementID In PopOver | /$flow_main/$flow_content/cost_center | screen look_rlx_screen_return_filter_popover | chk_closed | get elementID = /$flow_main/$flow_content/$popover0/chk_closed |
     [Tags]    General, Helper, PopOver
     ${popover_id}=    Get PopOverId    ${locator}    ${popover_class}
     ${element_id}=    Set Variable    ${popover_id}/${element_name}
     [Return]    ${element_id}
 
 Check PopOver Is Visible
-    [Arguments]    ${locator}    ${class}    ${visible}=${TRUE}
+    [Arguments]    ${locator}    ${popover_class}    ${visible}=${TRUE}
     [Documentation]    MM 12.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of the content that invokes the popover, e.g.: /$flow_main/$flow_content
+    ...    - ${popover_class} = the class of the container-div that is displayed when the popover content is loaded
+    ...    - ${visible} = popover is visible, optional
+    ...    == Example ==
+    ...    | = Keyword = | = locator = | = popover_class = | = visible = | = Result = |
+    ...    | Get PopOverId | /$flow_main/$flow_content/cost_center | screen look_rlx_screen_return_filter_popover | visible=true | check popover is visible |
     [Tags]    General, Helper, PopOver
     ${visible}    Is Truthy    ${visible}
-    Run Keyword If    '${visible}' == '${FALSE}'    Page Should Not Contain Element    //div[@class="${class}"][contains(@id, '${locator}')]
-    Run Keyword If    '${visible}' == '${TRUE}'    Page Should Contain Element    //div[@class="${class}"][contains(@id, '${locator}')]
+    Run Keyword If    '${visible}' == '${FALSE}'    Page Should Not Contain Element    //div[@class="${popover_class}"][contains(@id, '${locator}')]
+    Run Keyword If    '${visible}' == '${TRUE}'    Page Should Contain Element    //div[@class="${popover_class}"][contains(@id, '${locator}')]
 
 Click MouseOutSide PopOver
     [Documentation]    MM 12.04.2018, try to close popover without close button, for allert or message popover not useable

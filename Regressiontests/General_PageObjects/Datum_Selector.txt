@@ -22,6 +22,15 @@ Check DateSelector
     [Arguments]    ${locator}    ${labeltext}=${EMPTY}    ${inputvalue}=${EMPTY}    ${enabled}=${EMPTY}
     [Documentation]    MM 01.04.2018
     ...    check date selector element, the arguments are passed with name or in the correct order
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of all date selector elements , e.g.: /$flow_main/$flow_content/dateFrom/pick \ = /$flow_main/$flow_content/dateFrom
+    ...    - ${labeltext} = value of label text, optional
+    ...    - ${inputvalue} = value of input text, optional
+    ...    - ${enabled} = element is enabled, optional
+    ...    == Example ==
+    ...    | = Keyword = | = locator = | = labeltext = | = inputvalue = | = enabled = | = Result = |
+    ...    | Check DateSelector | /$flow_main/$flow_content/dateFrom | labeltext=Startdatum | inputvalue=13.04.2018 | enabled=true | check date selector => Auswertung |
     [Tags]    General, Helper, Element, DateSelector
     ${langunge_code}=    Get selected LanguageCode
     ${date_id}=    Get DateSelector DateID    ${locator}
@@ -33,14 +42,22 @@ Check DateSelector
     Run Keyword If    '${labeltext}' != '${EMPTY}'    Check ContainsText    ${labeltext}
 
 Check DateSelector Is Visible
-    [Arguments]    ${locator}
+    [Arguments]    ${locator}    ${visible}=${TRUE}
     [Documentation]    MM 02.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of all date selector elements , e.g.: /$flow_main/$flow_content/dateFrom/pick \ = /$flow_main/$flow_content/dateFrom
+    ...    - ${visible} = element is visible, optional
     [Tags]    General, Helper, DateSelector
-    Page.Check PopOver Is Visible    ${locator}    ${DATE_SELECTOR_POPUP_CLASS}    visible=true
+    Page.Check PopOver Is Visible    ${locator}    ${DATE_SELECTOR_POPUP_CLASS}    visible=${visible}
 
 Check DateValue Is Valid
     [Arguments]    ${locator}    ${selected}=${TRUE}
     [Documentation]    MM 02.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of all date selector elements , e.g.: /$flow_main/$flow_content/dateFrom/pick \ = /$flow_main/$flow_content/dateFrom
+    ...    - ${selected} = element is selected that means the date has been set, optional
     [Tags]    General, Helper, DateSelector
     ${selected}=    Is Truthy    ${selected}
     ${datevalue}=    Get Current DateValue    ${locator}
@@ -54,6 +71,10 @@ Check DateValue Is Valid
 Check Expected DateValue In DateSelector
     [Arguments]    ${locator}    ${expected_datevalue}
     [Documentation]    MM 02.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of all date selector elements , e.g.: /$flow_main/$flow_content/dateFrom/pick \ = /$flow_main/$flow_content/dateFrom
+    ...    - ${expected_datevalue} = the expected date value
     [Tags]    General, Helper, DateSelector
     ${current_datevalue}=    Get Current DateValue    ${locator}
     Should Be Equal    ${current_datevalue}    ${expected_datevalue}
@@ -61,12 +82,14 @@ Check Expected DateValue In DateSelector
 Check Date Is Selected
     [Arguments]    ${locator}    ${selected}=${TRUE}
     [Documentation]    MM 02.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of all date selector elements , e.g.: /$flow_main/$flow_content/dateFrom/pick \ = /$flow_main/$flow_content/dateFrom
+    ...    - ${selected} = element is selected that means the date has been set, optional
     [Tags]    General, Helper, DateSelector
     ${selected}=    Is Truthy    ${selected}
     Check DateValue Is Valid    ${locator}    ${selected}
-    ${picker_visible} =    Run Keyword And Return Status    Check DateSelector Is Visible    ${locator}
-    Run Keyword If    '${picker_visible}' == '${FALSE}'    Log    Der Datumsselektor ist nicht sichtbar und muss daher geöffnet werden!    WARN
-    Run Keyword If    '${picker_visible}' == '${FALSE}'    Open DateSelector    ${locator}
+    Enforce Open DateSelector    ${locator}
     ${passed}=    Check Table Has Selection Class    ${grdCalendarPopday}    ${DATE_SELECTOR_SELECTION_CLASS}
     Should Be Equal    ${selected}    ${passed}
     Close DateSelector    ${locator}
@@ -74,6 +97,9 @@ Check Date Is Selected
 Check Date Is Selectable
     [Arguments]    ${locator}
     [Documentation]    MM 02.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of all date selector elements , e.g.: /$flow_main/$flow_content/dateFrom/pick \ = /$flow_main/$flow_content/dateFrom
     [Tags]    General, Helper, DateSelector
     Open DateSelector    ${locator}
     Check DateSelector Is Visible    ${locator}
@@ -93,6 +119,9 @@ Select None Date Selection In DateSelector
 Select Previous Month In DateSelector
     [Arguments]    ${locator}
     [Documentation]    MM 02.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of all date selector elements , e.g.: /$flow_main/$flow_content/dateFrom/pick \ = /$flow_main/$flow_content/dateFrom
     [Tags]    General, Helper, DateSelector
     ${prev_id}=    Get DateSelector PrevID    ${locator}
     Click Element    ${prev_id}
@@ -100,6 +129,9 @@ Select Previous Month In DateSelector
 Select Next Month In DateSelector
     [Arguments]    ${locator}
     [Documentation]    MM 02.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of all date selector elements , e.g.: /$flow_main/$flow_content/dateFrom/pick \ = /$flow_main/$flow_content/dateFrom
     [Tags]    General, Helper, DateSelector
     ${next_id}=    Get DateSelector NextID    ${locator}
     Click Element    ${next_id}
@@ -107,6 +139,10 @@ Select Next Month In DateSelector
 Select Month In DateSelector
     [Arguments]    ${locator}    ${datetime}
     [Documentation]    MM 02.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of all date selector elements , e.g.: /$flow_main/$flow_content/dateFrom/pick \ = /$flow_main/$flow_content/dateFrom
+    ...    - ${datetime} = the datetime value
     [Tags]    General, Helper, DateSelector
     ${month_id}=    Get DateSelector MonthID    ${locator}
     ${current_month_year}=    Get Text    ${month_id}
@@ -136,22 +172,40 @@ Select Day In DateSelector
 Open DateSelector
     [Arguments]    ${locator}
     [Documentation]    MM 02.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of all date selector elements , e.g.: /$flow_main/$flow_content/dateFrom/pick \ = /$flow_main/$flow_content/dateFrom
     [Tags]    General, Helper, DateSelector
     ${picker_id}=    Get DateSelector PickID    ${locator}
     Click Element    ${picker_id}
 
+Enforce Open DateSelector
+    [Arguments]    ${locator}
+    [Documentation]    MM 02.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of all date selector elements , e.g.: /$flow_main/$flow_content/dateFrom/pick \ = /$flow_main/$flow_content/dateFrom
+    [Tags]    General, Helper, DateSelector
+    ${picker_visible} =    Run Keyword And Return Status    Check DateSelector Is Visible    ${locator}
+    Run Keyword If    '${picker_visible}' == '${FALSE}'    Log    Der Datumsselektor ist nicht sichtbar und muss daher geöffnet werden!    WARN
+    Run Keyword If    '${picker_visible}' == '${FALSE}'    Open DateSelector    ${locator}
+
 Close DateSelector
     [Arguments]    ${locator}
     [Documentation]    MM 02.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of all date selector elements , e.g.: /$flow_main/$flow_content/dateFrom/pick \ = /$flow_main/$flow_content/dateFrom
     [Tags]    General, Helper, DateSelector
-    ${picker_visible}=    Run Keyword And Return Status    Check DateSelector Is Visible    ${locator}
-    Run Keyword If    '${picker_visible}' == '${FALSE}'    Log    Der Datumsselektor ist nicht sichtbar und kann daher nicht geschlossen werden!    WARN
-    Return From Keyword If    '${picker_visible}' == '${FALSE}'
     Page.Click MouseOutSide PopOver
 
 Set Date In DateSelector
     [Arguments]    ${locator}    ${datevalue}
     [Documentation]    MM 02.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of all date selector elements , e.g.: /$flow_main/$flow_content/dateFrom/pick \ = /$flow_main/$flow_content/dateFrom
+    ...    - ${datevalue} = the date value
     [Tags]    General, Helper, DateSelector
     ${datetime}=    Convert DateString To DateTime    ${datevalue}
     Open DateSelector    ${locator}
@@ -161,6 +215,10 @@ Set Date In DateSelector
 Edit DateValue In DateSelector
     [Arguments]    ${locator}    ${datevalue}
     [Documentation]    MM 02.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of all date selector elements , e.g.: /$flow_main/$flow_content/dateFrom/pick \ = /$flow_main/$flow_content/dateFrom
+    ...    - ${datevalue} = the date value
     [Tags]    General, Helper, DateSelector
     ${date_id}=    Get DateSelector DateID    ${locator}
     Input Text    ${date_id}    ${datevalue}
@@ -185,17 +243,13 @@ Get DateString Now
 
 Get Current DateValue
     [Arguments]    ${locator}
+    [Documentation]    MM 02.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of all date selector elements , e.g.: /$flow_main/$flow_content/dateFrom/pick \ = /$flow_main/$flow_content/dateFrom
     ${date_id}=    Get DateSelector DateID    ${locator}
     ${datevalue}=    Get Value    ${date_id}
     [Return]    ${datevalue}
-
-Convert DateTime To DateString
-    [Arguments]    ${datetime}
-    [Documentation]    MM 02.04.2018
-    [Tags]    General, Helper, DateSelector
-    Should Not Be String    ${value}
-    ${date}=    Convert Date    ${datetime}    result_format=%d.%m.%Y    exclude_millis=yes
-    [Return]    ${date}
 
 Convert Month To MonthName
     [Arguments]    ${month}
@@ -227,26 +281,41 @@ Convert MonthName To Month
 Get DateSelector PickID
     [Arguments]    ${locator}
     [Documentation]    MM 13.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of all date selector elements , e.g.: /$flow_main/$flow_content/dateFrom/pick \ = /$flow_main/$flow_content/dateFrom
     ${id}=    Set Variable    ${locator}/pick
     [Return]    ${id}
 
 Get DateSelector NextID
     [Arguments]    ${locator}
     [Documentation]    MM 13.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of all date selector elements , e.g.: /$flow_main/$flow_content/dateFrom/pick \ = /$flow_main/$flow_content/dateFrom
     Run Keyword And Return    Page.Get ElementID In PopOver    ${locator}    ${DATE_SELECTOR_POPUP_CLASS}    next
 
 Get DateSelector PrevID
     [Arguments]    ${locator}
     [Documentation]    MM 13.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of all date selector elements , e.g.: /$flow_main/$flow_content/dateFrom/pick \ = /$flow_main/$flow_content/dateFrom
     Run Keyword And Return    Page.Get ElementID In PopOver    ${locator}    ${DATE_SELECTOR_POPUP_CLASS}    prev
 
 Get DateSelector MonthID
     [Arguments]    ${locator}
     [Documentation]    MM 13.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of all date selector elements , e.g.: /$flow_main/$flow_content/dateFrom/pick \ = /$flow_main/$flow_content/dateFrom
     Run Keyword And Return    Page.Get ElementID In PopOver    ${locator}    ${DATE_SELECTOR_POPUP_CLASS}    month
 
 Get DateSelector DateID
     [Arguments]    ${locator}
     [Documentation]    MM 13.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of all date selector elements , e.g.: /$flow_main/$flow_content/dateFrom/pick \ = /$flow_main/$flow_content/dateFrom
     ${id}=    Set Variable    ${locator}/date
     [Return]    ${id}

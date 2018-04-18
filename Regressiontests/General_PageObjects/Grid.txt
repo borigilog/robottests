@@ -16,6 +16,15 @@ Get List Elements Column Data
 Check Sorting Table By Columnname
     [Arguments]    ${table_id}    ${col_name}    ${data_type}=string    ${caseinsensitive}=${FALSE}
     [Documentation]    check sorting of table column
+    ...
+    ...    == Parameters ==
+    ...    - ${table_id} = the general path of all table elements , e.g.: /$flow_main/$flow_content/return_list/0 \ = /$flow_main/$flow_content/return_list
+    ...    - ${col_name} = columname to sort
+    ...    - ${data_type} = data type, e.g.: string, number, int, datetime, optional
+    ...    - ${caseinsensitive} = sort caseinsensitive, e.g.: true or false, optional
+    ...    == Example ==
+    ...    | = Keyword = | = table_id = | = col_name = | = data_type = | = caseinsensitive = | = Result = |
+    ...    | Check Sorting Table By Columnname | /$flow_main/$flow_content/mandator_list | intName | | | sort list by name |
     [Tags]    Sorting
     ${col_name}=    Replace String    ${col_name}    $    ${EMPTY}    count=1
     ${locator}=    Set Variable    //div[contains(@class,'gridcontainer')]/table/tbody/tr/td/div[contains(@id,'${table_id}')][contains(@id,'${col_name}')]
@@ -29,6 +38,12 @@ Check Sorting Table By Columnname
 
 Get Content Of Table Column
     [Arguments]    ${table_id}    ${col_name}    ${data_type}=string
+    [Documentation]    MM 17.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${table_id} = the general path of all table elements , e.g.: /$flow_main/$flow_content/return_list/0 \ = /$flow_main/$flow_content/return_list
+    ...    - ${col_name} = columname of table
+    ...    - ${data_type} = data type, e.g.: string, number, int, datetime, optional
     ${locator}=    Set Variable    //div[contains(@class,'gridcontainer')]/table/tbody/tr/td/div[contains(@id,'${table_id}')][contains(@id,'${col_name}')]
     ${col_name}=    Replace String    ${col_name}    $    ${EMPTY}    count=1
     ${content_list} =    Get List Elements Column Data    ${locator}    ${data_type}
@@ -84,3 +99,33 @@ Check List ElementId is selected
     ...    list elemnet is selected
     [Tags]    General, Helper, List, Selection
     Check ElementId with class is visible    ${element_id}    ${class}    ${selected}
+
+Get CheckboxIds With Status For Table Column
+    [Arguments]    ${table_id}    ${id_col_name}    ${text_col_name}    ${selection}=${EMPTY}
+    [Documentation]    MM 17.04.2018
+    ...    get list of all checkboxes with their status
+    ...
+    ...    == Parameters ==
+    ...    - ${table_id} = the general path of all table elements , e.g.: /$flow_main/$flow_content/return_list/0 \ = /$flow_main/$flow_content/return_list
+    ...    - ${id_col_name} = columname with checkbox
+    ...    - ${text_col_name} = columname with text
+    ...    - ${selection} = all elements with certain selection, optional
+    ...    == Example ==
+    ...    | = Keyword = | = locator = | = id_col_name = | = text_col_name = | = selection = | = Result = |
+    ...    | Get CheckboxIds With Status For Table Column | /$flow_main/$flow_content/$popover0/grid_filter_return_reason | chk_return_reason | txt_return_reason | | get list of all checkboxes with their status |
+    ...    | Get CheckboxIds With Status For Table Column | /$flow_main/$flow_content/$popover0/grid_filter_return_reason | chk_return_reason | txt_return_reason | selection=true | get list of all selected checkboxes with their status |
+    ...    | Get CheckboxIds With Status For Table Column | /$flow_main/$flow_content/$popover0/grid_filter_return_reason | chk_return_reason | txt_return_reason | selection=false | get list of all unselected checkboxes with their status |
+    ${expected_selected}=    Is Truthy    ${selection}
+    ${locator}=    Set Variable    //div[contains(@class,'gridcontainer')]/table/tbody/tr/td/span/input[contains(@id,'${table_id}')][contains(@id,'${id_col_name}')][contains(@type,'checkbox')]
+    ${checkboxes}=    Create List
+    @{webelements} =    Get WebElements    ${locator}
+    : FOR    ${element}    IN    @{webelements}
+    \    ${id}=    Set Variable    ${element.get_attribute('id')}
+    \    ${selected}=    Get Selection of CheckBox    ${id}
+    \    Continue For Loop If    '${selection}'!='${EMPTY}' and '${selected}'!='${expected_selected}'
+    \    &{values}=    Create Dictionary    &{EMPTY}
+    \    ${text_element_id}=    Replace String    ${id}    ${id_col_name}    ${text_col_name}    count=1
+    \    ${text_element} =    Get WebElement    ${text_element_id}
+    \    Set To Dictionary    ${values}    id=${id}    selected=${selected}    text=${text_element.text}
+    \    Append To List    ${checkboxes}    ${values}
+    [Return]    ${checkboxes}
