@@ -17,6 +17,7 @@ Convert Text To Data Type
     Run Keyword And Return If    '${data_type}'=='int'    Convert To Integer    ${value}
     Run Keyword And Return If    '${data_type}'=='number'    Convert To Number    ${value}
     Run Keyword And Return If    '${data_type}'=='datetime'    Convert DateString To DateTime    ${value}
+    Run Keyword And Return If    '${data_type}'=='bool'    Is Truthy    ${value}
     [Return]    ${value}
 
 Get Stripped String

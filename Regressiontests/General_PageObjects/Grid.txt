@@ -10,8 +10,7 @@ Library           Selenium2Library    run_on_failure=Nothing
 Get List Elements Column Data
     [Arguments]    ${locator}    ${data_type}=string
     [Documentation]    Returns the texts of all WebElements matching provided locator converted into provided data_type
-    ${result} =    Get Elements Text Data    ${locator}    ${data_type}
-    [Return]    ${result}
+    Run Keyword And Return    Get Elements Text Data    ${locator}    ${data_type}
 
 Check Sorting Table By Columnname
     [Arguments]    ${table_id}    ${col_name}    ${data_type}=string    ${caseinsensitive}=${FALSE}
@@ -20,15 +19,14 @@ Check Sorting Table By Columnname
     ...    == Parameters ==
     ...    - ${table_id} = the general path of all table elements , e.g.: /$flow_main/$flow_content/return_list/0 \ = /$flow_main/$flow_content/return_list
     ...    - ${col_name} = columname to sort
-    ...    - ${data_type} = data type, e.g.: string, number, int, datetime, optional
+    ...    - ${data_type} = data type, e.g.: string, number, int, datetime, bool, checkbox, optional
     ...    - ${caseinsensitive} = sort caseinsensitive, e.g.: true or false, optional
     ...    == Example ==
     ...    | = Keyword = | = table_id = | = col_name = | = data_type = | = caseinsensitive = | = Result = |
     ...    | Check Sorting Table By Columnname | /$flow_main/$flow_content/mandator_list | intName | | | sort list by name |
     [Tags]    Sorting
-    ${col_name}=    Replace String    ${col_name}    $    ${EMPTY}    count=1
-    ${locator}=    Set Variable    //div[contains(@class,'gridcontainer')]/table/tbody/tr/td/div[contains(@id,'${table_id}')][contains(@id,'${col_name}')]
-    ${sort_col_id}=    Set Variable    //div[contains(@class,'gridheader lines')]/div/div/div[contains(@id,'${table_id}')][contains(@id,'${col_name}')]
+    ${locator}=    Get Table Data Location    ${table_id}    ${col_name}    ${data_type}
+    ${sort_col_id}=    Get Table Header Location    ${table_id}    ${col_name}
     Click Element    ${sort_col_id}
     ${content_list} =    Get List Elements Column Data    ${locator}    ${data_type}
     List Should Be Ordered    ${content_list}    desc=false    caseinsensitive=${caseinsensitive}
@@ -43,21 +41,18 @@ Get Content Of Table Column
     ...    == Parameters ==
     ...    - ${table_id} = the general path of all table elements , e.g.: /$flow_main/$flow_content/return_list/0 \ = /$flow_main/$flow_content/return_list
     ...    - ${col_name} = columname of table
-    ...    - ${data_type} = data type, e.g.: string, number, int, datetime, optional
-    ${locator}=    Set Variable    //div[contains(@class,'gridcontainer')]/table/tbody/tr/td/div[contains(@id,'${table_id}')][contains(@id,'${col_name}')]
-    ${col_name}=    Replace String    ${col_name}    $    ${EMPTY}    count=1
-    ${content_list} =    Get List Elements Column Data    ${locator}    ${data_type}
-    [Return]    ${content_list}
+    ...    - ${data_type} = data type, e.g.: string, number, int, datetime, bool, checkbox, optional
+    ${locator}=    Get Table Data Location    ${table_id}    ${col_name}    ${data_type}
+    Run Keyword And Return    Get List Elements Column Data    ${locator}    ${data_type}
 
 Get ElementID from List
     [Arguments]    ${element_id}    ${col_name}    ${value}
     [Documentation]    MM 29.03.2018
     ...    finde element einer liste statischer loop
-    ${locator}    Set Variable    //div[contains(@id,'${element_id}')][contains(@id,'${col_name}')][contains(text(),'${value}')]
+    ${locator}    Set Variable    //div[contains(@id,'${element_id}')][contains(@id,'${col_name}')]
     ${id}=    Get ElementId From Table    ${locator}    ${value}
     Return From Keyword If    '${id}' == '${EMPTY}'    ${id}
-    ${id}=    Replace String    ${id}    /${col_name}    ${EMPTY}    count=1
-    [Return]    ${id}
+    Run Keyword And Return    Replace String    ${id}    /${col_name}    ${EMPTY}    count=1
 
 Get ElementId From Table
     [Arguments]    ${locator}    ${value}
@@ -116,7 +111,7 @@ Get CheckboxIds With Status For Table Column
     ...    | Get CheckboxIds With Status For Table Column | /$flow_main/$flow_content/$popover0/grid_filter_return_reason | chk_return_reason | txt_return_reason | selection=true | get list of all selected checkboxes with their status |
     ...    | Get CheckboxIds With Status For Table Column | /$flow_main/$flow_content/$popover0/grid_filter_return_reason | chk_return_reason | txt_return_reason | selection=false | get list of all unselected checkboxes with their status |
     ${expected_selected}=    Is Truthy    ${selection}
-    ${locator}=    Set Variable    //div[contains(@class,'gridcontainer')]/table/tbody/tr/td/span/input[contains(@id,'${table_id}')][contains(@id,'${id_col_name}')][contains(@type,'checkbox')]
+    ${locator}=    Get Table Data Location    ${table_id}    ${id_col_name}    data_type=checkbox
     ${checkboxes}=    Create List
     @{webelements} =    Get WebElements    ${locator}
     : FOR    ${element}    IN    @{webelements}
@@ -129,3 +124,25 @@ Get CheckboxIds With Status For Table Column
     \    Set To Dictionary    ${values}    id=${id}    selected=${selected}    text=${text_element.text}
     \    Append To List    ${checkboxes}    ${values}
     [Return]    ${checkboxes}
+
+Get Table Header Location
+    [Arguments]    ${table_id}    ${col_name}
+    [Documentation]    MM 18.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${table_id} = the general path of all table elements , e.g.: /$flow_main/$flow_content/return_list/0 \ = /$flow_main/$flow_content/return_list
+    ...    - ${col_name} = columname of table
+    ${col_name}=    Replace String    ${col_name}    $    ${EMPTY}    count=1
+    [Return]    //div[contains(@class,'gridheader lines')]/div/div/div[contains(@id,'${table_id}')][contains(@id,'${col_name}')]
+
+Get Table Data Location
+    [Arguments]    ${table_id}    ${col_name}    ${data_type}=string
+    [Documentation]    MM 18.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${table_id} = the general path of all table elements , e.g.: /$flow_main/$flow_content/return_list/0 \ = /$flow_main/$flow_content/return_list
+    ...    - ${col_name} = columname of table
+    ...    - ${data_type} = data type, e.g.: string, number, int, datetime, bool, checkbox, optional
+    ${col_name}=    Replace String    ${col_name}    $    ${EMPTY}    count=1
+    Return From Keyword If    '${data_type}' == 'checkbox'    //div[contains(@class,'gridcontainer')]/table/tbody/tr/td/span/input[contains(@id,'${table_id}')][contains(@id,'${col_name}')][contains(@type,'checkbox')]
+    [Return]    //div[contains(@class,'gridcontainer')]/table/tbody/tr/td/div[contains(@id,'${table_id}')][contains(@id,'${col_name}')]
