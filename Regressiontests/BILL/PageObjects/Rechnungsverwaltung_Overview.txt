@@ -35,6 +35,9 @@ ${billOpen}       ${grdBillsPrefix}/94
 ${billClosed}     ${grdBillsPrefix}/46
 ${billProcessed}    ${grdBillsPrefix}/0
 ${billProcessedClosed}    ${grdBillsPrefix}/1
+# ~~~~~~~ Subscreens
+${Screens_Container}    /$flow_main/$flow_content
+${Screen_CreateBill}    screen look_rlx_screen_bill_generally_invoicemanagement_createnew
 
 *** Keywords ***
 Init Status Dictionaries

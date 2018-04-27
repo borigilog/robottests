@@ -136,16 +136,11 @@ Sort By Positionen
     [Documentation]    BILL -> Rechnungsverwaltung -> Übersicht: Sortierung nach Spalte "Positionen"
     [Tags]    Sorting
     Check Sorting Table By Columnname    ${grdBillsPrefix}    items    data_type=int
-    #Check Sort By Proforma
-    #    [Documentation]    BILL -> Rechnungsverwaltung -> Übersicht: Sortierung nach Spalte "Erstellt am"
-    #    [Tags]    Sorting
-    #    Sleep    1
-    #    Click Element    ${colProforma}
-    #    ${billStatus} =    Get Elements Texts    ${grdBills}/div[contains(@class,'gridcontainer')]/table/tbody/tr/td[1]/div
-    #    List Of Strings Should Be Ordered ASC    ${billStatus}
-    #    Click Element    ${colProforma}
-    #    ${billStatus} =    Get Elements Texts    ${grdBills}/div[contains(@class,'gridcontainer')]/table/tbody/tr/td[1]/div
-    #    List Of Strings Should Be Ordered DESC    ${billStatus}
+
+Sort By Proforma
+    [Documentation]    BILL -> Rechnungsverwaltung -> Übersicht: Sortierung nach Spalte "Proforma"
+    [Tags]    Sorting
+    Check Sorting Table By Columnname    ${grdBillsPrefix}    proForma    data_type=checkbox
 
 Filter Bills
     [Tags]    Filter
@@ -159,6 +154,14 @@ Filter Bills
     showClosedBills=${FALSE}    showProcessedBills=${TRUE}    showProformaBills=${FALSE}
     showClosedBills=${FALSE}    showProcessedBills=${FALSE}    showProformaBills=${TRUE}
     showClosedBills=${FALSE}    showProcessedBills=${FALSE}    showProformaBills=${FALSE}
+
+Close Rechnungsverwaltung
+    Click Element    ${btnAbort}
+    Check Homescreen is selected
+
+Neue Rechnung eröffnen
+    Click Element    ${btnCreateBill}
+    Check PageArea is visible    ${Screens_Container}    ${Screen_CreateBill}
 
 *** KeyWords ***
 Template Test Filter
