@@ -5,9 +5,9 @@
 	- [SQL](#sql)
 	- [Settings](#settings)
 	- [Regressiontests](#regressiontests)
-		- [General_Keywords](#generalkeywords)
-		- [General_PageObjects](#generalpageobjects)
-		- [General_Variables](#generalvariables)
+		- [General_Keywords   <a name="generalkeywords"></a>](#generalkeywords-a-namegeneralkeywordsa)
+		- [General_PageObjects  <a name="generalpageobjects"></a>](#generalpageobjects-a-namegeneralpageobjectsa)
+		- [General_Variables  <a name="generalvariables"></a>](#generalvariables-a-namegeneralvariablesa)
 		- [Modul-Tests](#modul-tests)
 			- [PageObjects](#pageobjects)
 				- [Menu-PageObjects](#menu-pageobjects)
@@ -16,6 +16,7 @@
 	- [Robotframework Basics](#robotframework-basics)
 	- [Was man beim Test schreiben berücksichtigen sollte](#was-man-beim-test-schreiben-berücksichtigen-sollte)
 	- [Wie man eigene Python-Bibliotheken schreibt](#wie-man-eigene-python-bibliotheken-schreibt)
+	- [Wo fügt man Variablen und Keywords ein ?](#wo-fügt-man-variablen-und-keywords-ein-)
 - [Wording/Begriffserklärung](#wordingbegriffserklärung)
 	- [PageObject](#pageobject)
 - [README-Datei bearbeiten:](#readme-datei-bearbeiten)
@@ -52,14 +53,6 @@ Variablen, die für die gesamte Website gelten (Login, Password, URL, Standard S
 2. Innerhalb dieses Ordners wird pro _Bereich_ eine [Testsuite](http://robotframework.org/robotframework/latest/RobotFrameworkUserGuide.html#creating-test-suites) erstellt. <br>
 Was ein _Bereich_ ist, ist dem Ersteller der Tests überlassen. <br>
 **Anhaltspunkt:** Pro html-Ansicht eine Testsuite erstellen. (Ist aber kein Muss!)
-
-#### Wo fügt man Variablen und Keywords ein ? ####
-3. [Variablen](http://robotframework.org/robotframework/latest/RobotFrameworkUserGuide.html#variables) und [Keywords](http://robotframework.org/robotframework/latest/RobotFrameworkUserGuide.html#creating-user-keywords) zunächst direkt in die Testsuite einfügen.
-4. Stellt man fest, dass man Keywords/Variablen in mehreren Testsuites benötigt, kann man diese an generellere Stellen verschieben
-    * Sind die Variablen/Keywords modulspezifisch, sollten sie zu einem [Modulspezifischen PageObjects](#pageobjects) zusammengefasst werden.
-    * Handelt es sich um Keywords, die überall in der Website vorkommen können:
-        * Handelt es sich um [PageObjects](#PageObject), können sie zu den [GeneralPageObjects](#generalpageobjects) hinzugefügt werden.
-        * Andernfalls werden sie den [General_Keywords](#generalkeywords) zugeordnet.
 
 #### PageObjects   
 Enthält [PageObjects](#PageObject), die nur für dieses Modul gelten.<br>
@@ -114,6 +107,15 @@ Select Rechnungsverwaltung
 ## Wie man eigene Python-Bibliotheken schreibt
 - [Simples Beispiel inkl. Aufruf](https://stackoverflow.com/questions/27039016/how-to-create-a-custom-python-code-library-for-the-robot-framework)
 - [Creating Testlibraries](http://robotframework.org/robotframework/latest/RobotFrameworkUserGuide.html#creating-test-libraries)
+
+## Wo fügt man Variablen und Keywords ein ?
+1. [Variablen](http://robotframework.org/robotframework/latest/RobotFrameworkUserGuide.html#variables) und [Keywords](http://robotframework.org/robotframework/latest/RobotFrameworkUserGuide.html#creating-user-keywords) zunächst direkt in die Testsuite einfügen.
+2. Stellt man fest, dass man Keywords/Variablen in mehreren Testsuites benötigt, kann man diese an generellere Stellen verschieben
+    * Sind die Variablen/Keywords modulspezifisch, sollten sie zu einem [Modulspezifischen PageObjects](#pageobjects) zusammengefasst werden.
+    * Handelt es sich um Keywords, die überall in der Website vorkommen können:
+        * Handelt es sich um [PageObjects](#PageObject), können sie zu den [GeneralPageObjects](#generalpageobjects) hinzugefügt werden.
+        * Andernfalls werden sie den [General_Keywords](#generalkeywords) zugeordnet.
+
 
 # Wording/Begriffserklärung
 ## PageObject
