@@ -48,7 +48,9 @@ Check ContainsText
     [Documentation]    MM 22.03.2018
     ...    check page contains text
     [Tags]    General, Helper, Text
-    Element Should Be Visible    //div[contains(text(),'${text}')]
+    #Element Should Be Visible    //div[contains(text(),'${text}')]
+    # //div[contains(text(),'${text}')] hat Probleme mit Umlaute => kein gültiger XPath
+    Page Should Contain    ${text}
 
 Get Selection of CheckBox
     [Arguments]    ${element_id}
@@ -80,3 +82,9 @@ Check Element Is Enabled
     ${expected_enabled}=    Is Truthy    ${expected_enabled}
     Run Keyword If    '${expected_enabled}' == '${TRUE}'    Element Should Be Enabled    ${element_id}
     Run Keyword If    '${expected_enabled}' == '${FALSE}'    Element Should Be Disabled    ${element_id}
+
+Get ElementId
+    [Arguments]    ${locator}
+    [Documentation]    MM 19.04.2018
+    ${element} =    Get WebElement    ${locator}
+    Run Keyword And Return    Get Element Attribute    ${element}    id

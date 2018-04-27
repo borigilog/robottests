@@ -24,7 +24,7 @@ All Elements Are Available
 Valid Login
     Open Login Page
     Input Username    ${RLX_USER}
-    Input Password    ${RLX_PWD}
+    Input User Password    ${RLX_PWD}
     Submit Credentials
     Mandator Selection Page Should Be Open
     Submit Mandator Selection    ${DEFAULT_MANDATOR_NAME}
@@ -34,7 +34,7 @@ Valid Login
 Invalid Username
     Open Login Page
     Input Username    Tom
-    Input Password    ${RLX_PWD}
+    Input User Password    ${RLX_PWD}
     Submit Credentials
     Error Page Should Be Open
     [Teardown]    Close Browser
@@ -42,7 +42,7 @@ Invalid Username
 Invalid Password
     Open Login Page
     Input Username    ${RLX_USER}
-    Input Password    Taylor
+    Input User Password    Taylor
     Submit Credentials
     Error Page Should Be Open
     [Teardown]    Close Browser
@@ -50,7 +50,7 @@ Invalid Password
 Invalid Username And Password
     Open Login Page
     Input Username    Tom
-    Input Password    Taylor
+    Input User Password    Taylor
     Submit Credentials
     Error Page Should Be Open
     [Teardown]    Close Browser
@@ -58,7 +58,7 @@ Invalid Username And Password
 Empty Username
     Open Login Page
     Clear Input Username
-    Input Password    ${RLX_PWD}
+    Input User Password    ${RLX_PWD}
     Submit Credentials
     Error Page Should Be Open
     [Teardown]    Close Browser
@@ -66,7 +66,7 @@ Empty Username
 Empty Password
     Open Login Page
     Input Username    ${RLX_USER}
-    Clear Input Password
+    Clear Input User Password
     Submit Credentials
     Error Page Should Be Open
     [Teardown]    Close Browser
@@ -74,7 +74,7 @@ Empty Password
 Empty Username And Password
     Open Login Page
     Clear Input Username
-    Clear Input Password
+    Clear Input User Password
     Submit Credentials
     Error Page Should Be Open
     [Teardown]    Close Browser
@@ -92,11 +92,12 @@ Clear Input Username
     Input Text    /$flow_main/login_username    ${SPACE}
     Clear Element Text    /$flow_main/login_username
 
-Input Password
+Input User Password
     [Arguments]    ${password}=${EMPTY}
-    Input Text    /$flow_main/login_password    ${password}
+    #Input Text    /$flow_main/login_password    ${password}
+    Input Password    /$flow_main/login_password    ${password}
 
-Clear Input Password
+Clear Input User Password
     Input Text    /$flow_main/login_password    ${SPACE}
     Clear Element Text    /$flow_main/login_password
 

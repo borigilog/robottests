@@ -1,0 +1,143 @@
+*** Settings ***
+Suite Setup       Setup Verrechnung
+Suite Teardown    Close Browser
+Test Teardown     Teardown Verrechnung
+Force Tags        Bill    Verrechnung
+Default Tags
+Metadata          Version    1.0
+Metadata          Author    Marcel Mischke
+Resource          PageObjects/Menu.txt
+Resource          ../General_Variables/DefaultValues.txt
+
+*** Variables ***
+# ~~~~~~~ buttons
+${btnBack}        /$flow_main/$flow_content/back
+${btnSave}        /$flow_main/$flow_content/save
+# ~~~~~~~ lists
+${priceList}      /$flow_main/$flow_content/priceLists
+${priceFieldsList}    /$flow_main/$flow_content/priceFields_list
+${colPriceType}    priceType
+${colPriceName}    priceName
+${colPriceDD}     priceDD
+
+*** Test Cases ***
+Check GUI Elements Verrechnung
+    [Documentation]    MM 22.03.2018, Check GUI Elements for Verrechnung
+    [Tags]    GUI_Elements    TextLanguagedependent
+    ${langunge_code}=    Get selected LanguageCode
+    Run Keyword And Continue On Failure    Check ContainsText    &{Dic_Title}[${langunge_code}]
+    Run Keyword And Continue On Failure    Check ContainsText    &{Dic_PriceList}[${langunge_code}]
+    Run Keyword And Continue On Failure    Check ContainsText    &{Dic_PriceAssignment}[${langunge_code}]
+    Run Keyword And Continue On Failure    Check ElementId    ${priceList}    enabled=true
+    #grid
+    ${btnPriceTypeId}=    Get ElementId From Table    //button[contains(@id,'${priceFieldsList}')][contains(@id,'${colPriceType}')]    &{Dic_ReimburseClearedPositions}[${langunge_code}]
+    Run Keyword And Continue On Failure    Check ElementId    ${btnPriceTypeId}    &{Dic_ReimburseClearedPositions}[${langunge_code}]    enabled=true
+    ${rowId}=    Get ElementID from List    ${priceFieldsList}    ${colPriceName}    &{Dic_Price_NewWare}[${langunge_code}]
+    ${priceNameId}=    Set Variable    ${rowId}/${colPriceName}
+    Run Keyword And Continue On Failure    Check ElementId    ${priceNameId}    &{Dic_Price_NewWare}[${langunge_code}]    enabled=true
+    ${btnPriceTypeId}=    Get ElementId From Table    //button[contains(@id,'${priceFieldsList}')][contains(@id,'${colPriceType}')]    &{Dic_ClearingService}[${langunge_code}]
+    Run Keyword And Continue On Failure    Check ElementId    ${btnPriceTypeId}    &{Dic_ClearingService}[${langunge_code}]    enabled=true
+    ${rowId}=    Get ElementID from List    ${priceFieldsList}    ${colPriceName}    &{Dic_Charge_Unfair_Complaint}[${langunge_code}]
+    ${priceNameId}=    Set Variable    ${rowId}/${colPriceName}
+    Run Keyword And Continue On Failure    Check ElementId    ${priceNameId}    &{Dic_Charge_Unfair_Complaint}[${langunge_code}]    enabled=true
+    #buttons
+    Run Keyword And Continue On Failure    Check ElementId    ${btnBack}    &{Dic_Back}[${langunge_code}]    enabled=true
+    Run Keyword And Continue On Failure    Check ElementId    ${btnSave}    &{Dic_Save}[${langunge_code}]    enabled=true
+
+Check Text Languagedependent
+    [Tags]    TextLanguagedependent    ChangeLanguage
+    : FOR    ${key}    IN    @{AVAILABLE_LANGUAGES.keys()}
+    \    Set LanguageId    ${key}
+    \    Check LanguageId is selected    ${key}
+    \    ${langunge_code}=    Get selected LanguageCode
+    \    Run Keyword And Continue On Failure    Check ContainsText    &{Dic_Title}[${langunge_code}]
+    \    Run Keyword And Continue On Failure    Check ContainsText    &{Dic_PriceList}[${langunge_code}]
+    \    Run Keyword And Continue On Failure    Check ContainsText    &{Dic_PriceAssignment}[${langunge_code}]
+    \    Run Keyword And Continue On Failure    Element Text Should Be    ${btnBack}    &{Dic_Back}[${langunge_code}]
+    \    Run Keyword And Continue On Failure    Element Text Should Be    ${btnSave}    &{Dic_Save}[${langunge_code}]
+    Set LanguageId    ${DEFAULT_LANGUAGE_ID}
+
+Check Elements Selectable
+    [Documentation]    BILL -> Verrechnung: Status der Buttons, wenn kein Element selektiert ist
+    [Tags]    Action
+    ${langunge_code}=    Get selected LanguageCode
+    ${value}=    Get Selected List Label    //select[contains(@id,'${priceList}')]
+    Should Be Equal    ${value}    ${EMPTY}
+    Select From List By Label    //select[contains(@id,'${priceList}')]    Preisliste 2016
+    ${value}=    Get Selected List Label    //select[contains(@id,'${priceList}')]
+    Should Be Equal    ${value}    Preisliste 2016
+    ${btnPriceTypeId}=    Get ElementId    //button[contains(@id,'${priceFieldsList}')][contains(@id,'${colPriceType}')]/div[contains(text(),'&{Dic_ReimburseClearedPositions}[${langunge_code}]')]/parent::button
+    Log to console    ${btnPriceTypeId}
+    Check ElementId    //button[contains(@id,'${priceFieldsList}')][contains(@id,'${colPriceType}')]/div[contains(text(),'&{Dic_ReimburseClearedPositions}[${langunge_code}]')]    enabled=true
+    ${btnPriceTypeId}=    Get ElementId From Table    //*[contains(@id,'${priceFieldsList}')][contains(@id,'${colPriceType}')]    &{Dic_ReimburseClearedPositions}[${langunge_code}]
+    Click Element And Wait    ${btnPriceTypeId}
+    ${rowId}=    Get ElementID from List    ${priceFieldsList}    ${colPriceName}    &{Dic_Price_NewWare}[${langunge_code}]
+    ${priceNameId}=    Set Variable    ${rowId}/${colPriceName}
+    Should Be Equal    ${priceNameId}    ${EMPTY}/${colPriceName}
+    Click Element And Wait    ${btnPriceTypeId}
+    ${rowId}=    Get ElementID from List    ${priceFieldsList}    ${colPriceName}    &{Dic_Price_NewWare}[${langunge_code}]
+    ${priceNameId}=    Set Variable    ${rowId}/${colPriceName}
+    Should Not Be Equal    ${priceNameId}    ${EMPTY}/${colPriceName}
+    Element Text Should Be    ${priceNameId}    &{Dic_Price_NewWare}[${langunge_code}]
+    ${priceDDId}=    Set Variable    ${rowId}/${colPriceDD}
+    ${value}=    Get Selected List Label    //select[contains(@id,'${priceDDId}')]
+    Should Be Equal    ${value}    &{Dic_Cmbx_EmptyItem}[${langunge_code}]
+    Select From List By Label    //select[contains(@id,'${priceDDId}')]    Reparaturdienstleistung
+    ${value}=    Get Selected List Label    //select[contains(@id,'${priceDDId}')]
+    Should Be Equal    ${value}    Reparaturdienstleistung
+    ${btnPriceTypeId}=    Get ElementId From Table    //*[contains(@id,'${priceFieldsList}')][contains(@id,'${colPriceType}')]    &{Dic_ClearingService}[${langunge_code}]
+    Click Element And Wait    ${btnPriceTypeId}
+    ${rowId}=    Get ElementID from List    ${priceFieldsList}    ${colPriceName}    &{Dic_Charge_Unfair_Complaint}[${langunge_code}]
+    ${priceNameId}=    Set Variable    ${rowId}/${colPriceName}
+    Should Be Equal    ${priceNameId}    ${EMPTY}/${colPriceName}
+    Click Element And Wait    ${btnPriceTypeId}
+    ${rowId}=    Get ElementID from List    ${priceFieldsList}    ${colPriceName}    &{Dic_Charge_Unfair_Complaint}[${langunge_code}]
+    ${priceNameId}=    Set Variable    ${rowId}/${colPriceName}
+    Should Not Be Equal    ${priceNameId}    ${EMPTY}/${colPriceName}
+    Element Text Should Be    ${priceNameId}    &{Dic_Charge_Unfair_Complaint}[${langunge_code}]
+    ${priceDDId}=    Set Variable    ${rowId}/${colPriceDD}
+    ${value}=    Get Selected List Label    //select[contains(@id,'${priceDDId}')]
+    Should Be Equal    ${value}    &{Dic_Cmbx_EmptyItem}[${langunge_code}]
+    Select From List By Label    //select[contains(@id,'${priceDDId}')]    Reparaturdienstleistung
+    ${value}=    Get Selected List Label    //select[contains(@id,'${priceDDId}')]
+    Should Be Equal    ${value}    Reparaturdienstleistung
+    #Check List ElementId is selected    ${Id}    sel
+
+Click Speichern
+    [Tags]    Action
+    ${passed}=    Run Keyword And Return Status    Click Element And Wait    ${btnSave}
+    Should Be Equal    ${passed}    ${TRUE}
+    Check PageArea is visible    ${menu_content}    ${offsetting_charging_class}    visible=false
+    Check Homescreen is selected
+
+Click Button Zurück
+    [Tags]    Action
+    Click Element And Wait    ${btnBack}
+    Check PageArea is visible    ${menu_content}    ${offsetting_charging_class}    visible=false
+    Check Homescreen is selected
+
+*** Keywords ***
+Setup Verrechnung
+    Select Verrechnung    true
+    Create Dictionaries For Verrechnung
+
+Teardown Verrechnung
+    ${passed} =    Run Keyword And Return Status    Select Verrechnung
+    Return From Keyword If    ${passed}
+    Log    Die Seite war nicht clickable daher muss der Browser geschlossen und neugestartet werden    WARN
+    Close Browser
+    Select Verrechnung    true
+
+Create Dictionaries For Verrechnung
+    Create SettingsDics    PresettingPricing    lbl_Headline    Dic_Title
+    Create SettingsDics    SD_Pricing    Price_NewWare    Dic_Price_NewWare
+    Create SettingsDics    SD_Pricing    Charge_Unfair_Complaint    Dic_Charge_Unfair_Complaint
+    Create SettingsDics    PresettingPricing    ReimburseClearedPositions    Dic_ReimburseClearedPositions
+    Create SettingsDics    PresettingPricing    ClearingService    Dic_ClearingService
+    Create SettingsDics    PresettingPricing    Lbl_PriceList    Dic_PriceList
+    Create SettingsDics    PresettingPricing    Lbl_PriceAssignment    Dic_PriceAssignment
+    Create SettingsDics    PresettingPricing    Service_Product    Dic_Service_Product
+    Create SettingsDics    PresettingPricing    PriceField    Dic_PriceField
+    Create SettingsDics    PresettingPricing    Cmbx_SalesType_EmptyItem    Dic_Cmbx_EmptyItem
+    Create SettingsDics    General    Save    Dic_Save
+    Create SettingsDics    General    Back    Dic_Back

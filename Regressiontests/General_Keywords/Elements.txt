@@ -10,9 +10,14 @@ Get Elements Text Data
     @{webelements} =    Get WebElements    ${locator}
     ${values}=    Create List
     : FOR    ${el}    IN    @{webelements}
-    \    ${content}=    Convert Text To Data Type    ${el.text}    ${data_type}
+    \    ${content}=    Get Webelement Data    ${el}    ${data_type}
     \    Append To List    ${values}    ${content}
     [Return]    ${values}
+
+Get Webelement Data
+    [Arguments]    ${webelement}    ${data_type}=string
+    Run Keyword And Return If    '${data_type}' == 'checkbox'    Get Selection of CheckBox    ${webelement.get_attribute('id')}
+    Run Keyword And Return    Convert Text To Data Type    ${webelement.text}    ${data_type}
 
 Get Elements Texts
     [Arguments]    ${locator}

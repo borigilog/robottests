@@ -8,36 +8,61 @@ ${RETURN_FILTER_POPUP_CLASS}    screen look_rlx_screen_return_filter_popover
 *** Keywords ***
 Open ReturnFilter PopUp
     [Arguments]    ${locator}
-    [Documentation]    MM 12.04.2018
+    [Documentation]    MM 12.04.2018, opens return filter
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of all filter elements , e.g.: /$flow_main/$flow_content/filters \ = /$flow_main/$flow_content
+    ...    == Example ==
+    ...    | = Keyword = | = locator = | = Result = |
+    ...    | Open ReturnFilter PopUp | /$flow_main/$flow_content | opens return filter => Reklamation/Retouren=>Retoure erfassen |
     [Tags]    General, Helper, ReturnFilter_PopUp
     ${filter_id}=    Get FilterID    ${locator}
     Click Element And Wait    ${filter_id}
 
 Close ReturnFilter PopUp
     [Arguments]    ${locator}
-    [Documentation]    MM 12.04.2018
+    [Documentation]    MM 12.04.2018, close return filter
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of all filter elements , e.g.: /$flow_main/$flow_content/filters \ = /$flow_main/$flow_content
+    ...    == Example ==
+    ...    | = Keyword = | = locator = | = Result = |
+    ...    | Close ReturnFilter PopUp | /$flow_main/$flow_content | close return filter => Reklamation/Retouren=>Retoure erfassen |
     [Tags]    General, Helper, ReturnFilter_PopUp
-    ${popup_visible} =    Run Keyword And Return Status    Check ReturnFilter PopUp Is Visible    ${locator}
-    Run Keyword If    '${popup_visible}' == '${FALSE}'    Log    Das Filter Fenster ist nicht sichtbar und kann daher nicht geschlossen werden!    WARN
-    Return From Keyword If    '${popup_visible}' == '${FALSE}'
     Click MouseOutSide PopOver
 
 Check ReturnFilter PopUp Is Visible
     [Arguments]    ${locator}    ${visible}=${TRUE}
     [Documentation]    MM 12.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of all filter elements , e.g.: /$flow_main/$flow_content/filters \ = /$flow_main/$flow_content
+    ...    - ${visible} = element is visible , e.g.: true or false, optional
     [Tags]    General, Helper, ReturnFilter_PopUp
     Page.Check PopOver Is Visible    ${locator}    ${RETURN_FILTER_POPUP_CLASS}    visible=${visible}
 
 Select ResetFilter In ReturnFilter PopUp
     [Arguments]    ${locator}
-    [Documentation]    MM 12.04.2018
+    [Documentation]    MM 12.04.2018, select reset filter
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of all filter elements , e.g.: /$flow_main/$flow_content/filters \ = /$flow_main/$flow_content
+    ...    == Example ==
+    ...    | = Keyword = | = locator = | = Result = |
+    ...    | Select ResetFilter In ReturnFilter PopUp | /$flow_main/$flow_content | select reset filter => Reklamation/Retouren=>Retoure erfassen |
     [Tags]    General, Helper, ReturnFilter_PopUp
     ${reset_id}=    Get ResetFilterID    ${locator}
     Click Element And Wait    ${reset_id}
 
 Select ApplyFilter In ReturnFilter PopUp
     [Arguments]    ${locator}
-    [Documentation]    MM 12.04.2018
+    [Documentation]    MM 12.04.2018, select apply filter
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of all filter elements , e.g.: /$flow_main/$flow_content/filters \ = /$flow_main/$flow_content
+    ...    == Example ==
+    ...    | = Keyword = | = locator = | = Result = |
+    ...    | Select ApplyFilter In ReturnFilter PopUp | /$flow_main/$flow_content | select apply filter => Reklamation/Retouren=>Retoure erfassen |
     [Tags]    General, Helper, ReturnFilter_PopUp
     ${apply_id}=    Get ApplyFilterID    ${locator}
     Click Element And Wait    ${apply_id}
@@ -45,6 +70,10 @@ Select ApplyFilter In ReturnFilter PopUp
 Set Use ReturnNo In ReturnFilter PopUp
     [Arguments]    ${locator}    ${select}
     [Documentation]    MM 12.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of all filter elements , e.g.: /$flow_main/$flow_content/filters \ = /$flow_main/$flow_content
+    ...    - ${select} = select element , e.g.: true or false
     [Tags]    General, Helper, ReturnFilter_PopUp
     ${chkbox_id}=    Get ReturnNo CheckboxID    ${locator}
     Set Selection of CheckBox    ${chkbox_id}    ${select}
@@ -52,20 +81,31 @@ Set Use ReturnNo In ReturnFilter PopUp
 Get Use ReturnNo In ReturnFilter PopUp
     [Arguments]    ${locator}
     [Documentation]    MM 12.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of all filter elements , e.g.: /$flow_main/$flow_content/filters \ = /$flow_main/$flow_content
     [Tags]    General, Helper, ReturnFilter_PopUp
     ${chkbox_id}=    Get ReturnNo CheckboxID    ${locator}
     Run Keyword And Return    Get Selection of CheckBox    ${chkbox_id}
 
 Check Use ReturnNo Selection In ReturnFilter PopUp
-    [Arguments]    ${locator}    ${select}
+    [Arguments]    ${locator}    ${selected}
     [Documentation]    MM 12.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of all filter elements , e.g.: /$flow_main/$flow_content/filters \ = /$flow_main/$flow_content
+    ...    - ${selected} = element is selected , e.g.: true or false
     [Tags]    General, Helper, ReturnFilter_PopUp
     ${chkbox_id}=    Get ReturnNo CheckboxID    ${locator}
-    Check Selection of CheckBox    ${chkbox_id}    ${select}
+    Check Selection of CheckBox    ${chkbox_id}    ${selected}
 
 Set Value ReturnNo In ReturnFilter PopUp
     [Arguments]    ${locator}    ${value}
     [Documentation]    MM 12.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of all filter elements , e.g.: /$flow_main/$flow_content/filters \ = /$flow_main/$flow_content
+    ...    - ${value} = value of element
     [Tags]    General, Helper, ReturnFilter_PopUp
     ${value_id}=    Get ReturnNoID    ${locator}
     Input Text    ${value_id}    ${value}
@@ -73,6 +113,9 @@ Set Value ReturnNo In ReturnFilter PopUp
 Get Value ReturnNo In ReturnFilter PopUp
     [Arguments]    ${locator}
     [Documentation]    MM 12.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of all filter elements , e.g.: /$flow_main/$flow_content/filters \ = /$flow_main/$flow_content
     [Tags]    General, Helper, ReturnFilter_PopUp
     ${value_id}=    Get ReturnNoID    ${locator}
     Run Keyword And Return    Get Value    ${value_id}
@@ -80,6 +123,10 @@ Get Value ReturnNo In ReturnFilter PopUp
 Check Value ReturnNo In ReturnFilter PopUp
     [Arguments]    ${locator}    ${expected_value}
     [Documentation]    MM 12.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of all filter elements , e.g.: /$flow_main/$flow_content/filters \ = /$flow_main/$flow_content
+    ...    - ${expected_value} = expected value of element
     [Tags]    General, Helper, ReturnFilter_PopUp
     ${value}=    Get Value ReturnNo In ReturnFilter PopUp    ${locator}
     Should Be Equal    ${value}    ${expected_value}
@@ -87,6 +134,10 @@ Check Value ReturnNo In ReturnFilter PopUp
 Set Use ClientNo In ReturnFilter PopUp
     [Arguments]    ${locator}    ${select}
     [Documentation]    MM 12.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of all filter elements , e.g.: /$flow_main/$flow_content/filters \ = /$flow_main/$flow_content
+    ...    - ${select} = select element , e.g.: true or false
     [Tags]    General, Helper, ReturnFilter_PopUp
     ${chkbox_id}=    Get ClientNo CheckboxID    ${locator}
     Set Selection of CheckBox    ${chkbox_id}    ${select}
@@ -94,20 +145,31 @@ Set Use ClientNo In ReturnFilter PopUp
 Get Use ClientNo In ReturnFilter PopUp
     [Arguments]    ${locator}
     [Documentation]    MM 12.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of all filter elements , e.g.: /$flow_main/$flow_content/filters \ = /$flow_main/$flow_content
     [Tags]    General, Helper, ReturnFilter_PopUp
     ${chkbox_id}=    Get ClientNo CheckboxID    ${locator}
     Run Keyword And Return    Get Selection of CheckBox    ${chkbox_id}
 
 Check Use ClientNo Selection In ReturnFilter PopUp
-    [Arguments]    ${locator}    ${select}
+    [Arguments]    ${locator}    ${selected}
     [Documentation]    MM 12.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of all filter elements , e.g.: /$flow_main/$flow_content/filters \ = /$flow_main/$flow_content
+    ...    - ${selected} = element is selected , e.g.: true or false
     [Tags]    General, Helper, ReturnFilter_PopUp
     ${chkbox_id}=    Get ClientNo CheckboxID    ${locator}
-    Check Selection of CheckBox    ${chkbox_id}    ${select}
+    Check Selection of CheckBox    ${chkbox_id}    ${selected}
 
 Set Value ClientNo In ReturnFilter PopUp
     [Arguments]    ${locator}    ${value}
     [Documentation]    MM 12.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of all filter elements , e.g.: /$flow_main/$flow_content/filters \ = /$flow_main/$flow_content
+    ...    - ${value} = value of element
     [Tags]    General, Helper, ReturnFilter_PopUp
     ${value_id}=    Get ClientNoID    ${locator}
     Input Text    ${value_id}    ${value}
@@ -115,6 +177,9 @@ Set Value ClientNo In ReturnFilter PopUp
 Get Value ClientNo In ReturnFilter PopUp
     [Arguments]    ${locator}
     [Documentation]    MM 12.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of all filter elements , e.g.: /$flow_main/$flow_content/filters \ = /$flow_main/$flow_content
     [Tags]    General, Helper, ReturnFilter_PopUp
     ${value_id}=    Get ClientNoID    ${locator}
     Run Keyword And Return    Get Value    ${value_id}
@@ -122,6 +187,10 @@ Get Value ClientNo In ReturnFilter PopUp
 Check Value ClientNo In ReturnFilter PopUp
     [Arguments]    ${locator}    ${expected_value}
     [Documentation]    MM 12.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of all filter elements , e.g.: /$flow_main/$flow_content/filters \ = /$flow_main/$flow_content
+    ...    - ${expected_value} = expected value of element
     [Tags]    General, Helper, ReturnFilter_PopUp
     ${value}=    Get Value ClientNo In ReturnFilter PopUp    ${locator}
     Should Be Equal    ${value}    ${expected_value}
@@ -129,6 +198,10 @@ Check Value ClientNo In ReturnFilter PopUp
 Set Use OrderNo In ReturnFilter PopUp
     [Arguments]    ${locator}    ${select}
     [Documentation]    MM 12.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of all filter elements , e.g.: /$flow_main/$flow_content/filters \ = /$flow_main/$flow_content
+    ...    - ${select} = select element , e.g.: true or false
     [Tags]    General, Helper, ReturnFilter_PopUp
     ${chkbox_id}=    Get OrderNo CheckboxID    ${locator}
     Set Selection of CheckBox    ${chkbox_id}    ${select}
@@ -136,20 +209,31 @@ Set Use OrderNo In ReturnFilter PopUp
 Get Use OrderNo In ReturnFilter PopUp
     [Arguments]    ${locator}
     [Documentation]    MM 12.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of all filter elements , e.g.: /$flow_main/$flow_content/filters \ = /$flow_main/$flow_content
     [Tags]    General, Helper, ReturnFilter_PopUp
     ${chkbox_id}=    Get OrderNo CheckboxID    ${locator}
     Run Keyword And Return    Get Selection of CheckBox    ${chkbox_id}
 
 Check Use OrderNo Selection In ReturnFilter PopUp
-    [Arguments]    ${locator}    ${select}
+    [Arguments]    ${locator}    ${selected}
     [Documentation]    MM 12.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of all filter elements , e.g.: /$flow_main/$flow_content/filters \ = /$flow_main/$flow_content
+    ...    - ${selected} = element is selected , e.g.: true or false
     [Tags]    General, Helper, ReturnFilter_PopUp
     ${chkbox_id}=    Get OrderNo CheckboxID    ${locator}
-    Check Selection of CheckBox    ${chkbox_id}    ${select}
+    Check Selection of CheckBox    ${chkbox_id}    ${selected}
 
 Set Value OrderNo In ReturnFilter PopUp
     [Arguments]    ${locator}    ${value}
     [Documentation]    MM 12.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of all filter elements , e.g.: /$flow_main/$flow_content/filters \ = /$flow_main/$flow_content
+    ...    - ${value} = value of element
     [Tags]    General, Helper, ReturnFilter_PopUp
     ${value_id}=    Get OrderNoID    ${locator}
     Input Text    ${value_id}    ${value}
@@ -157,6 +241,9 @@ Set Value OrderNo In ReturnFilter PopUp
 Get Value OrderNo In ReturnFilter PopUp
     [Arguments]    ${locator}
     [Documentation]    MM 12.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of all filter elements , e.g.: /$flow_main/$flow_content/filters \ = /$flow_main/$flow_content
     [Tags]    General, Helper, ReturnFilter_PopUp
     ${value_id}=    Get OrderNoID    ${locator}
     Run Keyword And Return    Get Value    ${value_id}
@@ -164,6 +251,10 @@ Get Value OrderNo In ReturnFilter PopUp
 Check Value OrderNo In ReturnFilter PopUp
     [Arguments]    ${locator}    ${expected_value}
     [Documentation]    MM 12.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of all filter elements , e.g.: /$flow_main/$flow_content/filters \ = /$flow_main/$flow_content
+    ...    - ${expected_value} = expected value of element
     [Tags]    General, Helper, ReturnFilter_PopUp
     ${value}=    Get Value OrderNo In ReturnFilter PopUp    ${locator}
     Should Be Equal    ${value}    ${expected_value}
@@ -171,6 +262,10 @@ Check Value OrderNo In ReturnFilter PopUp
 Set Use DeliveryNo In ReturnFilter PopUp
     [Arguments]    ${locator}    ${select}
     [Documentation]    MM 12.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of all filter elements , e.g.: /$flow_main/$flow_content/filters \ = /$flow_main/$flow_content
+    ...    - ${select} = select element , e.g.: true or false
     [Tags]    General, Helper, ReturnFilter_PopUp
     ${chkbox_id}=    Get DeliveryNo CheckboxID    ${locator}
     Set Selection of CheckBox    ${chkbox_id}    ${select}
@@ -178,20 +273,31 @@ Set Use DeliveryNo In ReturnFilter PopUp
 Get Use DeliveryNo In ReturnFilter PopUp
     [Arguments]    ${locator}
     [Documentation]    MM 12.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of all filter elements , e.g.: /$flow_main/$flow_content/filters \ = /$flow_main/$flow_content
     [Tags]    General, Helper, ReturnFilter_PopUp
     ${chkbox_id}=    Get DeliveryNo CheckboxID    ${locator}
     Run Keyword And Return    Get Selection of CheckBox    ${chkbox_id}
 
 Check Use DeliveryNo Selection In ReturnFilter PopUp
-    [Arguments]    ${locator}    ${select}
+    [Arguments]    ${locator}    ${selected}
     [Documentation]    MM 12.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of all filter elements , e.g.: /$flow_main/$flow_content/filters \ = /$flow_main/$flow_content
+    ...    - ${selected} = element is selected , e.g.: true or false
     [Tags]    General, Helper, ReturnFilter_PopUp
     ${chkbox_id}=    Get DeliveryNo CheckboxID    ${locator}
-    Check Selection of CheckBox    ${chkbox_id}    ${select}
+    Check Selection of CheckBox    ${chkbox_id}    ${selected}
 
 Set Value DeliveryNo In ReturnFilter PopUp
     [Arguments]    ${locator}    ${value}
     [Documentation]    MM 12.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of all filter elements , e.g.: /$flow_main/$flow_content/filters \ = /$flow_main/$flow_content
+    ...    - ${value} = value of element
     [Tags]    General, Helper, ReturnFilter_PopUp
     ${value_id}=    Get DeliveryNoID    ${locator}
     Input Text    ${value_id}    ${value}
@@ -199,6 +305,9 @@ Set Value DeliveryNo In ReturnFilter PopUp
 Get Value DeliveryNo In ReturnFilter PopUp
     [Arguments]    ${locator}
     [Documentation]    MM 12.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of all filter elements , e.g.: /$flow_main/$flow_content/filters \ = /$flow_main/$flow_content
     [Tags]    General, Helper, ReturnFilter_PopUp
     ${value_id}=    Get DeliveryNoID    ${locator}
     Run Keyword And Return    Get Value    ${value_id}
@@ -206,13 +315,78 @@ Get Value DeliveryNo In ReturnFilter PopUp
 Check Value DeliveryNo In ReturnFilter PopUp
     [Arguments]    ${locator}    ${expected_value}
     [Documentation]    MM 12.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of all filter elements , e.g.: /$flow_main/$flow_content/filters \ = /$flow_main/$flow_content
+    ...    - ${expected_value} = expected value of element
     [Tags]    General, Helper, ReturnFilter_PopUp
     ${value}=    Get Value DeliveryNo In ReturnFilter PopUp    ${locator}
     Should Be Equal    ${value}    ${expected_value}
 
+Set ReturnReasons Selection In ReturnFilter PopUp
+    [Arguments]    ${locator}    @{select_reason_names}
+    [Documentation]    MM 12.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of all filter elements , e.g.: /$flow_main/$flow_content/filters \ = /$flow_main/$flow_content
+    ...    - @{select_reason_names} = list of reason names to be selected
+    ...    == Example ==
+    ...    @{reason_names}= Create List Materialfehler Materialdefekt
+    ...    | = Keyword = | = locator = | = select_reason_names = | = Result = |
+    ...    | Set ReturnReasons Selection In ReturnFilter PopUp | /$flow_main/$flow_content | @{reason_names} | select reasons |
+    [Tags]    General, Helper, ReturnFilter_PopUp
+    ${grid_id}=    Get FilterReturnReason GridID    ${locator}
+    @{values}=    Get CheckboxIds With Status For Table Column    ${grid_id}    chk_return_reason    txt_return_reason
+    : FOR    ${checkbox}    IN    @{values}
+    \    ${chkbox_id}=    Get From Dictionary    ${checkbox}    id
+    \    ${text}=    Get From Dictionary    ${checkbox}    text
+    \    ${select} =    Run Keyword And Return Status    List Should Contain Value    ${select_reason_names}    ${text}
+    \    Set Selection of CheckBox    ${chkbox_id}    ${select}
+
+Get ReturnReasons Selection In ReturnFilter PopUp
+    [Arguments]    ${locator}
+    [Documentation]    MM 12.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of all filter elements , e.g.: /$flow_main/$flow_content/filters \ = /$flow_main/$flow_content
+    [Tags]    General, Helper, ReturnFilter_PopUp
+    ${grid_id}=    Get FilterReturnReason GridID    ${locator}
+    @{values}=    Get CheckboxIds With Status For Table Column    ${grid_id}    chk_return_reason    txt_return_reason
+    ${selection}=    Create List    @{EMPTY}
+    : FOR    ${checkbox}    IN    @{values}
+    \    ${selected}=    Get From Dictionary    ${checkbox}    selected
+    \    Continue For Loop If    '${selected}'=='${FALSE}'
+    \    ${text}=    Get From Dictionary    ${checkbox}    text
+    \    Append To List    ${selection}    ${text}
+    [Return]    ${selection}
+
+Check ReturnReasons Selection In ReturnFilter PopUp
+    [Arguments]    ${locator}    @{selected_reason_names}
+    [Documentation]    MM 12.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of all filter elements , e.g.: /$flow_main/$flow_content/filters \ = /$flow_main/$flow_content
+    ...    - @{selected_reason_names} = list of reason names should be selected
+    ...    == Example ==
+    ...    @{reason_names}= Create List Materialfehler Materialdefekt
+    ...    | = Keyword = | = locator = | = select_reason_names = | = Result = |
+    ...    | Check ReturnReasons Selection In ReturnFilter PopUp | /$flow_main/$flow_content | @{reason_names} | check reasons are selected |
+    [Tags]    General, Helper, ReturnFilter_PopUp
+    ${grid_id}=    Get FilterReturnReason GridID    ${locator}
+    @{values}=    Get CheckboxIds With Status For Table Column    ${grid_id}    chk_return_reason    txt_return_reason
+    : FOR    ${checkbox}    IN    @{values}
+    \    ${selected}=    Get From Dictionary    ${checkbox}    selected
+    \    ${text}=    Get From Dictionary    ${checkbox}    text
+    \    Run Keyword If    '${selected}'=='${TRUE}'    List Should Contain Value    ${selected_reason_names}    ${text}
+    \    Run Keyword If    '${selected}'=='${FALSE}'    List Should Not Contain Value    ${selected_reason_names}    ${text}
+
 Set Use CreatedBy In ReturnFilter PopUp
     [Arguments]    ${locator}    ${select}
     [Documentation]    MM 12.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of all filter elements , e.g.: /$flow_main/$flow_content/filters \ = /$flow_main/$flow_content
+    ...    - ${select} = select element , e.g.: true or false
     [Tags]    General, Helper, ReturnFilter_PopUp
     ${chkbox_id}=    Get CreatedBy CheckboxID    ${locator}
     Set Selection of CheckBox    ${chkbox_id}    ${select}
@@ -220,20 +394,31 @@ Set Use CreatedBy In ReturnFilter PopUp
 Get Use CreatedBy In ReturnFilter PopUp
     [Arguments]    ${locator}
     [Documentation]    MM 12.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of all filter elements , e.g.: /$flow_main/$flow_content/filters \ = /$flow_main/$flow_content
     [Tags]    General, Helper, ReturnFilter_PopUp
     ${chkbox_id}=    Get CreatedBy CheckboxID    ${locator}
     Run Keyword And Return    Get Selection of CheckBox    ${chkbox_id}
 
 Check Use CreatedBy Selection In ReturnFilter PopUp
-    [Arguments]    ${locator}    ${select}
+    [Arguments]    ${locator}    ${selected}
     [Documentation]    MM 12.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of all filter elements , e.g.: /$flow_main/$flow_content/filters \ = /$flow_main/$flow_content
+    ...    - ${selected} = element is selected , e.g.: true or false
     [Tags]    General, Helper, ReturnFilter_PopUp
     ${chkbox_id}=    Get CreatedBy CheckboxID    ${locator}
-    Check Selection of CheckBox    ${chkbox_id}    ${select}
+    Check Selection of CheckBox    ${chkbox_id}    ${selected}
 
 Set Value CreatedBy In ReturnFilter PopUp
     [Arguments]    ${locator}    ${value}
     [Documentation]    MM 12.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of all filter elements , e.g.: /$flow_main/$flow_content/filters \ = /$flow_main/$flow_content
+    ...    - ${value} = value of element
     [Tags]    General, Helper, ReturnFilter_PopUp
     ${value_id}=    Get CreatedByID    ${locator}
     Input Text    ${value_id}    ${value}
@@ -241,6 +426,9 @@ Set Value CreatedBy In ReturnFilter PopUp
 Get Value CreatedBy In ReturnFilter PopUp
     [Arguments]    ${locator}
     [Documentation]    MM 12.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of all filter elements , e.g.: /$flow_main/$flow_content/filters \ = /$flow_main/$flow_content
     [Tags]    General, Helper, ReturnFilter_PopUp
     ${value_id}=    Get CreatedByID    ${locator}
     Run Keyword And Return    Get Value    ${value_id}
@@ -248,6 +436,10 @@ Get Value CreatedBy In ReturnFilter PopUp
 Check Value CreatedBy In ReturnFilter PopUp
     [Arguments]    ${locator}    ${expected_value}
     [Documentation]    MM 12.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of all filter elements , e.g.: /$flow_main/$flow_content/filters \ = /$flow_main/$flow_content
+    ...    - ${expected_value} = expected value of element
     [Tags]    General, Helper, ReturnFilter_PopUp
     ${value}=    Get Value CreatedBy In ReturnFilter PopUp    ${locator}
     Should Be Equal    ${value}    ${expected_value}
@@ -255,6 +447,10 @@ Check Value CreatedBy In ReturnFilter PopUp
 Set Use CreatedOn In ReturnFilter PopUp
     [Arguments]    ${locator}    ${select}
     [Documentation]    MM 12.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of all filter elements , e.g.: /$flow_main/$flow_content/filters \ = /$flow_main/$flow_content
+    ...    - ${select} = select element , e.g.: true or false
     [Tags]    General, Helper, ReturnFilter_PopUp
     ${chkbox_id}=    Get CreatedOn CheckboxID    ${locator}
     Set Selection of CheckBox    ${chkbox_id}    ${select}
@@ -262,20 +458,31 @@ Set Use CreatedOn In ReturnFilter PopUp
 Get Use CreatedOn In ReturnFilter PopUp
     [Arguments]    ${locator}
     [Documentation]    MM 12.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of all filter elements , e.g.: /$flow_main/$flow_content/filters \ = /$flow_main/$flow_content
     [Tags]    General, Helper, ReturnFilter_PopUp
     ${chkbox_id}=    Get CreatedOn CheckboxID    ${locator}
     Run Keyword And Return    Get Selection of CheckBox    ${chkbox_id}
 
 Check Use CreatedOn Selection In ReturnFilter PopUp
-    [Arguments]    ${locator}    ${select}
+    [Arguments]    ${locator}    ${selected}
     [Documentation]    MM 12.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of all filter elements , e.g.: /$flow_main/$flow_content/filters \ = /$flow_main/$flow_content
+    ...    - ${selected} = element is selected , e.g.: true or false
     [Tags]    General, Helper, ReturnFilter_PopUp
     ${chkbox_id}=    Get CreatedOn CheckboxID    ${locator}
-    Check Selection of CheckBox    ${chkbox_id}    ${select}
+    Check Selection of CheckBox    ${chkbox_id}    ${selected}
 
 Set Date CreatedOnFrom In ReturnFilter PopUp
     [Arguments]    ${locator}    ${datevalue}
     [Documentation]    MM 12.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of all filter elements , e.g.: /$flow_main/$flow_content/filters \ = /$flow_main/$flow_content
+    ...    - ${datevalue} = date value of element
     [Tags]    General, Helper, ReturnFilter_PopUp
     ${date_id}=    Get CreatedOnFrom DateID    ${locator}
     Datum_Selector.Set Date In DateSelector    ${date_id}    ${datevalue}
@@ -283,6 +490,9 @@ Set Date CreatedOnFrom In ReturnFilter PopUp
 Get Date CreatedOnFrom In ReturnFilter PopUp
     [Arguments]    ${locator}
     [Documentation]    MM 12.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of all filter elements , e.g.: /$flow_main/$flow_content/filters \ = /$flow_main/$flow_content
     [Tags]    General, Helper, ReturnFilter_PopUp
     ${date_id}=    Get CreatedOnFrom DateID    ${locator}
     Run Keyword And Return    Datum_Selector.Get Current DateValue    ${date_id}
@@ -290,6 +500,10 @@ Get Date CreatedOnFrom In ReturnFilter PopUp
 Check Date CreatedOnFrom In ReturnFilter PopUp
     [Arguments]    ${locator}    ${expected_datevalue}
     [Documentation]    MM 12.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of all filter elements , e.g.: /$flow_main/$flow_content/filters \ = /$flow_main/$flow_content
+    ...    - ${expected_datevalue} = expected date value of element
     [Tags]    General, Helper, ReturnFilter_PopUp
     ${date_id}=    Get CreatedOnFrom DateID    ${locator}
     Datum_Selector.Check Expected DateValue In DateSelector    ${date_id}    ${expected_datevalue}
@@ -297,6 +511,10 @@ Check Date CreatedOnFrom In ReturnFilter PopUp
 Set Date CreatedOnTo In ReturnFilter PopUp
     [Arguments]    ${locator}    ${datevalue}
     [Documentation]    MM 12.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of all filter elements , e.g.: /$flow_main/$flow_content/filters \ = /$flow_main/$flow_content
+    ...    - ${datevalue} = date value of element
     [Tags]    General, Helper, ReturnFilter_PopUp
     ${date_id}=    Get CreatedOnTo DateID    ${locator}
     Datum_Selector.Set Date In DateSelector    ${date_id}    ${datevalue}
@@ -304,6 +522,9 @@ Set Date CreatedOnTo In ReturnFilter PopUp
 Get Date CreatedOnTo In ReturnFilter PopUp
     [Arguments]    ${locator}
     [Documentation]    MM 12.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of all filter elements , e.g.: /$flow_main/$flow_content/filters \ = /$flow_main/$flow_content
     [Tags]    General, Helper, ReturnFilter_PopUp
     ${date_id}=    Get CreatedOnTo DateID    ${locator}
     Run Keyword And Return    Datum_Selector.Get Current DateValue    ${date_id}
@@ -311,6 +532,10 @@ Get Date CreatedOnTo In ReturnFilter PopUp
 Check Date CreatedOnTo In ReturnFilter PopUp
     [Arguments]    ${locator}    ${expected_datevalue}
     [Documentation]    MM 12.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of all filter elements , e.g.: /$flow_main/$flow_content/filters \ = /$flow_main/$flow_content
+    ...    - ${expected_datevalue} = expected date value of element
     [Tags]    General, Helper, ReturnFilter_PopUp
     ${date_id}=    Get CreatedOnTo DateID    ${locator}
     Datum_Selector.Check Expected DateValue In DateSelector    ${date_id}    ${expected_datevalue}
@@ -318,6 +543,10 @@ Check Date CreatedOnTo In ReturnFilter PopUp
 Set Use Overdue In ReturnFilter PopUp
     [Arguments]    ${locator}    ${select}
     [Documentation]    MM 12.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of all filter elements , e.g.: /$flow_main/$flow_content/filters \ = /$flow_main/$flow_content
+    ...    - ${select} = select element , e.g.: true or false
     [Tags]    General, Helper, ReturnFilter_PopUp
     ${chkbox_id}=    Get Overdue CheckboxID    ${locator}
     Set Selection of CheckBox    ${chkbox_id}    ${select}
@@ -325,20 +554,31 @@ Set Use Overdue In ReturnFilter PopUp
 Get Use Overdue In ReturnFilter PopUp
     [Arguments]    ${locator}
     [Documentation]    MM 12.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of all filter elements , e.g.: /$flow_main/$flow_content/filters \ = /$flow_main/$flow_content
     [Tags]    General, Helper, ReturnFilter_PopUp
     ${chkbox_id}=    Get Overdue CheckboxID    ${locator}
     Run Keyword And Return    Get Selection of CheckBox    ${chkbox_id}
 
 Check Use Overdue Selection In ReturnFilter PopUp
-    [Arguments]    ${locator}    ${select}
+    [Arguments]    ${locator}    ${selected}
     [Documentation]    MM 12.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of all filter elements , e.g.: /$flow_main/$flow_content/filters \ = /$flow_main/$flow_content
+    ...    - ${selected} = element is selected , e.g.: true or false
     [Tags]    General, Helper, ReturnFilter_PopUp
     ${chkbox_id}=    Get Overdue CheckboxID    ${locator}
-    Check Selection of CheckBox    ${chkbox_id}    ${select}
+    Check Selection of CheckBox    ${chkbox_id}    ${selected}
 
 Set Use Orconnection In ReturnFilter PopUp
     [Arguments]    ${locator}    ${select}
     [Documentation]    MM 12.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of all filter elements , e.g.: /$flow_main/$flow_content/filters \ = /$flow_main/$flow_content
+    ...    - ${select} = select element , e.g.: true or false
     [Tags]    General, Helper, ReturnFilter_PopUp
     ${chkbox_id}=    Get Orconnection CheckboxID    ${locator}
     Set Selection of CheckBox    ${chkbox_id}    ${select}
@@ -346,20 +586,31 @@ Set Use Orconnection In ReturnFilter PopUp
 Get Use Orconnection In ReturnFilter PopUp
     [Arguments]    ${locator}
     [Documentation]    MM 12.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of all filter elements , e.g.: /$flow_main/$flow_content/filters \ = /$flow_main/$flow_content
     [Tags]    General, Helper, ReturnFilter_PopUp
     ${chkbox_id}=    Get Orconnection CheckboxID    ${locator}
     Run Keyword And Return    Get Selection of CheckBox    ${chkbox_id}
 
 Check Use Orconnection Selection In ReturnFilter PopUp
-    [Arguments]    ${locator}    ${select}
+    [Arguments]    ${locator}    ${selected}
     [Documentation]    MM 12.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of all filter elements , e.g.: /$flow_main/$flow_content/filters \ = /$flow_main/$flow_content
+    ...    - ${selected} = element is selected , e.g.: true or false
     [Tags]    General, Helper, ReturnFilter_PopUp
     ${chkbox_id}=    Get Orconnection CheckboxID    ${locator}
-    Check Selection of CheckBox    ${chkbox_id}    ${select}
+    Check Selection of CheckBox    ${chkbox_id}    ${selected}
 
 Set Use Open In ReturnFilter PopUp
     [Arguments]    ${locator}    ${select}
     [Documentation]    MM 12.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of all filter elements , e.g.: /$flow_main/$flow_content/filters \ = /$flow_main/$flow_content
+    ...    - ${select} = select element , e.g.: true or false
     [Tags]    General, Helper, ReturnFilter_PopUp
     ${chkbox_id}=    Get Open CheckboxID    ${locator}
     Set Selection of CheckBox    ${chkbox_id}    ${select}
@@ -367,20 +618,31 @@ Set Use Open In ReturnFilter PopUp
 Get Use Open In ReturnFilter PopUp
     [Arguments]    ${locator}
     [Documentation]    MM 12.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of all filter elements , e.g.: /$flow_main/$flow_content/filters \ = /$flow_main/$flow_content
     [Tags]    General, Helper, ReturnFilter_PopUp
     ${chkbox_id}=    Get Open CheckboxID    ${locator}
     Run Keyword And Return    Get Selection of CheckBox    ${chkbox_id}
 
 Check Use Open Selection In ReturnFilter PopUp
-    [Arguments]    ${locator}    ${select}
+    [Arguments]    ${locator}    ${selected}
     [Documentation]    MM 12.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of all filter elements , e.g.: /$flow_main/$flow_content/filters \ = /$flow_main/$flow_content
+    ...    - ${selected} = element is selected , e.g.: true or false
     [Tags]    General, Helper, ReturnFilter_PopUp
     ${chkbox_id}=    Get Open CheckboxID    ${locator}
-    Check Selection of CheckBox    ${chkbox_id}    ${select}
+    Check Selection of CheckBox    ${chkbox_id}    ${selected}
 
 Set Use Cleared In ReturnFilter PopUp
     [Arguments]    ${locator}    ${select}
     [Documentation]    MM 12.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of all filter elements , e.g.: /$flow_main/$flow_content/filters \ = /$flow_main/$flow_content
+    ...    - ${select} = element is selected , e.g.: true or false
     [Tags]    General, Helper, ReturnFilter_PopUp
     ${chkbox_id}=    Get Cleared CheckboxID    ${locator}
     Set Selection of CheckBox    ${chkbox_id}    ${select}
@@ -388,20 +650,31 @@ Set Use Cleared In ReturnFilter PopUp
 Get Use Cleared In ReturnFilter PopUp
     [Arguments]    ${locator}
     [Documentation]    MM 12.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of all filter elements , e.g.: /$flow_main/$flow_content/filters \ = /$flow_main/$flow_content
     [Tags]    General, Helper, ReturnFilter_PopUp
     ${chkbox_id}=    Get Cleared CheckboxID    ${locator}
     Run Keyword And Return    Get Selection of CheckBox    ${chkbox_id}
 
 Check Use Cleared Selection In ReturnFilter PopUp
-    [Arguments]    ${locator}    ${select}
+    [Arguments]    ${locator}    ${selected}
     [Documentation]    MM 12.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of all filter elements , e.g.: /$flow_main/$flow_content/filters \ = /$flow_main/$flow_content
+    ...    - ${selected} = element is selected , e.g.: true or false
     [Tags]    General, Helper, ReturnFilter_PopUp
     ${chkbox_id}=    Get Cleared CheckboxID    ${locator}
-    Check Selection of CheckBox    ${chkbox_id}    ${select}
+    Check Selection of CheckBox    ${chkbox_id}    ${selected}
 
 Set Use Billed In ReturnFilter PopUp
     [Arguments]    ${locator}    ${select}
     [Documentation]    MM 12.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of all filter elements , e.g.: /$flow_main/$flow_content/filters \ = /$flow_main/$flow_content
+    ...    - ${select} = select element , e.g.: true or false
     [Tags]    General, Helper, ReturnFilter_PopUp
     ${chkbox_id}=    Get Billed CheckboxID    ${locator}
     Set Selection of CheckBox    ${chkbox_id}    ${select}
@@ -409,20 +682,31 @@ Set Use Billed In ReturnFilter PopUp
 Get Use Billed In ReturnFilter PopUp
     [Arguments]    ${locator}
     [Documentation]    MM 12.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of all filter elements , e.g.: /$flow_main/$flow_content/filters \ = /$flow_main/$flow_content
     [Tags]    General, Helper, ReturnFilter_PopUp
     ${chkbox_id}=    Get Billed CheckboxID    ${locator}
     Run Keyword And Return    Get Selection of CheckBox    ${chkbox_id}
 
 Check Use Billed Selection In ReturnFilter PopUp
-    [Arguments]    ${locator}    ${select}
+    [Arguments]    ${locator}    ${selected}
     [Documentation]    MM 12.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of all filter elements , e.g.: /$flow_main/$flow_content/filters \ = /$flow_main/$flow_content
+    ...    - ${selected} = element is selected , e.g.: true or false
     [Tags]    General, Helper, ReturnFilter_PopUp
     ${chkbox_id}=    Get Billed CheckboxID    ${locator}
-    Check Selection of CheckBox    ${chkbox_id}    ${select}
+    Check Selection of CheckBox    ${chkbox_id}    ${selected}
 
 Set Use Closed In ReturnFilter PopUp
     [Arguments]    ${locator}    ${select}
     [Documentation]    MM 12.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of all filter elements , e.g.: /$flow_main/$flow_content/filters \ = /$flow_main/$flow_content
+    ...    - ${select} = select element , e.g.: true or false
     [Tags]    General, Helper, ReturnFilter_PopUp
     ${chkbox_id}=    Get Closed CheckboxID    ${locator}
     Set Selection of CheckBox    ${chkbox_id}    ${select}
@@ -430,145 +714,227 @@ Set Use Closed In ReturnFilter PopUp
 Get Use Closed In ReturnFilter PopUp
     [Arguments]    ${locator}
     [Documentation]    MM 12.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of all filter elements , e.g.: /$flow_main/$flow_content/filters \ = /$flow_main/$flow_content
     [Tags]    General, Helper, ReturnFilter_PopUp
     ${chkbox_id}=    Get Closed CheckboxID    ${locator}
     Run Keyword And Return    Get Selection of CheckBox    ${chkbox_id}
 
 Check Use Closed Selection In ReturnFilter PopUp
-    [Arguments]    ${locator}    ${select}
+    [Arguments]    ${locator}    ${selected}
     [Documentation]    MM 12.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of all filter elements , e.g.: /$flow_main/$flow_content/filters \ = /$flow_main/$flow_content
+    ...    - ${selected} = element is selected , e.g.: true or false
     [Tags]    General, Helper, ReturnFilter_PopUp
     ${chkbox_id}=    Get Closed CheckboxID    ${locator}
-    Check Selection of CheckBox    ${chkbox_id}    ${select}
+    Check Selection of CheckBox    ${chkbox_id}    ${selected}
 
 Get FilterID
     [Arguments]    ${locator}
     [Documentation]    MM 13.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of all filter elements , e.g.: /$flow_main/$flow_content/filters \ = /$flow_main/$flow_content
     ${id}=    Set Variable    ${locator}/filters
     [Return]    ${id}
 
 Get ResetFilterID
     [Arguments]    ${locator}
     [Documentation]    MM 13.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of all filter elements , e.g.: /$flow_main/$flow_content/filters \ = /$flow_main/$flow_content
     [Tags]    ReturnFilter_PopUp
     Run Keyword And Return    Page.Get ElementID In PopOver    ${locator}    ${RETURN_FILTER_POPUP_CLASS}    reset_filter
 
 Get ApplyFilterID
     [Arguments]    ${locator}
     [Documentation]    MM 13.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of all filter elements , e.g.: /$flow_main/$flow_content/filters \ = /$flow_main/$flow_content
     [Tags]    ReturnFilter_PopUp
     Run Keyword And Return    Page.Get ElementID In PopOver    ${locator}    ${RETURN_FILTER_POPUP_CLASS}    apply_filter
 
 Get ReturnNo CheckboxID
     [Arguments]    ${locator}
     [Documentation]    MM 12.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of all filter elements , e.g.: /$flow_main/$flow_content/filters \ = /$flow_main/$flow_content
     [Tags]    ReturnFilter_PopUp
     Run Keyword And Return    Page.Get ElementID In PopOver    ${locator}    ${RETURN_FILTER_POPUP_CLASS}    chk_return_no
 
 Get ReturnNoID
     [Arguments]    ${locator}
     [Documentation]    MM 12.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of all filter elements , e.g.: /$flow_main/$flow_content/filters \ = /$flow_main/$flow_content
     [Tags]    ReturnFilter_PopUp
     Run Keyword And Return    Page.Get ElementID In PopOver    ${locator}    ${RETURN_FILTER_POPUP_CLASS}    txt_return_no
 
 Get ClientNo CheckboxID
     [Arguments]    ${locator}
     [Documentation]    MM 12.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of all filter elements , e.g.: /$flow_main/$flow_content/filters \ = /$flow_main/$flow_content
     [Tags]    ReturnFilter_PopUp
     Run Keyword And Return    Page.Get ElementID In PopOver    ${locator}    ${RETURN_FILTER_POPUP_CLASS}    chk_client_no
 
 Get ClientNoID
     [Arguments]    ${locator}
     [Documentation]    MM 12.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of all filter elements , e.g.: /$flow_main/$flow_content/filters \ = /$flow_main/$flow_content
     [Tags]    ReturnFilter_PopUp
     Run Keyword And Return    Page.Get ElementID In PopOver    ${locator}    ${RETURN_FILTER_POPUP_CLASS}    txt_client_no
 
 Get OrderNo CheckboxID
     [Arguments]    ${locator}
     [Documentation]    MM 12.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of all filter elements , e.g.: /$flow_main/$flow_content/filters \ = /$flow_main/$flow_content
     [Tags]    ReturnFilter_PopUp
     Run Keyword And Return    Page.Get ElementID In PopOver    ${locator}    ${RETURN_FILTER_POPUP_CLASS}    chk_order_no
 
 Get OrderNoID
     [Arguments]    ${locator}
     [Documentation]    MM 12.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of all filter elements , e.g.: /$flow_main/$flow_content/filters \ = /$flow_main/$flow_content
     [Tags]    ReturnFilter_PopUp
     Run Keyword And Return    Page.Get ElementID In PopOver    ${locator}    ${RETURN_FILTER_POPUP_CLASS}    txt_order_no
 
 Get DeliveryNo CheckboxID
     [Arguments]    ${locator}
     [Documentation]    MM 12.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of all filter elements , e.g.: /$flow_main/$flow_content/filters \ = /$flow_main/$flow_content
     [Tags]    ReturnFilter_PopUp
     Run Keyword And Return    Page.Get ElementID In PopOver    ${locator}    ${RETURN_FILTER_POPUP_CLASS}    chk_delivery_no
 
 Get DeliveryNoID
     [Arguments]    ${locator}
     [Documentation]    MM 12.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of all filter elements , e.g.: /$flow_main/$flow_content/filters \ = /$flow_main/$flow_content
     [Tags]    ReturnFilter_PopUp
     Run Keyword And Return    Page.Get ElementID In PopOver    ${locator}    ${RETURN_FILTER_POPUP_CLASS}    txt_delivery_no
 
 Get CreatedBy CheckboxID
     [Arguments]    ${locator}
     [Documentation]    MM 12.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of all filter elements , e.g.: /$flow_main/$flow_content/filters \ = /$flow_main/$flow_content
     [Tags]    ReturnFilter_PopUp
     Run Keyword And Return    Page.Get ElementID In PopOver    ${locator}    ${RETURN_FILTER_POPUP_CLASS}    chk_createdby
 
 Get CreatedByID
     [Arguments]    ${locator}
     [Documentation]    MM 12.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of all filter elements , e.g.: /$flow_main/$flow_content/filters \ = /$flow_main/$flow_content
     [Tags]    ReturnFilter_PopUp
     Run Keyword And Return    Page.Get ElementID In PopOver    ${locator}    ${RETURN_FILTER_POPUP_CLASS}    txt_createdby
 
 Get CreatedOn CheckboxID
     [Arguments]    ${locator}
     [Documentation]    MM 12.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of all filter elements , e.g.: /$flow_main/$flow_content/filters \ = /$flow_main/$flow_content
     [Tags]    ReturnFilter_PopUp
     Run Keyword And Return    Page.Get ElementID In PopOver    ${locator}    ${RETURN_FILTER_POPUP_CLASS}    chk_createdon
 
 Get CreatedOnFrom DateID
     [Arguments]    ${locator}
     [Documentation]    MM 12.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of all filter elements , e.g.: /$flow_main/$flow_content/filters \ = /$flow_main/$flow_content
     [Tags]    ReturnFilter_PopUp
     Run Keyword And Return    Page.Get ElementID In PopOver    ${locator}    ${RETURN_FILTER_POPUP_CLASS}    txt_createdon_from
 
 Get CreatedOnTo DateID
     [Arguments]    ${locator}
     [Documentation]    MM 12.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of all filter elements , e.g.: /$flow_main/$flow_content/filters \ = /$flow_main/$flow_content
     [Tags]    ReturnFilter_PopUp
     Run Keyword And Return    Page.Get ElementID In PopOver    ${locator}    ${RETURN_FILTER_POPUP_CLASS}    txt_createdon_to
 
 Get Overdue CheckboxID
     [Arguments]    ${locator}
     [Documentation]    MM 12.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of all filter elements , e.g.: /$flow_main/$flow_content/filters \ = /$flow_main/$flow_content
     [Tags]    ReturnFilter_PopUp
     Run Keyword And Return    Page.Get ElementID In PopOver    ${locator}    ${RETURN_FILTER_POPUP_CLASS}    chk_overdue
 
 Get Orconnection CheckboxID
     [Arguments]    ${locator}
     [Documentation]    MM 12.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of all filter elements , e.g.: /$flow_main/$flow_content/filters \ = /$flow_main/$flow_content
     [Tags]    ReturnFilter_PopUp
     Run Keyword And Return    Page.Get ElementID In PopOver    ${locator}    ${RETURN_FILTER_POPUP_CLASS}    chk_orconnection
 
 Get Open CheckboxID
     [Arguments]    ${locator}
     [Documentation]    MM 12.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of all filter elements , e.g.: /$flow_main/$flow_content/filters \ = /$flow_main/$flow_content
     [Tags]    ReturnFilter_PopUp
     Run Keyword And Return    Page.Get ElementID In PopOver    ${locator}    ${RETURN_FILTER_POPUP_CLASS}    chk_open
 
 Get Cleared CheckboxID
     [Arguments]    ${locator}
     [Documentation]    MM 12.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of all filter elements , e.g.: /$flow_main/$flow_content/filters \ = /$flow_main/$flow_content
     [Tags]    ReturnFilter_PopUp
     Run Keyword And Return    Page.Get ElementID In PopOver    ${locator}    ${RETURN_FILTER_POPUP_CLASS}    chk_cleared
 
 Get Billed CheckboxID
     [Arguments]    ${locator}
     [Documentation]    MM 12.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of all filter elements , e.g.: /$flow_main/$flow_content/filters \ = /$flow_main/$flow_content
     [Tags]    ReturnFilter_PopUp
     Run Keyword And Return    Page.Get ElementID In PopOver    ${locator}    ${RETURN_FILTER_POPUP_CLASS}    chk_billed
 
 Get Closed CheckboxID
     [Arguments]    ${locator}
     [Documentation]    MM 12.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of all filter elements , e.g.: /$flow_main/$flow_content/filters \ = /$flow_main/$flow_content
     [Tags]    ReturnFilter_PopUp
     Run Keyword And Return    Page.Get ElementID In PopOver    ${locator}    ${RETURN_FILTER_POPUP_CLASS}    chk_closed
+
+Get FilterReturnReason GridID
+    [Arguments]    ${locator}
+    [Documentation]    MM 12.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of all filter elements , e.g.: /$flow_main/$flow_content/filters \ = /$flow_main/$flow_content
+    [Tags]    ReturnFilter_PopUp
+    Run Keyword And Return    Page.Get ElementID In PopOver    ${locator}    ${RETURN_FILTER_POPUP_CLASS}    grid_filter_return_reason

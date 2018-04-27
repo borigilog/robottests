@@ -27,6 +27,6 @@ Login For Module
 Login
     Load Login Page
     Input Text    /$flow_main/login_username    ${RLX_USER}
-    Input Text    /$flow_main/login_password    ${RLX_PWD}
+    Input Password    /$flow_main/login_password    ${RLX_PWD}
     Click Element And Wait    /$flow_main/login
     Check PageArea is visible    /$flow_main    screen look_rlx_screen_choose_mandator

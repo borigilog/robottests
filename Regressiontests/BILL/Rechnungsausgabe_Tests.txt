@@ -373,5 +373,5 @@ Create Error Message
     : FOR    ${key}    IN    @{Dic_ErrorMsg.keys()}
     \    ${text}=    Get From Dictionary    ${Dic_ErrorMsg}    ${key}
     \    ${text}=    Set Variable    ${text}\nNo positions on this Bill
-    \    Set To Dictionary    ${error_message}    ${key}    ${text}
+    \    Set To Dictionary    ${error_message}    ${key}=${text}
     [Return]    &{error_message}

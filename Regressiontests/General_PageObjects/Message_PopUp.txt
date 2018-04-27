@@ -9,6 +9,15 @@ ${MESSAGE_POPUP_CLASS}    screen look_rlx_screen_alert
 *** Keywords ***
 Check Error Message PopUp
     [Arguments]    ${locator}    &{dic_message}
+    [Documentation]    MM 12.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of the content that invokes the message, e.g.: /$flow_main
+    ...    - &{dic_message} = dictionary with error message in all available languages
+    ...    == Example ==
+    ...    &{message}= Create Dictionary D=Fehlermeldung E=error message F=message d'erreur
+    ...    | = Keyword = | = locator = | = dic_message = | = Result = |
+    ...    | Check Error Message PopUp | /$flow_main | &{message} | check error message |
     ${langunge_code}=    Get selected LanguageCode
     ${btn_id}=    Get Message OkID    ${locator}
     ${title_id}=    Get Message TitleID    ${locator}
@@ -19,34 +28,59 @@ Check Error Message PopUp
 
 Click Close Button
     [Arguments]    ${locator}
+    [Documentation]    MM 12.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of the content that invokes the message, e.g.: /$flow_main
     ${button_id}=    Get Message CloseID    ${locator}
     Click Element And Wait    ${button_id}
 
 Click OK Button
     [Arguments]    ${locator}
+    [Documentation]    MM 12.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of the content that invokes the message, e.g.: /$flow_main
     ${button_id}=    Get Message OkID    ${locator}
     Click Element    ${button_id}
 
 Check Message PopUp Is Visible
-    [Arguments]    ${locator}    ${visible}
+    [Arguments]    ${locator}    ${visible}=${TRUE}
+    [Documentation]    MM 12.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of the content that invokes the message, e.g.: /$flow_main
+    ...    - ${visible} = element is visible , e.g.: true or false, optional
     Page.Check PopOver Is Visible    ${locator}    ${MESSAGE_POPUP_CLASS}    visible=${visible}
 
 Get Message CloseID
     [Arguments]    ${locator}
     [Documentation]    MM 12.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of the content that invokes the message, e.g.: /$flow_main
     Run Keyword And Return    Page.Get ElementID In PopOver    ${locator}    ${MESSAGE_POPUP_CLASS}    $close
 
 Get Message OkID
     [Arguments]    ${locator}
     [Documentation]    MM 12.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of the content that invokes the message, e.g.: /$flow_main
     Run Keyword And Return    Page.Get ElementID In PopOver    ${locator}    ${MESSAGE_POPUP_CLASS}    btn
 
 Get Message TitleID
     [Arguments]    ${locator}
     [Documentation]    MM 12.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of the content that invokes the message, e.g.: /$flow_main
     Run Keyword And Return    Page.Get ElementID In PopOver    ${locator}    ${MESSAGE_POPUP_CLASS}    $title
 
 Get Message MsgID
     [Arguments]    ${locator}
     [Documentation]    MM 12.04.2018
+    ...
+    ...    == Parameters ==
+    ...    - ${locator} = the general path of the content that invokes the message, e.g.: /$flow_main
     Run Keyword And Return    Page.Get ElementID In PopOver    ${locator}    ${MESSAGE_POPUP_CLASS}    msg
