@@ -2,12 +2,11 @@
 Resource          General_Variables/Pathes.txt
 Resource          General_Variables/Website_Config.txt
 Resource          General_Variables/Database_Config.txt
+Resource          General_PageObjects/Database.txt
 Library           Selenium2Library
 Library           DatabaseLibrary
 Library           Collections
-Library           ${LIBS_PATH}/DatabaseClass.py    database=${DATABASE_NAME}    user=${DATABASE_USER}    password=${DATABASE_PWD}    host=${DATABASE_IP}    port=${DATABASE_PORT}
 Library           XML
-Library           ${LIBS_PATH}/SQLQueryReader.py
 Library           ${LIBS_PATH}/SettingsDicReader.py
 
 *** Test Cases ***
@@ -24,11 +23,16 @@ Connect To Database
     Log To Console    Result1:@{queryConcernResults1}
     Disconnect From Database
     #DatabaseClass with pymssql
-    @{queryConcernResults2}=    DatabaseClass.DB Execute Querry    select * from Concerns where Concerns.ConcernID = '75d28447-b0b7-4196-9c40-6417e614f836'
+    @{queryConcernResults2}=    DB Execute Querry    select * from Concerns where Concerns.ConcernID = '75d28447-b0b7-4196-9c40-6417e614f836'
     Log To Console    Result2:@{queryConcernResults2}
     ${queryConcernResults3}=    DatabaseClass.DB Execute Scalar    select Count(*) from Concerns where Concerns.ConcernID = '75d28447-b0b7-4196-9c40-6417e614f836'
     Log To Console    Result3:${queryConcernResults3}
     [Teardown]    Close Browser
+
+Restore Database Snapshot
+    Insert TestData
+    Restore Database Snapshot
+    Changes Should Be Reverted
 
 XML File Read Querry from SQLQueries.resx with Library XML
     [Documentation]    Library XML is bad with Selenium2Library => same keywords exist
@@ -90,3 +94,12 @@ Create SettingsDics Test2
     Log    robot_dict:&{robot_dict}
     Set Global Variable    &{${var_name}}    &{robot_dict}
     Log To Console    DIC:&{${var_name}}
+
+Insert TestData
+    DB Execute Scalar    INSERT INTO Accounting_Balance_Architecture_Headers(isUsedForSystemGeneratedBallance) values(1)
+    @{queryConcernResults1}=    DB Execute Querry    select * from Accounting_Balance_Architecture_Headers
+    Length Should Be    ${queryConcernResults1}    ${1}
+
+Changes Should Be Reverted
+    @{queryConcernResults2}=    DB Execute Querry    select * from Accounting_Balance_Architecture_Headers
+    Length Should Be    ${queryConcernResults2}    ${0}

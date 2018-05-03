@@ -1,6 +1,6 @@
 *** Variables ***
 ${BROWSER}        chrome
-${RLX_LOGIN_URL}    http://manualguide.rigilog.com/new/rlx/?enablepid=1    # Login zur Redesing Plattform
+${RLX_LOGIN_URL}    http://demo3.rigilog.com/new/rlx/?enablepid=1&dev=1    # Login zur Redesing Plattform
 ${RLX_PWD}        rL_20_15%7%
 ${RLX_USER}       Administrator
 &{AVAILABLE_LANGUAGES}    1=D    15=E    16=F

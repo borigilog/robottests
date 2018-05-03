@@ -1,0 +1,10 @@
+*** Settings ***
+Resource          ../General_Variables/Pathes.txt
+Resource          ../General_Variables/Database_Config.txt
+Library           ${LIBS_PATH}/DatabaseClass.py    database=${DATABASE_NAME}    user=${DATABASE_USER}    password=${DATABASE_PWD}    host=${DATABASE_IP}    port=${DATABASE_PORT}
+Library           ${LIBS_PATH}/SQLQueryReader.py
+
+*** Keywords ***
+Restore Database Snapshot
+    ${sql} =    Get Query By Name    ${SQL_QUERIES_PATH}/General/SQLQueries.resx    Restore_Database_Snapshot
+    DB Execute Scalar    ${sql}
