@@ -11,6 +11,8 @@ ${menuitem_initialOrder}    /$flow_main/main_menu/order_initial
 ${initialOrder_content}    screen look_rlx_screen_search_person
 ${menuitem_editPreorders}    /$flow_main/main_menu/order_peak
 ${editPreorders_content}    screen look_rlx_screen_search_orders
+${menuitem_order_cancel}    /$flow_main/main_menu/order_cancel
+${order_cancel_content}    screen look_rlx_screen_search_orders
 
 *** Keywords ***
 Login Select OAC
@@ -37,3 +39,8 @@ Select Eintritt: Ma ausstatten
     [Arguments]    ${login}=false
     Login Select OAC    ${login}
     Select Menu Content    ${menuitem_initialOrder}    ${initialOrder_content}
+
+Select Bestellung stornieren
+    [Arguments]    ${login}=false
+    Login Select OAC    ${login}
+    Select Menu Content    ${menuitem_order_cancel}    ${order_cancel_content}

@@ -1,0 +1,21 @@
+*** Settings ***
+Suite Setup       Setup Bestellung stornieren
+Suite Teardown    Close Browser
+Test Teardown     Teardown Bestellung stornieren
+Force Tags        Bill    Rechnungsausgabe
+Default Tags
+Metadata          Version    1.0
+Metadata          Author    Marcel Mischke
+
+*** Test Cases ***
+
+*** Keywords ***
+Setup Bestellung stornieren
+    Select Bestellung stornieren    true
+
+Teardown Bestellung stornieren
+    ${passed} =    Run Keyword And Return Status    Select Rechnungsausgabe
+    Return From Keyword If    ${passed}
+    Log    Die Seite war nicht clickable daher muss der Browser geschlossen und neugestartet werden    WARN
+    Close Browser
+    Select Bestellung stornieren    true
