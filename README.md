@@ -116,6 +116,29 @@ Select Rechnungsverwaltung
         * Handelt es sich um [PageObjects](#PageObject), können sie zu den [GeneralPageObjects](#generalpageobjects) hinzugefügt werden.
         * Andernfalls werden sie den [General_Keywords](#generalkeywords) zugeordnet.
 
+## Tests, die Daten verändern
+Werden innerhalb eines Tests Daten verändert (Löschen, Anlegen, Ändern), müssen die Änderungen am Ende des Tests rückgängig gemacht werden, um zu verhindern, dass durch die Änderungen andere Tests fehlschlagen. <br>
+Hierfür im [Teardown](https://github.com/robotframework/robotframework/blob/master/doc/userguide/src/CreatingTestData/CreatingTestSuites.rst#suite-setup-and-teardown) des TestCases oder der Testsuite die Datenbank zurücksetzen. <br>
+Dies geht durch Aufruf des Keywords **Restore Database Snapshot** aus *General_PageObjects/Database.txt* <br>
+
+**Zu beachten**: <br>
+Setzt man erst am Ende der Testsuite die Datenbank zurück, müssen alle Tests innerhalb der Testsuite Daten erwarten, die nicht durch andere Tests derselben Testsuite verändert werden.
+
+**Beispiel: Teardown für einen Test Case**
+```robotframework
+*** Settings ***
+Resource          ../General_PageObjects/Database.txt
+
+*** Test Cases ***
+Some Test
+		DB Execute Scalar    INSERT INTO Accounting_Balance_Architecture_Headers(isUsedForSystemGeneratedBallance) values(1)
+    [Teardown]    Restore Database Snapshot
+```
+
+## Warten, bis Daten geladen wurden
+Das Metax-Framework setzt automatisch bei jedem Lade-Vorgang die Klasse vom *<body>*-Html-Element auf *freezed*.<br>
+Sobald die Abfrage fertig ist und die Daten angezeigt wurden, wird die Klasse wieder zurückgesetzt. <br>
+Daher: Um zu warten, bis Daten angezeigt wurden anstatt *Sleep* zu verwenden, das Keyword **Wait until Page is unfreezed** aus *General_PageObjects/Page.txt* verwenden.
 
 # Wording/Begriffserklärung
 ## PageObject
